@@ -8,8 +8,11 @@ world_timestamps = 'input/_world_timestamps.csv'
 reference_image = 'input/_reference_image.jpg'
 world_camera = 'input/_worldCamera.mp4'
 
-rim.process_rim(gaze_data, world_timestamps, 
-                world_camera, reference_image)
+rim.process_rim(gaze_data, 
+                world_camera, reference_image, 
+                1600, 1200,
+                world_timestamps
+                )
  
     
     

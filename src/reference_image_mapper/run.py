@@ -1,5 +1,3 @@
-
- 
 import os
 import sys
 import time
@@ -7,452 +5,486 @@ import time
 import numpy as np
 import pandas as pd
 import cv2
-import torch 
+import torch
 import func_timeout
 
-from reference_image_mapper.models.two_view_pipeline import TwoViewPipeline 
+from reference_image_mapper.models.two_view_pipeline import TwoViewPipeline
 from reference_image_mapper.tools import numpy_image_to_torch, batch_to_np
 import reference_image_mapper
+
  
- 
-    
+def mapCoords2D(coords, transform2D):
+    coords = np.array(coords, dtype=np.float32).reshape(-1, 1, 2)
+    mapped = cv2.perspectiveTransform(coords, transform2D)
+    mapped = np.round(mapped.ravel(), 3)
+    return float(mapped[0]), float(mapped[1])
 
-def preprocessing_rim(gaze_data, 
-                      time_stamps, 
-                      config):
-    '''
-    
 
-    Parameters
-    ----------
-    config : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    output_df : TYPE
-        DESCRIPTION.
-
-    '''
+def _ensure_int64(df, col):
+    df[col] = pd.to_numeric(df[col], errors="raise", downcast=None).astype("int64")
+    return df
  
     
+def preprocessing_rim(gaze_data, time_stamps, config):
+    """
+    Retourne un DF gaze avec:
+      - timestamp [ns] : int64
+      - frame_idx      : int64 (index frame dans la vidéo)
+      - norm_pos_x/y   : float64
+      - confidence     : float32
+
+    Si time_stamps est None / non fourni, frame_idx est estimé via fps_scene.
+    """
+    import numpy as np
+    import pandas as pd
+
+    # IMPORTANT: forcer dtype int64 à la lecture => pas de float => pas de perte de précision
+    gaze_df = pd.read_csv(gaze_data, dtype={'timestamp [ns]': 'int64'})
+
+    # sécurité + tri
+    gaze_df = gaze_df.sort_values('timestamp [ns]').reset_index(drop=True)
+
+    per_n = int(config['processing'].get('downsampling_factor', 1))
+ 
+    if time_stamps is not None and str(time_stamps).strip() != "":
+        world_df = pd.read_csv(time_stamps, dtype={'timestamp [ns]': 'int64'})
+        world_df = world_df.sort_values('timestamp [ns]').reset_index(drop=True)
+
+        world_df = world_df.copy()
+        world_df['frame_idx'] = np.arange(len(world_df), dtype=np.int64)
+        world_ds = world_df.iloc[::per_n].copy()
+
+        tolerance_ns = config['processing'].get('timestamp_tolerance_ns', None)
+        merged = pd.merge_asof(
+            gaze_df,
+            world_ds[['timestamp [ns]', 'frame_idx']],
+            on='timestamp [ns]',
+            direction='nearest',
+            tolerance=tolerance_ns
+        )
+
+        # si tolérance activée: compléter les NaN au plus proche sans tolérance
+        if merged['frame_idx'].isna().any():
+            nan_mask = merged['frame_idx'].isna()
+            merged_no_tol = pd.merge_asof(
+                gaze_df.loc[nan_mask, ['timestamp [ns]']].copy(),
+                world_ds[['timestamp [ns]', 'frame_idx']],
+                on='timestamp [ns]',
+                direction='nearest',
+                tolerance=None
+            )
+            merged.loc[nan_mask, 'frame_idx'] = merged_no_tol['frame_idx'].to_numpy()
+
+        frame_idx_arr = merged['frame_idx'].astype('int64').to_numpy()
+ 
+    else:
+        fps_scene = float(config['processing'].get('fps_scene', 30.0))
     
-    gaze_df = pd.read_csv(gaze_data) 
-    gaze_ts = gaze_df['timestamp [ns]'].values/1e6
+        gaze_ts = gaze_df['timestamp [ns]'].to_numpy(dtype=np.int64)
+    
+        fps_num = int(round(fps_scene * 1000))
+        fps_den = 1000
+    
+        t0_ns = config['processing'].get('t0_ns', None)
+        if t0_ns is None:
+            t0_ns = int(gaze_ts[0])
+        else:
+            t0_ns = int(t0_ns)
+    
+        dt = gaze_ts - np.int64(t0_ns)
+        dt = np.clip(dt, 0, None).astype(np.int64)
+    
+        denom = np.int64(1_000_000_000) * np.int64(fps_den)
+    
+        frame_idx_est = (dt * np.int64(fps_num)) // denom
+        frame_idx_est = frame_idx_est.astype(np.int64)
+    
+        per_n = int(config['processing'].get('downsampling_factor', 1))
      
-    world_df = pd.read_csv(time_stamps)
-    world_ts = world_df['timestamp [ns]'].values/1e6
-   
-    per_n_frames = config['processing']['downsampling_factor'] 
-    frame = (np.ones(len(gaze_ts))*(len(world_ts) - 1)).astype(int)
-   
-    frame_idx = 0
-    gaze_index = 0
-    
-    while True:
-        try: 
-            g_ts = gaze_ts[gaze_index]
-            w_ts = world_ts[frame_idx] 
-            if g_ts <= w_ts: 
-                frame[gaze_index] = int(frame_idx)
-                gaze_index += 1 
-            else:
-                frame_idx +=per_n_frames 
-        except IndexError:
-            break  
-        
-    gaze_x = gaze_df['gaze x [px]']
-    gaze_x /= config['processing']['camera']['width'] 
-    gaze_y = gaze_df['gaze y [px]']
-    gaze_y /= config['processing']['camera']['height'] 
-    
-    confidence = gaze_df['worn'] 
-    output_df = pd.DataFrame(data=dict({'timestamp': gaze_ts, 
-                                        'frame_idx': frame, 
-                                        'confidence': confidence, 
-                                        'norm_pos_x': gaze_x, 
-                                        'norm_pos_y': gaze_y}))
-    return output_df
+        frame_idx_arr = (frame_idx_est // np.int64(per_n)) * np.int64(per_n)
+        frame_idx_arr = frame_idx_arr.astype(np.int64)
 
+
+    # normalisation gaze
+    cam_w = float(config['processing']['camera']['width'])
+    cam_h = float(config['processing']['camera']['height'])
+    gaze_x = gaze_df['gaze x [px]'].astype(np.float64) / cam_w
+    gaze_y = gaze_df['gaze y [px]'].astype(np.float64) / cam_h
+    confidence = gaze_df['worn'].astype(np.float32)
+
+    out = pd.DataFrame({
+        'timestamp [ns]': gaze_df['timestamp [ns]'].astype('int64'),
+        'frame_idx': frame_idx_arr.astype('int64'),
+        'confidence': confidence,
+        'norm_pos_x': gaze_x,
+        'norm_pos_y': gaze_y
+    })
+
+    # sanity checks
+    assert out['timestamp [ns]'].dtype == np.int64
+    assert out['frame_idx'].dtype == np.int64
+
+    return out
+
+
+
+# -------------------------
+# 2) Processing vidéo + mapping world->ref
+# -------------------------
  
- 
-def processRecording(gazeWorld_df, 
+def processRecording(gazeWorld_df,
                      reference_image,
                      world_camera,
                      out_name,
-                     config, 
+                     config,
+                     gaze_data_path=None,
                      warm_start=0):
-    '''
-    
 
-    Parameters
-    ----------
-    gazeWorld_df : TYPE
-        DESCRIPTION.
-    config : TYPE
-        DESCRIPTION.
+    start_time = time.time()
+    outputDir = config['processing']['files']['outputDir']
+    os.makedirs(outputDir, exist_ok=True)
 
-    Returns
-    -------
-    None.
+    framesToCompute = gazeWorld_df['frame_idx'].astype(np.int64).tolist()
+    last_frame = int(max(framesToCompute))
 
-    '''
-     
-    frameProcessing_startTime = time.time()
-    
-    ## Get input data  
-    outputDir=config['processing']['files']['outputDir']        
-    ## Create output directory
-    if not os.path.isdir(outputDir):
-        os.makedirs(outputDir)
- 
-    ## Copy the reference stim into the output dir 
-    framesToCompute = gazeWorld_df['frame_idx'].values.tolist()
-    last_ = framesToCompute[-1]
-    frameCounter = 0 
-    gazeMapped_df = None 
-    
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'  
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     pipeline_model = TwoViewPipeline(config['model']).to(device).eval()
-    
-    d_w = config['processing']['camera']['down_width']
-    d_h = config['processing']['camera']['down_height']
+
+    d_w = int(config['processing']['camera']['down_width'])
+    d_h = int(config['processing']['camera']['down_height'])
     down_points = (d_w, d_h)
-    
-    ref_frame = cv2.imread(reference_image, 0) 
-    ref_frame = cv2.resize(ref_frame, 
-                           down_points, 
-                           interpolation= cv2.INTER_LINEAR) 
-    torch_ref = numpy_image_to_torch(ref_frame)  
-    pred = pipeline_model({'image0': torch_ref.to(device)[None], 
-                           'image1': torch_ref.to(device)[None]})  
-    vid = cv2.VideoCapture(world_camera) 
-    
-    ## Keep reference frame descriptors 
-    pred_ref = dict({})
-    for it_ in ['keypoints1', 
-                'keypoint_scores1', 
-                'descriptors1', 
-                'pl_associativity1', 
-                'num_junctions1', 
-                'lines1', 'orig_lines1', 
-                'lines_junc_idx1', 
-                'line_scores1',
-                'valid_lines1']:
-        pred_ref.update({it_[:-1]: pred[it_]})  
-    del pred 
-    if warm_start>0:
-        gazeMapped_df = pd.read_csv('{od}/mappedGaze_{n_}.csv'.format(od = outputDir, 
-                                                                      n_ = out_name))
-    else:
-        gazeMapped_df = pd.DataFrame({
-            'gaze_ts': [],
-            'worldFrame': [],
-            'confidence': [],
-            'world_gazeX': [],
-            'world_gazeY': [],
-            'ref_gazeX': [],
-            'ref_gazeY': [], 
-            'mapped': [],
-            'number_matches': []
-            }) 
-    print("Processing frames") 
-    pred=None
-    world2ref_transform=None
-    current_pred=False 
-   
+
+    ref_orig = cv2.imread(reference_image, cv2.IMREAD_GRAYSCALE)
+    if ref_orig is None:
+        raise FileNotFoundError(f"Reference image not found: {reference_image}")
+
+    ref_h_orig, ref_w_orig = ref_orig.shape[:2]
+    ref_frame = cv2.resize(ref_orig, down_points, interpolation=cv2.INTER_LINEAR)
+    torch_ref = numpy_image_to_torch(ref_frame)
+
+    with torch.no_grad():
+        pred = pipeline_model({
+            'image0': torch_ref[None].to(device),
+            'image1': torch_ref[None].to(device)
+        })
+
+    pred_ref = {k[:-1]: pred[k] for k in [
+        'keypoints1', 'keypoint_scores1', 'descriptors1',
+        'pl_associativity1', 'num_junctions1', 'lines1',
+        'orig_lines1', 'lines_junc_idx1', 'line_scores1',
+        'valid_lines1'
+    ]}
+
+    gazeMapped_rows = []
+
+    vid = cv2.VideoCapture(world_camera)
+    if not vid.isOpened():
+        raise FileNotFoundError(f"World camera video not found/cannot open: {world_camera}")
+
+    world2ref_transform = None
+    frameCounter = 0
     m_time = config['processing']['max_time']
-    
-    while vid.isOpened():   
-        ret, frame = vid.read() 
-        if (ret is True) and (frameCounter in framesToCompute) and frameCounter >= warm_start:    
-            sys.stdout.flush() 
-            sys.stdout.write("\r Processing frame {i} over {tot}       ".format(i = frameCounter,
-                                                                                tot = last_))
-            world_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            world_frame = cv2.resize(world_frame, 
-                                     down_points, 
-                                     interpolation= cv2.INTER_LINEAR)  
-            start_time = time.time()  
-            try: 
-                torch_world = numpy_image_to_torch(world_frame) 
-                pred = func_timeout.func_timeout(m_time, 
-                                                 pipeline_model,
-                                                 args=[{'image0': torch_world.to(device)[None], 
-                                                        'image1': torch_ref.to(device)[None],
-                                                        'ref': pred_ref}])
-                current_pred=True 
-                del torch_world 
-            except:
-                print('KILLED: too long')
-                current_pred=False
-                del torch_world 
-                pass
-            
-            print("--- %s seconds ---" % (time.time() - start_time))  
-            ## If current pred and enough matches, update world2ref_transform
-            if current_pred:
-            #if current_pred and (pred['matches0'] >= 0).sum() >= config['processing']['min_point_matches'] :
+
+    print("Processing frames...")
+
+    framesToCompute_set = set(framesToCompute)
+
+    while vid.isOpened():
+        ret, frame = vid.read()
+        if not ret or frameCounter > last_frame:
+            break
+
+        if frameCounter in framesToCompute_set and frameCounter >= warm_start:
+            world_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            world_gray = cv2.resize(world_gray, down_points)
+
+            valid = True
+            n_matches = 0
+
+            try:
+                torch_world = numpy_image_to_torch(world_gray)
+                pred = func_timeout.func_timeout(
+                    m_time,
+                    pipeline_model,
+                    args=[{
+                        'image0': torch_world[None].to(device),
+                        'image1': torch_ref[None].to(device),
+                        'ref': pred_ref
+                    }]
+                )
+                pred = batch_to_np(pred)
+            except Exception:
+                valid = False
+
+            if valid:
                 try:
-                    pred = batch_to_np(pred)
-                    kp0, kp1 = pred["keypoints0"], pred["keypoints1"]
-                    m0 = pred["matches0"] 
-                    valid_matches = m0 != -1
-                    match_indices = m0[valid_matches]
-                    matched_kps0 = kp0[valid_matches]
-                    matched_kps1 = kp1[match_indices]
-                 
-                    ## Find homography 
-                    ref2world, mask = cv2.findHomography(matched_kps1, 
-                                                     matched_kps0, 
-                                                     cv2.RANSAC, 
-                                                     10)  
-                        
-                    world2ref_transform = cv2.invert(ref2world)[1]  
-                    
-                except:
-                    current_pred=False
-                    print('KILLED: could not access prediction')
-                    pass
-                
-            if current_pred:
-                try:
-                    number_matches = (pred['matches0'] >= 0).sum()
-                    number_line_matches = (pred['line_matches0'] >= 0).sum()
-                    del pred
-                except:
-                    number_matches = 0
-                    current_pred=False
-            else:
-                number_matches = 0
-                current_pred=False
-            print('Number matches:')
-            print(number_matches)
-            
-            ## If world2ref_transform already initialized, compute ref gaze
-            if world2ref_transform is not None:
-                thisFrame_gazeData_world = gazeWorld_df.loc[gazeWorld_df['frame_idx'] == frameCounter]
-                world_pts = []
-                ref_pts = []
-                
-                for i, gazeRow in thisFrame_gazeData_world.iterrows():  
-                    ts = gazeRow['timestamp']
-                    conf = gazeRow['confidence'] 
-                    ## Translate normalized gaze data to world pixel coords 
-                    world_gazeX = gazeRow['norm_pos_x'] * d_w
-                    world_gazeY = gazeRow['norm_pos_y'] * d_h
-                    world_pts.append([world_gazeX, world_gazeY])
-                    
-                    ref_gazeX, ref_gazeY = mapCoords2D((world_gazeX, world_gazeY), world2ref_transform)
-                    ref_pts.append([ref_gazeX, ref_gazeY]) 
-                    thisRow_df = pd.DataFrame({
-                        'gaze_ts': ts,
-                        'worldFrame': frameCounter,
-                        'confidence': conf,
-                        'world_gazeX': world_gazeX,
-                        'world_gazeY': world_gazeY,
-                        'ref_gazeX': ref_gazeX,
-                        'ref_gazeY': ref_gazeY, 
-                        'mapped': current_pred, 
-                        'number_matches': number_matches
-                        }, index = [i]) 
-                    gazeMapped_df = pd.concat([gazeMapped_df, 
-                                               thisRow_df]) 
-                to_plot = dict({
-                    'image_0': world_pts,
-                    'image_1': ref_pts
-                    }) 
-                
-           
-        frameCounter += 1 
-        if frameCounter > np.max(np.array(framesToCompute)):  
-            vid.release()   
-         
-        #if frameCounter%10000 == 0: 
-        #    gazeMapped_df.to_csv('{od}/mappedGaze_{n_}.csv'.format(od = outputDir, 
-        #                                                           n_ = out_name), 
-        #                         index=False)
-        #    gazeMapped_df = pd.read_csv('{od}/mappedGaze_{n_}.csv'.format(od = outputDir, 
-        #                                                                  n_ = out_name))
+                    m0 = pred['matches0']
+                    valid_idx = m0 != -1
+                    n_matches = int(valid_idx.sum())
+
+                    kp0 = pred['keypoints0'][valid_idx]
+                    kp1 = pred['keypoints1'][m0[valid_idx]]
+
+                    H, _ = cv2.findHomography(kp1, kp0, cv2.RANSAC, 10)
+                    if H is None:
+                        valid = False
+                        world2ref_transform = None
+                    else:
+                        world2ref_transform = cv2.invert(H)[1]
+                except Exception:
+                    valid = False
+                    world2ref_transform = None
+
+            sys.stdout.write(f"\rFrame {frameCounter}/{last_frame} | matches={n_matches}")
+            sys.stdout.flush()
+
+            # IMPORTANT: on écrit TOUJOURS les lignes gaze de cette frame
+            rows = gazeWorld_df[gazeWorld_df['frame_idx'] == frameCounter]
+
+            for r in rows.itertuples(index=False):
+                ts = np.int64(getattr(r, 'timestamp [ns]') if hasattr(r, 'timestamp [ns]') else r[0])
+
+                world_gx = float(r.norm_pos_x * config['processing']['camera']['width'])
+                world_gy = float(r.norm_pos_y * config['processing']['camera']['height'])
+
+                if world2ref_transform is None:
+                    # Pas de transform => ref à 0, matches à 0, mapped False
+                    gazeMapped_rows.append((
+                        np.int64(ts),
+                        np.int64(frameCounter),
+                        world_gx,
+                        world_gy,
+                        0.0,          # ref_gazeX
+                        0.0,          # ref_gazeY
+                        np.int64(0),  # number_point_matches
+                        False         # mapped
+                    ))
+                else:
+                    # Transform dispo => mapping normal (mapped = valid)
+                    model_x = float(r.norm_pos_x) * d_w
+                    model_y = float(r.norm_pos_y) * d_h
+                    ref_x_model, ref_y_model = mapCoords2D((model_x, model_y), world2ref_transform)
+
+                    ref_x = ref_x_model * (ref_w_orig / d_w)
+                    ref_y = ref_y_model * (ref_h_orig / d_h)
+
+                    gazeMapped_rows.append((
+                        np.int64(ts),
+                        np.int64(frameCounter),
+                        world_gx,
+                        world_gy,
+                        float(ref_x),
+                        float(ref_y),
+                        np.int64(n_matches),
+                        bool(valid)
+                    ))
+
+        frameCounter += 1
+
+    vid.release()
+
+    gazeMapped_df = pd.DataFrame(
+        gazeMapped_rows,
+        columns=[
+            'timestamp [ns]', 'worldFrame',
+            'world_gazeX', 'world_gazeY',
+            'ref_gazeX', 'ref_gazeY',
+            'number_point_matches', 'mapped'
+        ]
+    )
  
-    gazeMapped_df.to_csv('{od}/mappedGaze_{n_}.csv'.format(od = outputDir, 
-                                                           n_ = out_name), 
-                         index=False) 
+    gazeMapped_df['timestamp [ns]'] = gazeMapped_df['timestamp [ns]'].astype('int64')
+    gazeMapped_df['worldFrame'] = gazeMapped_df['worldFrame'].astype('int64')
+    gazeMapped_df['number_point_matches'] = gazeMapped_df['number_point_matches'].astype('int64')
+    gazeMapped_df['mapped'] = gazeMapped_df['mapped'].astype(bool)
+
+    if gaze_data_path is not None:
+        gaze_raw = pd.read_csv(
+            gaze_data_path,
+            dtype={'timestamp [ns]': 'int64'}
+        )
      
-    endTime = time.time()
-    frameProcessing_time = endTime - frameProcessing_startTime
-    print('\nTotal time: %s seconds' % frameProcessing_time)
+        full_df = pd.DataFrame({
+            'timestamp [ns]': gaze_raw['timestamp [ns]'].astype('int64'),
+            'world_gazeX': gaze_raw['gaze x [px]'].astype(np.float64),
+            'world_gazeY': gaze_raw['gaze y [px]'].astype(np.float64),
+        })
+     
+        merged = full_df.merge(
+            gazeMapped_df[[
+                'timestamp [ns]', 'worldFrame',
+                'ref_gazeX', 'ref_gazeY',
+                'number_point_matches', 'mapped'
+            ]],
+            on='timestamp [ns]',
+            how='left'
+        )
+     
+        merged['ref_gazeX'] = merged['ref_gazeX'].fillna(0.0)
+        merged['ref_gazeY'] = merged['ref_gazeY'].fillna(0.0)
+        merged['number_point_matches'] = merged['number_point_matches'].fillna(0).astype('int64')
+     
+        merged['mapped'] = merged['mapped'].fillna(False).astype(bool)
+     
+        if gazeMapped_df.shape[0] >= 2: 
+            base = gazeMapped_df[['timestamp [ns]', 'worldFrame']].dropna().copy()
+            base = base.sort_values('timestamp [ns]') 
+            base = base.drop_duplicates('timestamp [ns]', keep='last')
     
+            x = base['timestamp [ns]'].to_numpy(dtype=np.int64)
+            y = base['worldFrame'].to_numpy(dtype=np.int64)
+     
+            xi = merged['timestamp [ns]'].to_numpy(dtype=np.int64).astype(np.float64)
+            x_f = x.astype(np.float64)
+            y_f = y.astype(np.float64)
+    
+            interp_frames = np.interp(xi, x_f, y_f)     # float
+            interp_frames = np.rint(interp_frames)      # arrondi
+            interp_frames = interp_frames.astype(np.int64)
+     
+            wf = merged['worldFrame']
+            missing_wf = wf.isna()
+            merged.loc[missing_wf, 'worldFrame'] = interp_frames[missing_wf.to_numpy()]
+    
+        else:
+       
+            merged['worldFrame'] = merged['worldFrame'].fillna(0)
+    
+        merged['worldFrame'] = merged['worldFrame'].astype('int64')
+     
+        gazeMapped_full_df = merged[[
+            'timestamp [ns]',
+            'worldFrame',
+            'world_gazeX', 'world_gazeY',
+            'ref_gazeX', 'ref_gazeY',
+            'number_point_matches',
+            'mapped'
+        ]].copy()
+     
+        out_full_csv = f"{outputDir}/mappedGaze_{out_name}.csv"
+        gazeMapped_full_df.to_csv(out_full_csv, index=False)
+        print(f"CSV saved to: {out_full_csv}")
 
-def display_results(world_camera, 
-                    reference_image, 
+
+
+def display_results(world_camera,
+                    reference_image,
                     out_name,
-                    out_dir):
+                    out_dir,
+                    down_width, down_height):
 
-    print("OpenCV version:", cv2.__version__)
+    csv_path = f"{out_dir}/mappedGaze_{out_name}.csv"
+    out_video_path = f"{out_dir}/video_rim.avi"
 
-    out_video_path = f"{out_dir}/video_rim.mp4"
-    out_data = f"{out_dir}/mappedGaze_{out_name}.csv"
+    print("Saving video to:", os.path.abspath(out_video_path))
 
-    # Charger les résultats
-    df_results = pd.read_csv(out_data)
+    # IMPORTANT: relire en forçant int64
+    df = pd.read_csv(
+        csv_path,
+        dtype={'timestamp [ns]': 'int64', 'worldFrame': 'int64', 'number_point_matches': 'int64'}
+    )
 
-    # Paramètres d'affichage
-    down_width = 600
-    down_height = 450
-
-    # Vérification des fichiers
-    if not os.path.exists(world_camera):
-        print(f"Erreur : Le fichier {world_camera} n'existe pas")
-        return
-    if not os.path.exists(reference_image):
-        print(f"Erreur : Le fichier {reference_image} n'existe pas")
-        return
-
-    os.makedirs(out_dir, exist_ok=True)
-
-    # Vidéo d'entrée
     cap = cv2.VideoCapture(world_camera)
-    if not cap.isOpened():
-        print("Erreur : Impossible d'ouvrir la vidéo")
-        return
-
     fps = cap.get(cv2.CAP_PROP_FPS)
-    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    print(f"Propriétés vidéo : FPS={fps}, Frames={frame_count}")
+    if fps <= 0:
+        fps = 25
 
-    # Image de référence
-    ref_frame = cv2.imread(reference_image, cv2.IMREAD_COLOR)
-    if ref_frame is None:
-        print(f"Erreur : Impossible de lire l'image {reference_image}")
+    orig_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    orig_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    sx = down_width / max(orig_w, 1)
+    sy = down_height / max(orig_h, 1)
+
+    ref_orig = cv2.imread(reference_image)
+    if ref_orig is None:
         cap.release()
-        return
+        raise FileNotFoundError(f"Reference image not found: {reference_image}")
 
-    ref_frame_resized = cv2.resize(ref_frame, (down_width, down_height),
-                                   interpolation=cv2.INTER_LINEAR)
+    ref_h, ref_w = ref_orig.shape[:2]
+    ref_resized = cv2.resize(ref_orig, (down_width, down_height))
 
-    # Préparation du writer vidéo (concaténation largeur x2)
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # ou "XVID"
-    out_width = down_width * 2
-    out_height = down_height
-    writer = cv2.VideoWriter(out_video_path, fourcc, fps,
-                             (out_width, out_height))
-
+    writer = cv2.VideoWriter(
+        out_video_path,
+        cv2.VideoWriter_fourcc(*"MJPG"),
+        fps,
+        (down_width * 2, down_height)
+    )
     if not writer.isOpened():
-        print("Erreur : Impossible d'ouvrir le writer vidéo")
+        print("ERROR: VideoWriter could not be opened")
         cap.release()
         return
 
     frame_idx = 0
+    written = 0
+
     while True:
         ret, frame = cap.read()
         if not ret:
-            print(f"Fin de lecture à la frame {frame_idx}")
             break
 
-        # Redimensionner la frame du monde
-        frame_resized = cv2.resize(frame, (down_width, down_height),
-                                   interpolation=cv2.INTER_LINEAR)
+        frame_resized = cv2.resize(frame, (down_width, down_height))
+        combined = np.hstack([frame_resized, ref_resized.copy()])
 
-        # Récupérer les données de cette frame
-        local_result_df = df_results[df_results['worldFrame'] == frame_idx]
+        rows = df[df['worldFrame'] == frame_idx]
+        if not rows.empty:
+            wx = np.median(rows['world_gazeX'].to_numpy()) * sx
+            wy = np.median(rows['world_gazeY'].to_numpy()) * sy
+            rx = np.median(rows['ref_gazeX'].to_numpy()) * (down_width / ref_w)
+            ry = np.median(rows['ref_gazeY'].to_numpy()) * (down_height / ref_h)
 
-        # Image de base combinée : gauche = vidéo, droite = ref
-        frame_combined = np.hstack((frame_resized, ref_frame_resized.copy()))
+            if not np.isnan([wx, wy, rx, ry]).any():
+                cv2.circle(combined, (int(wx), int(wy)), 5, (0, 0, 255), -1)
+                cv2.circle(combined, (int(rx) + down_width, int(ry)), 5, (255, 0, 0), -1)
 
-        if not local_result_df.empty:
-            # Moyenne des points (tu peux aussi boucler sur chaque point)
-            world_gaze_x = local_result_df['world_gazeX'].values
-            world_gaze_y = local_result_df['world_gazeY'].values
-            ref_gaze_x = local_result_df['ref_gazeX'].values
-            ref_gaze_y = local_result_df['ref_gazeY'].values
-
-            x_left = int(np.mean(world_gaze_x))
-            y_left = int(np.mean(world_gaze_y))
-            x_right = int(np.mean(ref_gaze_x)) + down_width  # décale à droite
-            y_right = int(np.mean(ref_gaze_y))
-
-            # Dessiner les points (BGR pour OpenCV)
-            cv2.circle(frame_combined, (x_left, y_left), 5, (0, 0, 255), -1)   # rouge
-            cv2.circle(frame_combined, (x_right, y_right), 5, (255, 0, 0), -1) # bleu
-
-        writer.write(frame_combined)
+        writer.write(combined)
+        written += 1
         frame_idx += 1
 
     cap.release()
     writer.release()
+    print(f"Video written successfully: {written} frames")
 
-    if os.path.exists(out_video_path):
-        print(f"Vidéo enregistrée dans {out_video_path}, taille : {os.path.getsize(out_video_path)} octets")
-    else:
-        print("Erreur : Le fichier de sortie n'a pas été créé")
 
- 
-        
-def mapCoords2D(coords, transform2D): 
-    '''
-    
+# -------------------------
+# 4) Wrapper principal
+# -------------------------
+def process_rim(gaze_data,
+                world_camera, reference_image,
+                camera_width, camera_height,
+                world_timestamps = None,
+                **kwargs):
 
-    Parameters
-    ----------
-    coords : TYPE
-        DESCRIPTION.
-    transform2D : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    TYPE
-        DESCRIPTION.
-    TYPE
-        DESCRIPTION.
-
-    '''
-   
-    ## Reshape input coordinates
-    coords = np.array(coords).reshape(-1, 1, 2)  
-    ## Compute reference coordinates according to the homography matrix
-    mappedCoords = cv2.perspectiveTransform(coords, transform2D)
-    mappedCoords = np.round(mappedCoords.ravel(), 3)
-
-    return mappedCoords[0], mappedCoords[1]
- 
-
-def process_rim(gaze_data, world_timestamps, 
-                   world_camera, reference_image, 
-                   **kwargs):
-  
     out_name = kwargs.get('outfile_name', 'gaze')
     output_dir = kwargs.get('outdir_name', 'mappedGazeOutput')
-    if not os.path.isdir(output_dir):
-        os.makedirs(output_dir, exist_ok=True)
-    
-    downsampling_factor = kwargs.get('downsampling_factor', 2)
-    camera_width = kwargs.get('camera_width', 1600)
-    camera_height = kwargs.get('camera_height', 1200)
-    
-    down_width = kwargs.get('down_width', 600)
-    down_height = kwargs.get('down_height', 450)
-    
-    display_rim_results = kwargs.get('display_rim_results', True)
-    
+    os.makedirs(output_dir, exist_ok=True)
+
+    downsampling_factor = int(kwargs.get('downsampling_factor', 2))
+    down_width = int(kwargs.get('down_width', 600))
+    down_height = int(kwargs.get('down_height', 450))
+    fps_scene = int(kwargs.get('fps_scene', 10))
+
+    display_rim_results = bool(kwargs.get('display_rim_results', True))
+
+    # Optionnel: tolérance de matching timestamps (ns)
+    # Ex: à 30 fps, ~33ms => 16ms ~ 16_000_000 ns
+    timestamp_tolerance_ns = kwargs.get('timestamp_tolerance_ns', None)
+
     config = {
-        'processing':{
+        'processing': {
             'downsampling_factor': downsampling_factor,
             'max_time': 5,
-            'min_line_matches': 0, 
-            'camera':{
-                'width': camera_width,
-                'height': camera_height,
+            'fps_scene': fps_scene,
+            'timestamp_tolerance_ns': timestamp_tolerance_ns,
+            'camera': {
+                'width': int(camera_width),
+                'height': int(camera_height),
                 'down_width': down_width,
                 'down_height': down_height
-                },
-            'files':{  
-                'outputDir': output_dir,
-                }, 
             },
-        
-        'model' :{
+            'files': {
+                'outputDir': output_dir
+            }
+        },
+        'model': {
             'name': 'two_view_pipeline',
             'use_lines': True,
             'use_lines_homoraphy': False,
@@ -470,7 +502,8 @@ def process_rim(gaze_data, world_timestamps,
             },
             'matcher': {
                 'name': 'gluestick',
-                'weights': str(reference_image_mapper.GLUESTICK_ROOT / 'resources' / 'weights' / 'checkpoint_GlueStick_MD.tar'),
+                'weights': str(reference_image_mapper.GLUESTICK_ROOT /
+                               'resources/weights/checkpoint_GlueStick_MD.tar'),
                 'trainable': False,
             },
             'ground_truth': {
@@ -478,31 +511,24 @@ def process_rim(gaze_data, world_timestamps,
             }
         }
     }
-      
-    preProData = preprocessing_rim(gaze_data, 
-                                   world_timestamps,
-                                   config) 
-    processRecording(preProData, 
+
+    preProData = preprocessing_rim(gaze_data, world_timestamps, config)
+ 
+    processRecording(preProData,
                      reference_image,
                      world_camera,
                      out_name,
-                     config) 
-    
+                     config,
+                     gaze_data_path=gaze_data
+                     )
+
     if display_rim_results:
         display_results(world_camera, 
                         reference_image, 
-                        out_name,
-                        output_dir)
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+                        out_name, output_dir, 
+                        down_width, down_height)
+        
+        
+        
+        
+        
