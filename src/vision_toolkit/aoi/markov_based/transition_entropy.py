@@ -2,207 +2,135 @@
 
 import numpy as np
 
-
+ 
 class TransitionEntropyAnalysis:
-    def __init__(self, input):
-        """
+    
+    def __init__(self, transition_matrix, tol=1e-12, max_iter=100_000, check=True):
+        
+        
+        self.transition_matrix = np.asarray(transition_matrix, dtype=float)
+        if check:
+            self._validate_and_normalize_transition_matrix()
 
+        self.state_number = self.transition_matrix.shape[0]
+        self.stationary_distribution = self.compute_stationary_distribution(tol=tol, max_iter=max_iter)
 
-        Parameters
-        ----------
-        input : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-        self.transition_matrix = input
-        self.state_number = input.shape[0]
-        self.stationary_distribution = self.compute_stationary_distribution()
-
-        t_m_i = self.t_mutual_information()
+        t_m_i   = self.t_mutual_information()
         t_m_i_r = self.t_mutual_information_row()
-        t_j_e = self.t_joint_entropy()
-        t_c_e = self.t_conditional_entropy()
+        t_j_e   = self.t_joint_entropy()
+        t_c_e   = self.t_conditional_entropy()
         t_c_e_r = self.t_conditional_entropy_row()
-        t_s_e = self.t_stationary_entropy()
+        t_s_e   = self.t_stationary_entropy()
 
-        self.results = dict(
-            {
-                "AoI_transition_stationary_entropy": t_s_e,
-                "AoI_transition_joint_entropy": t_j_e,
-                "AoI_transition_conditional_entropy": t_c_e,
-                "AoI_transition_conditional_entropy_row": t_c_e_r,
-                "AoI_transition_mutual_information": t_m_i,
-                "AoI_transition_mutual_information_row": t_m_i_r,
-            }
-        )
+        self.results = {
+            "AoI_transition_stationary_entropy": t_s_e,
+            "AoI_transition_joint_entropy": t_j_e,
+            "AoI_transition_conditional_entropy": t_c_e,
+            "AoI_transition_conditional_entropy_row": t_c_e_r,
+            "AoI_transition_mutual_information": t_m_i,
+            "AoI_transition_mutual_information_row": t_m_i_r,
+        }
 
-    def compute_stationary_distribution(self):
-        """
+    def _validate_and_normalize_transition_matrix(self):
+        T = self.transition_matrix
+        if T.ndim != 2 or T.shape[0] != T.shape[1]:
+            raise ValueError(f"transition_matrix must be square (got shape {T.shape})")
 
+        if np.any(~np.isfinite(T)):
+            raise ValueError("transition_matrix contains NaN/inf")
 
-        Returns
-        -------
-        stationary_distrib : TYPE
-            DESCRIPTION.
+        if np.any(T < 0):
+            raise ValueError("transition_matrix contains negative entries")
 
-        """
-        ## Find the stationary distribution as the left perron vector
-        eigenvals, eigenvects = np.linalg.eig(self.transition_matrix.T)
+        row_sums = T.sum(axis=1, keepdims=True)
+     
+        zero_rows = (row_sums.squeeze() == 0)
+        if np.any(zero_rows):
+            T[zero_rows, :] = 1.0 / T.shape[1]
+            row_sums = T.sum(axis=1, keepdims=True)
 
-        close_to_1_idx = np.isclose(eigenvals, 1)
-        close_to_1_idx = self.find_nearest(eigenvals, 1)
+        self.transition_matrix = T / row_sums
 
-        target_eigenvect = np.real(eigenvects[:, close_to_1_idx])
-        ## Turn the eigenvector elements into probabilites
-        stationary_distrib = target_eigenvect / sum(target_eigenvect)
-        stationary_distrib = np.maximum(stationary_distrib, 0)
-        stationary_distrib /= sum(stationary_distrib)
+    def compute_stationary_distribution(self, tol=1e-12, max_iter=100_000):
+        
+        T = self.transition_matrix
+        n = T.shape[0]
 
-        return stationary_distrib
+        pi = np.ones(n, dtype=float) / n
+        for _ in range(max_iter):
+            pi_next = pi @ T
+            s = pi_next.sum()
+            if s <= 0 or not np.isfinite(s):
+                raise ValueError("Failed to compute stationary distribution (degenerate transition matrix).")
+            pi_next /= s
+
+            if np.max(np.abs(pi_next - pi)) < tol:
+                return pi_next
+
+            pi = pi_next
+ 
+        return pi
 
     def t_mutual_information(self):
-        """
-
-
-        Returns
-        -------
-        t_m_i : TYPE
-            DESCRIPTION.
-
-        """
+       
         pi = self.stationary_distribution
-        t_m = self.transition_matrix
-
-        n_s = self.state_number
-
-        t_m_i = 0
-        for i in range(n_s):
-            for j in range(n_s):
-                if t_m[i, j] > 0 and pi[j] > 0:
-                    t_m_i += pi[i] * t_m[i, j] * np.log(t_m[i, j] / pi[j])
-
-        return np.real(t_m_i)
+        T = self.transition_matrix
+ 
+        mask = (T > 0) & (pi[None, :] > 0)   
+        Tij = T[mask]
+        
+        i_idx, j_idx = np.where(mask)
+        val = pi[i_idx] * Tij * np.log(Tij / pi[j_idx])
+        return float(np.sum(val))
 
     def t_mutual_information_row(self):
-        """
-
-
-        Returns
-        -------
-        t_m_i : TYPE
-            DESCRIPTION.
-
-        """
+      
         pi = self.stationary_distribution
-        t_m = self.transition_matrix
-        n_s = self.state_number
+        T = self.transition_matrix
+        n = self.state_number
 
-        t_m_i = dict()
-        ## Compute the mutual information for each AoI
-        for i in range(n_s):
-            t_m_i_r = 0
-            for j in range(n_s):
-                if t_m[i, j] > 0 and pi[j] > 0:
-                    t_m_i_r += t_m[i, j] * np.log(t_m[i, j] / pi[j])
-            t_m_i.update({chr(i + 65): np.real(t_m_i_r)})
-
-        return t_m_i
+        out = {}
+        for i in range(n):
+            mask = (T[i, :] > 0) & (pi > 0)
+            Tij = T[i, mask]
+            pj = pi[mask]
+            out[chr(i + 65)] = float(np.sum(pi[i] * Tij * np.log(Tij / pj)))
+        return out
 
     def t_joint_entropy(self):
-        """
-
-
-        Returns
-        -------
-        t_j_e : TYPE
-            DESCRIPTION.
-
-        """
+      
         pi = self.stationary_distribution
-        t_m = self.transition_matrix
-        n_s = self.state_number
+        T = self.transition_matrix
 
-        t_j_e = 0
-        for i in range(n_s):
-            for j in range(n_s):
-                if (t_m[i, j] * pi[i]) > 0:
-                    t_j_e += pi[i] * t_m[i, j] * np.log(pi[i] * t_m[i, j])
-
-        return np.real(t_j_e)
+        P = pi[:, None] * T
+        mask = P > 0
+        return float(-np.sum(P[mask] * np.log(P[mask])))
 
     def t_conditional_entropy(self):
-        """
-
-
-        Returns
-        -------
-        t_c_e : TYPE
-            DESCRIPTION.
-
-        """
+       
         pi = self.stationary_distribution
-        t_m = self.transition_matrix
-        n_s = self.state_number
+        T = self.transition_matrix
+        n = self.state_number
 
-        t_c_e = 0
-        for i in range(n_s):
-            t_c_e_r = 0
-            for j in range(n_s):
-                if t_m[i, j] > 0:
-                    t_c_e_r -= t_m[i, j] * np.log(t_m[i, j])
-            t_c_e += pi[i] * t_c_e_r
-
-        return np.real(t_c_e)
+        total = 0.0
+        for i in range(n):
+            mask = T[i, :] > 0
+            total += pi[i] * float(-np.sum(T[i, mask] * np.log(T[i, mask])))
+        return float(total)
 
     def t_conditional_entropy_row(self):
-        """
+       
+        T = self.transition_matrix
+        n = self.state_number
 
-
-        Returns
-        -------
-        t_c_e : TYPE
-            DESCRIPTION.
-
-        """
-        t_m = self.transition_matrix
-        n_s = self.state_number
-
-        t_c_e = dict()
-        for i in range(n_s):
-            t_c_e_r = 0
-            for j in range(n_s):
-                if t_m[i, j] > 0:
-                    t_c_e_r -= t_m[i, j] * np.log(t_m[i, j])
-            t_c_e.update({chr(i + 65): t_c_e_r})
-
-        return t_c_e
+        out = {}
+        for i in range(n):
+            mask = T[i, :] > 0
+            out[chr(i + 65)] = float(-np.sum(T[i, mask] * np.log(T[i, mask])))
+        return out
 
     def t_stationary_entropy(self):
-        """
-
-
-        Returns
-        -------
-        t_s_e : TYPE
-            DESCRIPTION.
-
-        """
+       
         pi = self.stationary_distribution
-        n_s = self.state_number
-
-        t_s_e = 0
-        for i in range(n_s):
-            if pi[i] > 0:
-                t_s_e -= pi[i] * np.log(pi[i])
-
-        return np.real(t_s_e)
-
-    def find_nearest(self, array, value):
-        array = np.asarray(array)
-        idx = (np.abs(array - value)).argmin()
-
-        return idx
+        mask = pi > 0
+        return float(-np.sum(pi[mask] * np.log(pi[mask])))

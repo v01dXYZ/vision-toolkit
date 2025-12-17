@@ -1,33 +1,22 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
-from numpy.linalg import norm
+ 
 
 from vision_toolkit.segmentation.processing.binary_segmentation import BinarySegmentation
 
+import numpy as np
+from numpy.linalg import norm
+ 
+
 
 class FixationAnalysis(BinarySegmentation):
+    """
+    For a fixation [start,end]:
+        * positions:      start .. end        (n_samples = end-start+1)
+        * speeds:       start .. end-1      (n_vel = n_samples-1)  => slice a_sp[start:end]
+    """
+
     def __init__(self, input, **kwargs):
-        """
-
-
-        Parameters
-        ----------
-        input : TYPE
-            DESCRIPTION.
-        sampling_frequency : TYPE, optional
-            DESCRIPTION. The default is None.
-        segmentation_method : TYPE, optional
-            DESCRIPTION. The default is 'I_HMM'.
-        **kwargs : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
         verbose = kwargs.get("verbose", True)
 
         if verbose:
@@ -35,438 +24,312 @@ class FixationAnalysis(BinarySegmentation):
 
         if isinstance(input, BinarySegmentation):
             self.__dict__ = input.__dict__.copy()
-
+            self.config.update({"verbose": verbose})
         else:
             sampling_frequency = kwargs.get("sampling_frequency", None)
-            assert (
-                sampling_frequency is not None
-            ), "Sampling frequency must be specified"
-
+            assert sampling_frequency is not None, "Sampling frequency must be specified"
             super().__init__(input, **kwargs)
 
-        self.s_f = self.config["sampling_frequency"]
-        assert (
-            len(self.segmentation_results["fixation_intervals"]) > 0
-        ), "No fixation identified"
-       
+        self.s_f = float(self.config["sampling_frequency"])
+        assert len(self.segmentation_results["fixation_intervals"]) > 0, "No fixation identified"
+
         if verbose:
             print("...Fixation Analysis done\n")
 
+
+    def _intervals(self):
+        return self.segmentation_results["fixation_intervals"]
+
+    def _n_samples_per_interval(self, intervals):
+        
+        a_i = np.asarray(intervals, dtype=np.int64)
+        return (a_i[:, 1] - a_i[:, 0] + 1).astype(np.float64)
+
+    def _speed_array(self):
+        return np.asarray(self.data_set["absolute_speed"], dtype=np.float64)
+
+    def _speed_segment(self, start, end):
+        
+        if end <= start:
+            return np.array([], dtype=np.float64)
+        a_sp = self._speed_array()
+        return a_sp[start:end]
+
+    def _safe_sd(self, x):
+        
+        x = np.asarray(x, dtype=np.float64)
+        return float(np.nanstd(x, ddof=1)) if np.sum(np.isfinite(x)) >= 2 else 0.0
+
+    
     def fixation_count(self):
-        """
+        return {"count": int(len(self._intervals()))}
 
-
-        Returns
-        -------
-        result : TYPE
-            DESCRIPTION.
-
-        """
-
-        ct = len(self.segmentation_results["fixation_intervals"])
-        result = dict({"count": ct})
-
-        return result
 
     def fixation_frequency(self):
-        """
+        
+        ct = len(self._intervals())
+        denom = (self.config["nb_samples"] / self.s_f)
+        f = ct / denom if denom > 0 else np.nan
+        
+        return {"frequency": float(f)}
 
-
-        Returns
-        -------
-        result : TYPE
-            DESCRIPTION.
-
-        """
-
-        ct = len(self.segmentation_results["fixation_intervals"])
-        f = ct / (self.config["nb_samples"] / self.s_f)
-
-        result = dict({"frequency": f})
-
-        return result
 
     def fixation_frequency_wrt_labels(self):
-        """
+        
+        ct = len(self._intervals())
+        labeled = float(np.sum(self.segmentation_results["is_labeled"]))
+        denom = labeled / self.s_f
+        f = ct / denom if denom > 0 else np.nan
+        
+        return {"frequency": float(f)}
 
-
-        Returns
-        -------
-        result : TYPE
-            DESCRIPTION.
-
-        """
-
-        ct = len(self.segmentation_results["fixation_intervals"])
-        f = ct / (np.sum(self.segmentation_results["is_labeled"]) / self.s_f)
-
-        result = dict({"frequency": f})
-
-        return result
 
     def fixation_durations(self, get_raw=True):
-        """
+        
+        a_i = np.asarray(self._intervals(), dtype=np.int64)
+        a_d = (a_i[:, 1] - a_i[:, 0] + 1) / self.s_f  # inclusive
 
-
-        Parameters
-        ----------
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        a_i = np.array(self.segmentation_results["fixation_intervals"])
-        a_d = (a_i[:, 1] - a_i[:, 0] + 1) / self.s_f
-
-        results = dict(
-            {
-                "duration_mean": np.nanmean(a_d),
-                "duration sd": np.nanstd(a_d, ddof=1),
-                "raw": a_d,
-            }
-        )
-
+        results = {
+            "duration_mean": float(np.nanmean(a_d)),
+            "duration_sd": self._safe_sd(a_d),
+            "raw": a_d,
+        }
+        
         if not get_raw:
             del results["raw"]
-
+            
         return results
+
 
     def fixation_centroids(self):
-        """
+        return {"centroids": np.asarray(self.segmentation_results["centroids"])}
 
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        ctrds = self.segmentation_results["centroids"]
-
-        results = dict({"centroids": np.array(ctrds)})
-
-        return results
-
+    
     def fixation_mean_velocities(self):
-        """
+        
+        m_sp, sd_sp = [], []
+        for start, end in self._intervals():
+            seg = self._speed_segment(start, end)  # start..end-1
+            m_sp.append(float(np.nanmean(seg)) if seg.size else np.nan)
+            sd_sp.append(self._safe_sd(seg) if seg.size else np.nan)
+
+        return {
+            "velocity_means": np.asarray(m_sp, dtype=np.float64),
+            "velocity_sd": np.asarray(sd_sp, dtype=np.float64),
+        }
 
 
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        _ints = self.segmentation_results["fixation_intervals"]
-        a_sp = self.data_set["absolute_speed"]
-
-        m_sp = []
-        sd_sp = []
-
-        for _int in _ints:
-            m_sp.append(np.nanmean(a_sp[_int[0] : _int[1]]))
-            sd_sp.append(np.nanstd(a_sp[_int[0] : _int[1]], ddof=1))
-
-        results = dict(
-            {"velocity_means": np.array(m_sp), "velocity_sd": np.array(sd_sp)}
-        )
-
-        return results
-
-    def fixation_average_velocity_means(self, weighted=False, get_raw=True):
-        """
-
-
-        Parameters
-        ----------
-        weighted : TYPE, optional
-            DESCRIPTION. The default is False.
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
+    def fixation_average_velocity_means(self, weighted=False, get_raw=True, weight_mode="diffs"):
+        
         m_sp = self.fixation_mean_velocities()["velocity_means"]
 
         if not weighted:
-            results = dict({"average_velocity_means": np.nanmean(m_sp), "raw": m_sp})
-
+            results = {"average_velocity_means": float(np.nanmean(m_sp)), "raw": m_sp}
+            
             if not get_raw:
                 del results["raw"]
-
+                
             return results
 
-        else:
-            i_d = self.fixation_durations(get_raw=True)["raw"] * self.s_f - 1
-            w_v = np.sum(i_d * m_sp) / np.sum(i_d)
+        n_samples = self._n_samples_per_interval(self._intervals())
+        if weight_mode == "samples":
+            w = np.maximum(n_samples, 0.0)
+        else:  # diffs
+            w = np.maximum(n_samples - 1.0, 0.0)
 
-            results = dict({"weighted_average_velocity_means": w_v, "raw": m_sp})
+        denom = np.nansum(w)
+        w_v = float(np.nansum(w * m_sp) / denom) if denom > 0 else np.nan
 
-            if not get_raw:
-                del results["raw"]
-
-            return results
-
-    def fixation_average_velocity_deviations(self, get_raw=True):
-        """
-
-
-        Parameters
-        ----------
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        sd_sp = self.fixation_mean_velocities()["velocity_sd"]
-        i_d = self.fixation_durations(get_raw=True)["raw"] * self.s_f - 2
-
-        a_sd = np.sqrt(np.sum(i_d * (sd_sp**2)) / np.sum(i_d))
-
-        results = dict({"average_velocity_sd": a_sd, "raw": sd_sp})
-
+        results = {"weighted_average_velocity_means": w_v, "raw": m_sp}
+       
         if not get_raw:
             del results["raw"]
-
+            
         return results
 
+
+    def fixation_average_velocity_deviations(self, get_raw=True, weight_mode="diffs"):
+       
+        sd_sp = self.fixation_mean_velocities()["velocity_sd"]
+
+        n_samples = self._n_samples_per_interval(self._intervals())
+        if weight_mode == "samples":
+            w = np.maximum(n_samples, 0.0)
+        else:
+            w = np.maximum(n_samples - 1.0, 0.0)
+
+        denom = np.nansum(w)
+        a_sd = float(np.sqrt(np.nansum(w * (sd_sp ** 2)) / denom)) if denom > 0 else np.nan
+
+        results = {"average_velocity_sd": a_sd, "raw": sd_sp}
+        
+        if not get_raw:
+            del results["raw"]
+            
+        return results
+
+
     def fixation_drift_displacements(self, get_raw=True):
-        """
-
-
-        Parameters
-        ----------
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
         x_a = self.data_set["x_array"]
         y_a = self.data_set["y_array"]
         z_a = self.data_set["z_array"]
 
-        _ints = self.segmentation_results["fixation_intervals"]
         dist_ = self.distances[self.config["distance_type"]]
 
         dsp = []
-
-        for _int in _ints:
-            l_d = dist_(
-                np.array([x_a[_int[0]], y_a[_int[0]], z_a[_int[0]]]),
-                np.array([x_a[_int[1]], y_a[_int[1]], z_a[_int[1]]]),
+        for start, end in self._intervals():
+            dsp.append(
+                dist_(
+                    np.array([x_a[start], y_a[start], z_a[start]]),
+                    np.array([x_a[end], y_a[end], z_a[end]]),
+                )
             )
 
-            dsp.append(l_d)
-
-        results = dict(
-            {
-                "drift_displacement_mean": np.nanmean(np.array(dsp)),
-                "drift_displacement_sd": np.nanstd(np.array(dsp), ddof=1),
-                "raw": np.array(dsp),
-            }
-        )
-
+        dsp = np.asarray(dsp, dtype=np.float64)
+        results = {
+            "drift_displacement_mean": float(np.nanmean(dsp)),
+            "drift_displacement_sd": self._safe_sd(dsp),
+            "raw": dsp,
+        }
+        
         if not get_raw:
             del results["raw"]
-
+            
         return results
 
+
     def fixation_drift_distances(self, get_raw=True):
-        """
-
-
-        Parameters
-        ----------
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
         x_a = self.data_set["x_array"]
         y_a = self.data_set["y_array"]
         z_a = self.data_set["z_array"]
         n_s = len(x_a)
-        _ints = self.segmentation_results["fixation_intervals"]
+
         dist_ = self.distances[self.config["distance_type"]]
 
         t_cum = []
         stack_ = np.concatenate(
-            (x_a.reshape((1, n_s)), y_a.reshape((1, n_s)), z_a.reshape((1, n_s))),
+            (
+                x_a.reshape((1, n_s)),
+                y_a.reshape((1, n_s)),
+                z_a.reshape((1, n_s)),
+            ),
             axis=0,
         )
 
-        for _int in _ints:
+        for start, end in self._intervals():
+            if end <= start:
+                t_cum.append(np.nan)
+                continue
+
             if self.config["distance_type"] == "euclidean":
-                l_a = stack_[:, _int[0] : _int[1] + 1]
-                l_c = np.sum(norm(l_a[:, 1:] - l_a[:, :-1], axis=0))
-                t_cum.append(l_c)
+                l_a = stack_[:, start : end + 1]
+                l_c = float(np.nansum(norm(l_a[:, 1:] - l_a[:, :-1], axis=0)))
             else:
-                l_c = np.sum(
-                    np.array(
+                l_c = float(
+                    np.nansum(
                         [
                             dist_(
                                 np.array([x_a[k], y_a[k], z_a[k]]),
                                 np.array([x_a[k + 1], y_a[k + 1], z_a[k + 1]]),
                             )
-                            for k in range(_int[0], _int[1])
+                            for k in range(start, end)
                         ]
                     )
                 )
-                t_cum.append(l_c)
 
-        results = dict(
-            {
-                "drift_cumul_distance_mean": np.nanmean(np.array(t_cum)),
-                "drift_cumul_distance_sd": np.nanstd(np.array(t_cum), ddof=1),
-                "raw": np.array(t_cum),
-            }
-        )
+            t_cum.append(l_c)
 
+        t_cum = np.asarray(t_cum, dtype=np.float64)
+        results = {
+            "drift_cumul_distance_mean": float(np.nanmean(t_cum)),
+            "drift_cumul_distance_sd": self._safe_sd(t_cum),
+            "raw": t_cum,
+        }
+        
         if not get_raw:
             del results["raw"]
-
+            
         return results
 
-    def fixation_drift_velocities(self, get_raw=True):
-        """
 
+    def fixation_drift_velocities(self, get_raw=True, duration_mode="diffs"):
+  
+        d_d = np.asarray(self.fixation_drift_displacements(get_raw=True)["raw"], dtype=np.float64)
+        n_samples = self._n_samples_per_interval(self._intervals())
 
-        Parameters
-        ----------
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
+        if duration_mode == "samples":
+            dur_s = n_samples / self.s_f
+        else:
+            dur_s = np.maximum(n_samples - 1.0, 0.0) / self.s_f
 
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
+        d_vel = np.full_like(d_d, np.nan, dtype=np.float64)
+        mask = np.isfinite(d_d) & np.isfinite(dur_s) & (dur_s > 0)
+        d_vel[mask] = d_d[mask] / dur_s[mask]
 
-        """
-
-        d_d = self.fixation_drift_displacements(get_raw=True)["raw"]
-        i_d = self.fixation_durations(get_raw=True)["raw"] - 1 / self.s_f
-
-        d_vel = [d_d[i] / i_d[i] for i in range(len(i_d)) if i_d[i] > 0]
-
-        results = dict(
-            {
-                "drift_velocity_mean": np.nanmean(np.array(d_vel)),
-                "drift_velocity_sd": np.nanstd(np.array(d_vel), ddof=1),
-                "raw": np.array(d_vel),
-            }
-        )
-
+        results = {
+            "drift_velocity_mean": float(np.nanmean(d_vel)),
+            "drift_velocity_sd": self._safe_sd(d_vel),
+            "raw": d_vel,
+        }
+        
         if not get_raw:
             del results["raw"]
-
+            
         return results
+
 
     def fixation_BCEA(self, BCEA_probability=0.68, get_raw=True):
-        """
+        
+        def pearson_corr_(x, y):
+            x = np.asarray(x, dtype=np.float64)
+            y = np.asarray(y, dtype=np.float64)
 
+            mask = np.isfinite(x) & np.isfinite(y)
+            x = x[mask]
+            y = y[mask]
+            if x.size < 2:
+                return 0.0
 
-        Parameters
-        ----------
-        p : TYPE, optional
-            DESCRIPTION. The default is 0.68.
-        get_raw : TYPE, optional
-            DESCRIPTION. The default is True.
+            xm = x - np.mean(x)
+            ym = y - np.mean(y)
 
-        Returns
-        -------
-        TYPE
-            DESCRIPTION.
+            den = np.sqrt(np.sum(xm ** 2) * np.sum(ym ** 2))
+            if den <= 0:
+                return 0.0
 
-        """
+            r = float(np.sum(xm * ym) / den)
+            
+            return max(min(r, 1.0), -1.0)
 
-        def pearson_corr(x, y):
-            """
+        p = float(BCEA_probability)
+        p = min(max(p, 1e-12), 1.0 - 1e-12)  # évite log(0)
+        k = -np.log(1.0 - p)
 
+        x_a = np.asarray(self.data_set["x_array"], dtype=np.float64)
+        y_a = np.asarray(self.data_set["y_array"], dtype=np.float64)
 
-            Parameters
-            ----------
-            x : TYPE
-                DESCRIPTION.
-            y : TYPE
-                DESCRIPTION.
-
-            Returns
-            -------
-            p_c : TYPE
-                DESCRIPTION.
-
-            """
-
-            x = np.asarray(x)
-            y = np.asarray(y)
-
-            mx = np.nanmean(x)
-            my = np.nanmean(y)
-
-            xm, ym = x - mx, y - my
-
-            _num = np.sum(xm * ym)
-            _den = np.sqrt(np.sum(xm**2) * np.sum(ym**2))
-
-            p_c = _num / _den
-
-            ## For some small artifact of floating point arithmetic.
-            p_c = max(min(p_c, 1.0), -1.0)
-
-            return p_c
-
-        k = -np.log(1 - BCEA_probability)
-        x_a = self.data_set["x_array"]
-        y_a = self.data_set["y_array"]
-
-        _ints = self.segmentation_results["fixation_intervals"]
         bcea_s = []
+        for start, end in self._intervals():
+            l_x = x_a[start : end + 1]
+            l_y = y_a[start : end + 1]
 
-        for _int in _ints:
-            l_x = x_a[_int[0] : _int[1] + 1]
-            l_y = y_a[_int[0] : _int[1] + 1]
+            r = pearson_corr_(l_x, l_y)
+            sd_x = float(np.nanstd(l_x, ddof=1)) if np.sum(np.isfinite(l_x)) >= 2 else 0.0
+            sd_y = float(np.nanstd(l_y, ddof=1)) if np.sum(np.isfinite(l_y)) >= 2 else 0.0
 
-            p_c = pearson_corr(l_x, l_y)
-            sd_x = np.nanstd(l_x, ddof=1)
-            sd_y = np.nanstd(l_y, ddof=1)
-
-            l_bcea = 2 * np.pi * k * sd_x * sd_y * np.sqrt(1 - p_c**2)
+            inside = max(0.0, 1.0 - r ** 2)
+            l_bcea = 2.0 * np.pi * k * sd_x * sd_y * np.sqrt(inside)
             bcea_s.append(l_bcea)
 
-        results = dict(
-            {"average_BCEA": np.nanmean(np.array(bcea_s)), "raw": np.array(bcea_s)}
-        )
-
+        bcea_s = np.asarray(bcea_s, dtype=np.float64)
+        results = {
+            "average_BCEA": float(np.nanmean(bcea_s)),
+            "raw": bcea_s,
+        }
+        
         if not get_raw:
             del results["raw"]
-
+            
         return results
 
 

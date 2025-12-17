@@ -16,31 +16,7 @@ from vision_toolkit.visualization.scanpath.single.rqa import (
 
 class RQAAnalysis(RecurrenceBase):
     def __init__(self, input, **kwargs):
-        """
-
-
-        Parameters
-        ----------
-        input : str or BinarySegmentation or Scanpath
-            DESCRIPTION.
-        sampling_frequency : TYPE
-            DESCRIPTION.
-        segmentation_method : TYPE, optional
-            DESCRIPTION. The default is 'I_HMM'.
-        **kwargs : TYPE
-            DESCRIPTION.
-
-        Raises
-        ------
-        ValueError
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
+      
         verbose = kwargs.get("verbose", True)
         display_results = kwargs.get("display_results", True)
         display_path = kwargs.get("display_path", None)
@@ -122,19 +98,9 @@ class RQAAnalysis(RecurrenceBase):
         if verbose:
             print("...RQA Analysis done\n")
 
+
     def comp_recurrence_matrix(self):
-        """
-
-
-        Returns
-        -------
-        r_m : TYPE
-            DESCRIPTION.
-        r_p : TYPE
-            DESCRIPTION.
-
-        """
-
+     
         s_ = self.s_[0:2]
         n = self.n
 
@@ -147,164 +113,102 @@ class RQAAnalysis(RecurrenceBase):
 
         return r_m, r_p
 
+
     def scanpath_RQA_recurrence_rate(self):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        r_r = (200 * self.r_p) / ((self.n - 1) * self.n)
-   
-        if np.isnan(r_r):
-            results = dict({"RQA_recurrence_rate": 0})
-
+        
+        denom = (self.n - 1) * self.n
+        if denom <= 0 or self.r_p <= 0:
+            r_r = 0.0
         else:
-            results = dict({"RQA_recurrence_rate": r_r})
-
+            r_r = (200.0 * self.r_p) / denom
+    
+        results = {"RQA_recurrence_rate": float(r_r)}
         self.scanpath.verbose()
-
+        
         return results
-
+    
+    
     def scanpath_RQA_laminarity(self, display_results=True, display_path=None):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        self.scanpath.config.update({"display_results": display_results})
-        self.scanpath.config.update({"display_path": display_path})
-        s_l = 0
-
-        v_set = self.v_set
-        h_set = self.h_set
-
-        for v in v_set:
-            s_l += len(v)
-
-        for h in h_set:
-            s_l += len(h)
-
-        lam = (50 / self.r_p) * s_l
-
+        
+        self.scanpath.config.update({"display_results": display_results, "display_path": display_path})
+        s_l = sum(len(v) for v in self.v_set) + sum(len(h) for h in self.h_set)
+    
+        if self.r_p <= 0 or s_l == 0:
+            lam = 0.0
+        else:
+            lam = (50.0 * s_l) / self.r_p
+    
         if self.scanpath.config["display_results"]:
             plot_RQA_laminarity(self.r_m, self.h_set, self.v_set, self.scanpath.config['display_path'])
-
-        if np.isnan(lam):
-            results = dict({"RQA_laminarity": 0})
-
-        else:
-            results = dict({"RQA_laminarity": lam})
-
+    
+        results = {"RQA_laminarity": float(lam)}
+        
         self.scanpath.verbose()
-
         return results
-
+    
+    
     def scanpath_RQA_determinism(self, display_results=True, display_path=None):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-        self.scanpath.config.update({"display_results": display_results})
-        self.scanpath.config.update({"display_path": display_path})
-        s_l = 0
-
-        d_set = self.d_set
-
-        for d in d_set:
-            s_l += len(d)
-      
-        det = (100 / self.r_p) * s_l
-
+        
+        self.scanpath.config.update({"display_results": display_results, "display_path": display_path})
+        s_l = sum(len(d) for d in self.d_set)
+    
+        if self.r_p <= 0 or s_l == 0:
+            det = 0.0
+        else:
+            det = (100.0 * s_l) / self.r_p
+    
         if self.scanpath.config["display_results"]:
             plot_RQA_determinism(self.r_m, self.d_set, self.scanpath.config['display_path'])
-
-        if np.isnan(det):
-            results = dict({"RQA_determinism": 0})
-
-        else:
-            results = dict({"RQA_determinism": det})
-
+    
+        results = {"RQA_determinism": float(det)}
         self.scanpath.verbose()
-
+        
         return results
-
+    
+    
     def scanpath_RQA_CORM(self):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
+        
         n = self.n
         r_m = self.r_m
-
-        corm = 100 / ((n - 1) * self.r_p)
-
-        r_ = 0
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                r_ += r_m[i, j] * (j - i)
-
-        corm *= r_
-
-        if np.isnan(corm):
-            results = dict({"RQA_CORM": 0})
-
+        denom = (n - 1) * self.r_p
+    
+        if denom <= 0:
+            corm = 0.0
         else:
-            results = dict({"RQA_CORM": corm})
-
+            r_ = 0
+            for i in range(n - 1):
+                for j in range(i + 1, n):
+                    r_ += r_m[i, j] * (j - i)
+            corm = 100.0 * r_ / denom
+    
+        results = {"RQA_CORM": float(corm)}
         self.scanpath.verbose()
-
+        
         return results
-
+    
+    
     def scanpath_RQA_entropy(self):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
+        
         d_set = self.d_set
-
-        l_s = np.array([len(d) for d in d_set])
-        u_, c_ = np.unique(l_s, return_counts=True)
-        p_ = c_ / len(l_s)
-        entropy = 0
-
-        for p in list(p_):
-            entropy -= p * np.log(p)
-
-        if np.isnan(entropy):
-            results = dict({"RQA_entropy": 0})
-
+    
+        if len(d_set) == 0:
+            entropy = 0.0
         else:
-            results = dict({"RQA_entropy": entropy})
-
+            l_s = np.array([len(d) for d in d_set], dtype=int)
+            l_s = l_s[l_s > 0]
+            if l_s.size == 0:
+                entropy = 0.0
+            else:
+                _, c_ = np.unique(l_s, return_counts=True)
+                p_ = c_ / np.sum(c_)
+                entropy = 0.0
+                for p in p_:
+                    if p > 0:
+                        entropy -= p * np.log(p)
+    
+        results = {"RQA_entropy": float(entropy)}
         self.scanpath.verbose()
-
+        
         return results
 
 

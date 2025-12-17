@@ -8,117 +8,104 @@ Created on Wed Dec 20 14:34:35 2023
 
 import numpy as np
 from scipy.spatial import Voronoi
-from scipy.stats import gamma
+from scipy.stats import gamma as gamma_dist
 from shapely.geometry import Polygon
 
 from vision_toolkit.visualization.scanpath.single.geometrical import plot_voronoi_cells
 
 
+
 class VoronoiCells:
     def __init__(self, scanpath):
-        """
-
-
-        Parameters
-        ----------
-        scanpath : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
-        # Initialize parameters
+       
         self.x_size = scanpath.config["size_plan_x"]
         self.y_size = scanpath.config["size_plan_y"]
-
-        self.fixations = scanpath.values[0:2]
+ 
+        self.fixations = np.asarray(scanpath.values[0:2])
+ 
         self.areas, self.new_vertices = self.comp_voronoi_areas()
-
+ 
         skewness = self.comp_skewness()
-        gamma = self.comp_gamma()
+        gamma_param = self.comp_gamma()
 
         self.results = dict(
             {
                 "skewness": skewness,
-                "gamma_parameter": gamma,
+                "gamma_parameter": gamma_param,
                 "voronoi_areas": self.areas,
             }
         )
 
-        if scanpath.config["display_results"]:
+        if scanpath.config.get("display_results", False):
             plot_voronoi_cells(
-                scanpath.values, self.new_vertices, scanpath.config["display_path"], scanpath.config
+                scanpath.values,
+                self.new_vertices,
+                scanpath.config.get("display_path"),
+                scanpath.config,
             )
 
+
     def comp_skewness(self):
-        """
-
-
-        Returns
-        -------
-        skw : TYPE
-            DESCRIPTION.
-
-        """
-
-        areas = np.array(self.areas)
+        areas = np.array(self.areas, dtype=float)
+ 
+        if areas.size < 2:
+            return np.nan
 
         mu = np.mean(areas)
-        sigma = np.std(areas)
+        sigma = np.std(areas, ddof=1)   
+        if sigma == 0 or not np.isfinite(sigma):
+            return np.nan
 
         skw = np.sum((areas - mu) ** 3)
         skw /= (len(areas) - 1) * sigma**3
 
-        return skw
+        return float(skw)
+
 
     def comp_gamma(self):
-        """
+        areas = np.array(self.areas, dtype=float)
+ 
+        areas = areas[areas > 0]
 
+        if areas.size == 0:
+            return np.nan
 
-        Returns
-        -------
-        fit_scale : TYPE
-            DESCRIPTION.
+        m = np.mean(areas)
+        if m == 0 or not np.isfinite(m):
+            return np.nan
+ 
+        areas /= m
 
-        """
-
-        areas = np.array(self.areas)
-        areas /= np.mean(areas)
-
-        fit_shape, fit_loc, fit_scale = gamma.fit(areas)
-
-        return fit_scale
-
+        try:
+            fit_shape, fit_loc, fit_scale = gamma_dist.fit(areas, floc=0)
+            return float(fit_scale)
+        except Exception:
+     
+            return np.nan
+ 
+    
     def comp_voronoi_areas(self):
-        """
-
-
-        Parameters
-        ----------
-        scanpath : TYPE
-            DESCRIPTION.
-        x_size : TYPE
-            DESCRIPTION.
-        y_size : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
-        pts = self.fixations.T
+        pts = self.fixations.T  # (N, 2)
         x_size, y_size = self.x_size, self.y_size
+ 
+        if pts.shape[0] == 0:
+            return [], []
 
-        vor = Voronoi(pts)
+        pts_unique = np.unique(pts, axis=0)
+ 
+        if pts_unique.shape[0] < 3:
+            return [], []
+
+        try:
+            vor = Voronoi(pts_unique)
+        except Exception:
+          
+            return [], []
+
         regions, vertices = self.voronoi_finite_polygons_2d(
             vor, radius=max(x_size, y_size) ** 2
         )
-
+ 
         coords = [[0.0, 0.0], [x_size, 0.0], [x_size, y_size], [0.0, y_size]]
         mask = Polygon(coords)
 
@@ -127,67 +114,55 @@ class VoronoiCells:
 
         for region in regions:
             polygon = vertices[region]
-            c_polygon = Polygon(polygon).intersection(mask)
+            poly_voronoi = Polygon(polygon)
 
+            if poly_voronoi.is_empty:
+                # Cellule dégénérée
+                cell_areas.append(0.0)
+                new_vertices.append(np.empty((0, 2)))
+                continue
+
+            c_polygon = poly_voronoi.intersection(mask)
+
+            if c_polygon.is_empty:
+                cell_areas.append(0.0)
+                new_vertices.append(np.empty((0, 2)))
+                continue
+ 
             cell_areas.append(c_polygon.area)
-            poly = np.array(
-                list(
-                    zip(
-                        c_polygon.boundary.coords.xy[0][:-1],
-                        c_polygon.boundary.coords.xy[1][:-1],
-                    )
-                )
-            )
+ 
+            boundary = c_polygon.exterior
+            xs = boundary.coords.xy[0][:-1]
+            ys = boundary.coords.xy[1][:-1]
+            poly = np.array(list(zip(xs, ys)))
+
             new_vertices.append(poly)
 
         return cell_areas, new_vertices
 
     def voronoi_finite_polygons_2d(self, vor, radius):
-        """
-
-
-        Parameters
-        ----------
-        vor : TYPE
-            DESCRIPTION.
-        radius : TYPE
-            DESCRIPTION.
-
-        Raises
-        ------
-        ValueError
-            DESCRIPTION.
-
-        Returns
-        -------
-        TYPE
-            DESCRIPTION.
-
-        """
-
+       
         if vor.points.shape[1] != 2:
             raise ValueError("Requires 2D input")
 
         new_regions = []
         new_vertices = vor.vertices.tolist()
         center = vor.points.mean(axis=0)
-
-        ## Construct a map containing all ridges for a given point
+ 
         all_ridges = {}
 
         for (p1, p2), (v1, v2) in zip(vor.ridge_points, vor.ridge_vertices):
             all_ridges.setdefault(p1, []).append((p2, v1, v2))
             all_ridges.setdefault(p2, []).append((p1, v1, v2))
 
-        ## Reconstruct infinite regions
+        # Reconstruction des régions infinies
         for p1, region in enumerate(vor.point_region):
             vertices = vor.regions[region]
             if all(v >= 0 for v in vertices):
-                ## finite region
+              
                 new_regions.append(vertices)
                 continue
-
-            ## reconstruct a non-finite region
+ 
             ridges = all_ridges[p1]
             new_region = [v for v in vertices if v >= 0]
 
@@ -195,14 +170,12 @@ class VoronoiCells:
                 if v2 < 0:
                     v1, v2 = v2, v1
 
-                if v1 >= 0:
-                    ## finite ridge: already in the region
+                if v1 >= 0: 
                     continue
-
-                ## Compute the missing endpoint of an infinite ridge
+ 
                 t = vor.points[p2] - vor.points[p1]  # tangent
                 t /= np.linalg.norm(t)
-                n = np.array([-t[1], t[0]])  # normal
+                n = np.array([-t[1], t[0]])  # normale
 
                 midpoint = vor.points[[p1, p2]].mean(axis=0)
                 direction = np.sign(np.dot(midpoint - center, n)) * n
@@ -210,15 +183,13 @@ class VoronoiCells:
 
                 new_region.append(len(new_vertices))
                 new_vertices.append(far_point.tolist())
-
-            ## sort region counterclockwise
+ 
             vs = np.asarray([new_vertices[v] for v in new_region])
             c = vs.mean(axis=0)
 
             angles = np.arctan2(vs[:, 1] - c[1], vs[:, 0] - c[0])
             new_region = np.array(new_region)[np.argsort(angles)]
 
-            ## finish
             new_regions.append(new_region.tolist())
 
         return new_regions, np.asarray(new_vertices)

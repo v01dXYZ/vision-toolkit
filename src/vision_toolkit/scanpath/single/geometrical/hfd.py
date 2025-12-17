@@ -10,47 +10,45 @@ from vision_toolkit.visualization.scanpath.single.geometrical import plot_HFD
 
 class HiguchiFractalDimension:
     def __init__(self, scanpath, HFD_hilbert_iterations, HFD_k_max):
-        """
-
-
-        Parameters
-        ----------
-        scanpath : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
-        ## Initialize parameters
+     
         h_i = HFD_hilbert_iterations
+        if h_i is None or h_i < 1:
+            raise ValueError("HFD_hilbert_iterations (h_i) must be >= 1.")
+
+        if HFD_k_max is None or HFD_k_max < 1:
+            raise ValueError("HFD_k_max must be >= 1.")
+
         self.k_m = HFD_k_max
+
         x_grid_size = y_grid_size = 2**h_i
+ 
         x_size = scanpath.config["size_plan_x"]
         y_size = scanpath.config["size_plan_y"]
-
-        ## Spatial binning of the input scanpath
+ 
         self.sc_b = spatial_bin(
             scanpath.values[0:2], x_grid_size, y_grid_size, x_size, y_size
         )
-        ## Initialize Hilber curve
+ 
         h_c = HilbertCurve(h_i, 2)
-        ## Compute distances from the Hilbert curve
+ 
         self.dist_ = h_c.distances_from_points(self.sc_b.T)
-        ## Compute Higuchi fractal dimension
+ 
         s_, x_, l_ = self.compute_hfd(np.array(self.dist_))
+ 
+        if s_ is None or len(s_) == 0 or not np.isfinite(s_[0]):
+            fd = float("nan")
+        else:
+            fd = float(s_[0])
 
         self.results = dict(
             {
-                "fractal_dimension": s_[0],
+                "fractal_dimension": fd,
                 "log_lengths": l_,
                 "log_inverse_time_intervals": x_,
             }
         )
 
-        if scanpath.config["display_results"]:
+        if scanpath.config.get("display_results", False):
             dist_h = list(range(0, int(2 ** (h_i * 2) - 1)))
             h_pts = h_c.points_from_distances(dist_h)
 
@@ -61,51 +59,52 @@ class HiguchiFractalDimension:
                 s_,
                 x_,
                 l_,
-                scanpath.config["display_path"],
+                scanpath.config.get("display_path"),
             )
 
     def compute_hfd(self, dist_):
-        """
-
-
-        Parameters
-        ----------
-        dist_ : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        s_ : TYPE
-            DESCRIPTION.
-        x_ : TYPE
-            DESCRIPTION.
-        l_ : TYPE
-            DESCRIPTION.
-
-        """
-        l_, x_ = list(), list()
+     
+        l_, x_ = [], []
         n = len(dist_)
+ 
+        if n < 2:
+            return np.array([np.nan, np.nan]), np.array([]), np.array([])
 
         for k in range(1, self.k_m + 1):
-            l_k = 0
+            l_k = 0.0
             for m in range(0, k):
+            
                 idxs = np.arange(
                     1, int(np.floor((n - (m + 1)) / k) + 1), dtype=np.int32
                 )
-                l_mk = np.sum(np.abs(dist_[m + idxs * k] - dist_[m + (idxs - 1) * k]))
-                if ((n - (m + 1)) / k) > 0:
-                    lmk = l_mk * (n - 1) / (((n - (m + 1)) / k) * k**2)
+
+                if idxs.size == 0:
+                    continue
+ 
+                l_mk = np.sum(
+                    np.abs(dist_[m + idxs * k] - dist_[m + (idxs - 1) * k])
+                )
+
+                denom = (n - (m + 1)) / float(k)
+                if denom > 0:
+                    lmk = l_mk * (n - 1) / (denom * (k**2))
                     l_k += lmk
+
             if l_k == 0:
                 l_.append(np.nan)
             else:
                 l_.append(np.log(l_k / k))
+
             x_.append(np.log(1.0 / k))
 
         x_ = np.array(x_)
         l_ = np.array(l_)
 
         idx = np.isfinite(x_) & np.isfinite(l_)
-        s_ = np.polyfit(x_[idx], l_[idx], 1)
+
+        if np.sum(idx) < 2: 
+            s_ = np.array([np.nan, np.nan])
+        else:
+            s_ = np.polyfit(x_[idx], l_[idx], 1)
 
         return s_, x_, l_

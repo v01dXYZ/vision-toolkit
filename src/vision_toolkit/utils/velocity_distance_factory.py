@@ -108,21 +108,7 @@ def process_angular_absolute_speeds(data_set, config):
 
 
 def process_euclidian_absolute_speeds(data_set, config):
-    """
-
-    Parameters
-    ----------
-    data_set : TYPE
-        DESCRIPTION.
-    config : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    absolute_speeds : TYPE
-        DESCRIPTION.
-
-    """
+    
     nb_samples = config["nb_samples"]
 
     gaze_points = np.concatenate(
@@ -134,11 +120,14 @@ def process_euclidian_absolute_speeds(data_set, config):
         axis=0,
     )
 
-    absolute_speeds = np.zeros(nb_samples)
+    absolute_speeds = np.zeros(nb_samples, dtype=np.float64)
     absolute_speeds[:-1] = (
         np.linalg.norm(gaze_points[:, 1:] - gaze_points[:, :-1], axis=0)
         * config["sampling_frequency"]
     )
+ 
+    if nb_samples >= 2:
+        absolute_speeds[-1] = absolute_speeds[-2]
 
     return absolute_speeds
 

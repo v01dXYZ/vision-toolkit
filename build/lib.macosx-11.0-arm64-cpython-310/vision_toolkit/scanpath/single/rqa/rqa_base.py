@@ -8,20 +8,7 @@ import numpy as np
 
 class RecurrenceBase:
     def __init__(self, input):
-        """
-
-
-        Parameters
-        ----------
-        input : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
+  
         if isinstance(input, list):
             self.s_1, self.s_2 = input[0], input[1]
 
@@ -37,7 +24,7 @@ class RecurrenceBase:
 
     def find_lines(self, r_m, m_l, direction):
         l_set = []
-        ## get indices where value is not zero
+     
         t_a = np.argwhere(r_m != 0)
 
         t_a = t_a.T
