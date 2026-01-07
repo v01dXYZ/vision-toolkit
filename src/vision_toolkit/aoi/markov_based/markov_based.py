@@ -273,8 +273,7 @@ def AoI_HMM_transition_matrix(input, **kwargs):
     )
     markov_analysis = MarkovBasedAnalysis(input, **kwargs)
     HMM_nb_iters = kwargs.get("AoI_HMM_number_iterations", 10)
-    HMM_AoI_instance = kwargs.get("AoI_HMM_return_AoISequence_instance", True)
-
+ 
     markov_analysis.AoI_HMM(
         HMM_nb_iters, HMM_AoI_instance=False, HMM_model=False, get_results=False
     )
@@ -294,8 +293,7 @@ def AoI_HMM_transition_entropy(input, **kwargs):
     )
     markov_analysis = MarkovBasedAnalysis(input, **kwargs)
     HMM_nb_iters = kwargs.get("AoI_HMM_number_iterations", 10)
-    HMM_AoI_instance = kwargs.get("AoI_HMM_return_AoISequence_instance", True)
-
+  
     markov_analysis.AoI_HMM(
         HMM_nb_iters, HMM_AoI_instance=False, HMM_model=False, get_results=False
     )
@@ -305,6 +303,8 @@ def AoI_HMM_transition_entropy(input, **kwargs):
 
 
 def AoI_HMM_fisher_vector(input, **kwargs):
+    ## A modifier pour prendre en imput également csv, BinarySegmentation ou Scanpath objects
+    
     HMM_model = kwargs.get("AoI_HMM_model", None)
 
     if HMM_model is None:
