@@ -84,6 +84,78 @@ def compute_aoi_sequence(seq_, dur_, config):
     return seq_, np.array(seq_dur)
 
 
+def merge_small_aois(sequence, durations, centers, min_fixations):
+    """
+    Merge AoIs with fewer than `min_fixations` fixations into the nearest AoI
+    based on Euclidean distance between AoI centers.
+
+    Parameters
+    ----------
+    sequence : array-like of int
+        AoI index sequence (0..K-1).
+    durations : array-like
+        AoI durations.
+    centers : dict
+        Mapping {AoI_label: np.array([x, y])}.
+    min_fixations : int
+
+    Returns
+    -------
+    new_sequence : np.ndarray
+    new_durations : array-like
+    new_centers : dict
+    """
+
+    seq = np.asarray(sequence, dtype=int).copy()
+    durations = np.asarray(durations).copy()
+
+    if min_fixations is None or min_fixations <= 0:
+        return seq, durations, centers
+
+    keys = sorted(centers.keys())
+    n_aois = len(keys)
+
+    if n_aois <= 1:
+        return seq, durations, centers
+
+    # Build fixation indices per AoI
+    clus = {k: np.where(seq == i)[0] for i, k in enumerate(keys)}
+
+    small_keys = [k for k, v in clus.items() if len(v) < min_fixations]
+    valid_keys = [k for k, v in clus.items() if len(v) >= min_fixations]
+
+    # Nothing to merge or everything small → return unchanged
+    if not small_keys or not valid_keys:
+        return seq, durations, centers
+
+    key_to_idx = {k: i for i, k in enumerate(keys)}
+
+    valid_centers = np.array([centers[k] for k in valid_keys])
+
+    # Merge small AoIs
+    for k in small_keys:
+        src_idx = key_to_idx[k]
+        src_center = centers[k]
+
+        dists = np.sum((valid_centers - src_center) ** 2, axis=1)
+        nearest_key = valid_keys[int(np.argmin(dists))]
+        tgt_idx = key_to_idx[nearest_key]
+
+        seq[seq == src_idx] = tgt_idx
+
+    # Re-index AoIs to contiguous labels
+    kept_keys = [k for k in keys if k not in small_keys]
+    new_key_to_idx = {k: i for i, k in enumerate(kept_keys)}
+
+    new_seq = np.array(
+        [new_key_to_idx[keys[i]] for i in seq], dtype=int
+    )
+
+    new_centers = {k: centers[k] for k in kept_keys}
+
+    return new_seq, durations, new_centers
+
+
 def temporal_binning_AoI(seq_, dur_, config):
     n_s = len(seq_)
 
@@ -124,3 +196,4 @@ def collapse_AoI(seq_, dur_):
     seq_ = [key for key, _group in groupby(seq_)]
 
     return seq_, np.array(seq_dur)
+

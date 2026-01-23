@@ -14,6 +14,7 @@ from vision_toolkit.utils.identification_utils import compute_aoi_sequence
 from vision_toolkit.visualization.aoi.transition_based.directed_graph import display_transition_matrix
 from vision_toolkit.visualization.aoi.basic_representation import (
     display_aoi_identification, display_aoi_identification_reference_image)
+from vision_toolkit.utils.identification_utils import merge_small_aois
 
 class MarkovBasedAnalysis:
     def __init__(self, input, gaze_df=None, **kwargs):
@@ -108,7 +109,7 @@ class MarkovBasedAnalysis:
 
         return results
 
-    def AoI_HMM(self, HMM_nb_iters, HMM_AoI_instance, HMM_model, get_results, 
+    def AoI_HMM(self, HMM_nb_iters, HMM_AoI_instance, HMM_model, get_results,  
                 ref_image=None, display_identification=True, 
                 display_identification_path=None):
         """
@@ -176,12 +177,12 @@ class MarkovBasedAnalysis:
             else:
                 display_aoi_identification_reference_image(self.aoi_sequence.values[:2], clus_, 
                                                            self.aoi_sequence.config, ref_image)
-            
+     
         self.aoi_sequence.sequence = seq_
         self.aoi_sequence.centers = centers_
         self.aoi_sequence.durations = seq_dur
         self.aoi_sequence.identification_results = None
-
+     
         self.aoi_sequence.config["AoI_identification_method"] = "I_HMM"
         self.transition_matrix = transition_mat
  

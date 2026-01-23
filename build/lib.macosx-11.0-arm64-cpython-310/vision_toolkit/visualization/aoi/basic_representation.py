@@ -11,166 +11,263 @@ np.random.seed(1)
 
 
 def display_aoi_predefined_reference_image(positions, clusters, config, ref_image):
+   
+    path = config.get("display_AoI_path", None)
 
-    path = config["display_AoI_path"]
-
+    # Load image if a path is provided
     if isinstance(ref_image, str):
         ref_image = cv2.imread(ref_image, cv2.IMREAD_COLOR)
+        if ref_image is None:
+            raise FileNotFoundError(f"Could not read image at: {ref_image}")
         ref_image = cv2.cvtColor(ref_image, cv2.COLOR_BGR2RGB)
-        
+
+    # Resize to configured display size
     ref_image = cv2.resize(ref_image, (config["size_plan_x"], config["size_plan_y"]))
+
     plt.style.use("seaborn-v0_8")
 
     fig, ax = plt.subplots()
     ax.imshow(ref_image, alpha=0.4)
-    ax.grid(None)
+    ax.grid(False)
 
-    colors_sns = sns.color_palette("pastel", n_colors=len(clusters.keys()))
-    # np.random.shuffle(colors_sns)
+    # More robust than "pastel" on top of a photo
+    colors_sns = sns.color_palette("colorblind", n_colors=len(clusters.keys()))
 
     aoi_coords = np.array(config["AoI_coordinates"])
 
     for i, k_ in enumerate(sorted(clusters.keys())):
+        idx = clusters[k_]
+
         aoi_coord = aoi_coords[i]
         xy = (aoi_coord[0, 0], aoi_coord[0, 1])
         w_ = aoi_coord[1, 1] - aoi_coord[0, 1]
         h_ = aoi_coord[1, 0] - aoi_coord[0, 0]
 
+        # Rectangle: keep semi-transparent fill but add a strong edge
         rect = patches.Rectangle(
             xy,
             h_,
             w_,
-            linewidth=1,
+            linewidth=2,
             edgecolor=colors_sns[i],
             facecolor=colors_sns[i],
-            alpha=0.35,
+            alpha=0.25,   # slightly lower to avoid washing out the photo
             fill=True,
+            zorder=2,
         )
         ax.add_patch(rect)
-        ax.scatter(
-            positions[0, clusters[k_]],
-            positions[1, clusters[k_]],
-            color=colors_sns[i],
-            marker="+",
-            s=10,
-        )
-        x_m = (aoi_coord[1, 0] + aoi_coord[0, 0]) / 2 - 50
-        y_m = (aoi_coord[1, 1] + aoi_coord[0, 1]) / 2 + 25
-        ax.text(x_m, y_m, k_, fontsize=15)
 
-    plt.xlabel("Horizontal position (px)", fontsize=12)
-    plt.ylabel("Vertical position (px)", fontsize=12)
-    plt.xticks(fontsize=10)
-    plt.yticks(fontsize=10)
-    
-    plt.xlim([0, config["size_plan_x"]])
-    plt.ylim([0, config["size_plan_y"]])
-    plt.gca().invert_yaxis()
+        
+        ax.scatter(
+            positions[0, idx],
+            positions[1, idx],
+            color=colors_sns[i],
+            marker="o",
+            s=28,
+            edgecolor="black",
+            linewidth=0.7,
+            zorder=3,
+        )
+ 
+        x_m = (aoi_coord[1, 0] + aoi_coord[0, 0]) / 2
+        y_m = (aoi_coord[1, 1] + aoi_coord[0, 1]) / 2
+
+        ax.text(
+            x_m,
+            y_m,
+            str(k_),
+            fontsize=15,
+            ha="center",
+            va="center",
+            color="black",
+            zorder=4,
+            bbox=dict(boxstyle="round,pad=0.2", facecolor="white", edgecolor="none", alpha=0.7),
+        )
+
+    ax.set_xlabel("Horizontal position (px)", fontsize=12)
+    ax.set_ylabel("Vertical position (px)", fontsize=12)
+    ax.tick_params(axis="both", labelsize=10)
+
+    ax.set_xlim(0, config["size_plan_x"])
+    ax.set_ylim(0, config["size_plan_y"])
+    ax.invert_yaxis()
 
     if path is not None:
-        fig.savefig(path + "_AoI_reference_image", dpi=200, bbox_inches="tight")
+        out_path = path + "_AoI_reference_image.png"
+        fig.savefig(out_path, dpi=200, bbox_inches="tight")
 
     plt.show()
     plt.clf()
+
 
 
 def display_aoi_identification_reference_image(positions, clusters, config, ref_image):
+ 
+ 
+    path = config.get("display_AoI_path", None)
 
-    path = config["display_AoI_path"]
-
-    plt.style.use("seaborn-v0_8")
-
+    # Load image if a path is provided
     if isinstance(ref_image, str):
         ref_image = cv2.imread(ref_image, cv2.IMREAD_COLOR)
+        if ref_image is None:
+            raise FileNotFoundError(f"Could not read image at: {ref_image}")
         ref_image = cv2.cvtColor(ref_image, cv2.COLOR_BGR2RGB)
-        
+
+    # Resize to configured display size
     ref_image = cv2.resize(ref_image, (config["size_plan_x"], config["size_plan_y"]))
-    plt.style.use("seaborn-v0_8")
-    
+
+    # Create figure
     fig, ax = plt.subplots()
+
+    # Show reference image
     ax.imshow(ref_image, alpha=0.4)
-    ax.grid(None)
+    ax.grid(False)
 
-    colors_sns = sns.color_palette("pastel", n_colors=len(clusters.keys()))
+    # Color palette (kept as in your discussion)
+    colors = sns.color_palette("colorblind", n_colors=len(clusters.keys()))
 
+    # Plot clusters
     for i, k_ in enumerate(sorted(clusters.keys())):
+        idx = clusters[k_]
+
+        # --- Solution 1: add a black edge around points for visibility ---
         ax.scatter(
-            positions[0, clusters[k_]], positions[1, clusters[k_]], color=colors_sns[i]
+            positions[0, idx],
+            positions[1, idx],
+            color=colors[i],
+            s=45,
+            edgecolor="black",
+            linewidth=0.8,
+            zorder=3,
         )
 
-        if len(clusters[k_]) == 1:
-            x_m, y_m = positions[0, clusters[k_]], positions[1, clusters[k_]]
+        # Single-point cluster: draw a tiny dashed circle + label
+        if len(idx) == 1:
+            x_m = float(positions[0, idx][0])
+            y_m = float(positions[1, idx][0])
+
             circle = plt.Circle(
-                (x_m, y_m), 1e-6, color="black", linewidth=2, linestyle="--", fill=False
+                (x_m, y_m),
+                1e-6,
+                color="black",
+                linewidth=2,
+                linestyle="--",
+                fill=False,
+                zorder=4,
             )
             ax.add_patch(circle)
-            ax.text(x_m, y_m, k_, fontsize=25)
 
+            ax.text(
+                x_m,
+                y_m,
+                str(k_),
+                fontsize=25,
+                color="black",
+                ha="center",
+                va="center",
+                zorder=5,
+            )
         else:
+            # Requires your existing helper
             plot_confidence_ellipse(
-                positions[:, clusters[k_]], name=k_, ax=ax, color="black"
+                positions[:, idx],
+                name=k_,
+                ax=ax,
+                color="black",
             )
 
-    plt.xlabel("Horizontal position (px)", fontsize=12)
-    plt.ylabel("Vertical position (px)", fontsize=12)
-    plt.xticks(fontsize=10)
-    plt.yticks(fontsize=10)
-    
-    plt.xlim([0, config["size_plan_x"]])
-    plt.ylim([0, config["size_plan_y"]])
-    plt.gca().invert_yaxis()
-     
+    # Axes formatting
+    ax.set_xlabel("Horizontal position (px)", fontsize=12)
+    ax.set_ylabel("Vertical position (px)", fontsize=12)
+    ax.tick_params(axis="both", labelsize=10)
+
+    ax.set_xlim(0, config["size_plan_x"])
+    ax.set_ylim(0, config["size_plan_y"])
+    ax.invert_yaxis()
+
+    # Save if requested
     if path is not None:
-        fig.savefig(path + "_AoI_reference_image", dpi=200, bbox_inches="tight")
+        # Keep your original naming; add extension for clarity
+        out_path = path + "_AoI_reference_image.png"
+        fig.savefig(out_path, dpi=200, bbox_inches="tight")
 
     plt.show()
     plt.clf()
+
 
 
 def display_aoi_identification(positions, clusters, config):
-
-    path = config["display_AoI_path"]
  
+    path = config.get("display_AoI_path", None)
+
     plt.style.use("seaborn-v0_8")
     fig, ax = plt.subplots()
 
-    colors_sns = sns.color_palette("pastel", n_colors=len(clusters.keys()))
+    # More robust than "pastel"
+    colors_sns = sns.color_palette("colorblind", n_colors=len(clusters.keys()))
 
     for i, k_ in enumerate(sorted(clusters.keys())):
+        idx = clusters[k_]
+
+        # --- Solution 1: black outline for visibility ---
         ax.scatter(
-            positions[0, clusters[k_]], positions[1, clusters[k_]], color=colors_sns[i]
+            positions[0, idx],
+            positions[1, idx],
+            color=colors_sns[i],
+            s=35,
+            edgecolor="black",
+            linewidth=0.8,
+            zorder=3,
         )
 
-        if len(clusters[k_]) == 1:
-            x_m, y_m = positions[0, clusters[k_]], positions[1, clusters[k_]]
+        if len(idx) == 1:
+            x_m = float(positions[0, idx][0])
+            y_m = float(positions[1, idx][0])
+
             circle = plt.Circle(
-                (x_m, y_m), 1e-6, color="black", linewidth=2, linestyle="--", fill=False
+                (x_m, y_m),
+                1e-6,
+                color="black",
+                linewidth=2,
+                linestyle="--",
+                fill=False,
+                zorder=4,
             )
             ax.add_patch(circle)
-            ax.text(x_m, y_m, k_, fontsize=22)
 
+            ax.text(
+                x_m,
+                y_m,
+                str(k_),
+                fontsize=22,
+                color="black",
+                ha="center",
+                va="center",
+                zorder=5,
+            )
         else:
+            # Uses your existing helper
             plot_confidence_ellipse(
-                positions[:, clusters[k_]], name=k_, ax=ax, color="black"
+                positions[:, idx],
+                name=k_,
+                ax=ax,
+                color="black",
             )
 
-    plt.xlabel("Horizontal position (px)", fontsize=12)
-    plt.ylabel("Vertical position (px)", fontsize=12)
+    ax.set_xlabel("Horizontal position (px)", fontsize=12)
+    ax.set_ylabel("Vertical position (px)", fontsize=12)
+    ax.tick_params(axis="both", labelsize=10)
 
-    plt.xlabel("Horizontal position (px)", fontsize=12)
-    plt.ylabel("Vertical position (px)", fontsize=12)
-    plt.xticks(fontsize=10)
-    plt.yticks(fontsize=10)
-    
-    plt.xlim([0, config["size_plan_x"]])
-    plt.ylim([0, config["size_plan_y"]])
-    plt.gca().invert_yaxis()
-    
+    ax.set_xlim(0, config["size_plan_x"])
+    ax.set_ylim(0, config["size_plan_y"])
+    ax.invert_yaxis()
+
     if path is not None:
-        fig.savefig(path + "_AoI_reference_image", dpi=200, bbox_inches="tight")
+        fig.savefig(path + "_AoI.png", dpi=200, bbox_inches="tight")
 
     plt.show()
     plt.clf()
+
 
 
 def plot_confidence_ellipse(

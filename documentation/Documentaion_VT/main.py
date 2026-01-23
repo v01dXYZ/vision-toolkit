@@ -812,7 +812,12 @@ crqa = v.scanpath_CRQA_determinism([sp1, sp2],
 
 ## For visualizations 
 
- 
+#v.AoI_scarf_plot(aoi_seqs, 
+#                 AoI_scarf_plot_save='scarf_plot')
+#v.AoI_sankey_diagram(aoi_seqs  ,
+#                     AoI_sankey_diagram_save='raw_sakey')
+
+#v.AoI_time_plot(aoi_seqs[0])
 
 
 

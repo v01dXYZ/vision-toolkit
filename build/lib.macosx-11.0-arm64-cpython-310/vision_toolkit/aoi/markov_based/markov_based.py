@@ -109,7 +109,8 @@ class MarkovBasedAnalysis:
         return results
 
     def AoI_HMM(self, HMM_nb_iters, HMM_AoI_instance, HMM_model, get_results, 
-                ref_image=None, display_identification=True):
+                ref_image=None, display_identification=True, 
+                display_identification_path=None):
         """
 
 
@@ -161,7 +162,13 @@ class MarkovBasedAnalysis:
         seq_, seq_dur = compute_aoi_sequence(
             aoi_seq, self.aoi_sequence.values[2], self.aoi_sequence.config
         )
-
+        
+        self.aoi_sequence.config.update(
+            { 
+                "display_AoI": display_identification,
+                "display_AoI_path": display_identification_path
+            })
+        
         if display_identification:
             if ref_image is None:
                 display_aoi_identification(self.aoi_sequence.values[:2], clus_, 
@@ -273,8 +280,7 @@ def AoI_HMM_transition_matrix(input, **kwargs):
     )
     markov_analysis = MarkovBasedAnalysis(input, **kwargs)
     HMM_nb_iters = kwargs.get("AoI_HMM_number_iterations", 10)
-    HMM_AoI_instance = kwargs.get("AoI_HMM_return_AoISequence_instance", True)
-
+ 
     markov_analysis.AoI_HMM(
         HMM_nb_iters, HMM_AoI_instance=False, HMM_model=False, get_results=False
     )
@@ -294,8 +300,7 @@ def AoI_HMM_transition_entropy(input, **kwargs):
     )
     markov_analysis = MarkovBasedAnalysis(input, **kwargs)
     HMM_nb_iters = kwargs.get("AoI_HMM_number_iterations", 10)
-    HMM_AoI_instance = kwargs.get("AoI_HMM_return_AoISequence_instance", True)
-
+  
     markov_analysis.AoI_HMM(
         HMM_nb_iters, HMM_AoI_instance=False, HMM_model=False, get_results=False
     )
@@ -305,6 +310,8 @@ def AoI_HMM_transition_entropy(input, **kwargs):
 
 
 def AoI_HMM_fisher_vector(input, **kwargs):
+    ## A modifier pour prendre en imput également csv, BinarySegmentation ou Scanpath objects
+    
     HMM_model = kwargs.get("AoI_HMM_model", None)
 
     if HMM_model is None:

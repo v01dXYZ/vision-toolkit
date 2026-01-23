@@ -20,6 +20,7 @@ bs = v.BinarySegmentation(data,
 sc = v.Scanpath(bs, 
                 ref_image=image_ref,
                 display_scanpath=True,
+                display_scanpath_path='figures/school',
                 verbose=False)
 
 
@@ -27,5 +28,6 @@ sc = v.Scanpath(bs,
 
 aoi_s = v.AoISequence(bs, 
                       ref_image=image_ref,
-                      AoI_identification_method='I_AP',  
+                      AoI_identification_method='I_MS', 
+                      display_AoI_path='figures/school',
                       verbose=False)

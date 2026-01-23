@@ -14,7 +14,7 @@ from vision_toolkit.aoi.common_subsequence.local_alignment.smith_waterman import
 class LocalAlignment:
     def __init__(self, input, **kwargs):
         """
-
+        
 
         Parameters
         ----------
@@ -33,41 +33,47 @@ class LocalAlignment:
         None.
 
         """
-
         verbose = kwargs.get("verbose", True)
-
         if verbose:
             print("Processing Local Alignment...\n")
 
-        assert (
-            len(input) > 1 and type(input) == list
-        ), "Input must be a LocalAlignment instance or a list of AoISequence, or a list of Scanpath, or a list of BinarySegmentation, or a list of csv"
+        # Accept either a LocalAlignment instance or a list
+        if isinstance(input, LocalAlignment):
+            # copy state (or just reference)
+            self.__dict__ = copy.deepcopy(input.__dict__)
+            return
+
+        if not (isinstance(input, list) and len(input) > 1):
+            raise ValueError(
+                "Input must be a LocalAlignment instance or a list (length > 1) "
+                "of AoISequence / Scanpath / BinarySegmentation / csv paths."
+            )
 
         if isinstance(input[0], AoISequence):
             aoi_sequences = input
-
         else:
             aoi_sequences = AoI_sequences(input, **kwargs)
 
-        self.config = aoi_sequences[0].config
+        # Avoid mutating the original config in-place
+        self.config = copy.deepcopy(aoi_sequences[0].config)
         self.config.update({"verbose": verbose})
-
-        if "nb_samples" in self.config.keys():
+ 
+        if "nb_samples" in self.config:
             del self.config["nb_samples"]
 
         self.aoi_sequences = aoi_sequences
         self.n_sp = len(aoi_sequences)
 
-        self.dict_methods = dict(
-            {
-                "longest_common_subsequence": LongestCommonSubsequence,
-                "smith_waterman": SmithWaterman,
-            }
-        )
+        self.dict_methods = {
+            "longest_common_subsequence": LongestCommonSubsequence,
+            "smith_waterman": SmithWaterman,
+        }
+
         if verbose:
             print("...Local Alignment done\n")
 
     def verbose(self, add_=None):
+        
         if self.config["verbose"]:
             print("\n --- Config used: ---\n")
 
@@ -87,39 +93,56 @@ class LocalAlignment:
                     )
             print("\n")
 
-    def la_dist_mat(self, distance, config):
+
+    def la_dist_mat(self, distance, config, symmetric=True):
+        
         aoi_sequences = self.aoi_sequences
         n_sp = self.n_sp
-
+    
         dist_method = self.dict_methods[distance]
-        d_m = np.zeros((n_sp, n_sp))
-        p_m = dict()
-
+        l_m = np.zeros((n_sp, n_sp))
+        p_m = {}
+    
         for j in range(1, n_sp):
             for i in range(j):
-                e_a = dist_method(
+                e_ij = dist_method(
                     [aoi_sequences[i], aoi_sequences[j]],
                     config,
                     id_1=str(i),
                     id_2=str(j),
                 )
-                d_m[i, j] = e_a.dist_
-                p_m.update({(i, j): e_a.common_subsequence})
-        d_m += d_m.T
+    
+                l_m[i, j] = e_ij.length_
+                p_m.update({(i, j): e_ij.common_subsequence})
+    
+                if symmetric:
+                    l_m[j, i] = l_m[i, j]
+                    p_m.update({(j, i): e_ij.common_subsequence})
+                else:
+                    e_ji = dist_method(
+                        [aoi_sequences[j], aoi_sequences[i]],
+                        config,
+                        id_1=str(j),
+                        id_2=str(i),
+                    )
+                    l_m[j, i] = e_ji.length_
+                    p_m.update({(j, i): e_ji.common_subsequence})
+    
+        return l_m, p_m
 
-        return d_m, p_m
 
     def AoI_longest_common_subsequence(self, lcs_normalization, display_results):
+        
         self.config.update({"display_results": display_results})
         config = copy.deepcopy(self.config)
         config.update(
             {"AoI_longest_common_subsequence_normalization": lcs_normalization}
         )
 
-        d_m, p_m = self.la_dist_mat("longest_common_subsequence", config)
+        l_m, p_m = self.la_dist_mat("longest_common_subsequence", config)
         results = dict(
             {
-                "AoI_longest_common_subsequence_matrix": d_m,
+                "AoI_longest_common_subsequence_matrix": l_m,
                 "AoI_longest_common_subsequence_pairs": p_m,
             }
         )
@@ -149,9 +172,9 @@ class LocalAlignment:
             }
         )
 
-        d_m, p_m = self.la_dist_mat("smith_waterman", config)
+        l_m, p_m = self.la_dist_mat("smith_waterman", config)
         results = dict(
-            {"AoI_smith_waterman_matrix": d_m, "AoI_smith_waterman_pairs": p_m}
+            {"AoI_smith_waterman_matrix": l_m, "AoI_smith_waterman_pairs": p_m}
         )
 
         self.verbose(
@@ -172,7 +195,7 @@ class LocalAlignment:
         levenshtein_deletion_cost,
         levenshtein_insertion_cost,
         levenshtein_substitution_cost,
-        levenstein_normalization,
+        levenshtein_normalization,
         lcs_normalization,
         display_results,
     ):
@@ -181,7 +204,7 @@ class LocalAlignment:
         config.update(
             {
                 "AoI_longest_common_subsequence_normalization": lcs_normalization,
-                "AoI_levenshtein_distance_normalization": levenstein_normalization,
+                "AoI_levenshtein_distance_normalization": levenshtein_normalization,
                 "AoI_levenshtein_distance_deletion_cost": levenshtein_deletion_cost,
                 "AoI_levenshtein_distance_insertion_cost": levenshtein_insertion_cost,
                 "AoI_levenshtein_distance_substitution_cost": levenshtein_substitution_cost,
@@ -195,7 +218,7 @@ class LocalAlignment:
             dict(
                 {
                     "AoI_longest_common_subsequence_normalization": lcs_normalization,
-                    "AoI_levenshtein_distance_normalization": levenstein_normalization,
+                    "AoI_levenshtein_distance_normalization": levenshtein_normalization,
                     "AoI_levenshtein_distance_deletion_cost": levenshtein_deletion_cost,
                     "AoI_levenshtein_distance_insertion_cost": levenshtein_insertion_cost,
                     "AoI_levenshtein_distance_substitution_cost": levenshtein_substitution_cost,
@@ -260,7 +283,7 @@ def AoI_eMine(input, **kwargs):
     lcs_normalization = kwargs.get(
         "AoI_longest_common_subsequence_normalization", "max"
     )
-    levenstein_normalization = kwargs.get(
+    levenshtein_normalization = kwargs.get(
         "AoI_levenshtein_distance_normalization", "max"
     )
     levenshtein_deletion_cost = kwargs.get(
@@ -280,7 +303,7 @@ def AoI_eMine(input, **kwargs):
             levenshtein_deletion_cost,
             levenshtein_insertion_cost,
             levenshtein_substitution_cost,
-            levenstein_normalization,
+            levenshtein_normalization,
             lcs_normalization,
             display_results,
         )
@@ -290,7 +313,7 @@ def AoI_eMine(input, **kwargs):
             levenshtein_deletion_cost,
             levenshtein_insertion_cost,
             levenshtein_substitution_cost,
-            levenstein_normalization,
+            levenshtein_normalization,
             lcs_normalization,
             display_results,
         )

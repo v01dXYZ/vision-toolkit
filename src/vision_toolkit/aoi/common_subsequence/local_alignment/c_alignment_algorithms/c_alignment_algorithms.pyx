@@ -69,9 +69,9 @@ def longest_common_subsequence (list s_1, list s_2) :
                                                          d_mat, b_map,
                                                          n_1, n_2) 
     ## To return
-    cdef double lcs_s = d_mat[n_1, n_2]
+    cdef double lcs_l = d_mat[n_1, n_2]
                 
-    return common_s, opt_align, lcs_s 
+    return common_s, opt_align, lcs_l 
 
 
 def smith_waterman (list s_1, list s_2,  
@@ -170,7 +170,7 @@ def smith_waterman (list s_1, list s_2,
     i_m, j_m = np.unravel_index(np.argmax(d_mat_p), d_mat_p.shape)
 
     ## To return 
-    cdef double sw_s = d_mat_p[i_m, j_m] 
+    cdef double sw_l = d_mat_p[i_m, j_m] 
     ## To manipulate
     cdef double local_v = d_mat_p[i_m, j_m]
            
@@ -202,7 +202,7 @@ def smith_waterman (list s_1, list s_2,
         j = j_n
         local_v = d_mat_p[i, j]
            
-    return common_s, opt_align, sw_s
+    return common_s, opt_align, sw_l
 
 
 cdef map[int, int] dict_to_cmap(dict p_dict):

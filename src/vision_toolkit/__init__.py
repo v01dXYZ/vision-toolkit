@@ -147,19 +147,6 @@ from .segmentation.processing.learning_segmentation import LearningSegmentation
 
 
 
-from .visualization.aoi.spatio_temporal_based.dwell_time import (
-    AoI_predefined_dwell_time)
-from .visualization.aoi.spatio_temporal_based.sankey_diagram import (
-    AoI_sankey_diagram)
-from .visualization.aoi.spatio_temporal_based.scarf_plot import AoI_scarf_plot
-from .visualization.aoi.spatio_temporal_based.time_plot import AoI_time_plot
-from .visualization.aoi.transition_based.chord_diagram import AoI_chord_diagram
-from .visualization.aoi.transition_based.directed_graph import (
-    AoI_directed_graph)
-from .visualization.aoi.transition_based.transition_flow import (
-    AoI_transition_flow)
-
-
 
 
 
@@ -191,6 +178,19 @@ from .aoi.pattern_mining.n_gram import AoI_NGram
 from .aoi.pattern_mining.spam import AoI_SPAM
 
 
+
+## For AoI visualization
+from .visualization.aoi.spatio_temporal_based.dwell_time import (
+    AoI_predefined_dwell_time)
+from .visualization.aoi.spatio_temporal_based.sankey_diagram import (
+    AoI_sankey_diagram)
+from .visualization.aoi.spatio_temporal_based.scarf_plot import AoI_scarf_plot
+from .visualization.aoi.spatio_temporal_based.time_plot import AoI_time_plot
+from .visualization.aoi.transition_based.chord_diagram import AoI_chord_diagram
+from .visualization.aoi.transition_based.directed_graph import (
+    AoI_directed_graph)
+from .visualization.aoi.transition_based.transition_flow import (
+    AoI_transition_flow)
 
 
 
