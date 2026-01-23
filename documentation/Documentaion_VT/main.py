@@ -561,51 +561,51 @@ print(cfa.cross_spectral_density(cross_data_type='velocity'))
 
 ## For Point Mapping Distance
 
-sp1 = v.Scanpath(root + 'data_1.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = True,
-                display_segmentation_path = 'figures/',
-                size_plan_x = 1200,
-                size_plan_y = 800, 
-                display_scanpath=True,
-                display_scanpath_path = 'figures/',
-                verbose=False)
+# sp1 = v.Scanpath(root + 'data_1.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = True,
+#                 display_segmentation_path = 'figures/',
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800, 
+#                 display_scanpath=True,
+#                 display_scanpath_path = 'figures/',
+#                 verbose=False)
 
-sp2 = v.Scanpath(root + 'data_2.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False, 
-                size_plan_x = 1200,
-                size_plan_y = 800, 
-                display_scanpath=True, 
-                verbose=False)
+# sp2 = v.Scanpath(root + 'data_2.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False, 
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800, 
+#                 display_scanpath=True, 
+#                 verbose=False)
 
-ch_ = v.scanpath_convex_hull(sp1, 
-                             display_path='figures/')
-v_ = v.scanpath_voronoi_cells(sp1, 
-                              display_path='figures/')
-hfd_ = v.scanpath_HFD(sp1, 
-                      display_path='figures/')
-r_ = v.scanpath_saliency_map(sp1,
-                             scanpath_saliency_gaussian_std=2,
-                             display_path='figures/')
+# ch_ = v.scanpath_convex_hull(sp1, 
+#                              display_path='figures/')
+# v_ = v.scanpath_voronoi_cells(sp1, 
+#                               display_path='figures/')
+# hfd_ = v.scanpath_HFD(sp1, 
+#                       display_path='figures/')
+# r_ = v.scanpath_saliency_map(sp1,
+#                              scanpath_saliency_gaussian_std=2,
+#                              display_path='figures/')
 
-rqa_rr = v.scanpath_RQA_recurrence_rate(sp1,
-                                        scanpath_RQA_distance_threshold = 280, 
-                                        display_path='figures/')
-rqa_det = v.scanpath_RQA_determinism(sp1,
-                                        scanpath_RQA_distance_threshold = 280,
-                                        display_path='figures/')
-rqa_det = v.scanpath_RQA_laminarity(sp1,
-                                        scanpath_RQA_distance_threshold = 280,
-                                        display_path='figures/')
+# rqa_rr = v.scanpath_RQA_recurrence_rate(sp1,
+#                                         scanpath_RQA_distance_threshold = 280, 
+#                                         display_path='figures/')
+# rqa_det = v.scanpath_RQA_determinism(sp1,
+#                                         scanpath_RQA_distance_threshold = 280,
+#                                         display_path='figures/')
+# rqa_det = v.scanpath_RQA_laminarity(sp1,
+#                                         scanpath_RQA_distance_threshold = 280,
+#                                         display_path='figures/')
 
-crqa = v.scanpath_CRQA_determinism([sp1, sp2],
-                                   scanpath_CRQA_distance_threshold = 200, 
-                                   display_path='figures/')
+# crqa = v.scanpath_CRQA_determinism([sp1, sp2],
+#                                    scanpath_CRQA_distance_threshold = 200, 
+#                                    display_path='figures/')
 #print(v.scanapath_RQA_determinism(sp1,
 #                                  scanpath_RQA_distance_threshold=150))
 
@@ -675,67 +675,65 @@ crqa = v.scanpath_CRQA_determinism([sp1, sp2],
                                          
 ## For Edit Distance
     
-#sp1 = v.Scanpath(root + 'data_1.csv', 
-#                sampling_frequency = 256,                  
-#                segmentation_method = 'I_HMM',
-#                distance_type = 'angular',                        
-#                display_segmentation = False,
-#                size_plan_x = 1200,
-#                size_plan_y = 800,
-#                size_plan_y = 800,
-#                size_plan_y = 800,
-#                display_scanpath=True,
-#                verbose=False)
+sp1 = v.Scanpath(root + 'data_1.csv', 
+                sampling_frequency = 256,                  
+                segmentation_method = 'I_HMM',
+                distance_type = 'angular',                        
+                display_segmentation = False,
+                size_plan_x = 1200,
+                size_plan_y = 800, 
+                display_scanpath=True,
+                verbose=False)
 
-#sp2 = v.Scanpath(root + 'data_2.csv', 
-#                sampling_frequency = 256,  
-#                segmentation_method = 'I_HMM',
-#                distance_type = 'angular',                        
-#                display_segmentation = False,
-#                size_plan_x = 1200,
-#                size_plan_y = 800,
-#                display_scanpath=True,
-#                verbose=True)
+sp2 = v.Scanpath(root + 'data_2.csv', 
+                sampling_frequency = 256,  
+                segmentation_method = 'I_HMM',
+                distance_type = 'angular',                        
+                display_segmentation = False,
+                size_plan_x = 1200,
+                size_plan_y = 800,
+                display_scanpath=True,
+                verbose=True)
 
-# sp3 = v.Scanpath(root + 'data_3.csv', 
-#                 sampling_frequency = 256,                  
-#                 segmentation_method = 'I_HMM',
-#                 distance_type = 'angular',                        
-#                 display_segmentation = False,
-#                 size_plan_x = 1200,
-#                 size_plan_y = 800,
-#                 display_scanpath=True,
-#                 verbose=False)
+sp3 = v.Scanpath(root + 'data_3.csv', 
+                sampling_frequency = 256,                  
+                segmentation_method = 'I_HMM',
+                distance_type = 'angular',                        
+                display_segmentation = False,
+                size_plan_x = 1200,
+                size_plan_y = 800,
+                display_scanpath=True,
+                verbose=False)
 
-# sp4 = v.Scanpath(root + 'data_4.csv', 
-#                 sampling_frequency = 256,                  
-#                 segmentation_method = 'I_HMM',
-#                 distance_type = 'angular',                        
-#                 display_segmentation = False,
-#                 size_plan_x = 1200,
-#                 size_plan_y = 800,
-#                 display_scanpath=True,
-#                 verbose=False)
+sp4 = v.Scanpath(root + 'data_4.csv', 
+                sampling_frequency = 256,                  
+                segmentation_method = 'I_HMM',
+                distance_type = 'angular',                        
+                display_segmentation = False,
+                size_plan_x = 1200,
+                size_plan_y = 800,
+                display_scanpath=True,
+                verbose=False)
 
-# sp5 = v.Scanpath(root + 'data_5.csv', 
-#                 sampling_frequency = 256,                  
-#                 segmentation_method = 'I_HMM',
-#                 distance_type = 'angular',                        
-#                 display_segmentation = False,
-#                 size_plan_x = 1200,
-#                 size_plan_y = 800,
-#                 display_scanpath=True,
-#                 verbose=False)
+sp5 = v.Scanpath(root + 'data_5.csv', 
+                sampling_frequency = 256,                  
+                segmentation_method = 'I_HMM',
+                distance_type = 'angular',                        
+                display_segmentation = False,
+                size_plan_x = 1200,
+                size_plan_y = 800,
+                display_scanpath=True,
+                verbose=False)
 
-# sp6 = v.Scanpath(root + 'data_6.csv', 
-#                 sampling_frequency = 256,                  
-#                 segmentation_method = 'I_HMM',
-#                 distance_type = 'angular',                        
-#                 display_segmentation = False,
-#                 size_plan_x = 1200,
-#                 size_plan_y = 800,
-#                 display_scanpath=True,
-#                 verbose=False)
+sp6 = v.Scanpath(root + 'data_6.csv', 
+                sampling_frequency = 256,                  
+                segmentation_method = 'I_HMM',
+                distance_type = 'angular',                        
+                display_segmentation = False,
+                size_plan_x = 1200,
+                size_plan_y = 800,
+                display_scanpath=True,
+                verbose=False)
 
 #pm = v.StringEditDistance(  [sp1, sp2])
 
@@ -785,20 +783,23 @@ crqa = v.scanpath_CRQA_determinism([sp1, sp2],
                 
  
              
-# seqs = [sp1, sp2, sp3, sp4, sp5, sp6]               
-# aoi_seqs = v.AoI_sequences(seqs, 
-#                       display_scanpath=True, 
-#                       AoI_identification_method = 'I_KM', 
-#                       AoI_IKM_cluster_number = 5,
-#                       AoI_temporal_binning = False, 
-#                       AoI_temporal_binning_length=.2,   ) 
+seqs = [sp1, sp2, sp3, sp4, sp5, sp6]               
+aoi_seqs = v.AoI_sequences(seqs, 
+                      display_scanpath=True, 
+                      AoI_identification_method = 'I_KM', 
+                      AoI_IKM_cluster_number = 5,
+                      AoI_temporal_binning = False, 
+                      AoI_temporal_binning_length=.2,   ) 
  
 
 # #print(aoi_seqs[0].fixation_analysis.segmentation_results)
 # #print(v.AoI_eMine(aoi_seqs))
 # print(v.AoI_trend_analysis(aoi_seqs, 
 #                            verbose=False))
-# #print(v.AoI_constrained_DTW_barycenter_averaging(aoi_seqs))
+for aoi_se in aoi_seqs:
+    print(aoi_se.sequence)
+#print(v.AoI_CDBA(aoi_seqs))
+print(v.AoI_SPAM(aoi_seqs))
  
 #aoi1 = v.AoISequence(sp1, 
 #                     AoI_identification_method = 'I_HMM')

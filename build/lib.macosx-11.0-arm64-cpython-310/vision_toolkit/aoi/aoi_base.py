@@ -15,7 +15,8 @@ from vision_toolkit.aoi.identification_algorithms.predefined import process_pred
 from vision_toolkit.scanpath.scanpath_base import Scanpath
 from vision_toolkit.segmentation.processing.binary_segmentation import BinarySegmentation
 from vision_toolkit.utils.identification_utils import (collapse_AoI,
-                                               temporal_binning_AoI)
+                                               temporal_binning_AoI,
+                                               merge_small_aois)
 
 
 class AoISequence(Scanpath):
@@ -60,6 +61,8 @@ class AoISequence(Scanpath):
             verbose = kwargs.get("verbose", True)
             if verbose:
                 print("Processing AoI Sequence...\n")
+                
+            
 
             if isinstance(input, pd.DataFrame):
                 super().__init__(input, gaze_df, ref_image, **kwargs)
@@ -79,6 +82,7 @@ class AoISequence(Scanpath):
                 )
 
             aoi_method = kwargs.get("AoI_identification_method", "I_AP")
+            self.config.update({"AoI_min_fixations": kwargs.get("AoI_min_fixations", None)})
 
             ## If HMM AoI identification, call MarkovBasedAnalysis
             if aoi_method == "I_HMM":
@@ -218,15 +222,31 @@ class AoISequence(Scanpath):
 
         if self.config["AoI_identification_method"] == None:
             return
+        
         self.identification_results = self.dict_methods_aoi[
             self.config["AoI_identification_method"]
         ](self.values, self.config, self.ref_image)
+        
+        min_fix = self.config.get("AoI_min_fixations", None)
+        if min_fix is not None and min_fix > 0:
+            seq, dur, centers = merge_small_aois(
+                self.identification_results["AoI_sequence"],
+                self.identification_results["AoI_durations"],
+                self.identification_results["centers"],
+                min_fix,
+            )
+        
+            self.identification_results["AoI_sequence"] = seq
+            self.identification_results["AoI_durations"] = dur
+            self.identification_results["centers"] = centers
+        
         self.sequence = self.identification_results["AoI_sequence"]
         self.durations = self.identification_results["AoI_durations"]
         self.centers = self.identification_results["centers"]
         self.nb_aoi = len(self.centers.keys())
-
+        
         self.verbose()
+
 
     def generate_from_dict(self, input, aoi_temporal_binning):
         """
@@ -286,8 +306,9 @@ class AoISequence(Scanpath):
         HMM_AoI_model = kwargs.get("AoI_HMM_return_model_instance", True)
        
         results = markov_analysis.AoI_HMM(
-            HMM_nb_iters, HMM_AoI_instance, HMM_AoI_model, True, 
-            ref_image= ref_image, display_identification=display_identification,
+            HMM_nb_iters, HMM_AoI_instance, HMM_AoI_model, True,  
+            ref_image= ref_image, 
+            display_identification=display_identification,
             display_identification_path=display_identification_path
         )
 

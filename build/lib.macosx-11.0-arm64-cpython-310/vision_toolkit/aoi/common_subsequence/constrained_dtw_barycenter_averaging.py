@@ -6,6 +6,7 @@ from collections import Counter
 
 import numpy as np
 from scipy.spatial.distance import cdist
+import warnings
 
 from vision_toolkit.aoi.aoi_base import AoI_sequences, AoISequence
 from vision_toolkit.aoi.pattern_mining.n_gram import NGram
@@ -67,72 +68,21 @@ class CDBA:
             }
         )
 
-        self.relaxed = None
+        self.relaxed = False
         self.common_subsequence = self.process_CDBA()
 
         if verbose:
             print("...CDBA common subsequence done\n")
         self.verbose()
 
+    
     def process_CDBA(self):
-        ## Get input AoISequences
-        aoi_sequences = self.aoi_sequences
-        ## Keep only str sequences
-        S_s = [aoi_sequences[i].sequence for i in range(len(aoi_sequences))]
-
-        ## Find all 2-Grams from the input sequences
-        bi_occ = [list(NGram(s_, 2).table.keys()) for s_ in S_s]
-        bi_occ = sorted(set(list(itertools.chain.from_iterable(bi_occ))))
-
-        ## Compute maximal number of occurences for each AoI
-        counts_ = self.get_counts(S_s)
-
-        ## Initiate the consensus sequence wrt AoI_CDBA_initialization_length parameter
-        if self.config["AoI_CDBA_initialization_length"] == "min":
-            l_m = np.min([len(s_) for s_ in S_s])
-
-        elif self.config["AoI_CDBA_initialization_length"] == "max":
-            l_m = np.max([len(s_) for s_ in S_s])
-
-        else:
-            raise ValueError(
-                "'AoI_CDBA_initialization_length' must be set to 'min' or 'max'"
-            )
-
-        np.random.seed(self.config["AoI_CDBA_initial_random_state"])
-        consensus = list(np.random.choice(list(self.centers.keys()), l_m))
-        old_consensus = copy.deepcopy(consensus)
-
-        max_iter = self.config["AoI_CDBA_maximum_iterations"]
-        iter_ = 0
-
-        while iter_ < max_iter:
-            alignments = self.perform_alignments(consensus, S_s)
-            consensus = self.update_consensus(alignments, bi_occ, counts_)
-            iter_ += 1
-
-            if consensus == old_consensus:
-                break
-            else:
-                old_consensus = copy.deepcopy(consensus)
-
-        assert (
-            self.relaxed == False
-        ), "Impossible to satisfy the two constraints. Try to modify AoI_CDBA_initial_random_state"
-
-        return consensus
-
-    def update_consensus(self, alignments, bi_occ, counts_):
         """
+        
 
-
-        Parameters
-        ----------
-        alignments : TYPE
-            DESCRIPTION.
-        bi_occ : TYPE
-            DESCRIPTION.
-        counts_ : TYPE
+        Raises
+        ------
+        ValueError
             DESCRIPTION.
 
         Returns
@@ -141,10 +91,86 @@ class CDBA:
             DESCRIPTION.
 
         """
+        aoi_sequences = self.aoi_sequences
+        S_s = [seq.sequence for seq in aoi_sequences]
 
+        # CDBA uses AoI centers to build distances and DTW alignment;
+        # therefore all sequences must share the same centers dictionary.
+        base_centers = aoi_sequences[0].centers
+        for k, seq in enumerate(aoi_sequences[1:], start=1):
+            if seq.centers != base_centers:
+                raise ValueError(
+                    "CDBA requires all AoISequence instances to share the same AoI centers.\n"
+                    f"Mismatch detected at sequence index {k}. "
+                    "Ensure AoIs are defined in a common reference frame (shared centers)."
+                )
+
+        # Bigram candidate set (as a set)  
+        # Keys produced by NGram(..., 2) are like "A,B,".
+        bi_occ = {key for s_ in S_s for key in NGram(s_, 2).table.keys()}
+
+        # Max occurrences per AoI (constraint 1)  
+        counts_ = self.get_counts(S_s)
+
+        # Initialization length 
+        init_len = self.config["AoI_CDBA_initialization_length"]
+        if init_len == "min":
+            l_m = int(np.min([len(s_) for s_ in S_s]))
+        elif init_len == "max":
+            l_m = int(np.max([len(s_) for s_ in S_s]))
+        else:
+            raise ValueError("'AoI_CDBA_initialization_length' must be set to 'min' or 'max'")
+
+        # Initialize consensus randomly (reproducible)  
+        np.random.seed(self.config.get("AoI_CDBA_initial_random_state", 1))
+        consensus = list(np.random.choice(list(self.centers.keys()), l_m))
+        old_consensus = copy.deepcopy(consensus)
+
+        # Iterate  
+        max_iter = int(self.config.get("AoI_CDBA_maximum_iterations", 20))
+        relaxed_count = 0
+        iter_ = 0
+
+        while iter_ < max_iter:
+            alignments = self.perform_alignments(consensus, S_s)
+
+            # update_consensus uses self.relaxed to indicate whether constraint #2 was relaxed
+            consensus = self.update_consensus(alignments, bi_occ, counts_)
+            if self.relaxed:
+                relaxed_count += 1
+
+            iter_ += 1
+
+            # convergence test
+            if consensus == old_consensus:
+                break
+            old_consensus = copy.deepcopy(consensus)
+
+        # Don't hard-fail when relaxation occurs  
+        # In the paper, relaxation can happen when no candidate bigram is available.
+        # We surface it as a warning + stored counter.
+        self.relaxed_count = relaxed_count
+        if relaxed_count > 0:
+            warnings.warn(
+                f"CDBA: constraint #2 (bigram/candidate-set) had to be relaxed "
+                f"{relaxed_count} time(s) during optimization. "
+                "This can happen when the bigram constraint is too restrictive or "
+                "when initialization length/state leads to dead-ends. "
+                "Consider changing AoI_CDBA_initial_random_state or using 'min' length.",
+                RuntimeWarning,
+            )
+
+        return consensus
+
+    def update_consensus(self, alignments, bi_occ, counts_):
+        """
+        Same as yours, but bi_occ can now be a set (recommended).
+        This version works with either list or set for bi_occ.
+        """
         aoi_ = self.aoi_
         i_dict = self.i_dict
         d_m = self.d_m
+        relaxed_any = False
 
         current_counts_ = dict.fromkeys(counts_.keys(), 0)
         consensus = []
@@ -154,41 +180,38 @@ class CDBA:
 
             if i == 0:
                 avail = aoi_
-                ## Compute sum of distances to aligned AoI for each candidate consensus AoI
                 d_t = [
                     np.sum([d_m[i_dict[aoi], i_dict[al]] for al in al_])
                     for aoi in avail
                 ]
-                ## Get optimal AoI
-                opt_aoi = avail[np.argmin(d_t)]
+                opt_aoi = avail[int(np.argmin(d_t))]
 
             else:
-                ## Compute available AoI whose count does not exceed the maximum count
+                # constraint 1: do not exceed max occurrences
                 avail = [aoi for aoi in aoi_ if current_counts_[aoi] < counts_[aoi]]
-                ## Compute available AoI based on 2-Grams computed from input sequences
-                avail = [
-                    aoi
-                    for aoi in avail
-                    if ("{last},{aoi},".format(last=consensus[-1], aoi=aoi) in bi_occ)
-                ]
-                ## If no available AoI, relax the second assumption
-                if avail == []:
-                    self.relaxed = True
-                    avail = [aoi for aoi in aoi_ if current_counts_[aoi] < counts_[aoi]]
-                else:
-                    self.relaxed = False
-                ## Compute sum of distances to aligned AoI for each candidate consensus AoI
+
+                # constraint 2: candidate set / bigram existence
+                last = consensus[-1]
+                avail2 = [aoi for aoi in avail if f"{last},{aoi}," in bi_occ]
+
+                # relax constraint 2 if needed
+                if len(avail2) == 0:
+                    relaxed_any = True
+                    avail2 = avail
+               
                 d_t = [
                     np.sum([d_m[i_dict[aoi], i_dict[al]] for al in al_])
-                    for aoi in avail
+                    for aoi in avail2
                 ]
-                ## Get optimal AoI
-                opt_aoi = avail[np.argmin(d_t)]
+                opt_aoi = avail2[int(np.argmin(d_t))]
 
             consensus.append(opt_aoi)
-            current_counts_[opt_aoi] = current_counts_[opt_aoi] + 1
+            current_counts_[opt_aoi] += 1
 
+        self.relaxed = relaxed_any
+        
         return consensus
+    
 
     def perform_alignments(self, consensus, S_s):
         """

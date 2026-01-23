@@ -107,18 +107,21 @@ class TrendAnalysis:
         c_inst = self.remove_candidates(
             c_inst, np.array(S_s_c), np.array(D_s_c), n_t, d_t
         )
-        n_S_s = self.remove_instances(S_s, D_s, shr_inst, c_inst)
-        trending_sequence = self.comp_trending_sequence(n_S_s, shr_inst, c_inst)
+        n_S_s, n_D_s = self.remove_instances(S_s, D_s, shr_inst, c_inst)
+        trending_sequence = self.comp_trending_sequence(n_S_s, n_D_s, shr_inst, c_inst)
 
         return trending_sequence
 
-    def comp_trending_sequence(self, n_S_s, shr_inst, c_inst):
-        """
 
+    def comp_trending_sequence(self, n_S_s, n_D_s, shr_inst, c_inst):
+        """
+        
 
         Parameters
         ----------
         n_S_s : TYPE
+            DESCRIPTION.
+        n_D_s : TYPE
             DESCRIPTION.
         shr_inst : TYPE
             DESCRIPTION.
@@ -127,52 +130,66 @@ class TrendAnalysis:
 
         Returns
         -------
-        t_sp : TYPE
+        TYPE
             DESCRIPTION.
 
         """
-
-        i_inst = sorted(shr_inst + c_inst)
-
-        ## Compute priority dictionnary
-        priorities = {}
-        for inst in i_inst:
-            p_ = 0
-            for n_s_s in n_S_s:
-                pos_ = np.where(np.array(n_s_s) == inst)[0]
-                if len(pos_) == 1:
-                    p_ += 1 - (pos_[0] * (1 - 0.1) / (len(n_s_s) - 1))
-
-            priorities.update({inst: p_})
-
-        ## Compute threshold priority from shared instances
-        p_t = min([priorities[s_inst] for s_inst in shr_inst])
-
-        ## Sort priorities by decreasing order
-        s_priorities = dict(
-            sorted(priorities.items(), key=operator.itemgetter(1), reverse=True)
-        )
-        ## Initiate trending sequence and add instances by decreasing priority
-        ## order
+        # All instances considered
+        i_inst = sorted(set(shr_inst + c_inst))
+    
+        # helper: STA priority for an instance at position P in a sequence of length L  
+        # Paper: ψ = 1 − P * z, where z = (1 - 0.1)/(L - 1)  (maxi=1, mini=0.1) :contentReference[oaicite:3]{index=3}
+        def psi(P, L, maxi=1.0, mini=0.1):
+            if L <= 1:
+                return maxi
+            z = (maxi - mini) / (L - 1)
+            return maxi - P * z
+    
+        # Compute total priority, total duration, total occurrences per instance 
+        total_priority = {inst: 0.0 for inst in i_inst}
+        total_dur = {inst: 0.0 for inst in i_inst}
+        total_occ = {inst: 0.0 for inst in i_inst}
+    
+        for seq, dur in zip(n_S_s, n_D_s):
+            # seq: list of instance labels; dur: list [[dur, count], ...] aligned with seq
+            L = len(seq)
+            for pos, inst in enumerate(seq):
+                if inst in total_priority:
+                    total_priority[inst] += psi(pos, L)
+                    total_dur[inst] += float(dur[pos][0])
+                    total_occ[inst] += float(dur[pos][1])
+    
+        # Threshold: minimum priority among shared instances 
+        if len(shr_inst) > 0:
+            p_t = min(total_priority[inst] for inst in shr_inst)
+        else:
+            # edge-case: no shared inst -> keep everything by priority only
+            p_t = float("-inf")
+    
+        # Sort by (priority desc, duration desc, occurrences desc) 
+        def sort_key(inst):
+            return (total_priority[inst], total_dur[inst], total_occ[inst])
+    
+        sorted_inst = sorted(i_inst, key=sort_key, reverse=True)
+    
+        # Build trending sequence with rule "shared always; candidates only if >= p_t" 
         t_sp = []
-        for inst in s_priorities.keys():
-            # Add all shared instances
+        for inst in sorted_inst:
             if inst in shr_inst:
-                t_sp.append(re.split("(\d+)", inst)[0])
-
-            # Add other instances if priority superior or equal to threshold
-            ## priority
+                t_sp.append(re.split(r"(\d+)", inst)[0])  # drop numbering
             else:
-                if s_priorities[inst] >= p_t:
-                    t_sp.append(re.split("(\d+)", inst)[0])
-
-        ## Remove duplicates
-        t_sp = [key for key, _group in groupby(t_sp)]
+                if total_priority[inst] >= p_t:
+                    t_sp.append(re.split(r"(\d+)", inst)[0])
+    
+        # Remove consecutive duplicates (STA final abstraction step)  
+        t_sp = [k for k, _ in groupby(t_sp)]
         return t_sp
+
 
     def remove_instances(self, S_s, D_s, shr_inst, c_inst):
         """
-
+        
+        
 
         Parameters
         ----------
@@ -189,23 +206,23 @@ class TrendAnalysis:
         -------
         n_S_s : TYPE
             DESCRIPTION.
+        n_D_s : TYPE
+            DESCRIPTION.
 
         """
+        n_S_s, n_D_s = [], []
+    
+        for s_s, d_s in zip(S_s, D_s):
+            keep_s, keep_d = [], []
+            for inst, inst_d in zip(s_s, d_s):
+                if inst in shr_inst or inst in c_inst:
+                    keep_s.append(inst)
+                    keep_d.append(inst_d)
+            n_S_s.append(keep_s)
+            n_D_s.append(keep_d)
+    
+        return n_S_s, n_D_s
 
-        ## Initiate new simplified AoI and duration sequence sets
-        n_S_s = []
-
-        for k, s_s in enumerate(S_s):
-            ## Initiate new simplified AoI and duration sequence
-            n_s_s = []
-            ## Remove instances that are not shared or candidate
-            for i in range(len(s_s)):
-                if s_s[i] in shr_inst or s_s[i] in c_inst:
-                    n_s_s.append(s_s[i])
-
-            n_S_s.append(n_s_s)
-
-        return n_S_s
 
     def remove_candidates(self, c_inst, S_s_c, D_s_c, n_t, d_t):
         """
@@ -266,7 +283,9 @@ class TrendAnalysis:
             DESCRIPTION.
 
         """
-
+        if len(shr_inst) == 0:
+            return 0, 0
+        
         ## Find instance indexes corresponding to shared element instances
         idx_c = [np.where(S_s_c == inst)[0] for inst in shr_inst]
 
@@ -309,29 +328,23 @@ class TrendAnalysis:
 
         return shr_inst
 
-    ## Compute a simplified AoI sequence by collapsing consecutive repetitions
-    ## and the corresponding duration vector
+
     def simplify(self, s_, d_):
         """
-
-
-        Parameters
-        ----------
-        s_ : TYPE
-            DESCRIPTION.
-        d_ : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        TYPE
-            DESCRIPTION.
-
+        Collapse consecutive repetitions and build "instances" of each AoI.
+        Each instance is assigned an ID like 'A1', 'A2', ... where numbering
+        follows decreasing instance duration for the same AoI.
+        Returns:
+            - list of instance IDs (object strings)
+            - list of [instance_total_duration, instance_fixation_count]
         """
-
+        if s_ is None or len(s_) == 0:
+            return [], []
+        
+        # 1) Collapse consecutive repetitions
         s_s = [s_[0]]
-        d_s = [[d_[0], 1]]
-
+        d_s = [[d_[0], 1]]  # [total_duration, fixation_count]
+    
         for i in range(1, len(s_)):
             if s_[i] == s_[i - 1]:
                 d_s[-1][0] += d_[i]
@@ -339,30 +352,26 @@ class TrendAnalysis:
             else:
                 s_s.append(s_[i])
                 d_s.append([d_[i], 1])
-
-        s_s = copy.deepcopy(np.array(s_s))
-        d_s = np.array(d_s)
-
-        n_s_s = np.empty_like(s_s, dtype="object")
-        i_aoi = sorted(list(set(s_s)))
-
-        ## Number visual elements by decreasing duration
-        for aoi in i_aoi:
-            idx = np.where(s_s == aoi)[0]
-
-            ## Get indexes of decreasing order for duration values
-            d_o_idx = [
-                i[0]
-                for i in sorted(
-                    enumerate(d_s[idx, 0]), key=lambda k: k[1], reverse=True
-                )
-            ]
-
-            for i in range(len(d_o_idx)):
-                n_aoi = s_s[idx[i]] + str(i)
-                n_s_s[idx[d_o_idx[i]]] = n_aoi
-
+    
+        s_s = np.array(s_s, dtype=object)
+        d_s = np.array(d_s, dtype=float)
+    
+        # 2) Create instance labels per AoI by decreasing duration
+        n_s_s = np.empty_like(s_s, dtype=object)
+        for aoi in sorted(set(s_s)):
+            idx = np.where(s_s == aoi)[0]              # positions of this AoI in simplified seq
+            durations = d_s[idx, 0]                    # durations of those instances
+    
+            # indices of idx sorted by decreasing duration
+            order = np.argsort(-durations)             # local positions 0..len(idx)-1
+    
+            # Assign ranks starting at 1 (A1 = longest, A2 = second, ...)
+            for rank, local_pos in enumerate(order, start=1):
+                inst_index = idx[local_pos]            # actual index in s_s / d_s
+                n_s_s[inst_index] = f"{s_s[inst_index]}{rank}"
+    
         return list(n_s_s), list(d_s)
+    
 
     def verbose(self, add_=None):
         """

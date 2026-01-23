@@ -33,22 +33,26 @@ class SmithWaterman:
 
         d_m, i_dict = aoi_dict_dist_mat(self.centers, normalize=False)
         ## Compute -distance_matrix/similarity_matrix and a character to index dictionary
-        s_m = self.compute_sw_dist_mat(d_m)
+        s_m = self.compute_sw_mat(d_m)
 
         del_cost_base = config["AoI_smith_waterman_base_deletion_cost"]
         del_cost = config["AoI_smith_waterman_iterative_deletion_cost"]
         similarity_weight = config["AoI_smith_waterman_similarity_weight"]
 
         ## Call C implementation of the smith waterman algorithm
-        self.common_subsequence, self.opt_align, dist_ = c_alignment.smith_waterman(
+        self.common_subsequence, self.opt_align, length_ = c_alignment.smith_waterman(
             self.s_1, self.s_2, i_dict, s_m, del_cost_base, del_cost, similarity_weight
         )
-        self.dist_ = dist_ / (
-            self.config["AoI_smith_waterman_similarity_threshold"]
-            * max(self.n_1, self.n_2)
-        )
+        s_t = self.config.get("AoI_smith_waterman_similarity_threshold", None)
+        denom = (s_t * max(self.n_1, self.n_2)) if (s_t is not None and max(self.n_1, self.n_2) > 0) else None
 
-    def compute_sw_dist_mat(self, d_m):
+        if denom is None or denom == 0:
+            self.length_ = 0.0
+        else:
+            self.length_ = float(length_) / float(denom)
+            
+
+    def compute_sw_mat(self, d_m):
         """
 
 
@@ -59,7 +63,7 @@ class SmithWaterman:
         """
 
         ## Compute the maximal distance between two points of the visual field if its dimension is known
-        if "size_plan_x" and "size_plan_y" in self.config.keys():
+        if "size_plan_x" in self.config and "size_plan_y" in self.config:
             d_m_max = np.linalg.norm(
                 np.array([self.config["size_plan_x"], self.config["size_plan_y"]])
             )
@@ -68,9 +72,10 @@ class SmithWaterman:
             d_m_max = np.max(d_m)
 
         s_t = self.config["AoI_smith_waterman_similarity_threshold"]
-        if s_t == None:
+        if s_t is None:
             s_t = 0.2 * d_m_max
-            self.config.update({"AoI_smith_waterman_similarity_threshold": 0.2})
+            # Store the actual threshold value (same unit as distances)
+            self.config.update({"AoI_smith_waterman_similarity_threshold": s_t})
 
         s_m = (-d_m + s_t) / d_m_max
 

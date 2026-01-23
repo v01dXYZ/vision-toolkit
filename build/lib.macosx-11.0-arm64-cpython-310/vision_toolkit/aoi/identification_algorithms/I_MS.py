@@ -10,60 +10,96 @@ from vision_toolkit.visualization.aoi.basic_representation import (
 
 
 def process_IMS(values, config, ref_image=None):
+    """
+    
+
+    Parameters
+    ----------
+    values : TYPE
+        DESCRIPTION.
+    config : TYPE
+        DESCRIPTION.
+    ref_image : TYPE, optional
+        DESCRIPTION. The default is None.
+
+    Returns
+    -------
+    dict
+        DESCRIPTION.
+
+    """
     pos_ = values[0:2]
     dur_ = values[2]
     bandwidth = config["AoI_IMS_bandwidth"]
 
     ms = MeanShift(bandwidth=bandwidth, cluster_all=True).fit(pos_.T)
-    seq_ = ms.labels_
+    seq_ = ms.labels_.astype(int)
 
-    t_k = seq_ >= 0
-    pos_ = pos_[:, t_k]
-    dur_ = dur_[t_k]
-    seq_ = seq_[t_k]
+    # Build clusters from unique labels (robust)
+    labels = np.unique(seq_)
 
-    centers_ = dict({})
-    clus_ = dict({})
-    to_relabel = []
-    i_ = 0
+    # Identify singletons to relabel
+    clus_tmp = {lab: np.where(seq_ == lab)[0] for lab in labels}
+    multi_labels = [lab for lab, idxs in clus_tmp.items() if len(idxs) >= 2]
+    single_idxs = np.concatenate(
+        [idxs for lab, idxs in clus_tmp.items() if len(idxs) < 2],
+        axis=0
+    ) if any(len(idxs) < 2 for idxs in clus_tmp.values()) else np.array([], dtype=int)
 
-    # To avoid single point clusters
-    for i in range(list(set(seq_))[-1] + 1):
-        vals_ = np.argwhere(np.array(seq_) == int(i)).T[0]
-        if len(vals_) >= 2:
-            clus_.update({chr(i_ + 65): vals_})
-            seq_[vals_] = i_
-            centers_.update({chr(i_ + 65): np.mean(pos_[:, vals_], axis=1)})
-            i_ += 1
-        else:
-            to_relabel += list(vals_)
-
-    # --- Fallback: no valid centers to relabel to (all clusters are singletons) ---
-    if len(centers_) == 0:
-        clus_ = {'A': np.arange(pos_.shape[1], dtype=int)}
-        centers_ = {'A': np.mean(pos_, axis=1)}
+    # Fallback: everything is singleton
+    if len(multi_labels) == 0:
         seq_ = np.zeros(pos_.shape[1], dtype=int)
-        to_relabel = []
+        clus_ = {"A": np.arange(pos_.shape[1], dtype=int)}
+        centers_ = {"A": np.mean(pos_, axis=1)}
+        seq_, seq_dur = compute_aoi_sequence(seq_, dur_, config)
 
-    # Relabel single points
-    if to_relabel != []:
-        centers_array = np.array([centers_[k_] for k_ in sorted(list(centers_.keys()))])
-        for val in to_relabel:
-            pos_l = pos_[:, val]
-            d_ = np.sum((centers_array - pos_l) ** 2, axis=1)
-            c_val = np.argmin(d_)
-            seq_[val] = c_val
-            old_clus = sorted(list(clus_[chr(c_val + 65)]) + [val])
-            clus_[chr(c_val + 65)] = np.array(old_clus)
+        if config.get("display_AoI", False):
+            if ref_image is None:
+                display_aoi_identification(pos_, clus_, config)
+            else:
+                display_aoi_identification_reference_image(pos_, clus_, config, ref_image)
 
-    for i in range(list(set(seq_))[-1] + 1):
-        vals_ = np.argwhere(np.array(seq_) == int(i)).T[0]
-        clus_.update({chr(i + 65): vals_})
-        centers_.update({chr(i + 65): np.mean(pos_[:, vals_], axis=1)})
+        return {
+            "AoI_sequence": seq_,
+            "AoI_durations": seq_dur,
+            "centers": centers_,
+            "clustered_fixations": clus_,
+        }
+
+    # Compute centers for multi-point clusters
+    centers_by_lab = {
+        lab: np.mean(pos_[:, clus_tmp[lab]], axis=1) for lab in multi_labels
+    }
+    multi_centers = np.array([centers_by_lab[lab] for lab in multi_labels])
+
+    # Relabel singleton points to nearest multi cluster
+    if single_idxs.size > 0:
+        for idx in single_idxs:
+            p = pos_[:, idx]
+            d = np.sum((multi_centers - p) ** 2, axis=1)
+            nearest_lab = multi_labels[int(np.argmin(d))]
+            seq_[idx] = nearest_lab
+
+    # Remap labels to contiguous 0..K-1 and A,B,C...
+    final_labels = np.unique(seq_)
+    remap = {lab: i for i, lab in enumerate(final_labels)}
+    seq_ = np.array([remap[lab] for lab in seq_], dtype=int)
+
+    clus_ = {}
+    centers_ = {}
+    for i, lab in enumerate(final_labels):
+        idxs = np.where(np.array([lab2 for lab2 in np.array(list(remap.keys()))]) == lab)[0]  # not used; ignore
+
+    # Build final clusters by index
+    for i in range(len(final_labels)):
+        idxs = np.where(seq_ == i)[0]
+        key = chr(i + 65)
+        clus_[key] = idxs
+        centers_[key] = np.mean(pos_[:, idxs], axis=1)
 
     seq_, seq_dur = compute_aoi_sequence(seq_, dur_, config)
 
-    if config["display_AoI"]:
+    if config.get("display_AoI", False):
         if ref_image is None:
             display_aoi_identification(pos_, clus_, config)
         else:

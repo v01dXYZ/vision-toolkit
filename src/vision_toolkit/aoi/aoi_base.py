@@ -62,7 +62,7 @@ class AoISequence(Scanpath):
             if verbose:
                 print("Processing AoI Sequence...\n")
                 
-            self.config.update({"AoI_min_fixations": kwargs.get("AoI_min_fixations", None)})
+            
 
             if isinstance(input, pd.DataFrame):
                 super().__init__(input, gaze_df, ref_image, **kwargs)
@@ -82,6 +82,7 @@ class AoISequence(Scanpath):
                 )
 
             aoi_method = kwargs.get("AoI_identification_method", "I_AP")
+            self.config.update({"AoI_min_fixations": kwargs.get("AoI_min_fixations", None)})
 
             ## If HMM AoI identification, call MarkovBasedAnalysis
             if aoi_method == "I_HMM":

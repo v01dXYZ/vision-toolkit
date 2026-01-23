@@ -14,7 +14,7 @@ from vision_toolkit.aoi.global_alignment.string_edit_distance import AoI_levensh
 class eMine:
     def __init__(self, input, config):
         """
-
+        
 
         Parameters
         ----------
@@ -28,89 +28,77 @@ class eMine:
         None.
 
         """
-
-        verbose = config["verbose"]
-
         self.aoi_sequences = input
         self.config = config
-
         self.n_sp = len(input)
 
         d_m = AoI_levenshtein_distance(
             self.aoi_sequences, display_results=False, verbose=False
         )["AoI_levenshtein_distance_matrix"]
+
+        # prevent self-minimum on diagonal
+        d_m = d_m.copy()
         d_m += np.diag(np.ones(self.n_sp) * (np.max(d_m) + 1))
         self.d_m = d_m
 
         self.common_subsequence = self.process_emine()
 
     def process_emine(self):
-        """
+        d_m = self.d_m.copy()
+        m_ = float(np.max(d_m))
 
+        # Work on a copy to avoid side effects
+        aoi_sequences = list(self.aoi_sequences)
 
-        Returns
-        -------
-        TYPE
-            DESCRIPTION.
-
-        """
-
-        d_m = self.d_m
-        m_ = np.max(d_m)
-        aoi_sequences = self.aoi_sequences
-
+        # Sanity: same AoI space
         centers = aoi_sequences[0].centers
         nb_aoi = aoi_sequences[0].nb_aoi
+        for s in aoi_sequences[1:]:
+            assert s.centers == centers, "All AoISequence must share the same AoI centers for eMine."
 
         config = copy.deepcopy(self.config)
         config.update({"display_results": False})
 
         while len(aoi_sequences) > 1:
-            ## Find the two most similar AoI sequences in aoi_sequences
             i, j = np.unravel_index(np.argmin(d_m), d_m.shape)
+            if i > j:
+                i, j = j, i
 
             s_1 = aoi_sequences[i]
             s_2 = aoi_sequences[j]
 
-            ## Compute the longest common subsequence from these two sequences
             lcs = LongestCommonSubsequence([s_1, s_2], config).common_subsequence
 
-            ## Generate a new AoISequence object from the lcs
-            dict_ = dict(
-                {
-                    "sequence": lcs,
-                    "durations": None,
-                    "centers": centers,
-                    "nb_aoi": nb_aoi,
-                    "config": config,
-                }
-            )
+            dict_ = {
+                "sequence": lcs,
+                "durations": None,
+                "centers": centers,
+                "nb_aoi": nb_aoi,     
+                "config": config,
+            }
             n_aoi_seq = AoISequence(dict_)
 
-            # Remove these two AoI sequences from the set of AoI sequences
-            aoi_sequences.remove(s_1)
-            aoi_sequences.remove(s_2)
+            # Remove by index (largest first)
+            del aoi_sequences[j]
+            del aoi_sequences[i]
 
-            ##...and from the dissimilarity matrix d_m
-            d_m = np.delete(d_m, (i, j), 0)
-            d_m = np.delete(d_m, (i, j), 1)
+            # Remove rows/cols i,j
+            d_m = np.delete(d_m, (i, j), axis=0)
+            d_m = np.delete(d_m, (i, j), axis=1)
 
-            ## Compute the new dissimilarity matrix d_m
-            k = len(aoi_sequences)
-            n_d_m = np.zeros((k + 1, k + 1))
+            # Add new sequence
+            aoi_sequences.append(n_aoi_seq)
 
-            for i in range(k):
-                n_d_m[i, k] = LevenshteinDistance(
-                    [aoi_sequences[i], n_aoi_seq], config
-                ).dist_
-
-            n_d_m = n_d_m + n_d_m.T
-            n_d_m[k, k] = m_
+            # Expand distance matrix with new row/col
+            k = len(aoi_sequences) - 1  # index of new sequence
+            n_d_m = np.zeros((k + 1, k + 1), dtype=float)
 
             n_d_m[:-1, :-1] = d_m
-            d_m = copy.deepcopy(n_d_m)
+            for t in range(k):
+                n_d_m[t, k] = LevenshteinDistance([aoi_sequences[t], n_aoi_seq], config).dist_
+            n_d_m[k, :k] = n_d_m[:k, k]
+            n_d_m[k, k] = m_
 
-            ## Add the longest common subsequence to the set of AoI sequences
-            aoi_sequences.append(n_aoi_seq)
+            d_m = n_d_m
 
         return aoi_sequences[0].sequence

@@ -107,8 +107,9 @@ def dist_mat(x_s, y_s, elem_sizes, normalize=True):
         x_1 = i % x_s
         i_dict.update({chr(65 + int(y_1)) + chr(65 + int(x_1)): i})
 
-    if normalize:
-        d_m = (d_m) / np.max(d_m)
+    mx = np.max(d_m)
+    if normalize and mx > 0:
+        d_m = d_m / mx
 
     return d_m, i_dict
 

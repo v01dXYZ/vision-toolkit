@@ -11,7 +11,7 @@ from vision_toolkit.visualization.aoi.basic_representation import (
 
 def process_IDP(values, config, ref_image=None):
     """
-
+    
 
     Parameters
     ----------
@@ -19,126 +19,124 @@ def process_IDP(values, config, ref_image=None):
         DESCRIPTION.
     config : TYPE
         DESCRIPTION.
+    ref_image : TYPE, optional
+        DESCRIPTION. The default is None.
 
     Returns
     -------
-    results : TYPE
+    dict
         DESCRIPTION.
 
     """
-
-    ## Get inputs and parameters
     pos_ = values[0:2]
     dur_ = values[2]
     n_s = len(dur_)
 
-    k_sd = config["AoI_IDP_gaussian_kernel_sd"]
+    k_sd = float(config["AoI_IDP_gaussian_kernel_sd"])
     center_method = config["AoI_IDP_centers"]
 
+    # Safety: avoid zero/near-zero kernel width
+    k_sd = max(k_sd, 1e-9)
+
     dist_ = cdist(pos_.T, pos_.T)
-    max_d = np.max(dist_)
+    max_d = float(np.max(dist_))
 
-    ## Compute local densities according to the Gaussian kernel with
-    ## standard deviation set to 'k_sd'
-    rho = np.array(
-        [np.sum(norm.pdf(dist_[i], 0, k_sd)) - norm.pdf(0, 0, k_sd) for i in range(n_s)]
-    )
-    max_r = np.max(rho)
-    delta = list()
+    # rho: vectorized gaussian kernel density (excluding self-term)  
+    # norm.pdf(dist_, 0, k_sd) gives (n,n). subtract the self pdf once per row.
+    pdf_mat = norm.pdf(dist_, loc=0.0, scale=k_sd)
+    self_pdf = norm.pdf(0.0, loc=0.0, scale=k_sd)
+    rho = np.sum(pdf_mat, axis=1) - self_pdf
 
-    ## For each fixation, compute the distance of the closest data point
-    ## of higher density
+    max_r = float(np.max(rho))
+
+    # delta: distance to nearest point of higher density 
+    delta = np.empty(n_s, dtype=float)
     for i in range(n_s):
-        l_rho = rho[i]
-        if l_rho < max_r:
-            idxs = np.argwhere(rho > l_rho).T[0]
-            delta.append(np.min(dist_[i, idxs]))
-        ## For the max rhos value, set distance to the maximal possible distance between points
+        if rho[i] < max_r:
+            idxs = np.where(rho > rho[i])[0]
+            # idxs is non-empty because max_r exists
+            delta[i] = float(np.min(dist_[i, idxs]))
         else:
-            delta.append(max_d)
+            delta[i] = max_d
 
-    # Compute the gamma product
-    delta = np.array(delta)
     gamma = rho * delta
 
-    ## Compute the gamma threshold
     thresh = compute_threshold(gamma)
 
-    ## Identify index of fixations with gamma value above the gamma threshold
-    center_idx = np.argwhere(gamma > thresh).T[0]
+    # ---- centers: points with gamma above threshold ----
+    center_idx = np.where(gamma > thresh)[0]
 
-    dist_f = dist_[:, center_idx]
+    # Fallback if no centers selected:
+    # pick at least one center = argmax(gamma)
+    if center_idx.size == 0:
+        center_idx = np.array([int(np.argmax(gamma))], dtype=int)
 
-    ## Compute the sequence of AoI-clustered fixation
-    seq_ = list(np.argmin(dist_f, axis=1))
+    # Assign each point to nearest center
+    dist_f = dist_[:, center_idx]  # (n, k)
+    seq_ = np.argmin(dist_f, axis=1).astype(int)
 
-    ## Keep track of clusters
-    centers_ = dict({})
-    clus_ = dict({})
+    centers_ = {}
+    clus_ = {}
 
     for i in range(len(center_idx)):
-        vals_ = np.argwhere(np.array(seq_) == int(i)).T[0]
-        clus_.update({chr(i + 65): vals_})
+        vals_ = np.where(seq_ == i)[0]
+        clus_[chr(i + 65)] = vals_
 
     if center_method == "mean":
         for i in range(len(center_idx)):
-            # Centers are computed as the mean position of clustered fixations
-            centers_.update({chr(i + 65): np.mean(pos_[:, clus_[chr(i + 65)]], axis=1)})
+            key = chr(i + 65)
+            # handle any empty cluster just in case
+            if clus_[key].size == 0:
+                centers_[key] = pos_[:, center_idx[i]]
+            else:
+                centers_[key] = np.mean(pos_[:, clus_[key]], axis=1)
 
     elif center_method == "raw_IDP":
         for i in range(len(center_idx)):
-            # Centers are computed as the examplars from DP method
-            centers_.update({chr(i + 65): pos_[:, center_idx[i]]})
+            centers_[chr(i + 65)] = pos_[:, center_idx[i]]
+    else:
+        # default to mean
+        for i in range(len(center_idx)):
+            key = chr(i + 65)
+            centers_[key] = np.mean(pos_[:, clus_[key]], axis=1)
 
-    ## Compute final AoI sequence
+    # Final AoI sequence
     seq_, seq_dur = compute_aoi_sequence(seq_, dur_, config)
 
-    if config["display_AoI"]:
-        ## Plot clusters
+    if config.get("display_AoI", False):
         if ref_image is None:
             display_aoi_identification(pos_, clus_, config)
         else:
             display_aoi_identification_reference_image(pos_, clus_, config, ref_image)
-    results = dict(
-        {
-            "AoI_sequence": seq_,
-            "AoI_durations": seq_dur,
-            "centers": centers_,
-            "clustered_fixations": clus_,
-        }
-    )
 
-    return results
+    return {
+        "AoI_sequence": seq_,
+        "AoI_durations": seq_dur,
+        "centers": centers_,
+        "clustered_fixations": clus_,
+    }
 
 
 def compute_threshold(gamma):
-    """
+    gamma = np.asarray(gamma, dtype=float)
 
+    # gmean requires positive values
+    eps = 1e-12
+    gamma = np.maximum(gamma, eps)
 
-    Parameters
-    ----------
-    gamma :TYPE
-        DESCRIPTION.
+    gamma_sorted = np.sort(gamma)[::-1]
+    n_s = len(gamma_sorted)
 
-    Returns
-    -------
-    thresh : TYPE
-        DESCRIPTION.
-
-    """
-
-    ## Sort gamma in decreasing order
-    gamma = np.sort(gamma)[::-1]
-
-    n_s = len(gamma)
-    weights = list()
-
-    ## Compute weights for the weighted geometric mean
+    # Use log2 for the intended discrete weighting behavior
+    weights = []
     for i in range(n_s):
-        alpha = 2 ** (np.floor(np.log(n_s)) - np.ceil(np.log(i + 1)) + 1) - 1
+        alpha = 2 ** (np.floor(np.log2(n_s)) - np.ceil(np.log2(i + 1)) + 1) - 1
         weights.append(alpha)
 
-    ## Compute final threshold
-    thresh = gmean(gamma, weights=weights)
+    thresh = gmean(gamma_sorted, weights=np.array(weights, dtype=float))
 
-    return thresh
+    # Safety: if numerical issues occur, fall back to a percentile
+    if not np.isfinite(thresh):
+        thresh = float(np.percentile(gamma_sorted, 90))
+
+    return float(thresh)
