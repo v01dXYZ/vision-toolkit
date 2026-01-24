@@ -6,6 +6,7 @@ import copy
 
 from vision_toolkit.segmentation.basic_processing import oculomotor_series as ocs  
 from vision_toolkit.utils.velocity_distance_factory import absolute_euclidian_distance, absolute_angular_distance 
+from vision_toolkit.utils.segmentation_utils import filter_ternary_intervals_by_duration
 from vision_toolkit.visualization.segmentation import display_ternary_segmentation 
  
 from vision_toolkit.segmentation.segmentation_algorithms.I_VVT import process_IVVT
@@ -49,7 +50,10 @@ class TernarySegmentation():
             'size_plan_y': kwargs.get('size_plan_y'),
             'smoothing': kwargs.get('smoothing', 'savgol'),
             'distance_type': kwargs.get('distance_type', 'angular'),
-            'min_int_size': kwargs.get('min_int_size', 2), 
+            "min_fix_duration": kwargs.get("min_fix_duration", 7e-2),
+            "max_fix_duration": kwargs.get("max_fix_duration", 2.0),
+            "min_pursuit_duration": kwargs.get("min_fix_duration", 1e-1),
+            "max_ursuit_duration": kwargs.get("max_fix_duration", 2.0),
             'display_results': kwargs.get('display_results', True),
             'display_segmentation': kwargs.get('display_segmentation', False),
             'display_true_segmentation': kwargs.get('display_true_segmentation', False),
@@ -231,12 +235,16 @@ class TernarySegmentation():
         None.
 
         """
-        self.segmentation_results = self.dict_methods[self.config['segmentation_method']](self.data_set,
-                                                                                          self.config)
+        segmentation_results = self.dict_methods[self.config['segmentation_method']](self.data_set,
+                                                                                     self.config)
+        self.segmentation_results = filter_ternary_intervals_by_duration(segmentation_results,
+                                                                         self.config['sampling_frequency'],
+                                                                         self.config['min_fix_duration'],
+                                                                         self.config['max_fix_duration'],
+                                                                         self.config['min_pursuit_duration'],
+                                                                         self.config['max_pursuit_duration']
+                                                                         )
         
-        path = 'output/figs/ternary_segmentation_{sm}_2D'.format(sm=self.config['segmentation_method'])
-        
-       
         display_ternary_segmentation(self.data_set, self.config,
                                      self.segmentation_results['pursuit_intervals'],
                                      _color = 'seagreen')

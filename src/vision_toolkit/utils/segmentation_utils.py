@@ -166,32 +166,34 @@ def filter_ternary_intervals_by_duration(results,
                                      min_pursuit_duration,
                                      max_pursuit_duration):
     """
-    Post-process ternary segmentation results by enforcing duration constraints
-    on fixations and pursuits. Any fixation/pursuit interval outside the allowed
-    duration range is re-labeled as saccade.
+    
 
     Parameters
     ----------
-    results : dict
-        Output dict from process_IVVT with keys:
-        "is_saccade", "saccade_intervals", "is_pursuit", "pursuit_intervals",
-        "is_fixation", "fixation_intervals".
-        Intervals are expected as list/array of [start, end] (inclusive).
-    sampling_frequency : float
-        Sampling frequency in Hz (samples/second).
-    min_fix_duration, max_fix_duration : float
-        Allowed fixation duration range in seconds.
-    min_pursuit_duration, max_pursuit_duration : float
-        Allowed pursuit duration range in seconds.
+    results : TYPE
+        DESCRIPTION.
+    sampling_frequency : TYPE
+        DESCRIPTION.
+    min_fix_duration : TYPE
+        DESCRIPTION.
+    max_fix_duration : TYPE
+        DESCRIPTION.
+    min_pursuit_duration : TYPE
+        DESCRIPTION.
+    max_pursuit_duration : TYPE
+        DESCRIPTION.
+
+    Raises
+    ------
+    ValueError
+        DESCRIPTION.
 
     Returns
     -------
-    dict
-        Dict with keys:
-        "is_saccade", "saccade_intervals", "is_pursuit", "pursuit_intervals",
-        "is_fixation", "fixation_intervals".
+    TYPE
+        DESCRIPTION.
+
     """
- 
     def _dur_samples(intv): 
         return intv[1] - intv[0] + 1
 

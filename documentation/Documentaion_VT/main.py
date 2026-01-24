@@ -8,57 +8,49 @@ np.random.seed(1)
  
 
 ## For Bineary Segmentation
-'''
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_VT',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_DiT',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_DeT',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_KF',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_MST',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_2MC',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-bs = v.BinarySegmentation(root + 'data_1.csv', 
-                        sampling_frequency = 256,  
-                        segmentation_method = 'I_HMM',
-                        distance_type = 'angular',                        
-                        display_segmentation = True,
-                        size_plan_x = 1200,
-                        size_plan_y = 800)
-
+ 
+# bs = v.BinarySegmentation(root + 'data_1.csv', 
+#                         sampling_frequency = 256,  
+#                         segmentation_method = 'I_VT',
+#                         distance_type = 'angular',                        
+#                         display_segmentation = True,
+#                         size_plan_x = 1200,
+#                         size_plan_y = 800)
+# bs = v.BinarySegmentation(root + 'data_1.csv', 
+#                         sampling_frequency = 256,  
+#                         segmentation_method = 'I_DiT',
+#                         distance_type = 'angular',                        
+#                         display_segmentation = True,
+#                         size_plan_x = 1200,
+#                         size_plan_y = 800)
+# bs = v.BinarySegmentation(root + 'data_1.csv', 
+#                         sampling_frequency = 256,  
+#                         segmentation_method = 'I_DeT',
+#                         distance_type = 'angular',                        
+#                         display_segmentation = True,
+#                         size_plan_x = 1200,
+#                         size_plan_y = 800)
+# bs = v.BinarySegmentation(root + 'data_1.csv', 
+#                         sampling_frequency = 256,  
+#                         segmentation_method = 'I_KF',
+#                         distance_type = 'angular',                        
+#                         display_segmentation = True,
+#                         size_plan_x = 1200,
+#                         size_plan_y = 800)
+# bs = v.BinarySegmentation(root + 'data_1.csv', 
+#                         sampling_frequency = 256,  
+#                         segmentation_method = 'I_MST',
+#                         distance_type = 'angular',                        
+#                         display_segmentation = True,
+#                         size_plan_x = 1200,
+#                         size_plan_y = 800)
+# bs = v.BinarySegmentation(root + 'data_1.csv', 
+#                         sampling_frequency = 256,  
+#                         segmentation_method = 'I_2MC',
+#                         distance_type = 'angular',                        
+#                         display_segmentation = True,
+#                         size_plan_x = 1200,
+#                         size_plan_y = 800)
 bs = v.BinarySegmentation(root + 'data_1.csv', 
                         sampling_frequency = 256,  
                         segmentation_method = 'I_HMM',
@@ -67,6 +59,7 @@ bs = v.BinarySegmentation(root + 'data_1.csv',
                         size_plan_x = 1200,
                         size_plan_y = 800)
  
+'''
 bs = v.BinarySegmentation(root + 'data_1.csv', 
                         sampling_frequency = 256,  
                         segmentation_method = 'I_RF',
@@ -675,65 +668,65 @@ print(cfa.cross_spectral_density(cross_data_type='velocity'))
                                          
 ## For Edit Distance
     
-sp1 = v.Scanpath(root + 'data_1.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800, 
-                display_scanpath=True,
-                verbose=False)
+# sp1 = v.Scanpath(root + 'data_1.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800, 
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp2 = v.Scanpath(root + 'data_2.csv', 
-                sampling_frequency = 256,  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=True)
+# sp2 = v.Scanpath(root + 'data_2.csv', 
+#                 sampling_frequency = 256,  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=True)
 
-sp3 = v.Scanpath(root + 'data_3.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp3 = v.Scanpath(root + 'data_3.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp4 = v.Scanpath(root + 'data_4.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp4 = v.Scanpath(root + 'data_4.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp5 = v.Scanpath(root + 'data_5.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp5 = v.Scanpath(root + 'data_5.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp6 = v.Scanpath(root + 'data_6.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp6 = v.Scanpath(root + 'data_6.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
 #pm = v.StringEditDistance(  [sp1, sp2])
 
@@ -783,23 +776,23 @@ sp6 = v.Scanpath(root + 'data_6.csv',
                 
  
              
-seqs = [sp1, sp2, sp3, sp4, sp5, sp6]               
-aoi_seqs = v.AoI_sequences(seqs, 
-                      display_scanpath=True, 
-                      AoI_identification_method = 'I_KM', 
-                      AoI_IKM_cluster_number = 5,
-                      AoI_temporal_binning = False, 
-                      AoI_temporal_binning_length=.2,   ) 
+# seqs = [sp1, sp2, sp3, sp4, sp5, sp6]               
+# aoi_seqs = v.AoI_sequences(seqs, 
+#                       display_scanpath=True, 
+#                       AoI_identification_method = 'I_KM', 
+#                       AoI_IKM_cluster_number = 5,
+#                       AoI_temporal_binning = False, 
+#                       AoI_temporal_binning_length=.2,   ) 
  
 
-# #print(aoi_seqs[0].fixation_analysis.segmentation_results)
-# #print(v.AoI_eMine(aoi_seqs))
-# print(v.AoI_trend_analysis(aoi_seqs, 
-#                            verbose=False))
-for aoi_se in aoi_seqs:
-    print(aoi_se.sequence)
-#print(v.AoI_CDBA(aoi_seqs))
-print(v.AoI_SPAM(aoi_seqs))
+# # #print(aoi_seqs[0].fixation_analysis.segmentation_results)
+# # #print(v.AoI_eMine(aoi_seqs))
+# # print(v.AoI_trend_analysis(aoi_seqs, 
+# #                            verbose=False))
+# for aoi_se in aoi_seqs:
+#     print(aoi_se.sequence)
+# #print(v.AoI_CDBA(aoi_seqs))
+# print(v.AoI_SPAM(aoi_seqs))
  
 #aoi1 = v.AoISequence(sp1, 
 #                     AoI_identification_method = 'I_HMM')
