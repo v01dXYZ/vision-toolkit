@@ -59,6 +59,11 @@ def process_IDeT(dict data_set, dict config):
     
     cdef int min_pts = int(np.ceil(config['IDeT_min_pts'] * config['sampling_frequency']))
     min_pts = max(2, min_pts)
+    
+    assert min_pts <= win_w, (
+    "Invalid I-DeT parameters: IDeT_min_pts (s) must not exceed "
+    "IDeT_duration_threshold (s)"
+)
      
     cdef list C_clus = []
     cdef list neigh = []
