@@ -37,13 +37,6 @@ class PursuitAnalysis(TernarySegmentation):
             print("...Pursuit Analysis done\n")
 
  
-    # @classmethod
-    # def generate(cls, input, **kwargs):
-        
-    #     if isinstance(input, PursuitAnalysis):
-    #         return input
-    #     return cls(input, **kwargs)
-
         
     def _intervals(self):
         return self.segmentation_results["pursuit_intervals"]
@@ -165,6 +158,7 @@ class PursuitAnalysis(TernarySegmentation):
 
 
     def pursuit_amplitude(self, get_raw=True):
+        
         x_a = self.data_set["x_array"]
         y_a = self.data_set["y_array"]
         z_a = self.data_set["z_array"]
@@ -190,6 +184,7 @@ class PursuitAnalysis(TernarySegmentation):
 
 
     def pursuit_distance(self, get_raw=True):
+        
         x_a = self.data_set["x_array"]
         y_a = self.data_set["y_array"]
         z_a = self.data_set["z_array"]
@@ -223,6 +218,7 @@ class PursuitAnalysis(TernarySegmentation):
 
 
     def pursuit_efficiency(self, get_raw=True):
+        
         # efficiency = straight amplitude / cumulative distance
         x_a = self.data_set["x_array"]
         y_a = self.data_set["y_array"]

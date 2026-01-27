@@ -122,32 +122,20 @@ print(v.pursuit_durations(pa))
 #                         size_plan_y = 280))
 
 
-# print(v.pursuit_count(pa))
-
-# print(v.pursuit_frequency(pa))
-# print(v.pursuit_duration(pa))
-# print(v.pursuit_proportion(pa))
-# print(v.pursuit_velocity(pa))
-# print(v.pursuit_velocity_means(pa))
-# print(v.pursuit_peak_velocity(pa))
-# print(v.pursuit_amplitude(pa))
-# print(v.pursuit_distance(pa))
-# print(v.pursuit_efficiency(pa))
-
-
+ 
 
 
 
  
-# print(pa.pursuit_count())
-# print(pa.pursuit_frequency())
-# print(pa.pursuit_duration(get_raw=True))
-# print(pa.pursuit_proportion())
-# print(pa.pursuit_velocity(get_raw=True))
-# print(pa.pursuit_velocity_means(get_raw=True))
-# print(pa.pursuit_peak_velocity(get_raw=True))
-# print(pa.pursuit_amplitude(get_raw=True))
-# print(pa.pursuit_distance(get_raw=True))
-# print(pa.pursuit_efficiency(get_raw=True)) 
+print(pa.pursuit_count())
+print(pa.pursuit_frequency())
+print(pa.pursuit_durations(get_raw=True))
+print(pa.pursuit_proportion())
+print(pa.pursuit_velocity(get_raw=True))
+print(pa.pursuit_velocity_means(get_raw=True))
+print(pa.pursuit_peak_velocity(get_raw=True))
+print(pa.pursuit_amplitude(get_raw=True))
+print(pa.pursuit_distance(get_raw=True))
+print(pa.pursuit_efficiency(get_raw=True)) 
 
 

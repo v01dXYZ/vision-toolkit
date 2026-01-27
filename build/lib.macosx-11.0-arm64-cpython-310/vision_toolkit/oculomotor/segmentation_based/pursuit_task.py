@@ -1,1136 +1,1146 @@
-# -*- coding: utf-8 -*-
 
 import numpy as np
 import pandas as pd
-import scipy.optimize as optimize 
-import scipy 
 
-from vision_toolkit.segmentation.processing.ternary_segmentation import TernarySegmentation 
-from vision_toolkit.utils.segmentation_utils import interval_merging 
+import scipy
+import scipy.optimize as optimize
+
+from vision_toolkit.segmentation.processing.ternary_segmentation import TernarySegmentation
+from vision_toolkit.utils.segmentation_utils import interval_merging
 
 
-from matplotlib import pyplot as plt 
-
- 
 class PursuitTask(TernarySegmentation):
-    
-    def __init__(self, 
-                 input_df, theoretical_df, 
-                 sampling_frequency, segmentation_method = 'I_VMP', 
-                 **kwargs
-                 ):
-        
-        super().__init__(input_df, 
-                         sampling_frequency, segmentation_method, tasks = ['pursuit'],
-                         **kwargs)
-        
-        
-        self.process()
-        
-       
-        events = self.get_events(labels=True)
-        #print(events)
-    
-    
-        s_idx = self.config['pursuit_start_idx']     
-        e_idx = self.config['pursuit_end_idx']
-        t_df = pd.read_csv(theoretical_df)
-        
-        nb_s_p = len(np.array(t_df.iloc[:,0]))
-        self.config.update({'nb_samples_pursuit': nb_s_p})
-        
-        x_a = self.data_set['x_array']
-        y_a = self.data_set['y_array']
-        
-        self.data_set.update({
-            'x_pursuit': x_a,#[s_idx: s_idx+nb_s_p],
-            'y_pursuit': y_a,#[s_idx: s_idx+nb_s_p],
-            'x_theo_pursuit': np.array(t_df.iloc[:,0]),
-            'y_theo_pursuit': np.array(t_df.iloc[:,1])
-                })
-        
-      
-      
-        self.pursuit_intervals = self.segmentation_results['pursuit_intervals']
-         
-        
-        plt.plot(self.data_set['x_theo_pursuit'])
-        plt.xlabel("Time (ms)", fontsize=14)
-        plt.ylabel("Horizontal position (px)", fontsize=14)
-        plt.xticks(fontsize=10)
-        plt.yticks(fontsize=10)
-        
-        plt.show()
-        plt.clf()
-        
-        plt.plot(self.data_set['y_theo_pursuit'])
-        plt.xlabel("Time (ms)", fontsize=14)
-        plt.ylabel("Horizontal position (px)", fontsize=14)
-        plt.xticks(fontsize=10)
-        plt.yticks(fontsize=10)
-        
-        plt.show()
-        plt.clf()
+    """
+    Smooth pursuit task analysis aligned on the theoretical pursuit window.
+
+    Assumptions
+    -----------
+    - pursuit_start_idx indicates when the subject starts tracking the target (viewer timeline)
+    - No temporal lag estimation is performed
+    - The theoretical trajectory defines the analysis window
+    - Viewer data are sliced directly on that window
+    - pursuit_intervals are expressed in the *window* coordinates [0 .. nb_samples_pursuit-1]
+      and are inclusive: [start, end]
+    """
+
+    def __init__(self, input, theoretical_df, **kwargs):
+        verbose = kwargs.get("verbose", True)
+
+        if verbose:
+            print("Processing Pursuit Task...\n")
+
+        # Reuse an already computed segmentation
+        if isinstance(input, TernarySegmentation):
+            self.__dict__ = input.__dict__.copy()
+            self.config.update({"verbose": verbose})
+        else:
+            sampling_frequency = kwargs.get("sampling_frequency", None)
+            assert sampling_frequency is not None, "Sampling frequency must be specified"
+            super().__init__(input, **kwargs)
+
+        self.s_f = float(self.config["sampling_frequency"])
  
-     
+        if isinstance(theoretical_df, pd.DataFrame):
+            t_df = theoretical_df
+        else:
+            t_df = pd.read_csv(theoretical_df)
+
+        x_theo = np.asarray(t_df.iloc[:, 0], dtype=np.float64)
+        y_theo = np.asarray(t_df.iloc[:, 1], dtype=np.float64)
+        n_theo = int(len(x_theo))
+ 
+        start_idx = int(self.config.get("pursuit_start_idx", 0))
+        start_idx = max(start_idx, 0)
+
+        nb_samples = int(self.config.get("nb_samples", len(self.data_set["x_array"])))
+        end_idx = min(start_idx + n_theo, nb_samples)
+
+        # Truncate theoretical to match available viewer window length
+        n_win = max(0, end_idx - start_idx)
+        x_theo = x_theo[:n_win]
+        y_theo = y_theo[:n_win]
+
+        self.config["nb_samples_pursuit"] = int(n_win)
+        self.config["pursuit_start_idx"] = int(start_idx)
+        self.config["pursuit_end_idx"] = int(end_idx)
+
+        # Build aligned window arrays (NO lag estimation)
+        self._align_on_theoretical_window(x_theo=x_theo, y_theo=y_theo)
+
+        # Reproject pursuit intervals into window coordinates [0..n_win-1]
+        self.pursuit_intervals = self._reproject_intervals_to_window(
+            self.segmentation_results.get("pursuit_intervals", []),
+            start_idx,
+            end_idx,
+        )
+
+        if verbose:
+            print("...Pursuit Task done\n")
+ 
     
-    
+    def _align_on_theoretical_window(self, x_theo, y_theo):
+        """
+        Align viewer data with the theoretical pursuit window (no lag estimation).
+
+        Creates:
+            - x_pursuit, y_pursuit: viewer positions in the window
+            - x_theo_pursuit, y_theo_pursuit: theoretical positions (same length)
+        """
+        start_idx = int(self.config["pursuit_start_idx"])
+        n = int(self.config["nb_samples_pursuit"])
+
+        x_view = np.asarray(self.data_set["x_array"], dtype=np.float64)
+        y_view = np.asarray(self.data_set["y_array"], dtype=np.float64)
+
+        end_idx = min(start_idx + n, len(x_view), len(y_view))
+        n_valid = end_idx - start_idx
+
+        if n_valid <= 0:
+            x_win = np.array([], dtype=np.float64)
+            y_win = np.array([], dtype=np.float64)
+            x_theo_win = np.array([], dtype=np.float64)
+            y_theo_win = np.array([], dtype=np.float64)
+        else:
+            x_win = x_view[start_idx:end_idx]
+            y_win = y_view[start_idx:end_idx]
+            x_theo_win = np.asarray(x_theo[:n_valid], dtype=np.float64)
+            y_theo_win = np.asarray(y_theo[:n_valid], dtype=np.float64)
+
+        self.data_set.update(
+            {
+                "x_pursuit": x_win,
+                "y_pursuit": y_win,
+                "x_theo_pursuit": x_theo_win,
+                "y_theo_pursuit": y_theo_win,
+            }
+        )
+
+        # Update actual end index in case of truncation
+        self.config["pursuit_end_idx"] = int(start_idx + len(x_win))
+        self.config["nb_samples_pursuit"] = int(len(x_win))
+
+
+    def _reproject_intervals_to_window(self, intervals, start_idx, end_idx):
+        """
+        Convert global pursuit intervals (inclusive) into local window coordinates (inclusive).
+
+        Global interval [a, b] -> intersection with [start_idx, end_idx-1], then shift by -start_idx:
+            [max(a, start_idx) - start_idx,
+             min(b, end_idx - 1) - start_idx]
+        """
+        local_intervals = []
+
+        for a, b in intervals:
+            a = int(a)
+            b = int(b)
+
+            aa = max(a, start_idx)
+            bb = min(b, end_idx - 1)
+
+            if bb >= aa:
+                local_intervals.append([aa - start_idx, bb - start_idx])
+
+        if len(local_intervals) > 1:
+            local_intervals = interval_merging(np.asarray(local_intervals, dtype=int)).tolist()
+
+        return local_intervals
+
+
+    def _safe_sd(self, x):
+        x = np.asarray(x, dtype=np.float64)
+        return float(np.nanstd(x, ddof=1)) if np.sum(np.isfinite(x)) >= 2 else 0.0
+
+
+    def _speed_array_window(self):
+        """
+        Return absolute_speed restricted to the theoretical window (global slice).
+
+        Note: absolute_speed is defined on transitions; we keep a safe slice and later
+        slice per-interval as start..end (exclusive end) in window coordinates.
+        """
+        a_sp = np.asarray(self.data_set["absolute_speed"], dtype=np.float64)
+        s = max(int(self.config["pursuit_start_idx"]), 0)
+        e = min(int(self.config["pursuit_end_idx"]), a_sp.size)
+        
+        return a_sp[s:e]
+
+
+    def _speed_segment_window(self, start, end):
+        """
+        Return a speed segment in window coordinates.
+
+        Conventions:
+        - Intervals are inclusive on positions [start, end]
+        - Speeds are defined on transitions, so use [start, end) where end is inclusive+1
+        """
+        if end <= start:
+            return np.array([], dtype=np.float64)
+
+        a_sp = self._speed_array_window()
+        start = max(int(start), 0)
+        end = min(int(end), a_sp.size)
+        
+        return a_sp[start:end]
+
+  
     def pursuit_task_count(self):
         
-        ct = len(self.pursuit_intervals)
-        results = dict({"count": ct})
-        
-        return results
-    
+        ct = int(len(self.pursuit_intervals))
+        return {"count": ct}
+
 
     def pursuit_task_frequency(self):
-
-        ct = len(self.pursuit_intervals)
-        f = ct/(self.config['nb_samples_pursuit']/self.config['sampling_frequency'])
-
-        result = dict({"frequency": f})
-
-        return result
-    
-    
-    def pursuit_task_durations(self):
+        ct = float(len(self.pursuit_intervals))
+        denom = float(self.config["nb_samples_pursuit"]) / float(self.config["sampling_frequency"])
+        f = ct / denom if denom > 0 else np.nan
         
-        a_i = np.array(self.pursuit_intervals) + np.array([[0, 1]])
-        a_d = a_i[:,1] - a_i[:,0]
-        
-        result =  dict({
-            'duration mean': np.mean(a_d), 
-            'duration sd': np.std(a_d),  
-            'raw': a_d
-                })
-        
-        return result
-    
-      
+        return {"frequency": float(f)}
+
+
+    def pursuit_task_durations(self, get_raw=True):
+        """
+        Duration per interval (seconds). Intervals are inclusive in window coords.
+        """
+        if len(self.pursuit_intervals) == 0:
+            res = {"duration mean": np.nan, "duration sd": 0.0, "raw": np.array([], dtype=np.float64)}
+            if not get_raw:
+                del res["raw"]
+            return res
+
+        a_i = np.asarray(self.pursuit_intervals, dtype=np.int64)
+        a_d = (a_i[:, 1] - a_i[:, 0] + 1) / self.s_f
+
+        res = {
+            "duration mean": float(np.nanmean(a_d)),
+            "duration sd": self._safe_sd(a_d),
+            "raw": a_d,
+        }
+        if not get_raw:
+            del res["raw"]
+            
+        return res
+
+
     def pursuit_task_proportion(self):
         """
-        Calculate the proportion of time spent in pursuit intervals relative to the total duration.
-    
-        Returns
-        -------
-        dict
-            A dictionary containing the proportion of pursuit time (unitless, 0 to 1) with key 'task proportion'.
-            Returns 0.0 if there are no valid pursuit intervals or if the total duration is zero.
-    
-        Notes
-        -----
-        - Pursuit intervals are adjusted to include the end sample (end index + 1).
-        - Total duration is determined by pursuit_end_idx - pursuit_start_idx if provided,
-          otherwise by the length of the theoretical pursuit data.
+        Proportion of time spent in pursuit intervals within the theoretical window.
         """
-        
         if not self.pursuit_intervals:
-            return {'task proportion': 0.0}
-    
-        # Convert intervals to NumPy array and adjust end index to include last sample
-        intervals = np.array(self.pursuit_intervals) + np.array([[0, 1]])
-    
-        # Filter out invalid intervals (end < start)
-        valid_intervals = intervals[intervals[:, 1] > intervals[:, 0]]
-        if valid_intervals.size == 0:
-            return {'task proportion': 0.0}
-    
-        # Calculate total duration of pursuit intervals in samples
-        total_pursuit_duration = (valid_intervals[:, 1] - valid_intervals[:, 0]).sum()
-    
-        # Determine total duration of the pursuit period
-        if self.config.get('pursuit_end_idx') is not None:
-            total_duration = self.config['pursuit_end_idx'] - self.config['pursuit_start_idx']
-        else:
-            total_duration = len(self.data_set['x_theo_pursuit'])
-    
-        # Validate total duration
-        if total_duration <= 0:
-            print("Warning: Total duration is zero or negative, returning proportion 0.0")
-            return {'task proportion': 0.0}
-    
-        # Compute proportion
-        proportion = total_pursuit_duration / total_duration
-    
-        result = dict({'task proportion': float(proportion)})
-        
-        return result
-    
-  
-    
-    def pursuit_task_velocity(self):
-        
-        _ints = self.pursuit_intervals 
-        a_sp = self.data_set['absolute_speed']
-        
-        l_sp = [] 
-        for _int in _ints:       
-            l_sp.extend(list(a_sp[_int[0]: _int[1]+1])) 
-       
-        return dict({
-            'velocity mean': np.mean(np.array(l_sp)), 
-            'velocity sd': np.std(np.array(l_sp)),  
-            'raw': np.array(l_sp)
-                })
-    
-    
-    def pursuit_task_velocity_means(self):
-        
-        _ints = self.pursuit_intervals
-        a_sp = self.data_set['absolute_speed']
-        
-        m_sp = []
-        for _int in _ints:       
-            m_sp.append(np.mean(a_sp[_int[0]: _int[1]+1])) 
-       
-        return dict({
-            'velocity mean mean': np.mean(np.array(m_sp)), 
-            'velocity mean sd': np.std(np.array(m_sp)),  
-            'raw': np.array(m_sp)
-                })
-    
-    
-    def pursuit_task_peak_velocity(self):
-        
-        _ints = self.pursuit_intervals  
-        a_sp = self.data_set['absolute_speed']
-        
-        p_sp = []
-        
-        for _int in _ints:       
-            p_sp.append(np.max(a_sp[_int[0]: _int[1]+1])) 
-       
-        return dict({
-            'velocity peak mean': np.mean(np.array(p_sp)), 
-            'velocity peak sd': np.std(np.array(p_sp)),  
-            'raw': np.array(p_sp)
-                }) 
-    
+            return {"task proportion": 0.0}
 
-    def pursuit_task_amplitude(self):
-        
-        x_a = self.data_set['x_array']
-        y_a = self.data_set['y_array']
-        z_a = self.data_set['z_array']
-        
-        _ints = self.pursuit_intervals
-        dist_ = self.distances[self.config['distance_type']]
-        
+        intervals = np.asarray(self.pursuit_intervals, dtype=np.int64)
+        valid = intervals[intervals[:, 1] >= intervals[:, 0]]
+        if valid.size == 0:
+            return {"task proportion": 0.0}
+
+        total_pursuit_samples = float(np.sum(valid[:, 1] - valid[:, 0] + 1))
+        total_samples = float(self.config.get("nb_samples_pursuit", 0))
+
+        if total_samples <= 0:
+            return {"task proportion": 0.0}
+
+        return {"task proportion": float(total_pursuit_samples / total_samples)}
+
+
+    def pursuit_task_velocity(self, get_raw=True):
+        """
+        Pooled speeds across all pursuit segments in the window.
+        For an interval [a,b] (inclusive in positions), use speeds [a, b) in window coords,
+        i.e. end = b (inclusive) -> b is used as exclusive end.
+        """
+        l_sp = []
+        for a, b in self.pursuit_intervals:
+            seg = self._speed_segment_window(a, b)  # [a, b)
+            if seg.size:
+                l_sp.append(seg)
+
+        all_sp = np.concatenate(l_sp) if len(l_sp) else np.array([], dtype=np.float64)
+
+        res = {
+            "velocity mean": float(np.nanmean(all_sp)) if all_sp.size else np.nan,
+            "velocity sd": self._safe_sd(all_sp) if all_sp.size else np.nan,
+            "raw": all_sp,
+        }
+        if not get_raw:
+            del res["raw"]
+            
+        return res
+
+
+    def pursuit_task_velocity_means(self, get_raw=True):
+        """
+        Mean speed per pursuit interval.
+        """
+        means = []
+        for a, b in self.pursuit_intervals:
+            seg = self._speed_segment_window(a, b)
+            means.append(float(np.nanmean(seg)) if seg.size else np.nan)
+
+        means = np.asarray(means, dtype=np.float64)
+
+        res = {
+            "velocity mean mean": float(np.nanmean(means)) if means.size else np.nan,
+            "velocity mean sd": self._safe_sd(means) if means.size else np.nan,
+            "raw": means,
+        }
+        if not get_raw:
+            del res["raw"]
+            
+        return res
+
+
+    def pursuit_task_peak_velocity(self, get_raw=True):
+        """
+        Peak speed per pursuit interval.
+        """
+        peaks = []
+        for a, b in self.pursuit_intervals:
+            seg = self._speed_segment_window(a, b)
+            peaks.append(float(np.nanmax(seg)) if seg.size else np.nan)
+
+        peaks = np.asarray(peaks, dtype=np.float64)
+
+        res = {
+            "velocity peak mean": float(np.nanmean(peaks)) if peaks.size else np.nan,
+            "velocity peak sd": self._safe_sd(peaks) if peaks.size else np.nan,
+            "raw": peaks,
+        }
+        if not get_raw:
+            del res["raw"]
+            
+        return res
+
+
+    def pursuit_task_amplitude(self, get_raw=True):
+        """
+        Straight-line amplitude (start->end) per pursuit interval, using global arrays but
+        indices converted to global by adding pursuit_start_idx.
+        """
+        x_a = np.asarray(self.data_set["x_array"], dtype=np.float64)
+        y_a = np.asarray(self.data_set["y_array"], dtype=np.float64)
+        z_a = np.asarray(self.data_set["z_array"], dtype=np.float64)
+
+        dist_ = self.distances[self.config["distance_type"]]
+        s0 = int(self.config["pursuit_start_idx"])
+
         dsp = []
-        for _int in _ints:
+        for a, b in self.pursuit_intervals:
+            ga = s0 + int(a)
+            gb = s0 + int(b)
+
+            if gb < ga or gb >= len(x_a) or ga < 0:
+                dsp.append(np.nan)
+                continue
+
+            p0 = np.array([x_a[ga], y_a[ga], z_a[ga]])
+            p1 = np.array([x_a[gb], y_a[gb], z_a[gb]])
+            dsp.append(dist_(p0, p1))
+
+        dsp = np.asarray(dsp, dtype=np.float64)
+
+        res = {
+            "pursuit amplitude mean": float(np.nanmean(dsp)) if dsp.size else np.nan,
+            "pursuit amplitude sd": self._safe_sd(dsp) if dsp.size else np.nan,
+            "raw": dsp,
+        }
+        if not get_raw:
+            del res["raw"]
             
-            s_p = np.array([x_a[_int[0]], y_a[_int[0]], z_a[_int[0]]])
-            e_p = np.array([x_a[_int[1]], y_a[_int[1]], z_a[_int[1]]])
-            
-            dsp.append(dist_(s_p, e_p))
-        
-        return dict({
-            'pursuit amplitude mean': np.mean(np.array(dsp)), 
-            'pursuit amplitude sd': np.std(np.array(dsp)),  
-            'raw': np.array(dsp)
-                })
-    
-    
-    def pursuit_task_distance(self):
-        
-        x_a = self.data_set['x_array']
-        y_a = self.data_set['y_array']
-        z_a = self.data_set['z_array']
-        
-        _ints = self.pursuit_intervals
-        dist_ = self.distances[self.config['distance_type']]
-        
+        return res
+
+
+    def pursuit_task_distance(self, get_raw=True):
+        """
+        Cumulative distance along the path per pursuit interval.
+        """
+        x_a = np.asarray(self.data_set["x_array"], dtype=np.float64)
+        y_a = np.asarray(self.data_set["y_array"], dtype=np.float64)
+        z_a = np.asarray(self.data_set["z_array"], dtype=np.float64)
+
+        dist_ = self.distances[self.config["distance_type"]]
+        s0 = int(self.config["pursuit_start_idx"])
+
         t_cum = []
-        for _int in _ints:
-            
-            l_cum = 0
-            for k in range (_int[0], _int[1]):
-                
-                s_p = np.array([x_a[k], y_a[k], z_a[k]])
-                e_p = np.array([x_a[k+1], y_a[k+1], z_a[k+1]])
-                
-                l_cum += dist_(s_p, e_p)
-                
+        for a, b in self.pursuit_intervals:
+            ga = s0 + int(a)
+            gb = s0 + int(b)
+
+            if gb <= ga or ga < 0 or gb >= len(x_a):
+                t_cum.append(np.nan)
+                continue
+
+            l_cum = 0.0
+            for k in range(ga, gb):
+                p0 = np.array([x_a[k], y_a[k], z_a[k]])
+                p1 = np.array([x_a[k + 1], y_a[k + 1], z_a[k + 1]])
+                l_cum += dist_(p0, p1)
+
             t_cum.append(l_cum)
+
+        t_cum = np.asarray(t_cum, dtype=np.float64)
+
+        res = {
+            "pursuit cumul. distance mean": float(np.nanmean(t_cum)) if t_cum.size else np.nan,
+            "pursuit cumul. distance sd": self._safe_sd(t_cum) if t_cum.size else np.nan,
+            "raw": t_cum,
+        }
+        if not get_raw:
+            del res["raw"]
             
-        return dict({
-            'pursuit cumul. distance mean': np.mean(np.array(t_cum)), 
-            'pursuit cumul. distance sd': np.std(np.array(t_cum)),  
-            'raw': np.array(t_cum)
-                })
-    
-    
-    def pursuit_task_efficiency(self):
-        
-        x_a = self.data_set['x_array']
-        y_a = self.data_set['y_array']
-        z_a = self.data_set['z_array']
-        
-        _ints = self.pursuit_intervals 
-        dist_ = self.distances[self.config['distance_type']]
-        
-        eff = []
-        for _int in _ints:
+        return res
+
+
+    def pursuit_task_efficiency(self, get_raw=True):
+        """
+        Efficiency = amplitude / cumulative distance per interval.
+        """
+        amp = self.pursuit_task_amplitude(get_raw=True)["raw"]
+        dist = self.pursuit_task_distance(get_raw=True)["raw"]
+
+        if amp.size == 0 or dist.size == 0:
+            res = {"pursuit efficiency mean": np.nan, "pursuit efficiency sd": np.nan, "raw": np.array([], dtype=np.float64)}
+            if not get_raw:
+                del res["raw"]
+            return res
+
+        eff = np.where(np.isfinite(dist) & (dist > 0), amp / dist, np.nan)
+        eff = np.asarray(eff, dtype=np.float64)
+
+        res = {
+            "pursuit efficiency mean": float(np.nanmean(eff)) if eff.size else np.nan,
+            "pursuit efficiency sd": self._safe_sd(eff) if eff.size else np.nan,
+            "raw": eff,
+        }
+        if not get_raw:
+            del res["raw"]
             
-            s_p = np.array([x_a[_int[0]], y_a[_int[0]], z_a[_int[0]]])
-            e_p = np.array([x_a[_int[1]], y_a[_int[1]], z_a[_int[1]]])
-            
-            s_amp = dist_(s_p, e_p)
-            l_cum = 0
-            
-            for k in range (_int[0], _int[1]):
-                
-                s_p = np.array([x_a[k], y_a[k], z_a[k]])
-                e_point = np.array([x_a[k+1], y_a[k+1], z_a[k+1]])
-                
-                l_cum += dist_(s_p, e_point)
-            
-            if l_cum != 0:
-                eff.append(s_amp/l_cum)
-            
-        return dict({
-            'pursuit efficiency mean': np.mean(np.array(eff)), 
-            'pursuit efficiency sd': np.std(np.array(eff)),  
-            'raw': np.array(eff)
-                }) 
-    
-     
-    def pursuit_task_slope_ratios(self):
-        
+        return res
+
+
+    def pursuit_task_slope_ratios(self, get_raw=True):
+        """
+        Per-interval slope ratios (eye slope / target slope) for x and y.
+
+        Important: returns one value per interval (np.nan if invalid) to keep
+        alignment with durations/weights.
+        """
         _ints = self.pursuit_intervals
-        d_t = 1 / self.config['sampling_frequency']
-        s_idx = self.config['pursuit_start_idx']
-    
-        pos = dict({
-            'x': self.data_set['x_pursuit'],
-            'y': self.data_set['y_pursuit'],
-        })
-        theo = dict({
-            'x': self.data_set['x_theo_pursuit'],
-            'y': self.data_set['y_theo_pursuit'],  # Fixed bug: was x_theo_pursuit
-        })
-    
-        s_r = dict({'x': [], 'y': []})
-    
-        for _int in _ints:
-     
-            # Adjust theoretical data indices
-            theo_start = max(0, _int[0] - s_idx)
-            theo_end = min(len(theo['x']), _int[1] - s_idx + 1)
-     
-            for _dir in ['x', 'y']:
-                l_p_e = pos[_dir][_int[0]: _int[1] + 1]
-                l_p_t = theo[_dir][theo_start: theo_end]
-    
-                # Ensure equal lengths for polynomial fitting
+        d_t = 1.0 / float(self.config["sampling_frequency"])
+        s_idx = int(self.config["pursuit_start_idx"])
+
+        pos = {"x": self.data_set["x_pursuit"], "y": self.data_set["y_pursuit"]}
+        theo = {"x": self.data_set["x_theo_pursuit"], "y": self.data_set["y_theo_pursuit"]}
+
+        s_r = {"x": [], "y": []}
+
+        for a, b in _ints:
+            # Map window interval [a,b] to theoretical indices [a,b] (same window length),
+            # but keep bounds safe.
+            theo_start = max(0, int(a))
+            theo_end = min(len(theo["x"]), int(b) + 1)
+
+            for _dir in ["x", "y"]:
+                l_p_e = np.asarray(pos[_dir][int(a) : int(b) + 1], dtype=np.float64)
+                l_p_t = np.asarray(theo[_dir][theo_start:theo_end], dtype=np.float64)
+
                 min_len = min(len(l_p_e), len(l_p_t))
-                if min_len < 2:  # Need at least 2 points for polyfit
-                    print('4')
-                    print(f"Skipping interval with insufficient length: {_int}, min_len={min_len}")
+                if min_len < 2:
+                    s_r[_dir].append(np.nan)
                     continue
-    
+
                 l_p_e = l_p_e[:min_len]
                 l_p_t = l_p_t[:min_len]
-                l_x = np.arange(min_len) * d_t
-                
-                plt.plot(l_p_e)
-                plt.show()
-                plt.clf()
-                
-                plt.plot(l_p_t)
-                plt.show()
-                plt.clf()
-    
+                l_x = np.arange(min_len, dtype=np.float64) * d_t
+
                 try:
                     slope_e = np.polyfit(l_x, l_p_e, deg=1)[0]
                     slope_t = np.polyfit(l_x, l_p_t, deg=1)[0]
-                    if slope_t != 0:  # Avoid division by zero
-                        s_r[_dir].append(slope_e / slope_t)
-                    else:
-                        print(f"Skipping interval with zero theoretical slope: {_int}")
-                except Exception as e:
-                    print(f"Error in polyfit for interval {_int}, dir {_dir}: {str(e)}")
-    
-        # Convert lists to arrays, handle empty cases
-        for _dir in ['x', 'y']:
-            s_r[_dir] = np.array(s_r[_dir]) if s_r[_dir] else np.array([])
-    
-        results = dict({'slope ratios': s_r})
-      
-        return results
-    
-    
-    
-    def pursuit_task_crossing_time(self, tolerance):
+                    s_r[_dir].append(slope_e / slope_t if slope_t != 0 else np.nan)
+                except Exception:
+                    s_r[_dir].append(np.nan)
+
+        for _dir in ["x", "y"]:
+            s_r[_dir] = np.asarray(s_r[_dir], dtype=np.float64)
+
+        res = {"slope ratios": s_r}
+        if not get_raw:
+            # keep API symmetry with others
+            pass
+        
+        return res
+
+
+    def pursuit_task_slope_gain(self, _type="weighted"):
         """
-        Calculate the first time the eye position matches the theoretical target position within a tolerance.
-    
+        Aggregate slope ratios into a gain (x and y).
+
         Parameters
         ----------
-        tolerance : float, optional
-            Maximum position difference (e.g., degrees or pixels) to consider a match. Default is 1.0.
-    
+        _type : str
+            'mean' or 'weighted' (duration-weighted mean)
+
         Returns
         -------
         dict
-            Dictionary with keys 'x' and 'y', containing the crossing time (seconds) for each direction.
-            Returns None for a direction if no crossing occurs within the pursuit period.
-    
-        Notes
-        -----
-        - Based on De Brouwer et al. (2002), position error thresholds of 0.5–2 degrees trigger catch-up saccades.
-        - Crossing time is the earliest time the position error falls below the tolerance.
+            {'slope gain': {'gain x': float, 'gain y': float}}
         """
-        sampling_frequency = self.config['sampling_frequency']
-        time = np.arange(len(self.data_set['x_pursuit'])) / sampling_frequency
-        
-        crossings = {'x': None, 'y': None}
-        
-        for direction in ['x', 'y']:
-            eye_pos = self.data_set[f'{direction}_pursuit']
-            target_pos = self.data_set[f'{direction}_theo_pursuit']
-            
-            # Ensure equal lengths
-            min_len = min(len(eye_pos), len(target_pos))
+        if not self.pursuit_intervals:
+            return {"slope gain": {"gain x": 0.0, "gain y": 0.0}}
+
+        slope_ratios = self.pursuit_task_slope_ratios(get_raw=True)["slope ratios"]
+
+        intervals = np.asarray(self.pursuit_intervals, dtype=np.int64)
+        durations = (intervals[:, 1] - intervals[:, 0] + 1).astype(np.float64)
+        valid_dur = durations > 0
+
+        gains = {}
+        for direction in ["x", "y"]:
+            ratios = np.asarray(slope_ratios.get(direction, np.array([], dtype=np.float64)), dtype=np.float64)
+
+            if ratios.size != len(self.pursuit_intervals):
+                gains["gain " + direction] = 0.0
+                continue
+
+            valid = valid_dur & np.isfinite(ratios)
+            if not np.any(valid):
+                gains["gain " + direction] = 0.0
+                continue
+
+            if _type == "mean":
+                gains["gain " + direction] = float(np.nanmean(ratios[valid]))
+            else:  # weighted
+                w = durations[valid]
+                r = ratios[valid]
+                denom = float(np.sum(w))
+                gains["gain " + direction] = float(np.sum(w * r) / denom) if denom > 0 else 0.0
+
+        return {"slope gain": gains}
+
+
+    def pursuit_task_crossing_time(self, tolerance=1.0):
+        """
+        First time (seconds) the eye position matches the theoretical target position
+        within a tolerance, computed on the window arrays.
+        """
+        s_f = float(self.config["sampling_frequency"])
+        n = int(self.config.get("nb_samples_pursuit", len(self.data_set["x_pursuit"])))
+        time = np.arange(n, dtype=np.float64) / s_f
+
+        crossings = {"x": None, "y": None}
+
+        for direction in ["x", "y"]:
+            eye_pos = np.asarray(self.data_set[f"{direction}_pursuit"], dtype=np.float64)
+            target_pos = np.asarray(self.data_set[f"{direction}_theo_pursuit"], dtype=np.float64)
+
+            min_len = min(len(eye_pos), len(target_pos), len(time))
+            if min_len <= 0:
+                continue
+
             eye_pos = eye_pos[:min_len]
             target_pos = target_pos[:min_len]
-            
-            # Compute absolute position error
+            tt = time[:min_len]
+
             error = np.abs(eye_pos - target_pos)
-            
-            # Find first index where error is below tolerance
-            valid_indices = np.where(error < tolerance)[0]
-            if valid_indices.size > 0:
-                crossings[direction] = time[valid_indices[0]]
-        
-        results = dict({'crossing time': crossings})
-        
-        return results
+            idx = np.where(error < float(tolerance))[0]
+            if idx.size > 0:
+                crossings[direction] = float(tt[idx[0]])
 
- 
-    
-    def pursuit_task_overall_gain(self, get_raw):
-        
-        _ints = self.pursuit_intervals
-        d_t = 1 / self.config['sampling_frequency']
-        s_idx = self.config['pursuit_start_idx']
-    
-        pos = dict({
-            'x': self.data_set['x_pursuit'],
-            'y': self.data_set['y_pursuit'],
-        })
-        theo = dict({
-            'x': self.data_set['x_theo_pursuit'],
-            'y': self.data_set['y_theo_pursuit'],  # Fixed bug: was x_theo_pursuit
-        })
-     
-        gains = [] 
-        for _int in _ints:
-     
-            # Adjust theoretical data indices
-            theo_start = max(0, _int[0] - s_idx)
-            theo_end = min(len(theo['x']), _int[1] - s_idx + 1)
-      
-            x_e = pos['x'][theo_start: theo_end]
-            y_e = pos['y'][theo_start: theo_end]
-        
-            x_t = theo['x'][theo_start: theo_end]
-            y_t = theo['y'][theo_start: theo_end]
-          
-            s_e_x = x_e[1:]- x_e[:-1]
-            s_e_y = y_e[1:]- y_e[:-1]
-            s_t_x = x_t[1:]- x_t[:-1]
-            s_t_y = y_t[1:]- y_t[:-1]
-            
-            e_vel = np.sqrt((s_e_x/d_t)**2 + (s_e_y/d_t)**2)
-            t_vel = np.sqrt((s_t_x/d_t)**2 + (s_t_y/d_t)**2)
-            
-            l_gains = e_vel/t_vel
-            gains += list(l_gains)
-            
-        results = dict({'overall gain': np.mean(gains),
-                       'raw': np.array(gains)})
-        
-        if not get_raw:
-            del results["raw"]
-            
-        return results
-           
-  
-    def pursuit_task_overall_gain_x(self, get_raw):
-        
-        _ints = self.pursuit_intervals
-        d_t = 1 / self.config['sampling_frequency']
-        s_idx = self.config['pursuit_start_idx']
-    
-        pos = dict({
-            'x': self.data_set['x_pursuit'],
-            'y': self.data_set['y_pursuit'],
-        })
-        theo = dict({
-            'x': self.data_set['x_theo_pursuit'],
-            'y': self.data_set['y_theo_pursuit'],  # Fixed bug: was x_theo_pursuit
-        })
-   
-        gains = [] 
-        for _int in _ints:
-     
-            # Adjust theoretical data indices
-            theo_start = max(0, _int[0] - s_idx)
-            theo_end = min(len(theo['x']), _int[1] - s_idx + 1)
-    
-            x_e = pos['x'][theo_start: theo_end]
-            x_t = theo['x'][theo_start: theo_end] 
-      
-            s_e_x = x_e[1:]- x_e[:-1] 
-            s_t_x = x_t[1:]- x_t[:-1]
-            
-            e_vel = (s_e_x/d_t) 
-            t_vel = (s_t_x/d_t) 
-            
-            l_gains = e_vel/t_vel
-            gains += list(l_gains)
-            
-        results = dict({'overall gain x': np.mean(gains),
-                       'raw': np.array(gains)})
-        
-        if not get_raw:
-            del results["raw"]
-            
-        return results
-        
-    
-    def pursuit_task_overall_gain_y(self, get_raw):
-        
-        _ints = self.pursuit_intervals
-        d_t = 1 / self.config['sampling_frequency']
-        s_idx = self.config['pursuit_start_idx']
-    
-        pos = dict({
-            'x': self.data_set['x_pursuit'],
-            'y': self.data_set['y_pursuit'],
-        })
-        theo = dict({
-            'x': self.data_set['x_theo_pursuit'],
-            'y': self.data_set['y_theo_pursuit'],  # Fixed bug: was x_theo_pursuit
-        })
-     
-        gains = [] 
-        for _int in _ints:
-     
-            # Adjust theoretical data indices
-            theo_start = max(0, _int[0] - s_idx)
-            theo_end = min(len(theo['y']), _int[1] - s_idx + 1)
-      
-            
-            y_e = pos['y'][theo_start: theo_end] 
-            y_t = theo['y'][theo_start: theo_end]
-           
-            s_e_y = y_e[1:]- y_e[:-1] 
-            s_t_y = y_t[1:]- y_t[:-1]
-            
-            e_vel = s_e_y/d_t 
-            t_vel = s_t_y/d_t 
-            
-            l_gains = e_vel/t_vel
-            gains += list(l_gains)
-            
-        results = dict({'overall gain y': np.mean(gains),
-                       'raw': np.array(gains)})
-        
-        if not get_raw:
-            del results["raw"]
-            
-        return results
-    
-    
-    
-    def pursuit_task_slopel_gain(self, _type):
+        return {"crossing time": crossings}
+
+
+    def pursuit_task_overall_gain(self, get_raw=True):
         """
-        Calculate the gain of smooth pursuit eye movements in x and y directions.
-    
-        Parameters
-        ----------
-        _type : str, optional
-            Calculation type: 'mean' (mean of slope ratios), 'weighted' (duration-weighted mean).
-            Default is 'weighted'.
-    
-        Returns
-        -------
-        dict
-            Keys 'x' and 'y' with gain values (float). Returns 0.0 for invalid cases.
-    
-        Notes
-        -----
-        Gain is the ratio of eye velocity to target velocity, derived from slope ratios.
+        Gain based on speed magnitude: ||v_eye|| / ||v_target|| pooled over intervals.
+        Computed on the window arrays.
         """
-        # Check if pursuit intervals are empty; return zero gains if so
-        if not self.pursuit_intervals: 
-            return {'x': 0.0, 'y': 0.0}
-    
-        # Retrieve slope ratios from pursuit_task_slope_ratios method
-        slope_ratios = self.pursuit_task_slope_ratios()['slope ratios']
-    
-        # Compute interval durations by adjusting end indices (add 1 to include last point)
-        intervals = np.array(self.pursuit_intervals) + np.array([[0, 1]])
-        durations = intervals[:, 1] - intervals[:, 0]
-        
-        # Create mask for valid intervals (duration > 0)
-        valid_mask = durations > 0
-        if not valid_mask.any():
-            return {'x': 0.0, 'y': 0.0}
-        valid_durations = durations[valid_mask]
-    
-        # Initialize dictionary to store gain values for x and y directions
-        gains = {}
-        for direction in ['x', 'y']:
-            # Get slope ratios for the current direction (x or y)
-            ratios = slope_ratios.get(direction, np.array([]))
-            
-            # Validate ratios: check if length matches intervals and all values are finite
-            if len(ratios) != len(self.pursuit_intervals) or not np.all(np.isfinite(ratios)):
-                gains[direction] = 0.0
+        d_t = 1.0 / float(self.config["sampling_frequency"])
+
+        pos = {"x": np.asarray(self.data_set["x_pursuit"], dtype=np.float64),
+               "y": np.asarray(self.data_set["y_pursuit"], dtype=np.float64)}
+        theo = {"x": np.asarray(self.data_set["x_theo_pursuit"], dtype=np.float64),
+                "y": np.asarray(self.data_set["y_theo_pursuit"], dtype=np.float64)}
+
+        gains = []
+
+        for a, b in self.pursuit_intervals:
+            a = int(a); b = int(b)
+            if b <= a:
                 continue
-            
-            # Filter ratios to only those corresponding to valid intervals
-            valid_ratios = ratios[valid_mask] 
-            if len(valid_ratios) == 0:
-                gains[direction] = 0.0
+
+            xe = pos["x"][a:b+1]
+            ye = pos["y"][a:b+1]
+            xt = theo["x"][a:b+1]
+            yt = theo["y"][a:b+1]
+
+            min_len = min(len(xe), len(ye), len(xt), len(yt))
+            if min_len < 2:
                 continue
+
+            xe = xe[:min_len]; ye = ye[:min_len]
+            xt = xt[:min_len]; yt = yt[:min_len]
+
+            se_x = xe[1:] - xe[:-1]
+            se_y = ye[1:] - ye[:-1]
+            st_x = xt[1:] - xt[:-1]
+            st_y = yt[1:] - yt[:-1]
+
+            e_vel = np.sqrt((se_x / d_t) ** 2 + (se_y / d_t) ** 2)
+            t_vel = np.sqrt((st_x / d_t) ** 2 + (st_y / d_t) ** 2)
+
+            with np.errstate(divide="ignore", invalid="ignore"):
+                l_g = e_vel / t_vel
+            gains += list(l_g[np.isfinite(l_g)])
+
+        gains = np.asarray(gains, dtype=np.float64)
+
+        res = {"overall gain": float(np.nanmean(gains)) if gains.size else np.nan,
+               "raw": gains}
+        if not get_raw:
+            del res["raw"]
             
-            # Calculate gain based on specified type
-            if _type == 'mean':
-                # Basic mode: compute simple mean of valid slope ratios
-                gains[direction] = np.mean(valid_ratios)
-            elif _type == 'weighted': 
-                # Weighted mode: compute duration-weighted mean of slope ratios
-                total_duration = np.sum(valid_durations)
-                if total_duration == 0:
-                    gains[direction] = 0.0
-                    continue
-                gains['gain ' + direction] = np.sum(valid_durations * valid_ratios) / total_duration
-    
-        # Return dictionary with gain values for x and y directions
-        results = dict({'slope gain': gains})
-        
-        return results
-    
-    
-    
+        return res
+
+
+    def pursuit_task_overall_gain_x(self, get_raw=True):
+        """
+        Gain based on x-velocity: v_eye_x / v_target_x pooled over intervals.
+        """
+        d_t = 1.0 / float(self.config["sampling_frequency"])
+
+        xe_all = np.asarray(self.data_set["x_pursuit"], dtype=np.float64)
+        xt_all = np.asarray(self.data_set["x_theo_pursuit"], dtype=np.float64)
+
+        gains = []
+
+        for a, b in self.pursuit_intervals:
+            a = int(a); b = int(b)
+            if b <= a:
+                continue
+
+            xe = xe_all[a:b+1]
+            xt = xt_all[a:b+1]
+
+            min_len = min(len(xe), len(xt))
+            if min_len < 2:
+                continue
+
+            xe = xe[:min_len]
+            xt = xt[:min_len]
+
+            se = xe[1:] - xe[:-1]
+            st = xt[1:] - xt[:-1]
+
+            e_vel = se / d_t
+            t_vel = st / d_t
+
+            with np.errstate(divide="ignore", invalid="ignore"):
+                l_g = e_vel / t_vel
+            gains += list(l_g[np.isfinite(l_g)])
+
+        gains = np.asarray(gains, dtype=np.float64)
+
+        res = {"overall gain x": float(np.nanmean(gains)) if gains.size else np.nan,
+               "raw": gains}
+        if not get_raw:
+            del res["raw"]
+            
+        return res
+
+
+    def pursuit_task_overall_gain_y(self, get_raw=True):
+        """
+        Gain based on y-velocity: v_eye_y / v_target_y pooled over intervals.
+        """
+        d_t = 1.0 / float(self.config["sampling_frequency"])
+
+        ye_all = np.asarray(self.data_set["y_pursuit"], dtype=np.float64)
+        yt_all = np.asarray(self.data_set["y_theo_pursuit"], dtype=np.float64)
+
+        gains = []
+
+        for a, b in self.pursuit_intervals:
+            a = int(a); b = int(b)
+            if b <= a:
+                continue
+
+            ye = ye_all[a:b+1]
+            yt = yt_all[a:b+1]
+
+            min_len = min(len(ye), len(yt))
+            if min_len < 2:
+                continue
+
+            ye = ye[:min_len]
+            yt = yt[:min_len]
+
+            se = ye[1:] - ye[:-1]
+            st = yt[1:] - yt[:-1]
+
+            e_vel = se / d_t
+            t_vel = st / d_t
+
+            with np.errstate(divide="ignore", invalid="ignore"):
+                l_g = e_vel / t_vel
+            gains += list(l_g[np.isfinite(l_g)])
+
+        gains = np.asarray(gains, dtype=np.float64)
+
+        res = {"overall gain y": float(np.nanmean(gains)) if gains.size else np.nan,
+               "raw": gains}
+        if not get_raw:
+            del res["raw"]
+            
+        return res
+
+
     def pursuit_task_sinusoidal_phase(self):
-        
+        """
+        Fit a sinusoid on theoretical x and viewer x (window), and return phase difference.
+        Output kept identical: {'phase difference': float}
+        """
+
         def fit_sin(tt, yy):
-            '''Fit sin to the input time sequence, and return fitting parameters "amp", "omega", "phase", "offset", "freq", "period" and "fitfunc"'''
-            tt = np.array(tt)
-            yy = np.array(yy)
-            ff = np.fft.fftfreq(len(tt), (tt[1]-tt[0]))   # assume uniform spacing
-            Fyy = abs(np.fft.fft(yy))
-            guess_freq = abs(ff[np.argmax(Fyy[1:])+1])   # excluding the zero frequency "peak", which is related to offset
-            guess_amp = np.std(yy) * 2.**0.5
+            """
+            Fit a sinusoid to a time series.
+            Returns dict with phase and a callable fitfunc.
+            """
+            tt = np.asarray(tt, dtype=np.float64)
+            yy = np.asarray(yy, dtype=np.float64)
+
+            if tt.size < 3 or yy.size < 3:
+                raise ValueError("Not enough samples for sinusoidal fit.")
+
+            ff = np.fft.fftfreq(len(tt), (tt[1] - tt[0]))  # assume uniform spacing
+            Fyy = np.abs(np.fft.fft(yy))
+            guess_freq = np.abs(ff[np.argmax(Fyy[1:]) + 1]) if len(Fyy) > 1 else 1.0
+            guess_amp = np.std(yy) * np.sqrt(2.0)
             guess_offset = np.mean(yy)
-            guess = np.array([guess_amp, 2.*np.pi*guess_freq, 0., guess_offset])
-        
-            def sinfunc(t, A, w, p, c):  return A * np.sin(w*t + p) + c
-            popt, pcov = scipy.optimize.curve_fit(sinfunc, tt, yy, p0=guess)
+            guess = np.array([guess_amp, 2.0 * np.pi * guess_freq, 0.0, guess_offset], dtype=np.float64)
+
+            def sinfunc(t, A, w, p, c):
+                return A * np.sin(w * t + p) + c
+
+            popt, pcov = scipy.optimize.curve_fit(sinfunc, tt, yy, p0=guess, maxfev=20000)
             A, w, p, c = popt
-            f = w/(2.*np.pi)
-            fitfunc = lambda t: A * np.sin(w*t + p) + c
-            return {"amp": A, "omega": w, "phase": p, "offset": c, "freq": f, 
-                    "period": 1./f, "fitfunc": fitfunc, "maxcov": np.max(pcov), 
-                    "rawres": (guess,popt,pcov)}
-        
-        #theo_start = max(0, _int[0] - s_idx)
-        #theo_end = min(len(theo['x']), _int[1] - s_idx + 1)
-        
-        d_t = 1 / self.config['sampling_frequency']
-        len_ = len(self.data_set['x_theo_pursuit']) * d_t
-        tt = np.linspace(0, len_ - d_t, len(self.data_set['x_theo_pursuit']))
-        
-        s_idx = self.config['pursuit_start_idx']
-        end_idx = len(self.data_set['x_theo_pursuit']) + s_idx
-        
-        # Ensure the slice doesn't exceed the length of x_pursuit
-        if end_idx > len(self.data_set['x_pursuit']):
-            end_idx = len(self.data_set['x_pursuit'])
-        
-        res1 = fit_sin(tt, self.data_set['x_theo_pursuit'])
-        res2 = fit_sin(tt, self.data_set['x_pursuit'][s_idx:end_idx])
-           
-         
-               
-        if len(self.data_set['x_pursuit'][s_idx:end_idx]) != len(tt):
-            tt_pursuit = np.linspace(0, len(self.data_set['x_pursuit'][s_idx:end_idx]) * d_t - d_t, 
-                                    len(self.data_set['x_pursuit'][s_idx:end_idx]))
-        else:
-            tt_pursuit = tt
-        
-        # Plotting
-        plt.plot(tt_pursuit, self.data_set['x_pursuit'][s_idx:end_idx], "purple", label="Raw pursuit data")
-        plt.plot(tt, res1["fitfunc"](tt), "r--", label="Theoretical fit", linewidth=2)
-        plt.plot(tt, res2["fitfunc"](tt), "b--", label="Pursuit fit", linewidth=2)
-        plt.xlabel("Time (s)")
-        plt.ylabel("Position")
-        plt.title("Pursuit Task Sinusoidal Fit")
-        plt.legend()
-        plt.grid(True)
-        plt.show()
-        plt.clf()
-        
-        results = dict({'phase difference': res1['phase'] - res2['phase']})
-        
-        return results
-         
-                
-        
-    def pursuit_task_accuracy(self,pursuit_accuracy_tolerance, _type ):
-        
-        a_i = np.array(self.pursuit_intervals) + np.array([[0, 1]])
-        a_d = np.array(a_i[:,1] - a_i[:,0])
-        
-        s_r = self.pursuit_task_slope_ratios()
-        ac_t = pursuit_accuracy_tolerance
-      
-        acs = dict({})
-        for _dir in ['x', 'y']:
-          
-            w_b = np.where(s_r['slope ratios'][_dir] < 1+ac_t, 1, 0)*np.where(s_r['slope ratios'][_dir] > 1-ac_t, 1, 0)      
-            print(w_b)
-            if _type == 'weighted':
-                acs[_dir] = np.sum(w_b * a_d)/np.sum(a_d)
-               
-            elif  _type == 'mean':
-                acs[_dir] = np.mean(w_b)
-            
-        return acs
-    
-  
-    def ap_entropy (self, diff_vec, w_s, t_eps):
-        
-        n_s = len(diff_vec)
-        x_m = np.zeros((n_s-w_s+1, w_s))
-        x_mp = np.zeros((n_s-w_s, w_s+1))
-        
-        for i in range (n_s - w_s + 1):
-            
-            x_m[i] = diff_vec[i: i + w_s]
-            if i < n_s - w_s:
-                x_mp[i] = diff_vec[i: i+ w_s +1]
-    
-        C_m = np.zeros(n_s - w_s + 1)
-        C_mp = np.zeros(n_s - w_s)
-        
-        for i in range(n_s - w_s + 1):
-            
-            d = abs(x_m - x_m[i])
-            d_m = np.sum(np.max(d, axis = 1) < t_eps) 
-            C_m[i] = d_m/(n_s - w_s + 1)
-    
-        for i in range(n_s - w_s):
-            
-            d = abs(x_mp - x_mp[i])
-            d_mp = np.sum(np.max(d, axis = 1) < t_eps) 
-            C_mp[i] = d_mp/(n_s - w_s)
-    
-        entropy = np.sum(np.log(C_m))/len(C_m) - np.sum(np.log(C_mp))/len(C_mp)
+            f = w / (2.0 * np.pi)
+            fitfunc = lambda t: A * np.sin(w * t + p) + c
 
-        return entropy
-    
-    
-    def pursuit_task_entropy(self,
-                             pursuit_entropy_window, 
-                             pursuit_entropy_tolerance):
-        
-        
-        print(len(self.data_set['x_pursuit']))
-        print(len(self.data_set['x_theo_pursuit']))
-        
-        nb_s_p = self.config['nb_samples_pursuit']
-        s_idx = self.config['pursuit_start_idx']
-        
-        
-        
-        
-        pos_p = np.concatenate((self.data_set['x_pursuit'][s_idx:s_idx+nb_s_p].reshape(1, nb_s_p),
-                                self.data_set['y_pursuit'][s_idx:s_idx+nb_s_p].reshape(1, nb_s_p)), axis = 0)
-        print(len(pos_p))
-        sp_p = np.zeros_like(pos_p)
-        sp_p[:,:-1] = ((pos_p[:,1:] - pos_p[:,:-1])
-                     *self.config['sampling_frequency'])
-        
-        theo_p = np.concatenate((self.data_set['x_theo_pursuit'].reshape(1, nb_s_p),
-                                 self.data_set['y_theo_pursuit'].reshape(1, nb_s_p)), axis = 0)
+            return {
+                "amp": A,
+                "omega": w,
+                "phase": p,
+                "offset": c,
+                "freq": f,
+                "period": 1.0 / f if f != 0 else np.inf,
+                "fitfunc": fitfunc,
+                "maxcov": float(np.max(pcov)) if pcov.size else np.nan,
+                "rawres": (guess, popt, pcov),
+            }
 
-        sp_t = np.zeros_like(theo_p)
-        sp_t[:,:-1] = ((theo_p[:,1:] - theo_p[:,:-1])
-                     *self.config['sampling_frequency']) 
-        
-        app_en=dict({})
-        for k, _dir in enumerate(['x', 'y']):
-            
-            d_s_v = sp_p[k,:] - sp_t[k,:]
-            app_en[_dir] = self.ap_entropy(d_s_v, 
-                                           pursuit_entropy_window,
-                                           pursuit_entropy_tolerance)
-        
-        return app_en
-    
-    
-    def pursuit_task_cross_correlation(self):
-        
-        pos = dict({
-            'x': self.data_set['x_pursuit'],
-            'y': self.data_set['y_pursuit'],
-                })
-        
-        theo = dict({
-            'x': self.data_set['x_theo_pursuit'],
-            'y': self.data_set['x_theo_pursuit'],
-                })
-        
-        c_cr = dict({})
-        for _dir in ['x', 'y']:
-        
-            n_p = (pos[_dir] - np.mean(pos[_dir])) / (np.std(pos[_dir]))
-            n_t = (theo[_dir] - np.mean(theo[_dir])) / (np.std(theo[_dir]))
-        
-            c_cr[_dir] = np.correlate(n_p, 
-                                      n_t) / max(len(n_p), 
-                                                 len(n_t))
-                                           
-        return c_cr
-    
-    
-    def pursuit_task_onset(self):
-        
-        o_bl = self.config['pursuit_onset_baseline_length']
-        o_sl = self.config['pursuit_onset_slope_length']
-        o_t = self.config['pursuit_onset_threshold']
-        
-        s_f = self.config['sampling_frequency']
-        d_t = 1/s_f
-        
-        nb_s_p = self.config['nb_samples_pursuit']
-        pos_p = np.concatenate((self.data_set['x_pursuit'].reshape(1, nb_s_p),
-                                self.data_set['y_pursuit'].reshape(1, nb_s_p)), axis = 0)
+        s_f = float(self.config["sampling_frequency"])
+        d_t = 1.0 / s_f
 
-        sp_p = np.zeros_like(pos_p)
-        sp_p[:,:-1] = ((pos_p[:,1:] - pos_p[:,:-1])
-                     *self.config['sampling_frequency'])
-        
-        #set number of points corresponding to baseline and slope lengths
-        nb_o_bl = round(o_bl/1000 * s_f)
-        nb_o_sl = round(o_sl/1000 * s_f)
-        
-        #create corresponding x points
-        b_x = np.arange(nb_o_bl)*d_t
-        s_x = np.arange(nb_o_sl)*d_t
-        
-        onsets=dict({})
-        for k, _dir in enumerate(['x', 'y']):
-            
-            #value threshold wrt number of sd param
-            o_t_v = o_t * np.std(sp_p[k,:nb_o_bl])
-            
-            #find first point above threshold
-            start_s = np.argmax(sp_p[k] > o_t_v)
-            
-            #fit baseline and pursuit portion
-            coefs_b = np.polyfit(b_x, sp_p[k,:nb_o_bl], deg=1)
-            coefs_s = np.polyfit(s_x + start_s*d_t, sp_p[k, start_s: start_s+nb_o_sl], deg=1)
-            
-            #find crossing point as onset time
-            onsets[_dir] = (coefs_s[1] - coefs_b[1])/(coefs_b[0] - coefs_s[0]) 
+        x_t = np.asarray(self.data_set["x_theo_pursuit"], dtype=np.float64)
+        x_e = np.asarray(self.data_set["x_pursuit"], dtype=np.float64)
 
-        return onsets
-        
+        n = min(x_t.size, x_e.size)
+        if n < 3:
+            return {"phase difference": np.nan}
 
-    
-def pursuit_task_count(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_count()
-     
-    return results
+        x_t = x_t[:n]
+        x_e = x_e[:n]
 
+        tt = np.linspace(0.0, (n - 1) * d_t, n, dtype=np.float64)
 
-def pursuit_task_frequency(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_frequency()
-    
-    return results
-
-
-
-def pursuit_task_durations(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_durations()
-   
-    return results
-
-
-def pursuit_task_proportion(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_proportion()
-    
-    return results 
-
-
-def pursuit_task_velocity(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_velocity()
-    
-    return results 
-
-
-def pursuit_task_velocity_means(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_velocity_means()
-   
-    return results 
-
-
-def pursuit_task_peak_velocity(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_peak_velocity()
-   
-    return results 
-
-
-def pursuit_task_amplitude(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_amplitude()
-   
-    return results 
-
-
-def pursuit_task_distance(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_distance()
-    
-    return results 
-
-
-def pursuit_task_efficiency(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_efficiency()
-    
-    return results 
-
-
-def pursuit_task_slope_ratios(input_df, theoretical_df, 
-                       **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_slope_ratios()
-   
-    return results 
-
-
-def pursuit_task_crossing_time(input_df, theoretical_df, 
-                               **kwargs): 
-    
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method,
-                                   **kwargs_copy)
-    tolerance = kwargs.get("tolerance", 1.0)
-    results = pursuit_analysis.pursuit_task_crossing_time(tolerance)
-   
-    return results 
-     
-
-def pursuit_task_overall_gain(input_df, theoretical_df, 
-                               **kwargs): 
-    
-    get_raw = kwargs.get("get_raw", True)
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method, 
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_overall_gain(get_raw)
-    
-    return results 
-
-
-def pursuit_task_overall_gain_x(input_df, theoretical_df, 
-                               **kwargs): 
-    
-    get_raw = kwargs.get("get_raw", True)
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method, 
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_overall_gain_x(get_raw)
-    
-    return results 
-
-
-def pursuit_task_overall_gain_y(input_df, theoretical_df, 
-                               **kwargs): 
-    
-    get_raw = kwargs.get("get_raw", True)
-    kwargs_copy = kwargs.copy()
-    sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-    segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-    
-    pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                   sampling_frequency, segmentation_method, 
-                                   **kwargs_copy)
-    results = pursuit_analysis.pursuit_task_overall_gain_y(get_raw)
-   
-    return results 
-
-
-
-def pursuit_task_sinusoidal_phase(input_df, theoretical_df, 
-                               **kwargs): 
-
-   get_raw = kwargs.get("get_raw", True)
-   kwargs_copy = kwargs.copy()
-   sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-   segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-   
-   pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                  sampling_frequency, segmentation_method, 
-                                  **kwargs_copy)
-   results = pursuit_analysis.pursuit_task_sinusoidal_phase()
-    
-   return results
-
-
-def pursuit_task_accuracy(input_df, theoretical_df, 
-                               **kwargs): 
-
-   get_raw = kwargs.get("get_raw", True)
-   pursuit_accuracy_tolerance = kwargs.get("pursuit_accuracy_tolerance", .15)
-   _type = kwargs.get('_type', 'mean')
-   
-   kwargs_copy = kwargs.copy()
-   sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-   segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-   
-   pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                  sampling_frequency, segmentation_method, 
-                                  **kwargs_copy)
-   results = pursuit_analysis.pursuit_task_accuracy(pursuit_accuracy_tolerance=.15,
-                                                    _type='mean')
-    
-   return results
-
-
+        try:
+            res1 = fit_sin(tt, x_t)
+            res2 = fit_sin(tt, x_e)
+        except Exception:
+            return {"phase difference": np.nan}
  
-
-def pursuit_task_entropy(input_df, theoretical_df, 
-                               **kwargs): 
-
-   get_raw = kwargs.get("get_raw", True)
-   kwargs_copy = kwargs.copy()
-   sampling_frequency = kwargs_copy.pop("sampling_frequency", 250)
-   segmentation_method = kwargs_copy.pop("segmentation_method", 'I_VMP')
-   
-   pursuit_analysis = PursuitTask(input_df, theoretical_df, 
-                                  sampling_frequency, segmentation_method, 
-                                  **kwargs_copy)
-   results = pursuit_analysis.pursuit_task_entropy()
-    
-   return results
+        return {"phase difference": float(res1["phase"] - res2["phase"])}
 
 
+    def pursuit_task_accuracy(self, pursuit_accuracy_tolerance=0.15, _type="mean"):
+        """
+        Accuracy based on slope ratios closeness to 1 within tolerance.
 
+        Outputs kept identical to original code:
+            returns dict({'x': value, 'y': value})
+        """
+        if not self.pursuit_intervals:
+            return {"x": 0.0, "y": 0.0}
+
+        intervals = np.asarray(self.pursuit_intervals, dtype=np.int64)
+        durations = (intervals[:, 1] - intervals[:, 0] + 1).astype(np.float64)
+        valid_dur = durations > 0
+
+        s_r = self.pursuit_task_slope_ratios(get_raw=True)["slope ratios"]
+        ac_t = float(pursuit_accuracy_tolerance)
+
+        out = {}
+        for _dir in ["x", "y"]:
+            ratios = np.asarray(s_r.get(_dir, np.array([], dtype=np.float64)), dtype=np.float64)
+            if ratios.size != len(self.pursuit_intervals):
+                out[_dir] = 0.0
+                continue
+
+            # within [1-ac_t, 1+ac_t]
+            within = np.where((ratios < 1.0 + ac_t) & (ratios > 1.0 - ac_t), 1.0, 0.0)
+            within = np.where(np.isfinite(ratios), within, 0.0)
+
+            if _type == "weighted":
+                mask = valid_dur & np.isfinite(ratios)
+                denom = float(np.sum(durations[mask])) if np.any(mask) else 0.0
+                out[_dir] = float(np.sum(within[mask] * durations[mask]) / denom) if denom > 0 else 0.0
+            else:  # 'mean'
+                out[_dir] = float(np.mean(within)) if within.size else 0.0
+
+        return {'accuracy': out}
+
+
+    def ap_entropy(self, diff_vec, w_s, t_eps):
+        """
+        Approximate entropy helper (kept identical in spirit).
+        """
+        diff_vec = np.asarray(diff_vec, dtype=np.float64)
+        n_s = len(diff_vec)
+        w_s = int(w_s)
+        t_eps = float(t_eps)
+
+        if n_s <= w_s + 1 or w_s < 1:
+            return np.nan
+
+        x_m = np.zeros((n_s - w_s + 1, w_s), dtype=np.float64)
+        x_mp = np.zeros((n_s - w_s, w_s + 1), dtype=np.float64)
+
+        for i in range(n_s - w_s + 1):
+            x_m[i] = diff_vec[i : i + w_s]
+            if i < n_s - w_s:
+                x_mp[i] = diff_vec[i : i + w_s + 1]
+
+        C_m = np.zeros(n_s - w_s + 1, dtype=np.float64)
+        C_mp = np.zeros(n_s - w_s, dtype=np.float64)
+
+        for i in range(n_s - w_s + 1):
+            d = np.abs(x_m - x_m[i])
+            d_m = np.sum(np.max(d, axis=1) < t_eps)
+            C_m[i] = d_m / (n_s - w_s + 1)
+
+        for i in range(n_s - w_s):
+            d = np.abs(x_mp - x_mp[i])
+            d_mp = np.sum(np.max(d, axis=1) < t_eps)
+            C_mp[i] = d_mp / (n_s - w_s)
+
+        # Avoid log(0)
+        C_m = np.clip(C_m, 1e-12, None)
+        C_mp = np.clip(C_mp, 1e-12, None)
+
+        entropy = np.sum(np.log(C_m)) / len(C_m) - np.sum(np.log(C_mp)) / len(C_mp)
+        
+        return float(entropy)
+
+
+    def pursuit_task_entropy(self, pursuit_entropy_window, pursuit_entropy_tolerance):
+        """
+        Entropy on the speed error (viewer speed - theoretical speed) for x and y.
+
+        Output kept identical to original code:
+            returns dict({'x': apEn_x, 'y': apEn_y})
+        """
+        w_s = int(pursuit_entropy_window)
+        t_eps = float(pursuit_entropy_tolerance)
+
+        s_f = float(self.config["sampling_frequency"])
+
+        x_e = np.asarray(self.data_set["x_pursuit"], dtype=np.float64)
+        y_e = np.asarray(self.data_set["y_pursuit"], dtype=np.float64)
+        x_t = np.asarray(self.data_set["x_theo_pursuit"], dtype=np.float64)
+        y_t = np.asarray(self.data_set["y_theo_pursuit"], dtype=np.float64)
+
+        n = min(x_e.size, y_e.size, x_t.size, y_t.size)
+        if n < 3:
+            return {"x": np.nan, "y": np.nan}
+
+        x_e = x_e[:n]
+        y_e = y_e[:n]
+        x_t = x_t[:n]
+        y_t = y_t[:n]
+
+        # velocities (simple finite difference) in units per second
+        sp_e_x = np.zeros(n, dtype=np.float64)
+        sp_e_y = np.zeros(n, dtype=np.float64)
+        sp_t_x = np.zeros(n, dtype=np.float64)
+        sp_t_y = np.zeros(n, dtype=np.float64)
+
+        sp_e_x[:-1] = (x_e[1:] - x_e[:-1]) * s_f
+        sp_e_y[:-1] = (y_e[1:] - y_e[:-1]) * s_f
+        sp_t_x[:-1] = (x_t[1:] - x_t[:-1]) * s_f
+        sp_t_y[:-1] = (y_t[1:] - y_t[:-1]) * s_f
+
+        diff_x = sp_e_x - sp_t_x
+        diff_y = sp_e_y - sp_t_y
+
+        return {'entropy':
+            {"x": self.ap_entropy(diff_x, w_s, t_eps),
+            "y": self.ap_entropy(diff_y, w_s, t_eps),}
+        }
+
+
+
+
+def pursuit_task_count(input, theoretical_df, **kwargs):
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_count()
+        input.verbose()
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_count()
+        pursuit_task.verbose()
+    return results
+
+
+def pursuit_task_frequency(input, theoretical_df, **kwargs):
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_frequency()
+        input.verbose()
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_frequency()
+        pursuit_task.verbose()
+    return results
+
+
+def pursuit_task_durations(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_durations(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_durations(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_proportion(input, theoretical_df, **kwargs):
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_proportion()
+        input.verbose()
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_proportion()
+        pursuit_task.verbose()
+    return results
+
+
+def pursuit_task_velocity(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_velocity(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_velocity(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_velocity_means(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_velocity_means(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_velocity_means(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_peak_velocity(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_peak_velocity(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_peak_velocity(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_amplitude(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_amplitude(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_amplitude(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_distance(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_distance(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_distance(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_efficiency(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_efficiency(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_efficiency(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_slope_ratios(input, theoretical_df, **kwargs):
+    # keep get_raw for symmetry, even if ratios are always returned
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_slope_ratios(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_slope_ratios(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_slope_gain(input, theoretical_df, **kwargs):
+    _type = kwargs.get("_type", "weighted")
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_slope_gain(_type=_type)
+        input.verbose({"_type": _type})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_slope_gain(_type=_type)
+        pursuit_task.verbose({"_type": _type})
+    return results
+
+
+def pursuit_task_crossing_time(input, theoretical_df, **kwargs):
+    tolerance = kwargs.get("tolerance", 1.0)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_crossing_time(tolerance=tolerance)
+        input.verbose({"tolerance": tolerance})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_crossing_time(tolerance=tolerance)
+        pursuit_task.verbose({"tolerance": tolerance})
+    return results
+
+
+def pursuit_task_overall_gain(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_overall_gain(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_overall_gain(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_overall_gain_x(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_overall_gain_x(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_overall_gain_x(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_overall_gain_y(input, theoretical_df, **kwargs):
+    get_raw = kwargs.get("get_raw", True)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_overall_gain_y(get_raw=get_raw)
+        input.verbose({"get_raw": get_raw})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_overall_gain_y(get_raw=get_raw)
+        pursuit_task.verbose({"get_raw": get_raw})
+    return results
+
+
+def pursuit_task_sinusoidal_phase(input, theoretical_df, **kwargs):
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_sinusoidal_phase()
+        input.verbose()
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_sinusoidal_phase()
+        pursuit_task.verbose()
+    return results
+
+
+def pursuit_task_accuracy(input, theoretical_df, **kwargs):
+    pursuit_accuracy_tolerance = kwargs.get("pursuit_accuracy_tolerance", 0.15)
+    _type = kwargs.get("_type", "mean")
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_accuracy(
+            pursuit_accuracy_tolerance=pursuit_accuracy_tolerance,
+            _type=_type,
+        )
+        input.verbose({"pursuit_accuracy_tolerance": pursuit_accuracy_tolerance, "_type": _type})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_accuracy(
+            pursuit_accuracy_tolerance=pursuit_accuracy_tolerance,
+            _type=_type,
+        )
+        pursuit_task.verbose({"pursuit_accuracy_tolerance": pursuit_accuracy_tolerance, "_type": _type})
+    return results
+
+
+def pursuit_task_entropy(input, theoretical_df, **kwargs):
+    pursuit_entropy_window = kwargs.get("pursuit_entropy_window", 10)
+    pursuit_entropy_tolerance = kwargs.get("pursuit_entropy_tolerance", 0.1)
+
+    if isinstance(input, PursuitTask):
+        results = input.pursuit_task_entropy(
+            pursuit_entropy_window=pursuit_entropy_window,
+            pursuit_entropy_tolerance=pursuit_entropy_tolerance,
+        )
+        input.verbose({"pursuit_entropy_window": pursuit_entropy_window, "pursuit_entropy_tolerance": pursuit_entropy_tolerance})
+    else:
+        pursuit_task = PursuitTask(input, theoretical_df, **kwargs)
+        results = pursuit_task.pursuit_task_entropy(
+            pursuit_entropy_window=pursuit_entropy_window,
+            pursuit_entropy_tolerance=pursuit_entropy_tolerance,
+        )
+        pursuit_task.verbose({"pursuit_entropy_window": pursuit_entropy_window, "pursuit_entropy_tolerance": pursuit_entropy_tolerance})
+    return results
 
 
 

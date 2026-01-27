@@ -48,8 +48,7 @@ class TernarySegmentation():
         config = dict({
             'sampling_frequency': sampling_frequency,
             'segmentation_method': segmentation_method,
-            'pursuit_start_idx': kwargs.get('pursuit_start_idx', 0),
-            'pursuit_end_idx': kwargs.get('pursuit_end_idx', None),
+            'pursuit_start_idx': kwargs.get('pursuit_start_idx', 0), 
             'distance_projection': kwargs.get('distance_projection'),
             'size_plan_x': kwargs.get('size_plan_x'),
             'size_plan_y': kwargs.get('size_plan_y'),
