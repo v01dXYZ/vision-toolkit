@@ -43,7 +43,7 @@ jobs:
       - name: Install Vision Toolkit
         run: |
           python -m pip install --upgrade pip
-	  python -m pip install .[test]
+          python -m pip install .[test]
 
       - name: Test with Hollywood2
         run: |
