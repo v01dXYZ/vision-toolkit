@@ -21,7 +21,6 @@ jobs:
   test-hollywood2:
     runs-on: ubuntu-latest
     if: |
-      ${{ github.event.issue.pull_request }} ||
       contains(github.event.comment.body, '/support') 
     steps:
     - uses: actions/checkout@v5
