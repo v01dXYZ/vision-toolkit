@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          docker run $IMGTAG "python -m pip install .[test] && python tests/hollywood2/run.py" -v .:/pkg
+          docker run -t $IMGTAG "python -m pip install .[test] && python tests/hollywood2/run.py" -v .:/pkg
 
       - uses: actions/upload-artifact@v4
         with:
