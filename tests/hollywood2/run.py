@@ -188,17 +188,17 @@ def run_segmentation(fp, nary, method):
 
 
 def as_arff_data(x):
+    column_dtypes = {
+        k: np.dtype("<U8")
+        for k, v in x.dtypes.items()
+        if isinstance(v, (np.dtypes.ObjectDType, pd.StringDtype))
+    }
     ret = {
         "data": x.to_records(
             index=False,
-            column_dtypes={
-                k: np.dtype("<U8")
-                for k, v in x.dtypes.items()
-                if v == np.dtypes.ObjectDType
-            },
+            column_dtypes=column_dtypes,
         ),
     }
-
     return ret
 
 
