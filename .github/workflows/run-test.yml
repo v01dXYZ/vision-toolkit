@@ -27,7 +27,6 @@ jobs:
     #   with:
     #     path: report.json
     - name: Create Comment
-      if: steps.pr-changes.outputs.changes != '[]'
       run: |
         # Use GitHub API to create a comment on the PR
         PR_NUMBER=${{ github.event.pull_request.number }}
