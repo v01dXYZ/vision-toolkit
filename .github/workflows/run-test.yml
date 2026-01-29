@@ -56,7 +56,7 @@ jobs:
         if: always()
         with:
           script: |
-            import fs from 'node:fs';
+            const fs = require('node:fs');
 
             const name = '${{ github.workflow	}}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
