@@ -137,7 +137,7 @@ from .scanpath.similarity.distance_based.point_mapping.point_mapping import (
     PointMappingDistance, 
     scanpath_TDE_distance, 
     scanpath_eye_analysis_distance, 
-    scanpath_mannan_distance)
+    scanpath_mannan_similarity)
 from .scanpath.similarity.specific_similarity_metrics.multimatch_alignment import scanpath_multimatch_alignment
 from .scanpath.similarity.specific_similarity_metrics.scanmatch_score import scanpath_scanmatch_score
 from .scanpath.similarity.specific_similarity_metrics.subsmatch_similarity import scanpath_subsmatch_similarity

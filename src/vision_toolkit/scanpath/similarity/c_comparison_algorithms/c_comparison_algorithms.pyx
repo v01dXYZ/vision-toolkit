@@ -57,11 +57,7 @@ def DTW (double[:,:] s_1, double[:,:] s_2,
                 b_map[i_, j_, 1] = s_s_1
        
    
-    o_l = []
-    o_l.insert(0, [s_1[:,n_1-1], 
-                   s_2[:,n_2-1],
-                   [n_1-1, n_2-1]])
-    
+    o_l = []    
     opt_links = dtw_links_backtracking(s_1, s_2, o_l, 
                                        d_mat, b_map,  
                                        i = n_1, j = n_2) 
@@ -444,30 +440,26 @@ def int_convert(list s_1, list s_2):
     return tmp_1, tmp_2
 
 
-def int_convert_from_dict(list s_1, list s_2,
-                          dict dict_chr_idx):
-    
-    ## Create dict from str to int
-    dict_str_int = dict()
-    
-    for i, str_ in enumerate(dict_chr_idx.keys()): 
-        dict_str_int.update({str_: i})
-     
-    ## Convert input lists of str to list of int
-    tmp_1 = np.array(
-        [dict_str_int[s_1[i]] for i in range(len(s_1))], 
-        dtype=np.int32
-            ) 
-    tmp_2 = np.array(
-        [dict_str_int[s_2[j]] for j in range(len(s_2))], 
-        dtype=np.int32
-            ) 
-    ## Create dict from int to indexes for the dist_mat
-    n_dict = dict() 
-    for key, val in dict_chr_idx.items(): 
-        n_key = dict_str_int[key]
-        n_dict.update({n_key: val})
-        
+def int_convert_from_dict(list s_1, list s_2, dict dict_chr_idx):
+    """
+    Convertit 2 séquences de symboles (ex: ["AA","AB",...]) en tableaux d'int,
+    en s'appuyant sur dict_chr_idx (symbole -> index dist_mat).
+
+    Retourne:
+      - tmp_1: np.int32 (len(s_1),)
+      - tmp_2: np.int32 (len(s_2),)
+      - n_dict: dict[int -> int] (index "compact" -> index dist_mat)
+    """
+ 
+    keys = sorted(dict_chr_idx.keys())
+ 
+    dict_str_int = {k: i for i, k in enumerate(keys)}
+ 
+    tmp_1 = np.array([dict_str_int[ch] for ch in s_1], dtype=np.int32)
+    tmp_2 = np.array([dict_str_int[ch] for ch in s_2], dtype=np.int32)
+ 
+    n_dict = {dict_str_int[k]: v for k, v in dict_chr_idx.items()}
+
     return tmp_1, tmp_2, n_dict
     
   
@@ -499,23 +491,18 @@ def dtw_links_backtracking(double[:,:] s_1, double[:,:] s_2,
                            list opt_links,
                            double[:,:] d_mat, int[:,:,:] b_map,
                            int i, int j):
-    
-    i_n = b_map[i, j, 0]
-    j_n = b_map[i, j, 1] 
-    opt_links.insert(0, [s_1[:,i_n-1], 
-                         s_2[:,j_n-1],
-                         [i_n-1, j_n-1]])
-    
-    if i_n == 1 and j_n == 1: 
-        opt_links.insert(0, [s_1[:,0], 
-                             s_2[:,0],
-                             [0, 0]])
-        
-        return np.asarray(opt_links) 
-    
-    return dtw_links_backtracking(s_1, s_2, opt_links,
-                                  d_mat, b_map, 
-                                  i_n, j_n)
+ 
+    if i == 0 and j == 0:
+        return np.asarray(opt_links)
+ 
+    if i > 0 and j > 0:
+        opt_links.insert(0, [s_1[:, i-1], s_2[:, j-1], [i-1, j-1]])
+ 
+    cdef int i_n = b_map[i, j, 0]
+    cdef int j_n = b_map[i, j, 1]
+
+    return dtw_links_backtracking(s_1, s_2, opt_links, d_mat, b_map, i_n, j_n)
+
 
 
 def frechet_links_backtracking(double[:,:] s_1, double[:,:] s_2,
