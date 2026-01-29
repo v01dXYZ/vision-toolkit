@@ -6,8 +6,8 @@ on:
     types: [created]
 permissions:
   contents: read
-  issues: read
-  pull-requests: read
+  issues: write
+  pull-requests: write
 
 jobs:
   deploy:
