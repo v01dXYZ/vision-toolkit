@@ -22,8 +22,10 @@ scipy
 seaborn
 shapely
 typing
-torch>=1.12
-torchvision>=0.13
 treelib==1.6.4
 tqdm
 pytlsd==0.0.2
+
+[test]
+pytest
+sp-tool @ git+https://github.com/v01dxyz/sp_tool

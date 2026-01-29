@@ -237,12 +237,10 @@ def main():
 
             report[nary][method_name] = res_stats
 
-    return report
-
-R = main()
-R_dict = { method_name: r["all"]["F1"] for method_name, r in {**R["BINARY"], **R["TERNARY"]}.items() }
-R_df = pd.Series(R_dict)
-    
+    pd.Series({
+        method_name: r["all"]["F1"]
+        for method_name, r in {**R["BINARY"], **R["TERNARY"]}.items()
+    }).to_json("report.json")
     
 
 
