@@ -30,7 +30,7 @@ jobs:
         python -m pip install .[test]
     - name: Test with Hollywood2
       run: |
-        python -m tests/hollywood2/run.py
+        python tests/hollywood2/run.py
     - uses: actions/upload-artifact@v4
       with:
         path: report.json
