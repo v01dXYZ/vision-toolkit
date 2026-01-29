@@ -40,20 +40,12 @@ jobs:
         run: |
           HASH=$(cat setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
           IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+	  export IMGTAG=$IMG:$HASH
           docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH && docker push $IMG:$HASH)
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
 
-      - name: Install Vision Toolkit
+      - name: Run Tests
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install .[test]
-
-      - name: Test with Hollywood2
-        run: |
-            python tests/hollywood2/run.py
+	  docker run $IMGTAG "python -m pip install .[test] && python tests/hollywood2/run.py" -v .:/pkg
 
       - uses: actions/upload-artifact@v4
         with:
