@@ -7,7 +7,7 @@ RUN apt update && apt install -y ffmpeg
 RUN pip install --upgrade pip
 
 RUN python -m venv .venv
-RUN . .venv/bin/activate && pip install .[test]
+RUN . .venv/bin/activate && pip install .[test] && pip install vision_toolkit_c
 
 ENV BASH_ENV="/pkg/.venv/bin/activate"
 ENTRYPOINT ["/bin/bash", "-c"]
