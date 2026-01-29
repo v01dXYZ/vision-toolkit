@@ -4,10 +4,10 @@ name: "Deploy on Comment"
 on:
   issue_comment:
     types: [created]
-  permissions:
-    content: read
-    issues: read
-    pull-requests: read
+permissions:
+  content: read
+  issues: read
+  pull-requests: read
 
 jobs:
   deploy:
