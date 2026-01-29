@@ -3,6 +3,7 @@ FROM python:3.13
 WORKDIR /pkg
 COPY . /pkg
 
+RUN apt update && apt install -y ffmpeg
 RUN pip install --upgrade pip
 
 RUN python -m venv .venv
