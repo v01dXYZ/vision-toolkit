@@ -8,47 +8,121 @@ from vision_toolkit.segmentation.processing.binary_segmentation import BinarySeg
 from vision_toolkit.scanpath.single.saliency.saliency_map_base import SaliencyMap
 from vision_toolkit.utils.binning import spatial_bin
 
+
 class PairSaliencyMap:
+    """
+    Compare deux saliency maps.
+    """
+    def __init__(self, input, **kwargs):
+
+        # --- validation input ---
+        if not isinstance(input, (list, tuple)) or len(input) != 2:
+            raise TypeError(
+                "PairSaliencyMap expects input to be a list or tuple of length 2."
+            )
+
+        input_1, input_2 = input
+
+        # --- construire / récupérer les SaliencyMap ---
+        self.sm_1 = self._to_saliency_obj(input_1, **kwargs)
+        self.sm_2 = self._to_saliency_obj(input_2, **kwargs)
+
+        # --- s'assurer que les cartes existent ---
+        if self.sm_1.saliency_map is None:
+            raise ValueError("First saliency_map is None (comp_saliency_map=False ?)")
+
+        if self.sm_2.saliency_map is None:
+            raise ValueError("Second saliency_map is None (comp_saliency_map=False ?)")
+
+        # --- vérification des tailles physiques ---
+        if self.sm_1.size_plan_x != self.sm_2.size_plan_x:
+            raise ValueError(
+                f"size_plan_x mismatch: {self.sm_1.size_plan_x} != {self.sm_2.size_plan_x}"
+            )
+
+        if self.sm_1.size_plan_y != self.sm_2.size_plan_y:
+            raise ValueError(
+                f"size_plan_y mismatch: {self.sm_1.size_plan_y} != {self.sm_2.size_plan_y}"
+            )
+
+        # --- vérification de la grille ---
+        if (self.sm_1.p_n_x != self.sm_2.p_n_x) or (self.sm_1.p_n_y != self.sm_2.p_n_y):
+            raise ValueError(
+                "Saliency maps must have the same grid size "
+                f"(p_n_x, p_n_y): "
+                f"({self.sm_1.p_n_x}, {self.sm_1.p_n_y}) != "
+                f"({self.sm_2.p_n_x}, {self.sm_2.p_n_y})"
+            )
     
-    def __init__(self, 
-                 scanpath_1, scanpath_2,  
-                 x_size, y_size,
-                 **kwargs):
-       
-        kwargs.update(size_plan_x=x_size,
-                      size_plan_y=y_size)
-        
-        self.sm_1 = SaliencyMap(scanpath_1, comp_saliency_map = True,
-                                **kwargs)
-        
-        self.sm_2 = SaliencyMap(scanpath_2, comp_saliency_map = True,
-                                **kwargs)
-        
-      
-    def comp_pearson_corr(self):
-        
-        s_m_1 = self.sm_1.s_m.flatten()
-        s_m_2 = self.sm_2.s_m.flatten()
-        
-        S = np.stack((s_m_1, s_m_2), axis=0)
-        cov_ = np.cov(S)[0,1]
-     
-        p_c = cov_/(np.std(s_m_1) * np.std(s_m_2))
-        
-        return p_c
+    def _to_saliency_obj(self, inp, **kwargs):
+        if isinstance(inp, SaliencyMap):
+            if inp.saliency_map is None:
+                inp.saliency_map = inp.comp_map(inp.scanpaths, inp.map_type)
+            return inp
+
+        return SaliencyMap(inp, comp_saliency_map=True, **kwargs)
+
+   
+    def _as_prob(self, m):
+        m = np.asarray(m, dtype=float)
+        m = np.maximum(m, 0.0)
+        s = float(m.sum())
+        if s <= 0:
+            m = np.full_like(m, 1.0 / m.size, dtype=float)
+        else:
+            m = m / s
+        return np.clip(m, 1e-12, 1.0)
+
     
-       
-    def comp_kl_divergence(self):
+    def scanpath_saliency_pearson_corr(self):
         
-        s_m_1 = self.sm_1.s_m.flatten()
-        s_m_2 = self.sm_2.s_m.flatten()
+        a = self.sm_1.saliency_map.ravel()
+        b = self.sm_2.saliency_map.ravel()
+    
+        sa = float(np.std(a, ddof=0))
+        sb = float(np.std(b, ddof=0))
+        if sa == 0 or sb == 0:
+            return {"pearson_corr": np.nan}
+    
+        cov = float(np.mean((a - a.mean()) * (b - b.mean())))
         
-        kl_d = np.sum(s_m_1 * np.log(s_m_1/s_m_2)) 
+        return {"pearson_corr": cov / (sa * sb)}
+
+
+    def scanpath_saliency_kl_divergence(self):
+        """
+        KL divergence D_KL(P || Q) (nats).
+        """
+        P = self._as_prob(self.sm_1.saliency_map).ravel()
+        Q = self._as_prob(self.sm_2.saliency_map).ravel()
+        kl = float(np.sum(P * (np.log(P) - np.log(Q))))
         
-        return kl_d
+        return {"kl_divergence": kl}
     
+   
+def scanpath_saliency_pearson_corr(input, 
+                                   **kwargs):
+    if isinstance(input, PairSaliencyMap):
+        results = input.scanpath_saliency_pearson_corr()
+    else:
+        pea_i = PairSaliencyMap(input, **kwargs)
+        results = pea_i.scanpath_saliency_pearson_corr()
+        
+    return results
+  
+  
+def scanpath_saliency_kl_divergence(input, 
+                                   **kwargs):
+    if isinstance(input, PairSaliencyMap):
+        results = input.scanpath_saliency_kl_divergence()
+    else:
+        kl_i = PairSaliencyMap(input, **kwargs)
+        results = kl_i.scanpath_saliency_kl_divergence()
+        
+    return results  
+   
     
-    
+   
 
 class SaliencyReference:
     def __init__(self, input, ref_saliency_map, **kwargs):
@@ -83,11 +157,9 @@ class SaliencyReference:
         self.p_n_x = self.p_n_x + 1 if (self.p_n_x % 2) == 0 else self.p_n_x
         self.p_n_y = self.p_n_y + 1 if (self.p_n_y % 2) == 0 else self.p_n_y
         
-        self.eps = 1e-12
-
-        # --- charger ref map ---
+     
         if isinstance(ref_saliency_map, dict):
-            # accepte plusieurs clés
+           
             for k in ("saliency_map", "absolute_duration_saliency_map", "relative_duration_saliency_map"):
                 if k in ref_saliency_map:
                     self.ref_sm = np.asarray(ref_saliency_map[k], dtype=float)
@@ -233,8 +305,7 @@ class SaliencyReference:
         """
         Convert any non-negative map into a valid probability map:
         - clip negatives to 0
-        - normalize to sum=1 (fallback to uniform if sum==0)
-        - clip to [eps, 1] to avoid log(0) in IG
+        - normalize to sum=1 (fallback to uniform if sum==0) 
         """
         m = np.asarray(m, dtype=float)
         m = np.maximum(m, 0.0)
@@ -245,13 +316,13 @@ class SaliencyReference:
         else:
             m = m / s
     
-        return np.clip(m, self.eps, 1.0)
+        return np.clip(m, 1e-12, 1.0)
     
     
     def baseline_uniform(self):
         """Uniform baseline as a probability map."""
         m = np.full((self.p_n_y, self.p_n_x), 1.0 / (self.p_n_x * self.p_n_y), dtype=float)
-        return np.clip(m, self.eps, 1.0)
+        return np.clip(m, 1e-12, 1.0)
     
     
     def baseline_center_gaussian(self, sigma_x=None, sigma_y=None):
@@ -521,6 +592,9 @@ class SaliencyReference:
         return {"auc_borji": float(np.mean(aucs))}
 
 
+
+ 
+    
 def scanpath_saliency_percentile(input, reference_map,
                                  **kwargs):
       
@@ -652,6 +726,8 @@ def scanpath_saliency_auc_borji(input, reference_map,
             seed=seed
         )
     return results
+
+
 
 
 
