@@ -4,24 +4,12 @@
 name: build
 
 on:
-  push:
-    branches: [ master, gh_ci ]
-  pull_request:
-    branches: [ master ]
-    paths-ignore:
-      - '.pre-commit-config.yaml'
-      - 'docs/**'
-      - 'images/**'
-      - '**.md'
-      - 'mkdocs.yml'
   issue_comment:                                     
     types: [created, edited, deleted]
 
 jobs:
   test-hollywood2:
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.comment.body, '/support') 
     steps:
     - uses: actions/checkout@v5
     - name: Set up Python
