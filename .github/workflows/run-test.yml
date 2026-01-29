@@ -14,12 +14,15 @@ on:
       - 'images/**'
       - '**.md'
       - 'mkdocs.yml'
-  pull_request_comment:
-    branches: [ "master" ]
+  issue_comment:                                     
+    types: [created, edited, deleted]
 
 jobs:
   test-hollywood2:
     runs-on: ubuntu-latest
+    if: |
+      ${{ github.event.issue.pull_request }} ||
+      contains(github.event.comment.body, '/support') 
     steps:
     - uses: actions/checkout@v5
     - name: Set up Python
