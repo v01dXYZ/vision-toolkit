@@ -239,7 +239,7 @@ def main():
 
     pd.Series({
         method_name: r["all"]["F1"]
-        for method_name, r in {**R["BINARY"], **R["TERNARY"]}.items()
+        for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
     }).to_json("report.json")
 
 
