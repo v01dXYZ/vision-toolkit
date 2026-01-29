@@ -14,8 +14,8 @@ on:
       - 'images/**'
       - '**.md'
       - 'mkdocs.yml'
-   pull_request_comment:
-     branches: [ master ]
+  pull_request_comment:
+    branches: [ "master" ]
 
 jobs:
   test-hollywood2:
