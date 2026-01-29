@@ -33,12 +33,11 @@ jobs:
         with:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
-      - name: Setup Node.js 16
+      - name: Set up Python 3.13
         uses: actions/setup-python@v6
         with:
-          node-version: '3.13'
+          python-version: '3.13'
 
-      # Do the actual deployment (exit randomly with 0 or 1)
       - name: Install Vision Toolkit
         run: |
           python -m pip install --upgrade pip
@@ -57,10 +56,12 @@ jobs:
         if: always()
         with:
           script: |
+            import fs from 'node:fs';
+
             const name = '${{ github.workflow	}}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync('report.md', 'utf-8');
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
