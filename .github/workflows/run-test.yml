@@ -8,7 +8,7 @@ permissions:
   contents: read
   issues: write
   pull-requests: write
-  commit-status: write
+  statuses: write
 
 jobs:
   deploy:
