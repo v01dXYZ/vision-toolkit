@@ -241,6 +241,7 @@ def main():
         method_name: r["all"]["F1"]
         for method_name, r in {**R["BINARY"], **R["TERNARY"]}.items()
     }).to_json("report.json")
-    
 
+
+main()
 
