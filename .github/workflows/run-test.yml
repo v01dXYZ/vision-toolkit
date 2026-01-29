@@ -40,7 +40,7 @@ jobs:
         run: |
           HASH=$(cat setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
           IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-	  export IMGTAG=$IMG:$HASH
+          export IMGTAG=$IMG:$HASH
           docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH && docker push $IMG:$HASH)
 
       - name: Run Tests
