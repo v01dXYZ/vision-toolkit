@@ -35,15 +35,23 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Setup Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-python@v6
         with:
-          node-version: 16
+          node-version: '3.13'
 
       # Do the actual deployment (exit randomly with 0 or 1)
-      - name: Deploy
+      - name: Install Vision Toolkit
         run: |
-          echo "Deploying..."
-          exit $(($RANDOM%2))
+	    python -m pip install --upgrade pip
+	    python -m pip install .[test]
+
+      - name: Test with Hollywood2
+        run: |
+            python tests/hollywood2/run.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: report.json
 
       - name: Add workflow result as comment on PR
         uses: actions/github-script@v6
