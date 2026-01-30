@@ -46,7 +46,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         id: report-png
         with:
-	  name: report-png
+          name: report-png
           path: report.png
 
       - name: Add report as comment on PR
