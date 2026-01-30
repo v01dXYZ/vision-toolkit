@@ -32,10 +32,8 @@ jobs:
       #     token: ${{ secrets.GITHUB_TOKEN }}
       #     status: pending
 
-      # - name: Checkout PR branch ${{ steps.comment-branch.outputs.head_ref }}
-      #   uses: actions/checkout@v3
-      #   # with:
-      #   #   ref: ${{ steps.comment-branch.outputs.head_ref }}
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
 
       - name: Log
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
