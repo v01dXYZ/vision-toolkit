@@ -12,15 +12,14 @@ def get_cython_pkgs_and_ext_modules():
     pkgs = []
 
     for p in (SRC_DIR / "vision_toolkit").glob("**/*.pyx"):
-        pkg = ".".join(p.parts[1:-1])
-
-        ext_module = Extension(
-            pkg,
-            sources=[p],
+        pkg_parts = p.with_suffix("").parts
+        pkgs.append(".".join(pkg_parts[1:-1]))
+        ext_modules.append(
+            Extension(
+                ".".join(pkg_parts[1:]),
+                sources=[p],
+            )
         )
-
-        pkgs.append(pkg)
-        ext_modules.append(ext_module)
 
     return pkgs, ext_modules
 
