@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  packages: write
 
 # BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
 # Limitations should be set in order to prevent this.
