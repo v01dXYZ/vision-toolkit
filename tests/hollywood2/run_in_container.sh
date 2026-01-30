@@ -11,6 +11,6 @@ if [[ $(md5sum_pyx /pkg/src) != $(md5sum_pyx /src/src) ]]; then
     VISION_TOOLKIT_BUILD="all"
 fi
 
-pip install "/src[test]"
+pip install "/src[test]" --no-deps
 
 cd /src && python3 tests/hollywood2/run.py
