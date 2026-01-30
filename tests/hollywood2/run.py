@@ -244,7 +244,7 @@ def main():
 
     s.to_json("report.json")
     s.to_markdown("report.md")
-
+    s.plot.bar().figure.savefig("report.png")
 
 main()
 
