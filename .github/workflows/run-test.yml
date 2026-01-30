@@ -72,7 +72,7 @@ jobs:
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               owner: '${{ github.repository_owner }}',
-              repo: ${{ github.event.repository.name }},
+              repo: '${{ github.event.repository.name }}',
               body: body
             })
 
