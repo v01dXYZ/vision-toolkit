@@ -1,12 +1,13 @@
-FROM python:3.13
+FROM python:3.13-slim
+
+RUN apt update && apt install -y git g++
+RUN pip install --upgrade pip
 
 WORKDIR /pkg
 COPY . /pkg
 
-RUN pip install --upgrade pip
-
-RUN python -m venv .venv
-RUN . .venv/bin/activate \
+RUN python -m venv .venv \
+    && . .venv/bin/activate \
     && VISION_TOOLKIT_BUILD=py pip install .[test] \
     && VISION_TOOLKIT_BUILD=c pip install --no-deps .[test]
 
