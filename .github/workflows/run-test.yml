@@ -4,6 +4,9 @@ name: "Deploy on Comment"
 on:
   issue_comment:
     types: [created]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
 permissions:
   contents: read
   issues: write
@@ -12,30 +15,31 @@ permissions:
   packages: write
 
 jobs:
-  deploy:
-    name: Deploy
+  fast-test-report:
+    name: Fast Test Report on Comment
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/test_report')
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get branch of PR
-        uses: xt0rted/pull-request-comment-branch@v3
-        id: comment-branch
+      # - name: Get branch of PR
+      #   uses: xt0rted/pull-request-comment-branch@v3
+      #   id: comment-branch
 
-      - name: Set latest commit status as pending
-        uses: myrotvorets/set-commit-status-action@master
-        with:
-          sha: ${{ steps.comment-branch.outputs.head_sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: pending
+      # - name: Set latest commit status as pending
+      #   uses: myrotvorets/set-commit-status-action@master
+      #   with:
+      #     sha: ${{ steps.comment-branch.outputs.head_sha }}
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     status: pending
 
       - name: Checkout PR branch ${{ steps.comment-branch.outputs.head_ref }}
         uses: actions/checkout@v3
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
+        # with:
+        #   ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Log
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Build if not existing
         run: |
           HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
@@ -60,20 +64,22 @@ jobs:
 
             const name = '${{ github.workflow	}}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const sha = '${{ steps.comment-branch.outputs.head_sha }}';
+
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync('report.md', 'utf-8');
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync('report.md', 'utf-8') + "\n\ncommit: " + sha + "\n";
 
             await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: ${{ github.event.pull_request.number }},
+              owner: ${{ github.repository_owner }},
+              repo: ${{ github.repository }},
               body: body
             })
 
-      - name: Set latest commit status as ${{ job.status }}
-        uses: myrotvorets/set-commit-status-action@master
-        if: always()
-        with:
-          sha: ${{ steps.comment-branch.outputs.head_sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
+      # - name: Set latest commit status as ${{ job.status }}
+      #   uses: myrotvorets/set-commit-status-action@master
+      #   if: always()
+      #   with:
+      #     sha: ${{ steps.comment-branch.outputs.head_sha }}
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     status: ${{ job.status }}
