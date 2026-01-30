@@ -60,9 +60,10 @@ jobs:
           path: report.md
 
   comment-fast-test-report:
+    name: Comment Fast Test Report
+    runs-on: ubuntu-latest
     needs: fast-test-report
     if: always()
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
