@@ -56,8 +56,8 @@ jobs:
           path: report.json
       - use: actions/upload-artifact@v4
         with:
-	  name: report-markdown
-	  path: report.md
+          name: report-markdown
+          path: report.md
 
   comment-fast-test-report:
     needs: fast-test-report
