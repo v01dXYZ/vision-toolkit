@@ -8,7 +8,7 @@ on:
     types: [opened, reopened, synchronize]
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   packages: write
 
@@ -69,3 +69,13 @@ jobs:
               repo: '${{ github.event.repository.name }}',
               body: body
             })
+
+      - name: Upload report.png
+        run: |
+          mv report.png report_hollywood2_fast_${{ github.run_id }}.png
+          git add report_hollywood2_fast_${{ github.run_id }}.png
+          git switch imgs
+          git config user.name "imgs-uploader"
+          git config user.email "nocontact@unreachable
+          git commit -m "Publish report hollywood2 ${{ github.run_id }}"
+          git push
