@@ -73,10 +73,10 @@ jobs:
       - name: Upload report.png
         run: |
           mv report.png report_hollywood2_fast_${{ github.run_id }}.png
-          git add report_hollywood2_fast_${{ github.run_id }}.png
           git fetch --depth 1 origin imgs
           git switch -f imgs
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
+          git add report_hollywood2_fast_${{ github.run_id }}.png
           git commit -m "Publish report hollywood2 ${{ github.run_id }}"
           git push origin imgs
