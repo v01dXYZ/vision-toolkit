@@ -37,23 +37,23 @@ jobs:
       #   # with:
       #   #   ref: ${{ steps.comment-branch.outputs.head_ref }}
 
-      # - name: Log
-      #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Log
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      # - name: Build if not existing
-      #   run: |
-      #     HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
-      #     IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-      #     echo "IMGTAG=$IMG:$HASH" >> $GITHUB_ENV
-      #     docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH && docker push $IMG:$HASH)
+      - name: Build if not existing
+        run: |
+          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+          IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+          echo "IMGTAG=$IMG:$HASH" >> $GITHUB_ENV
+          docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH && docker push $IMG:$HASH)
 
-      # - name: Run Tests
-      #   run: |
-      #     docker run -v .:/src -t $IMGTAG "cd /src && bash tests/hollywood2/run_in_container.sh"
+      - name: Run Tests
+        run: |
+          docker run -v .:/src -t $IMGTAG "cd /src && bash tests/hollywood2/run_in_container.sh"
 
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     path: report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          path: report.json
 
       - name: Add workflow result as comment on PR
         uses: actions/github-script@v6
