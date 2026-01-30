@@ -83,7 +83,7 @@ jobs:
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               owner: '${{ github.repository_owner }}',
-              repo: 'my-Vision_Toolkit',
+              repo: '${{ github.event.repository.name }}',
               body: body
             })
       # - name: Set latest commit status as ${{ job.status }}
