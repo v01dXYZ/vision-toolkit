@@ -4,7 +4,7 @@ name: "Test suite reports"
 on:
   push:
     branches: "master"
-  pull_request:
+  pull_request_target:
     types: [opened, reopened, synchronize]
 
 # BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
