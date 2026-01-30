@@ -74,8 +74,8 @@ jobs:
         run: |
           mv report.png report_hollywood2_fast_${{ github.run_id }}.png
           git add report_hollywood2_fast_${{ github.run_id }}.png
-          git switch imgs
+          git switch imgs-${{ github.run_id }}
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable
           git commit -m "Publish report hollywood2 ${{ github.run_id }}"
-          git push
+          git push imgs-${{ github.run_id }} origin
