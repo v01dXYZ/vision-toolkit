@@ -249,6 +249,8 @@ def main(cutoff):
 
 
 if __name__ == "__main__":
+    arg_parser = argparse.ArgumentParser()
+
     arg_parser.add_argument("cutoff", type=int)
 
     args = arg_parser.parse_args()
