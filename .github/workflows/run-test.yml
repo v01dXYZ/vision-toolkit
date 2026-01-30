@@ -74,7 +74,7 @@ jobs:
         run: |
           mv report.png report_hollywood2_fast_${{ github.run_id }}.png
           git add report_hollywood2_fast_${{ github.run_id }}.png
-          git fetch --depth 1 imgs
+          git fetch --depth 1 origin imgs
           git switch imgs
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable
