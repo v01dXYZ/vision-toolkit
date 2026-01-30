@@ -49,6 +49,17 @@ jobs:
           name: report-png
           path: report.png
 
+      - name: Upload report.png
+        run: |
+          mv report.png report_hollywood2_fast_${{ github.run_id }}.png
+          git fetch --depth 1 origin imgs
+          git switch -f imgs
+          git config user.name "imgs-uploader"
+          git config user.email "nocontact@unreachable"
+          git add report_hollywood2_fast_${{ github.run_id }}.png
+          git commit -m "Publish report hollywood2 ${{ github.run_id }}"
+          git push origin imgs
+
       - name: Add report as comment on PR
         uses: actions/github-script@v6
         if: always()
@@ -61,7 +72,7 @@ jobs:
             const sha = '${{ github.event.pull_request.head.sha }}';
 
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n![barplot](${{ steps.report-png.outputs.artifact-url }})\n\ncommit: " + sha + "\n";
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot]((https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_fast_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
 
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
@@ -69,14 +80,3 @@ jobs:
               repo: '${{ github.event.repository.name }}',
               body: body
             })
-
-      - name: Upload report.png
-        run: |
-          mv report.png report_hollywood2_fast_${{ github.run_id }}.png
-          git fetch --depth 1 origin imgs
-          git switch -f imgs
-          git config user.name "imgs-uploader"
-          git config user.email "nocontact@unreachable"
-          git add report_hollywood2_fast_${{ github.run_id }}.png
-          git commit -m "Publish report hollywood2 ${{ github.run_id }}"
-          git push origin imgs
