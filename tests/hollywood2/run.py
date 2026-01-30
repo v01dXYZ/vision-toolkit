@@ -1,4 +1,5 @@
 #!/bin/env python3
+import argparse
 import pathlib
 
 from sp_tool.arff_helper import ArffHelper
@@ -202,12 +203,12 @@ def as_arff_data(x):
     return ret
 
 
-def main():
+def main(cutoff):
     paths = [
         p for p in (pathlib.Path(__file__).parent / "data" / "test").glob(
             "**/*.arff"
         )
-    ][:5]
+    ][:cutoff]
 
     report = {}
     for nary, methods in METHODS_CONFIG.items():
@@ -246,5 +247,10 @@ def main():
     s.to_markdown("report.md")
     s.plot.bar().figure.savefig("report.png")
 
-main()
+
+if __name__ == "__main__":
+    arg_parser.add_argument("cutoff", type=int)
+
+    args = arg_parser.parse_args()
+    main(args.cutoff)
 
