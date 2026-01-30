@@ -22,7 +22,7 @@ def get_cython_pkgs_and_ext_modules():
         pkgs.append(pkg)
         ext_modules.append(ext_module)
 
-        return pkgs, ext_modules
+    return pkgs, ext_modules
 
 cython_pkgs, cython_ext_modules = get_cython_pkgs_and_ext_modules()
 
