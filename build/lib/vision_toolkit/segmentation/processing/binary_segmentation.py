@@ -13,9 +13,8 @@ from vision_toolkit.segmentation.segmentation_algorithms.I_HMM import process_IH
 from vision_toolkit.segmentation.segmentation_algorithms.I_KF import process_IKF
 from vision_toolkit.segmentation.segmentation_algorithms.I_MST import process_IMST
 from vision_toolkit.segmentation.segmentation_algorithms.I_VT import process_IVT
-from vision_toolkit.segmentation.segmentation_algorithms.I_RF import process_IRF
 from vision_toolkit.utils.velocity_distance_factory import (
-    absolute_angular_distance, absolute_euclidian_distance)
+    absolute_angular_distance, absolute_euclidean_distance)
 from vision_toolkit.visualization.segmentation import display_binary_segmentation
 
 
@@ -139,6 +138,7 @@ class BinarySegmentation:
         elif segmentation_method == "I_DeT":
             ## To accelerate computation, duration threshold should be equal to 5 time stamps
             du_t = 5 / sampling_frequency
+            nb_t = 3 / sampling_frequency
             if config["distance_type"] == "euclidean":
                 ## The default density threshold is thus defined from the sampling frequency
                 de_t = vf_diag / sampling_frequency
@@ -150,6 +150,9 @@ class BinarySegmentation:
                         "IDeT_density_threshold": kwargs.get(
                             "IDeT_density_threshold", de_t
                         ),
+                        'IDeT_min_pts': kwargs.get(
+                            "IDeT_min_pts", nb_t
+                        )
                     }
                 )
             elif config["distance_type"] == "angular":
@@ -163,6 +166,9 @@ class BinarySegmentation:
                         "IDeT_density_threshold": kwargs.get(
                             "IDeT_density_threshold", de_t
                         ),
+                        'IDeT_min_pts': kwargs.get(
+                            "IDeT_min_pts", nb_t
+                        )
                     }
                 )
 
@@ -190,6 +196,7 @@ class BinarySegmentation:
                     "IKF_sigma_2": kwargs.get("IKF_sigma_2", si_2),
                     "IKF_chi2_window": kwargs.get("IKF_chi2_window", 10),
                     "IKF_chi2_threshold": kwargs.get("IKF_chi2_threshold", c_t),
+                    "IKF_chi2_sigma": kwargs.get("IKF_chi2_sigma", 1.0),
                 }
             )
 
@@ -247,7 +254,7 @@ class BinarySegmentation:
         self.config = config
         self.distances = dict(
             {
-                "euclidean": absolute_euclidian_distance,
+                "euclidean": absolute_euclidean_distance,
                 "angular": absolute_angular_distance,
             }
         )
@@ -261,7 +268,6 @@ class BinarySegmentation:
                 "I_MST": process_IMST,
                 "I_HMM": process_IHMM,
                 "I_2MC": process_I2MC,
-                "I_RF": process_IRF
             }
         )
 

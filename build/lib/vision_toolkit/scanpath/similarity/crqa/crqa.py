@@ -7,7 +7,8 @@ from scipy.spatial.distance import cdist
 from vision_toolkit.scanpath.scanpath_base import Scanpath
 from vision_toolkit.segmentation.processing.binary_segmentation import BinarySegmentation
 from vision_toolkit.scanpath.single.rqa.rqa_base import RecurrenceBase
-from vision_toolkit.visualization.scanpath.similarity.crqa import ( 
+from vision_toolkit.visualization.scanpath.similarity.crqa import (
+    plot_CRQA,
     plot_CRQA_determinism,
     plot_CRQA_laminarity)
  
@@ -25,6 +26,7 @@ class CRQAAnalysis(RecurrenceBase):
         
         verbose = kwargs.get("verbose", True)
         display_results = kwargs.get("display_results", True)
+        display_path = kwargs.get("display_path", None)
 
         if verbose:
             print("Processing CRQA Analysis...\n")
@@ -53,7 +55,7 @@ class CRQAAnalysis(RecurrenceBase):
                     ]
                 )
             )
-            * 0.015
+            * 0.1
         )
     
         self.scanpath_1.config.update(
@@ -64,7 +66,9 @@ class CRQAAnalysis(RecurrenceBase):
                 "scanpath_CRQA_minimum_length": kwargs.get(
                     "scanpath_CRQA_minimum_length", 3
                 ),
-                "verbose": verbose
+                "verbose": verbose,
+                "display_results": display_results,
+                "display_path": display_path
             }
         )
         
@@ -95,7 +99,7 @@ class CRQAAnalysis(RecurrenceBase):
                                      full = True)
      
         if display_results:
-            self.plot_CRQA()
+            plot_CRQA(self.r_m, display_path)
              
         if verbose:
             print("...CRQA Analysis done\n")
@@ -114,9 +118,8 @@ class CRQAAnalysis(RecurrenceBase):
         return r_m 
     
      
-    def scanpath_CRQA_recurrence_rate(self, display_results):
-        
-        self.scanpath_1.config.update({"display_results": display_results})
+    def scanpath_CRQA_recurrence_rate(self, ):
+       
         r_r = 100*np.sum(self.r_m)/(self.n_1 * self.n_2)
         
         if np.isnan(r_r):
@@ -130,10 +133,13 @@ class CRQAAnalysis(RecurrenceBase):
         return results 
     
  
-    def scanpath_CRQA_laminarity(self, display_results, 
+    def scanpath_CRQA_laminarity(self, display_results=True, display_path=None,
                                  direction='vertical'):
         
         assert direction in ['horizontal', 'vertical'], "Laminarity direction must be 'horizontal' or 'vertical'"
+        
+        self.scanpath_1.config.update({"display_results": display_results})
+        self.scanpath_1.config.update({"display_path": display_path})
         
         if direction == 'vertical': 
             set_ = self.v_set
@@ -149,7 +155,7 @@ class CRQAAnalysis(RecurrenceBase):
         lam = 100 * s_l/np.sum(self.r_m)
             
         if self.scanpath_1.config["display_results"]:
-            plot_CRQA_laminarity(self.r_m, set_)
+            plot_CRQA_laminarity(self.r_m, set_, self.scanpath_1.config['display_path'])
 
         if np.isnan(lam):
             results = dict({"CRQA_laminarity": 0})
@@ -162,8 +168,11 @@ class CRQAAnalysis(RecurrenceBase):
         return results
     
     
-    def scanpath_CRQA_determinism(self, display_results):
+    def scanpath_CRQA_determinism(self, display_results=True, display_path=None):
          
+        self.scanpath_1.config.update({"display_results": display_results})
+        self.scanpath_1.config.update({"display_path": display_path})
+        
         set_ = self.d_set 
         s_d = 0
     
@@ -173,7 +182,7 @@ class CRQAAnalysis(RecurrenceBase):
         det = (100 * s_d)/np.sum(self.r_m)
             
         if self.scanpath_1.config["display_results"]:
-            plot_CRQA_determinism(self.r_m, self.d_set)
+            plot_CRQA_determinism(self.r_m, self.d_set, self.scanpath_1.config['display_path'])
 
         if np.isnan(det):
             results = dict({"CRQA_determinism": 0})
@@ -186,7 +195,7 @@ class CRQAAnalysis(RecurrenceBase):
         return results
     
       
-    def scanpath_CRQA_entropy(self, display_results):
+    def scanpath_CRQA_entropy(self):
         
         l_s = np.array(
             [len(d) for d in self.d_set]
@@ -210,79 +219,59 @@ class CRQAAnalysis(RecurrenceBase):
         self.scanpath_1.verbose()
 
         return results
-    
-    
-    def plot_CRQA(self):
-        
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.pcolormesh(self.r_m[:45,:45],  
-                      cmap='GnBu', 
-                      edgecolors='w', 
-                      linewidth=0.5)
-        
-        ax.set_aspect('equal')
-        
-        ax.set_xlabel('Second sequence fixation index', fontsize=12)
-        ax.set_ylabel('First sequence fixation index', fontsize=12)
-        
-        ax.tick_params(axis='x', labelsize=10)
-        ax.tick_params(axis='y', labelsize=10)
-        fig.suptitle("Cross-recurrence matrix", fontsize=18)
-        
-        plt.show() 
-        plt.clf()
-        
+       
         
         
 def scanpath_CRQA_recurrence_rate(input, **kwargs):
-    display_results = kwargs.get("display_results", True)
-
+   
     if isinstance(input, CRQAAnalysis):
-        results = input.scanpath_CRQA_recurrence_rate(display_results)
+        results = input.scanpath_CRQA_recurrence_rate()
 
     else:
         geometrical_analysis = CRQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_CRQA_recurrence_rate(display_results)
+        results = geometrical_analysis.scanpath_CRQA_recurrence_rate()
 
     return results
 
 
 def scanpath_CRQA_laminarity(input, **kwargs):
+    
     display_results = kwargs.get("display_results", True)
+    display_path = kwargs.get("display_path", None)
 
     if isinstance(input, CRQAAnalysis):
-        results = input.scanpath_CRQA_laminarity(display_results)
+        results = input.scanpath_CRQA_laminarity(display_results, display_path)
 
     else:
         geometrical_analysis = CRQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_CRQA_laminarity(display_results)
+        results = geometrical_analysis.scanpath_CRQA_laminarity(display_results, display_path)
 
     return results
 
 
 def scanpath_CRQA_determinism(input, **kwargs):
+    
     display_results = kwargs.get("display_results", True)
+    display_path = kwargs.get("display_path", None)
 
     if isinstance(input, CRQAAnalysis):
-        results = input.scanpath_CRQA_determinism(display_results)
+        results = input.scanpath_CRQA_determinism(display_results, display_path)
 
     else:
         geometrical_analysis = CRQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_CRQA_determinism(display_results)
+        results = geometrical_analysis.scanpath_CRQA_determinism(display_results, display_path)
 
     return results
 
  
 def scanpath_CRQA_entropy(input, **kwargs):
-    display_results = kwargs.get("display_results", True)
-
+    
     if isinstance(input, CRQAAnalysis):
-        results = input.scanpath_CRQA_entropy(display_results)
+        results = input.scanpath_CRQA_entropy()
 
     else:
         geometrical_analysis = CRQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_CRQA_entropy(display_results)
+        results = geometrical_analysis.scanpath_CRQA_entropy()
 
     return results
 

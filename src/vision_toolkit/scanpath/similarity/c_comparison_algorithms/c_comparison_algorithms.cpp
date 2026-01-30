@@ -5,12 +5,12 @@
     "distutils": {
         "depends": [],
         "language": "c++",
-        "name": "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms",
+        "name": "vision_toolkit.scanpath.similarity.c_comparison_algorithms",
         "sources": [
             "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx"
         ]
     },
-    "module_name": "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms"
+    "module_name": "vision_toolkit.scanpath.similarity.c_comparison_algorithms"
 }
 END: Cython Metadata */
 
@@ -1140,8 +1140,8 @@ static int __Pyx_init_co_variables(void) {
     #define __PYX_EXTERN_C extern "C++"
 #endif
 
-#define __PYX_HAVE__vision_toolkit__scanpath__similarity__c_comparison_algorithms__c_comparison_algorithms
-#define __PYX_HAVE_API__vision_toolkit__scanpath__similarity__c_comparison_algorithms__c_comparison_algorithms
+#define __PYX_HAVE__vision_toolkit__scanpath__similarity__c_comparison_algorithms
+#define __PYX_HAVE_API__vision_toolkit__scanpath__similarity__c_comparison_algorithms
 /* Early includes */
 #include "ios"
 #include "new"
@@ -3028,7 +3028,7 @@ static PyObject *__pyx_memoryviewslice__get_base(struct __pyx_memoryviewslice_ob
 
 /* Module declarations from "libcpp" */
 
-/* Module declarations from "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms" */
+/* Module declarations from "vision_toolkit.scanpath.similarity.c_comparison_algorithms" */
 static PyObject *__pyx_collections_abc_Sequence = 0;
 static PyObject *generic = 0;
 static PyObject *strided = 0;
@@ -3037,7 +3037,7 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_dict_to_cmap(PyObject *); /*proto*/
+static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_dict_to_cmap(PyObject *); /*proto*/
 static std::pair<int,int>  __pyx_convert_pair_from_py_int__and_int(PyObject *); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char const *, char *); /*proto*/
@@ -3077,11 +3077,11 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, 
 static const __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 static const __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, __PYX_IS_UNSIGNED(int) ? 'U' : 'I', __PYX_IS_UNSIGNED(int), 0 };
 /* #### Code section: before_global_var ### */
-#define __Pyx_MODULE_NAME "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms"
-extern int __pyx_module_is_main_vision_toolkit__scanpath__similarity__c_comparison_algorithms__c_comparison_algorithms;
-int __pyx_module_is_main_vision_toolkit__scanpath__similarity__c_comparison_algorithms__c_comparison_algorithms = 0;
+#define __Pyx_MODULE_NAME "vision_toolkit.scanpath.similarity.c_comparison_algorithms"
+extern int __pyx_module_is_main_vision_toolkit__scanpath__similarity__c_comparison_algorithms;
+int __pyx_module_is_main_vision_toolkit__scanpath__similarity__c_comparison_algorithms = 0;
 
-/* Implementation of "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms" */
+/* Implementation of "vision_toolkit.scanpath.similarity.c_comparison_algorithms" */
 /* #### Code section: global_var ### */
 static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_builtin___import__;
@@ -3133,16 +3133,16 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_DTW(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_2discrete_frechet(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_4levenshtein(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, double __pyx_v_sub_c); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_6generalized_edit(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_8needleman_wunsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_gap_c, double __pyx_v_conc_b, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_10int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_12int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_14character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_16dtw_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_18frechet_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_DTW(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_2discrete_frechet(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_4levenshtein(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, double __pyx_v_sub_c); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_6generalized_edit(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_8needleman_wunsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_gap_c, double __pyx_v_conc_b, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_10int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_12int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_14character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_16dtw_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_18frechet_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -16884,7 +16884,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":11
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":11
  * 
  * 
  * def DTW (double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -16893,15 +16893,15 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_1DTW(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_1DTW(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_1DTW = {"DTW", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_1DTW, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_1DTW(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_1DTW = {"DTW", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_1DTW, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_1DTW(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -16982,11 +16982,11 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_s_1, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_s_2, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_dist_mat, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.DTW", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.DTW", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_DTW(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dist_mat);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_DTW(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dist_mat);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -16999,7 +16999,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_DTW(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_DTW(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat) {
   int __pyx_v_n_1;
   int __pyx_v_n_2;
   __Pyx_memviewslice __pyx_v_d_mat = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -17050,7 +17050,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("DTW", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":14
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":14
  *          double[:,:] dist_mat):
  * 
  *     cdef int n_1 = len(s_1.T)             # <<<<<<<<<<<<<<
@@ -17065,7 +17065,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1.memview = NULL; __pyx_t_1.data = NULL;
   __pyx_v_n_1 = __pyx_t_2;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":15
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":15
  * 
  *     cdef int n_1 = len(s_1.T)
  *     cdef int n_2 = len(s_2.T)             # <<<<<<<<<<<<<<
@@ -17080,7 +17080,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1.memview = NULL; __pyx_t_1.data = NULL;
   __pyx_v_n_2 = __pyx_t_2;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":16
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":16
  *     cdef int n_1 = len(s_1.T)
  *     cdef int n_2 = len(s_2.T)
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -17142,7 +17142,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":18
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":18
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)
  * 
  *     d_mat[1:,0] = np.inf             # <<<<<<<<<<<<<<
@@ -17208,7 +17208,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_11, 1);
   __pyx_t_11.memview = NULL; __pyx_t_11.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":19
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":19
  * 
  *     d_mat[1:,0] = np.inf
  *     d_mat[0,1:] = np.inf             # <<<<<<<<<<<<<<
@@ -17274,7 +17274,7 @@ __pyx_t_12 = -1;
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_11, 1);
   __pyx_t_11.memview = NULL; __pyx_t_11.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":21
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":21
  *     d_mat[0,1:] = np.inf
  * 
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -17303,7 +17303,7 @@ __pyx_t_12 = -1;
   __pyx_t_7 = 0;
   __pyx_t_8 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":22
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":22
  * 
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -17342,7 +17342,7 @@ __pyx_t_12 = -1;
     __Pyx_GOTREF(__pyx_t_3);
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":21
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":21
  *     d_mat[0,1:] = np.inf
  * 
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -17355,7 +17355,7 @@ __pyx_t_12 = -1;
   __pyx_t_13.memview = NULL;
   __pyx_t_13.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":23
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":23
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -17364,7 +17364,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":24
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":24
  *                                      dtype=np.intc)
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -17373,7 +17373,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":26
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":26
  *     cdef int j_ = 0
  * 
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -17382,7 +17382,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":27
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":27
  * 
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -17391,7 +17391,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":29
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":29
  *     cdef int s_s_1 = 0
  * 
  *     cdef double c = 0.0             # <<<<<<<<<<<<<<
@@ -17400,7 +17400,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_c = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":30
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":30
  * 
  *     cdef double c = 0.0
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -17409,7 +17409,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":31
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":31
  *     cdef double c = 0.0
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0             # <<<<<<<<<<<<<<
@@ -17418,7 +17418,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_w_d = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":32
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":32
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0
  *     cdef double w_i = 0.0             # <<<<<<<<<<<<<<
@@ -17427,7 +17427,7 @@ __pyx_t_12 = -1;
 */
   __pyx_v_w_i = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":34
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":34
  *     cdef double w_i = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -17440,7 +17440,7 @@ __pyx_t_12 = -1;
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":35
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":35
  * 
  *     with nogil:
  *         for i_ in range (1, n_1 + 1):             # <<<<<<<<<<<<<<
@@ -17452,7 +17452,7 @@ __pyx_t_12 = -1;
         for (__pyx_t_12 = 1; __pyx_t_12 < __pyx_t_15; __pyx_t_12+=1) {
           __pyx_v_i_ = __pyx_t_12;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":36
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":36
  *     with nogil:
  *         for i_ in range (1, n_1 + 1):
  *             for j_ in range(1, n_2 + 1):             # <<<<<<<<<<<<<<
@@ -17464,7 +17464,7 @@ __pyx_t_12 = -1;
           for (__pyx_t_18 = 1; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
             __pyx_v_j_ = __pyx_t_18;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":37
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":37
  *         for i_ in range (1, n_1 + 1):
  *             for j_ in range(1, n_2 + 1):
  *                 c = dist_mat[i_ - 1, j_ - 1]             # <<<<<<<<<<<<<<
@@ -17488,7 +17488,7 @@ __pyx_t_12 = -1;
             }
             __pyx_v_c = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_dist_mat.data + __pyx_t_19 * __pyx_v_dist_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_dist_mat.strides[1]) )));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":39
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":39
  *                 c = dist_mat[i_ - 1, j_ - 1]
  * 
  *                 w_s = c + d_mat[i_ - 1, j_ - 1]             # <<<<<<<<<<<<<<
@@ -17512,7 +17512,7 @@ __pyx_t_12 = -1;
             }
             __pyx_v_w_s = (__pyx_v_c + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_19 * __pyx_v_d_mat.strides[1]) ))));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":40
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":40
  * 
  *                 w_s = c + d_mat[i_ - 1, j_ - 1]
  *                 s_s_0 = i_ - 1             # <<<<<<<<<<<<<<
@@ -17521,7 +17521,7 @@ __pyx_t_12 = -1;
 */
             __pyx_v_s_s_0 = (__pyx_v_i_ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":41
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":41
  *                 w_s = c + d_mat[i_ - 1, j_ - 1]
  *                 s_s_0 = i_ - 1
  *                 s_s_1 = j_ - 1             # <<<<<<<<<<<<<<
@@ -17530,7 +17530,7 @@ __pyx_t_12 = -1;
 */
             __pyx_v_s_s_1 = (__pyx_v_j_ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":43
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":43
  *                 s_s_1 = j_ - 1
  * 
  *                 w_d = c + d_mat[i_ - 1, j_]             # <<<<<<<<<<<<<<
@@ -17554,7 +17554,7 @@ __pyx_t_12 = -1;
             }
             __pyx_v_w_d = (__pyx_v_c + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_19 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_d_mat.strides[1]) ))));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":44
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":44
  * 
  *                 w_d = c + d_mat[i_ - 1, j_]
  *                 if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -17564,7 +17564,7 @@ __pyx_t_12 = -1;
             __pyx_t_22 = (__pyx_v_w_d < __pyx_v_w_s);
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":45
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":45
  *                 w_d = c + d_mat[i_ - 1, j_]
  *                 if w_d < w_s:
  *                     w_s = w_d             # <<<<<<<<<<<<<<
@@ -17573,7 +17573,7 @@ __pyx_t_12 = -1;
 */
               __pyx_v_w_s = __pyx_v_w_d;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":46
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":46
  *                 if w_d < w_s:
  *                     w_s = w_d
  *                     s_s_0 = i_ - 1             # <<<<<<<<<<<<<<
@@ -17582,7 +17582,7 @@ __pyx_t_12 = -1;
 */
               __pyx_v_s_s_0 = (__pyx_v_i_ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":47
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":47
  *                     w_s = w_d
  *                     s_s_0 = i_ - 1
  *                     s_s_1 = j_             # <<<<<<<<<<<<<<
@@ -17591,7 +17591,7 @@ __pyx_t_12 = -1;
 */
               __pyx_v_s_s_1 = __pyx_v_j_;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":44
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":44
  * 
  *                 w_d = c + d_mat[i_ - 1, j_]
  *                 if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -17600,7 +17600,7 @@ __pyx_t_12 = -1;
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":49
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":49
  *                     s_s_1 = j_
  * 
  *                 w_i = c + d_mat[i_, j_ - 1]             # <<<<<<<<<<<<<<
@@ -17624,7 +17624,7 @@ __pyx_t_12 = -1;
             }
             __pyx_v_w_i = (__pyx_v_c + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_19 * __pyx_v_d_mat.strides[1]) ))));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":50
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":50
  * 
  *                 w_i = c + d_mat[i_, j_ - 1]
  *                 if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -17634,7 +17634,7 @@ __pyx_t_12 = -1;
             __pyx_t_22 = (__pyx_v_w_i < __pyx_v_w_s);
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":51
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":51
  *                 w_i = c + d_mat[i_, j_ - 1]
  *                 if w_i < w_s:
  *                     w_s = w_i             # <<<<<<<<<<<<<<
@@ -17643,7 +17643,7 @@ __pyx_t_12 = -1;
 */
               __pyx_v_w_s = __pyx_v_w_i;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":52
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":52
  *                 if w_i < w_s:
  *                     w_s = w_i
  *                     s_s_0 = i_             # <<<<<<<<<<<<<<
@@ -17652,7 +17652,7 @@ __pyx_t_12 = -1;
 */
               __pyx_v_s_s_0 = __pyx_v_i_;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":53
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":53
  *                     w_s = w_i
  *                     s_s_0 = i_
  *                     s_s_1 = j_ - 1             # <<<<<<<<<<<<<<
@@ -17661,7 +17661,7 @@ __pyx_t_12 = -1;
 */
               __pyx_v_s_s_1 = (__pyx_v_j_ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":50
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":50
  * 
  *                 w_i = c + d_mat[i_, j_ - 1]
  *                 if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -17670,7 +17670,7 @@ __pyx_t_12 = -1;
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":55
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":55
  *                     s_s_1 = j_ - 1
  * 
  *                 d_mat[i_, j_] = w_s             # <<<<<<<<<<<<<<
@@ -17694,7 +17694,7 @@ __pyx_t_12 = -1;
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_19 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_w_s;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":56
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":56
  * 
  *                 d_mat[i_, j_] = w_s
  *                 b_map[i_, j_, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -17723,7 +17723,7 @@ __pyx_t_12 = -1;
             }
             *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_19 * __pyx_v_b_map.strides[1]) ) + __pyx_t_23 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":57
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":57
  *                 d_mat[i_, j_] = w_s
  *                 b_map[i_, j_, 0] = s_s_0
  *                 b_map[i_, j_, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -17755,7 +17755,7 @@ __pyx_t_12 = -1;
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":34
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":34
  *     cdef double w_i = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -17777,7 +17777,7 @@ __pyx_t_12 = -1;
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":60
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":60
  * 
  * 
  *     o_l = []             # <<<<<<<<<<<<<<
@@ -17789,7 +17789,7 @@ __pyx_t_12 = -1;
   __pyx_v_o_l = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":61
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":61
  * 
  *     o_l = []
  *     o_l.insert(0, [s_1[:,n_1-1],             # <<<<<<<<<<<<<<
@@ -17822,7 +17822,7 @@ __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_11, 1);
   __pyx_t_11.memview = NULL; __pyx_t_11.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":62
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":62
  *     o_l = []
  *     o_l.insert(0, [s_1[:,n_1-1],
  *                    s_2[:,n_2-1],             # <<<<<<<<<<<<<<
@@ -17855,7 +17855,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_11, 1);
   __pyx_t_11.memview = NULL; __pyx_t_11.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":63
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":63
  *     o_l.insert(0, [s_1[:,n_1-1],
  *                    s_2[:,n_2-1],
  *                    [n_1-1, n_2-1]])             # <<<<<<<<<<<<<<
@@ -17875,7 +17875,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __pyx_t_8 = 0;
   __pyx_t_7 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":61
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":61
  * 
  *     o_l = []
  *     o_l.insert(0, [s_1[:,n_1-1],             # <<<<<<<<<<<<<<
@@ -17896,7 +17896,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __pyx_t_24 = PyList_Insert(__pyx_v_o_l, 0, __pyx_t_7); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":65
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":65
  *                    [n_1-1, n_2-1]])
  * 
  *     opt_links = dtw_links_backtracking(s_1, s_2, o_l,             # <<<<<<<<<<<<<<
@@ -17911,7 +17911,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_s_2, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":66
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":66
  * 
  *     opt_links = dtw_links_backtracking(s_1, s_2, o_l,
  *                                        d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -17923,7 +17923,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __pyx_t_25 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":67
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":67
  *     opt_links = dtw_links_backtracking(s_1, s_2, o_l,
  *                                        d_mat, b_map,
  *                                        i = n_1, j = n_2)             # <<<<<<<<<<<<<<
@@ -17968,7 +17968,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __pyx_v_opt_links = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":68
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":68
  *                                        d_mat, b_map,
  *                                        i = n_1, j = n_2)
  *     cdef double l_s = d_mat[n_1, n_2]             # <<<<<<<<<<<<<<
@@ -17992,7 +17992,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   }
   __pyx_v_l_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_19 * __pyx_v_d_mat.strides[1]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":70
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":70
  *     cdef double l_s = d_mat[n_1, n_2]
  * 
  *     return opt_links, l_s             # <<<<<<<<<<<<<<
@@ -18014,7 +18014,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":11
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":11
  * 
  * 
  * def DTW (double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -18037,7 +18037,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   __Pyx_XDECREF(__pyx_t_26);
   __Pyx_XDECREF(__pyx_t_27);
   __Pyx_XDECREF(__pyx_t_28);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.DTW", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.DTW", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_d_mat, 1);
@@ -18049,7 +18049,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":73
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":73
  * 
  * 
  * def discrete_frechet(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -18058,15 +18058,15 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_11, 1, (PyObject *(*)(char *)) __
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_3discrete_frechet(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_3discrete_frechet(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_3discrete_frechet = {"discrete_frechet", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_3discrete_frechet, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_3discrete_frechet(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_3discrete_frechet = {"discrete_frechet", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_3discrete_frechet, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_3discrete_frechet(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -18147,11 +18147,11 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_s_1, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_s_2, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_dist_mat, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.discrete_frechet", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.discrete_frechet", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_2discrete_frechet(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dist_mat);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_2discrete_frechet(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dist_mat);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -18164,7 +18164,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_2discrete_frechet(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_2discrete_frechet(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, __Pyx_memviewslice __pyx_v_dist_mat) {
   int __pyx_v_n_1;
   int __pyx_v_n_2;
   __Pyx_memviewslice __pyx_v_d_mat = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -18220,7 +18220,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("discrete_frechet", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":76
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":76
  *                      double[:,:] dist_mat):
  * 
  *     cdef int n_1 = len(s_1.T)             # <<<<<<<<<<<<<<
@@ -18235,7 +18235,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1.memview = NULL; __pyx_t_1.data = NULL;
   __pyx_v_n_1 = __pyx_t_2;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":77
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":77
  * 
  *     cdef int n_1 = len(s_1.T)
  *     cdef int n_2 = len(s_2.T)             # <<<<<<<<<<<<<<
@@ -18250,7 +18250,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1.memview = NULL; __pyx_t_1.data = NULL;
   __pyx_v_n_2 = __pyx_t_2;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":78
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":78
  *     cdef int n_1 = len(s_1.T)
  *     cdef int n_2 = len(s_2.T)
  *     cdef double[:,:] d_mat = np.zeros((n_1, n_2), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -18312,7 +18312,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":80
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":80
  *     cdef double[:,:] d_mat = np.zeros((n_1, n_2), dtype=np.double)
  * 
  *     d_mat[0,0] = dist_mat[0,0]             # <<<<<<<<<<<<<<
@@ -18351,7 +18351,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_13 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_14 * __pyx_v_d_mat.strides[1]) )) = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_dist_mat.data + __pyx_t_10 * __pyx_v_dist_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_dist_mat.strides[1]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":82
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":82
  *     d_mat[0,0] = dist_mat[0,0]
  * 
  *     cdef int[:,:,:] b_map = np.zeros((n_1, n_2, 2),             # <<<<<<<<<<<<<<
@@ -18380,7 +18380,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_7 = 0;
   __pyx_t_8 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":83
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":83
  * 
  *     cdef int[:,:,:] b_map = np.zeros((n_1, n_2, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -18419,7 +18419,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_GOTREF(__pyx_t_3);
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":82
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":82
  *     d_mat[0,0] = dist_mat[0,0]
  * 
  *     cdef int[:,:,:] b_map = np.zeros((n_1, n_2, 2),             # <<<<<<<<<<<<<<
@@ -18432,7 +18432,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_15.memview = NULL;
   __pyx_t_15.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":84
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":84
  *     cdef int[:,:,:] b_map = np.zeros((n_1, n_2, 2),
  *                                      dtype=np.intc)
  *     cdef int i__ = 0             # <<<<<<<<<<<<<<
@@ -18441,7 +18441,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":85
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":85
  *                                      dtype=np.intc)
  *     cdef int i__ = 0
  *     cdef int j__ = 0             # <<<<<<<<<<<<<<
@@ -18450,7 +18450,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":87
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":87
  *     cdef int j__ = 0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -18463,7 +18463,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":88
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":88
  * 
  *     with nogil:
  *         for i__ in range(1, n_1):             # <<<<<<<<<<<<<<
@@ -18475,7 +18475,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_17 = 1; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
           __pyx_v_i__ = __pyx_t_17;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":90
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":90
  *         for i__ in range(1, n_1):
  *             d_mat[i__, 0] = max(d_mat[i__ - 1, 0],
  *                                 dist_mat[i__, 0])             # <<<<<<<<<<<<<<
@@ -18499,7 +18499,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           __pyx_t_19 = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_dist_mat.data + __pyx_t_11 * __pyx_v_dist_mat.strides[0]) ) + __pyx_t_10 * __pyx_v_dist_mat.strides[1]) )));
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":89
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":89
  *     with nogil:
  *         for i__ in range(1, n_1):
  *             d_mat[i__, 0] = max(d_mat[i__ - 1, 0],             # <<<<<<<<<<<<<<
@@ -18523,7 +18523,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           __pyx_t_20 = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_10 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_d_mat.strides[1]) )));
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":90
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":90
  *         for i__ in range(1, n_1):
  *             d_mat[i__, 0] = max(d_mat[i__ - 1, 0],
  *                                 dist_mat[i__, 0])             # <<<<<<<<<<<<<<
@@ -18537,7 +18537,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_21 = __pyx_t_20;
           }
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":89
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":89
  *     with nogil:
  *         for i__ in range(1, n_1):
  *             d_mat[i__, 0] = max(d_mat[i__ - 1, 0],             # <<<<<<<<<<<<<<
@@ -18561,7 +18561,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_11 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_10 * __pyx_v_d_mat.strides[1]) )) = __pyx_t_21;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":91
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":91
  *             d_mat[i__, 0] = max(d_mat[i__ - 1, 0],
  *                                 dist_mat[i__, 0])
  *             b_map[i__, 0, 0] = i__-1             # <<<<<<<<<<<<<<
@@ -18590,7 +18590,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_10 * __pyx_v_b_map.strides[0]) ) + __pyx_t_11 * __pyx_v_b_map.strides[1]) ) + __pyx_t_14 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i__ - 1);
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":92
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":92
  *                                 dist_mat[i__, 0])
  *             b_map[i__, 0, 0] = i__-1
  *             b_map[i__, 0, 1] = 0             # <<<<<<<<<<<<<<
@@ -18621,7 +18621,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":87
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":87
  *     cdef int j__ = 0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -18643,7 +18643,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":94
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":94
  *             b_map[i__, 0, 1] = 0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -18656,7 +18656,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":95
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":95
  * 
  *     with nogil:
  *         for j__ in range(1, n_2):             # <<<<<<<<<<<<<<
@@ -18668,7 +18668,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_17 = 1; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
           __pyx_v_j__ = __pyx_t_17;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":97
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":97
  *         for j__ in range(1, n_2):
  *             d_mat[0, j__] = max(d_mat[0, j__ - 1],
  *                                 dist_mat[0, j__])             # <<<<<<<<<<<<<<
@@ -18692,7 +18692,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           __pyx_t_21 = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_dist_mat.data + __pyx_t_10 * __pyx_v_dist_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_dist_mat.strides[1]) )));
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":96
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":96
  *     with nogil:
  *         for j__ in range(1, n_2):
  *             d_mat[0, j__] = max(d_mat[0, j__ - 1],             # <<<<<<<<<<<<<<
@@ -18716,7 +18716,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           __pyx_t_19 = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_11 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_10 * __pyx_v_d_mat.strides[1]) )));
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":97
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":97
  *         for j__ in range(1, n_2):
  *             d_mat[0, j__] = max(d_mat[0, j__ - 1],
  *                                 dist_mat[0, j__])             # <<<<<<<<<<<<<<
@@ -18730,7 +18730,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_20 = __pyx_t_19;
           }
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":96
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":96
  *     with nogil:
  *         for j__ in range(1, n_2):
  *             d_mat[0, j__] = max(d_mat[0, j__ - 1],             # <<<<<<<<<<<<<<
@@ -18754,7 +18754,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_10 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_d_mat.strides[1]) )) = __pyx_t_20;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":98
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":98
  *             d_mat[0, j__] = max(d_mat[0, j__ - 1],
  *                                 dist_mat[0, j__])
  *             b_map[0, j__, 0] = 0             # <<<<<<<<<<<<<<
@@ -18783,7 +18783,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_11 * __pyx_v_b_map.strides[0]) ) + __pyx_t_10 * __pyx_v_b_map.strides[1]) ) + __pyx_t_14 * __pyx_v_b_map.strides[2]) )) = 0;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":99
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":99
  *                                 dist_mat[0, j__])
  *             b_map[0, j__, 0] = 0
  *             b_map[0, j__, 1] = j__-1             # <<<<<<<<<<<<<<
@@ -18814,7 +18814,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":94
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":94
  *             b_map[i__, 0, 1] = 0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -18836,7 +18836,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":101
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":101
  *             b_map[0, j__, 1] = j__-1
  * 
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -18845,7 +18845,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":102
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":102
  * 
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -18854,7 +18854,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":104
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":104
  *     cdef int j_ = 0
  * 
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -18863,7 +18863,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":105
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":105
  * 
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -18872,7 +18872,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":107
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":107
  *     cdef int s_s_1 = 0
  * 
  *     cdef double c = 0.0             # <<<<<<<<<<<<<<
@@ -18881,7 +18881,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_c = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":108
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":108
  * 
  *     cdef double c = 0.0
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -18890,7 +18890,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":109
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":109
  *     cdef double c = 0.0
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0             # <<<<<<<<<<<<<<
@@ -18899,7 +18899,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_d = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":110
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":110
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0
  *     cdef double w_i = 0.0             # <<<<<<<<<<<<<<
@@ -18908,7 +18908,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_i = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":112
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":112
  *     cdef double w_i = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -18921,7 +18921,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":113
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":113
  * 
  *     with nogil:
  *         for i_ in range (1, n_1):             # <<<<<<<<<<<<<<
@@ -18933,7 +18933,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_17 = 1; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
           __pyx_v_i_ = __pyx_t_17;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":114
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":114
  *     with nogil:
  *         for i_ in range (1, n_1):
  *             for j_ in range(1, n_2):             # <<<<<<<<<<<<<<
@@ -18945,7 +18945,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           for (__pyx_t_24 = 1; __pyx_t_24 < __pyx_t_23; __pyx_t_24+=1) {
             __pyx_v_j_ = __pyx_t_24;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":115
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":115
  *         for i_ in range (1, n_1):
  *             for j_ in range(1, n_2):
  *                 c = dist_mat[i_, j_]             # <<<<<<<<<<<<<<
@@ -18969,7 +18969,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_c = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_dist_mat.data + __pyx_t_11 * __pyx_v_dist_mat.strides[0]) ) + __pyx_t_10 * __pyx_v_dist_mat.strides[1]) )));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":117
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":117
  *                 c = dist_mat[i_, j_]
  * 
  *                 w_s = d_mat[i_ - 1, j_ - 1]             # <<<<<<<<<<<<<<
@@ -18993,7 +18993,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_10 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_d_mat.strides[1]) )));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":118
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":118
  * 
  *                 w_s = d_mat[i_ - 1, j_ - 1]
  *                 s_s_0 = i_ - 1             # <<<<<<<<<<<<<<
@@ -19002,7 +19002,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             __pyx_v_s_s_0 = (__pyx_v_i_ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":119
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":119
  *                 w_s = d_mat[i_ - 1, j_ - 1]
  *                 s_s_0 = i_ - 1
  *                 s_s_1 = j_ - 1             # <<<<<<<<<<<<<<
@@ -19011,7 +19011,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             __pyx_v_s_s_1 = (__pyx_v_j_ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":121
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":121
  *                 s_s_1 = j_ - 1
  * 
  *                 w_d = d_mat[i_ - 1, j_]             # <<<<<<<<<<<<<<
@@ -19035,7 +19035,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_d = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_11 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_10 * __pyx_v_d_mat.strides[1]) )));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":122
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":122
  * 
  *                 w_d = d_mat[i_ - 1, j_]
  *                 if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -19045,7 +19045,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_22 = (__pyx_v_w_d < __pyx_v_w_s);
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":123
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":123
  *                 w_d = d_mat[i_ - 1, j_]
  *                 if w_d < w_s:
  *                     w_s = w_d             # <<<<<<<<<<<<<<
@@ -19054,7 +19054,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_w_s = __pyx_v_w_d;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":124
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":124
  *                 if w_d < w_s:
  *                     w_s = w_d
  *                     s_s_0 = i_ - 1             # <<<<<<<<<<<<<<
@@ -19063,7 +19063,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = (__pyx_v_i_ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":125
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":125
  *                     w_s = w_d
  *                     s_s_0 = i_ - 1
  *                     s_s_1 = j_             # <<<<<<<<<<<<<<
@@ -19072,7 +19072,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = __pyx_v_j_;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":122
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":122
  * 
  *                 w_d = d_mat[i_ - 1, j_]
  *                 if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -19081,7 +19081,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":127
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":127
  *                     s_s_1 = j_
  * 
  *                 w_i = d_mat[i_, j_ - 1]             # <<<<<<<<<<<<<<
@@ -19105,7 +19105,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_i = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_10 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_d_mat.strides[1]) )));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":128
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":128
  * 
  *                 w_i = d_mat[i_, j_ - 1]
  *                 if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -19115,7 +19115,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_22 = (__pyx_v_w_i < __pyx_v_w_s);
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":129
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":129
  *                 w_i = d_mat[i_, j_ - 1]
  *                 if w_i < w_s:
  *                     w_s = w_i             # <<<<<<<<<<<<<<
@@ -19124,7 +19124,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_w_s = __pyx_v_w_i;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":130
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":130
  *                 if w_i < w_s:
  *                     w_s = w_i
  *                     s_s_0 = i_             # <<<<<<<<<<<<<<
@@ -19133,7 +19133,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = __pyx_v_i_;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":131
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":131
  *                     w_s = w_i
  *                     s_s_0 = i_
  *                     s_s_1 = j_ - 1             # <<<<<<<<<<<<<<
@@ -19142,7 +19142,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = (__pyx_v_j_ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":128
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":128
  * 
  *                 w_i = d_mat[i_, j_ - 1]
  *                 if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -19151,7 +19151,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":133
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":133
  *                     s_s_1 = j_ - 1
  * 
  *                 d_mat[i_, j_] = max(w_s, c)             # <<<<<<<<<<<<<<
@@ -19183,7 +19183,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_11 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_10 * __pyx_v_d_mat.strides[1]) )) = __pyx_t_19;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":134
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":134
  * 
  *                 d_mat[i_, j_] = max(w_s, c)
  *                 b_map[i_, j_, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -19212,7 +19212,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_10 * __pyx_v_b_map.strides[0]) ) + __pyx_t_11 * __pyx_v_b_map.strides[1]) ) + __pyx_t_14 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":135
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":135
  *                 d_mat[i_, j_] = max(w_s, c)
  *                 b_map[i_, j_, 0] = s_s_0
  *                 b_map[i_, j_, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -19244,7 +19244,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":112
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":112
  *     cdef double w_i = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -19266,7 +19266,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":138
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":138
  * 
  * 
  *     o_l = []             # <<<<<<<<<<<<<<
@@ -19278,7 +19278,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_o_l = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":139
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":139
  * 
  *     o_l = []
  *     o_l.insert(0, [s_1[:,n_1-1],             # <<<<<<<<<<<<<<
@@ -19311,7 +19311,7 @@ __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_26, 1);
   __pyx_t_26.memview = NULL; __pyx_t_26.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":140
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":140
  *     o_l = []
  *     o_l.insert(0, [s_1[:,n_1-1],
  *                    s_2[:,n_2-1],             # <<<<<<<<<<<<<<
@@ -19344,7 +19344,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_26, 1);
   __pyx_t_26.memview = NULL; __pyx_t_26.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":141
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":141
  *     o_l.insert(0, [s_1[:,n_1-1],
  *                    s_2[:,n_2-1],
  *                    [n_1-1, n_2-1]])             # <<<<<<<<<<<<<<
@@ -19364,7 +19364,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __pyx_t_8 = 0;
   __pyx_t_7 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":139
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":139
  * 
  *     o_l = []
  *     o_l.insert(0, [s_1[:,n_1-1],             # <<<<<<<<<<<<<<
@@ -19385,7 +19385,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __pyx_t_27 = PyList_Insert(__pyx_v_o_l, 0, __pyx_t_7); if (unlikely(__pyx_t_27 == ((int)-1))) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":143
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":143
  *                    [n_1-1, n_2-1]])
  * 
  *     opt_links = frechet_links_backtracking(s_1, s_2, o_l,             # <<<<<<<<<<<<<<
@@ -19400,7 +19400,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_s_2, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":144
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":144
  * 
  *     opt_links = frechet_links_backtracking(s_1, s_2, o_l,
  *                                            d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -19412,7 +19412,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __pyx_t_28 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_28);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":145
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":145
  *     opt_links = frechet_links_backtracking(s_1, s_2, o_l,
  *                                            d_mat, b_map,
  *                                            i = n_1-1, j = n_2-1)             # <<<<<<<<<<<<<<
@@ -19457,7 +19457,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __pyx_v_opt_links = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":147
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":147
  *                                            i = n_1-1, j = n_2-1)
  * 
  *     cdef double l_s = d_mat[n_1 - 1, n_2 - 1]             # <<<<<<<<<<<<<<
@@ -19481,7 +19481,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   }
   __pyx_v_l_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_10 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_11 * __pyx_v_d_mat.strides[1]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":149
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":149
  *     cdef double l_s = d_mat[n_1 - 1, n_2 - 1]
  * 
  *     return opt_links, l_s             # <<<<<<<<<<<<<<
@@ -19503,7 +19503,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":73
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":73
  * 
  * 
  * def discrete_frechet(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -19526,7 +19526,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   __Pyx_XDECREF(__pyx_t_29);
   __Pyx_XDECREF(__pyx_t_30);
   __Pyx_XDECREF(__pyx_t_31);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.discrete_frechet", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.discrete_frechet", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_d_mat, 1);
@@ -19538,7 +19538,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":152
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":152
  * 
  * 
  * def levenshtein (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -19547,15 +19547,15 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_26, 1, (PyObject *(*)(char *)) __
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_5levenshtein(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_5levenshtein(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_5levenshtein = {"levenshtein", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_5levenshtein, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_5levenshtein(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_5levenshtein = {"levenshtein", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_5levenshtein, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_5levenshtein(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -19670,13 +19670,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.levenshtein", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.levenshtein", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 152, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 152, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_4levenshtein(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_del_c, __pyx_v_ins_c, __pyx_v_sub_c);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_4levenshtein(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_del_c, __pyx_v_ins_c, __pyx_v_sub_c);
 
   /* function exit code */
   goto __pyx_L0;
@@ -19695,7 +19695,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_4levenshtein(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, double __pyx_v_sub_c) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_4levenshtein(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, double __pyx_v_sub_c) {
   PyObject *__pyx_v_tmp_1 = NULL;
   PyObject *__pyx_v_tmp_2 = NULL;
   __Pyx_memviewslice __pyx_v_s_1_c = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -19747,7 +19747,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("levenshtein", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":155
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":155
  *                  double del_c = 1.0, double ins_c = 1.0, double sub_c = 1.0) :
  * 
  *     tmp_1, tmp_2 = int_convert(s_1, s_2)             # <<<<<<<<<<<<<<
@@ -19832,7 +19832,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_tmp_2 = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":157
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":157
  *     tmp_1, tmp_2 = int_convert(s_1, s_2)
  * 
  *     cdef int[:] s_1_c = tmp_1             # <<<<<<<<<<<<<<
@@ -19844,7 +19844,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":158
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":158
  * 
  *     cdef int[:] s_1_c = tmp_1
  *     cdef int[:] s_2_c = tmp_2             # <<<<<<<<<<<<<<
@@ -19856,7 +19856,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":160
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":160
  *     cdef int[:] s_2_c = tmp_2
  * 
  *     cdef int n_1 = len(s_1)             # <<<<<<<<<<<<<<
@@ -19870,7 +19870,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_v_s_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 160, __pyx_L1_error)
   __pyx_v_n_1 = __pyx_t_8;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":161
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":161
  * 
  *     cdef int n_1 = len(s_1)
  *     cdef int n_2 = len(s_2)             # <<<<<<<<<<<<<<
@@ -19884,7 +19884,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_v_s_2); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 161, __pyx_L1_error)
   __pyx_v_n_2 = __pyx_t_8;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":163
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":163
  *     cdef int n_2 = len(s_2)
  * 
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -19946,7 +19946,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_11.memview = NULL;
   __pyx_t_11.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":166
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":166
  * 
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -19975,7 +19975,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_9 = 0;
   __pyx_t_10 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":167
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":167
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -20014,7 +20014,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_GOTREF(__pyx_t_1);
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":166
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":166
  * 
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -20027,7 +20027,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":168
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":168
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -20036,7 +20036,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":169
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":169
  *                                      dtype=np.intc)
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -20045,7 +20045,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":171
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":171
  *     cdef int s_s_1 = 0
  * 
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -20054,7 +20054,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":172
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":172
  * 
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -20063,7 +20063,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":175
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":175
  * 
  *     ## Fill the first column and row
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -20076,7 +20076,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":176
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":176
  *     ## Fill the first column and row
  *     with nogil:
  *         for i_ in range(n_1+1):             # <<<<<<<<<<<<<<
@@ -20088,7 +20088,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i_ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":177
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":177
  *     with nogil:
  *         for i_ in range(n_1+1):
  *             d_mat[i_, 0] = i_ * del_c             # <<<<<<<<<<<<<<
@@ -20113,7 +20113,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )) = (__pyx_v_i_ * __pyx_v_del_c);
         }
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":178
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":178
  *         for i_ in range(n_1+1):
  *             d_mat[i_, 0] = i_ * del_c
  *         for j_ in range(n_2+1):             # <<<<<<<<<<<<<<
@@ -20125,7 +20125,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_j_ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":179
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":179
  *             d_mat[i_, 0] = i_ * del_c
  *         for j_ in range(n_2+1):
  *             d_mat[0, j_] = j_ * ins_c             # <<<<<<<<<<<<<<
@@ -20151,7 +20151,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":175
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":175
  * 
  *     ## Fill the first column and row
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -20173,7 +20173,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":181
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":181
  *             d_mat[0, j_] = j_ * ins_c
  * 
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -20182,7 +20182,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":182
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":182
  * 
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0             # <<<<<<<<<<<<<<
@@ -20191,7 +20191,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_d = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":183
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":183
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0
  *     cdef double w_i = 0.0             # <<<<<<<<<<<<<<
@@ -20200,7 +20200,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_i = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":185
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":185
  *     cdef double w_i = 0.0
  * 
  *     cdef int i__ = 0             # <<<<<<<<<<<<<<
@@ -20209,7 +20209,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":186
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":186
  * 
  *     cdef int i__ = 0
  *     cdef int j__ = 0             # <<<<<<<<<<<<<<
@@ -20218,7 +20218,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":188
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":188
  *     cdef int j__ = 0
  * 
  *     cdef double tmp = 0.0             # <<<<<<<<<<<<<<
@@ -20227,7 +20227,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_tmp = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":191
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":191
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -20240,7 +20240,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":192
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":192
  *     ## Fill the D-matrix
  *     with nogil:
  *         for i__ in range (1, n_1 + 1):             # <<<<<<<<<<<<<<
@@ -20252,7 +20252,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 1; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i__ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":193
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":193
  *     with nogil:
  *         for i__ in range (1, n_1 + 1):
  *             b_map[i__, 0, 0] = i__-1             # <<<<<<<<<<<<<<
@@ -20281,7 +20281,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_19 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i__ - 1);
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":194
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":194
  *         for i__ in range (1, n_1 + 1):
  *             b_map[i__, 0, 0] = i__-1
  *             b_map[i__, 0, 1] = 0             # <<<<<<<<<<<<<<
@@ -20310,7 +20310,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_19 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = 0;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":196
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":196
  *             b_map[i__, 0, 1] = 0
  * 
  *             for j__ in range (1, n_2 + 1):             # <<<<<<<<<<<<<<
@@ -20322,7 +20322,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           for (__pyx_t_18 = 1; __pyx_t_18 < __pyx_t_21; __pyx_t_18+=1) {
             __pyx_v_j__ = __pyx_t_18;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":197
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":197
  * 
  *             for j__ in range (1, n_2 + 1):
  *                 if i__ == 1:             # <<<<<<<<<<<<<<
@@ -20332,7 +20332,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_22 = (__pyx_v_i__ == 1);
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":198
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":198
  *             for j__ in range (1, n_2 + 1):
  *                 if i__ == 1:
  *                     b_map[0, j__, 0] = 0             # <<<<<<<<<<<<<<
@@ -20361,7 +20361,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_19 * __pyx_v_b_map.strides[2]) )) = 0;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":199
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":199
  *                 if i__ == 1:
  *                     b_map[0, j__, 0] = 0
  *                     b_map[0, j__, 1] = j__-1             # <<<<<<<<<<<<<<
@@ -20390,7 +20390,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_19 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":197
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":197
  * 
  *             for j__ in range (1, n_2 + 1):
  *                 if i__ == 1:             # <<<<<<<<<<<<<<
@@ -20399,7 +20399,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":201
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":201
  *                     b_map[0, j__, 1] = j__-1
  * 
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:             # <<<<<<<<<<<<<<
@@ -20429,7 +20429,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_22 = ((*((int *) ( /* dim=0 */ (__pyx_v_s_1_c.data + __pyx_t_16 * __pyx_v_s_1_c.strides[0]) ))) == (*((int *) ( /* dim=0 */ (__pyx_v_s_2_c.data + __pyx_t_17 * __pyx_v_s_2_c.strides[0]) ))));
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":202
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":202
  * 
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:
  *                     tmp = d_mat[i__-1, j__-1]             # <<<<<<<<<<<<<<
@@ -20453,7 +20453,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               __pyx_v_tmp = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) )));
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":203
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":203
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:
  *                     tmp = d_mat[i__-1, j__-1]
  *                     d_mat[i__, j__] = tmp             # <<<<<<<<<<<<<<
@@ -20477,7 +20477,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_tmp;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":205
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":205
  *                     d_mat[i__, j__] = tmp
  * 
  *                     b_map[i__, j__, 0] = i__-1             # <<<<<<<<<<<<<<
@@ -20506,7 +20506,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_17 * __pyx_v_b_map.strides[0]) ) + __pyx_t_16 * __pyx_v_b_map.strides[1]) ) + __pyx_t_19 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":206
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":206
  * 
  *                     b_map[i__, j__, 0] = i__-1
  *                     b_map[i__, j__, 1] = j__-1             # <<<<<<<<<<<<<<
@@ -20535,7 +20535,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_19 * __pyx_v_b_map.strides[0]) ) + __pyx_t_16 * __pyx_v_b_map.strides[1]) ) + __pyx_t_17 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":201
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":201
  *                     b_map[0, j__, 1] = j__-1
  * 
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:             # <<<<<<<<<<<<<<
@@ -20545,7 +20545,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               goto __pyx_L20;
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":209
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":209
  * 
  *                 else:
  *                     w_s = d_mat[i__-1, j__-1] + sub_c             # <<<<<<<<<<<<<<
@@ -20570,7 +20570,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               __pyx_v_w_s = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) ))) + __pyx_v_sub_c);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":210
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":210
  *                 else:
  *                     w_s = d_mat[i__-1, j__-1] + sub_c
  *                     s_s_0 = i__-1             # <<<<<<<<<<<<<<
@@ -20579,7 +20579,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = (__pyx_v_i__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":211
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":211
  *                     w_s = d_mat[i__-1, j__-1] + sub_c
  *                     s_s_0 = i__-1
  *                     s_s_1 = j__-1             # <<<<<<<<<<<<<<
@@ -20588,7 +20588,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":213
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":213
  *                     s_s_1 = j__-1
  * 
  *                     w_d = d_mat[i__-1, j__] + del_c             # <<<<<<<<<<<<<<
@@ -20612,7 +20612,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               __pyx_v_w_d = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) ))) + __pyx_v_del_c);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":214
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":214
  * 
  *                     w_d = d_mat[i__-1, j__] + del_c
  *                     if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -20622,7 +20622,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               __pyx_t_22 = (__pyx_v_w_d < __pyx_v_w_s);
               if (__pyx_t_22) {
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":215
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":215
  *                     w_d = d_mat[i__-1, j__] + del_c
  *                     if w_d < w_s:
  *                         w_s = w_d             # <<<<<<<<<<<<<<
@@ -20631,7 +20631,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
                 __pyx_v_w_s = __pyx_v_w_d;
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":216
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":216
  *                     if w_d < w_s:
  *                         w_s = w_d
  *                         s_s_0 = i__-1             # <<<<<<<<<<<<<<
@@ -20640,7 +20640,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
                 __pyx_v_s_s_0 = (__pyx_v_i__ - 1);
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":217
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":217
  *                         w_s = w_d
  *                         s_s_0 = i__-1
  *                         s_s_1 = j__             # <<<<<<<<<<<<<<
@@ -20649,7 +20649,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
                 __pyx_v_s_s_1 = __pyx_v_j__;
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":214
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":214
  * 
  *                     w_d = d_mat[i__-1, j__] + del_c
  *                     if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -20658,7 +20658,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               }
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":219
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":219
  *                         s_s_1 = j__
  * 
  *                     w_i = d_mat[i__, j__-1] + ins_c             # <<<<<<<<<<<<<<
@@ -20682,7 +20682,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               __pyx_v_w_i = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) ))) + __pyx_v_ins_c);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":220
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":220
  * 
  *                     w_i = d_mat[i__, j__-1] + ins_c
  *                     if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -20692,7 +20692,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               __pyx_t_22 = (__pyx_v_w_i < __pyx_v_w_s);
               if (__pyx_t_22) {
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":221
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":221
  *                     w_i = d_mat[i__, j__-1] + ins_c
  *                     if w_i < w_s:
  *                         w_s = w_i             # <<<<<<<<<<<<<<
@@ -20701,7 +20701,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
                 __pyx_v_w_s = __pyx_v_w_i;
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":222
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":222
  *                     if w_i < w_s:
  *                         w_s = w_i
  *                         s_s_0 = i__             # <<<<<<<<<<<<<<
@@ -20710,7 +20710,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
                 __pyx_v_s_s_0 = __pyx_v_i__;
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":223
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":223
  *                         w_s = w_i
  *                         s_s_0 = i__
  *                         s_s_1 = j__-1             # <<<<<<<<<<<<<<
@@ -20719,7 +20719,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
                 __pyx_v_s_s_1 = (__pyx_v_j__ - 1);
 
-                /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":220
+                /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":220
  * 
  *                     w_i = d_mat[i__, j__-1] + ins_c
  *                     if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -20728,7 +20728,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               }
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":225
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":225
  *                         s_s_1 = j__-1
  * 
  *                     d_mat[i__, j__] = w_s             # <<<<<<<<<<<<<<
@@ -20752,7 +20752,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_w_s;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":226
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":226
  * 
  *                     d_mat[i__, j__] = w_s
  *                     b_map[i__, j__, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -20781,7 +20781,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_17 * __pyx_v_b_map.strides[0]) ) + __pyx_t_16 * __pyx_v_b_map.strides[1]) ) + __pyx_t_19 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":227
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":227
  *                     d_mat[i__, j__] = w_s
  *                     b_map[i__, j__, 0] = s_s_0
  *                     b_map[i__, j__, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -20815,7 +20815,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":191
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":191
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -20837,7 +20837,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":229
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":229
  *                     b_map[i__, j__, 1] = s_s_1
  * 
  *     opt_align = character_generic_backtracking(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -20848,7 +20848,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":230
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":230
  * 
  *     opt_align = character_generic_backtracking(s_1, s_2,
  *                                                d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -20860,7 +20860,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":231
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":231
  *     opt_align = character_generic_backtracking(s_1, s_2,
  *                                                d_mat, b_map,
  *                                                n_1, n_2)             # <<<<<<<<<<<<<<
@@ -20898,7 +20898,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_opt_align = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":233
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":233
  *                                                n_1, n_2)
  * 
  *     cdef double l_s = d_mat[n_1, n_2]             # <<<<<<<<<<<<<<
@@ -20922,7 +20922,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   __pyx_v_l_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":235
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":235
  *     cdef double l_s = d_mat[n_1, n_2]
  * 
  *     return opt_align, l_s             # <<<<<<<<<<<<<<
@@ -20944,7 +20944,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_10 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":152
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":152
  * 
  * 
  * def levenshtein (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -20964,7 +20964,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_11, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_12, 1);
   __Pyx_XDECREF(__pyx_t_24);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.levenshtein", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.levenshtein", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tmp_1);
@@ -20979,7 +20979,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":238
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":238
  * 
  * 
  * def generalized_edit (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -20988,15 +20988,15 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_7generalized_edit(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_7generalized_edit(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_7generalized_edit = {"generalized_edit", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_7generalized_edit, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_7generalized_edit(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_7generalized_edit = {"generalized_edit", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_7generalized_edit, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_7generalized_edit(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -21099,14 +21099,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     Py_XDECREF(values[__pyx_temp]);
   }
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_dist_mat, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.generalized_edit", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.generalized_edit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 238, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 238, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dict_chr_idx), (&PyDict_Type), 1, "dict_chr_idx", 1))) __PYX_ERR(0, 240, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_6generalized_edit(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_del_c, __pyx_v_ins_c, __pyx_v_dict_chr_idx, __pyx_v_dist_mat);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_6generalized_edit(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_del_c, __pyx_v_ins_c, __pyx_v_dict_chr_idx, __pyx_v_dist_mat);
 
   /* function exit code */
   goto __pyx_L0;
@@ -21126,7 +21126,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_6generalized_edit(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_6generalized_edit(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_del_c, double __pyx_v_ins_c, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat) {
   PyObject *__pyx_v_tmp_1 = NULL;
   PyObject *__pyx_v_tmp_2 = NULL;
   PyObject *__pyx_v_n_dict = NULL;
@@ -21183,7 +21183,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("generalized_edit", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":242
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":242
  *                       dict dict_chr_idx, double[:,:] dist_mat) :
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -21194,7 +21194,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":243
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":243
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,
  *                                                  dict_chr_idx)             # <<<<<<<<<<<<<<
@@ -21281,7 +21281,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __pyx_L4_unpacking_done:;
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":242
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":242
  *                       dict dict_chr_idx, double[:,:] dist_mat) :
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -21295,7 +21295,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_n_dict = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":245
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":245
  *                                                  dict_chr_idx)
  * 
  *     cdef int[:] s_1_c = tmp_1             # <<<<<<<<<<<<<<
@@ -21307,7 +21307,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":246
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":246
  * 
  *     cdef int[:] s_1_c = tmp_1
  *     cdef int[:] s_2_c = tmp_2             # <<<<<<<<<<<<<<
@@ -21319,7 +21319,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":249
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":249
  * 
  *     ## Convert python dict to c dict for nogil loops
  *     cdef map[int, int] c_dict = dict_to_cmap(n_dict)             # <<<<<<<<<<<<<<
@@ -21329,11 +21329,11 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1 = __pyx_v_n_dict;
   __Pyx_INCREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_1))) __PYX_ERR(0, 249, __pyx_L1_error)
-  __pyx_t_9 = __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_dict_to_cmap(((PyObject*)__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_9 = __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_dict_to_cmap(((PyObject*)__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_dict = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_9);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":252
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":252
  * 
  *     ## Declare some constants
  *     cdef int n_1 = len(s_1)             # <<<<<<<<<<<<<<
@@ -21347,7 +21347,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_10 = __Pyx_PyList_GET_SIZE(__pyx_v_s_1); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 252, __pyx_L1_error)
   __pyx_v_n_1 = __pyx_t_10;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":253
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":253
  *     ## Declare some constants
  *     cdef int n_1 = len(s_1)
  *     cdef int n_2 = len(s_2)             # <<<<<<<<<<<<<<
@@ -21361,7 +21361,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_10 = __Pyx_PyList_GET_SIZE(__pyx_v_s_2); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 253, __pyx_L1_error)
   __pyx_v_n_2 = __pyx_t_10;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":255
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":255
  *     cdef int n_2 = len(s_2)
  * 
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -21370,7 +21370,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":256
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":256
  * 
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -21379,7 +21379,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":259
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":259
  * 
  *     ## Declare the D matrix
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -21441,7 +21441,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":262
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":262
  * 
  *     ## Fill the first column and row
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -21454,7 +21454,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":263
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":263
  *     ## Fill the first column and row
  *     with nogil:
  *         for i_ in range(n_1+1):             # <<<<<<<<<<<<<<
@@ -21466,7 +21466,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i_ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":264
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":264
  *     with nogil:
  *         for i_ in range(n_1+1):
  *             d_mat[i_][0] = i_ * del_c             # <<<<<<<<<<<<<<
@@ -21491,7 +21491,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )) = (__pyx_v_i_ * __pyx_v_del_c);
         }
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":265
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":265
  *         for i_ in range(n_1+1):
  *             d_mat[i_][0] = i_ * del_c
  *         for j_ in range(n_2+1):             # <<<<<<<<<<<<<<
@@ -21503,7 +21503,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_j_ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":266
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":266
  *             d_mat[i_][0] = i_ * del_c
  *         for j_ in range(n_2+1):
  *             d_mat[0][j_] = j_ * ins_c             # <<<<<<<<<<<<<<
@@ -21529,7 +21529,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":262
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":262
  * 
  *     ## Fill the first column and row
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -21551,7 +21551,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":268
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":268
  *             d_mat[0][j_] = j_ * ins_c
  * 
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -21560,7 +21560,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":269
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":269
  * 
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0             # <<<<<<<<<<<<<<
@@ -21569,7 +21569,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_d = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":270
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":270
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0
  *     cdef double w_i = 0.0             # <<<<<<<<<<<<<<
@@ -21578,7 +21578,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_i = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":273
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":273
  * 
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -21607,7 +21607,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_6 = 0;
   __pyx_t_11 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":274
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":274
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -21646,7 +21646,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_GOTREF(__pyx_t_1);
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":273
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":273
  * 
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -21659,7 +21659,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_19.memview = NULL;
   __pyx_t_19.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":276
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":276
  *                                      dtype=np.intc)
  * 
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -21668,7 +21668,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":277
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":277
  * 
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -21677,7 +21677,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":279
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":279
  *     cdef int s_s_1 = 0
  * 
  *     cdef int i__ = 0             # <<<<<<<<<<<<<<
@@ -21686,7 +21686,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":280
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":280
  * 
  *     cdef int i__ = 0
  *     cdef int j__ = 0             # <<<<<<<<<<<<<<
@@ -21695,7 +21695,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":283
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":283
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -21708,7 +21708,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":284
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":284
  *     ## Fill the D-matrix
  *     with nogil:
  *         for i__ in range (1, n_1+1):             # <<<<<<<<<<<<<<
@@ -21720,7 +21720,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 1; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i__ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":285
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":285
  *     with nogil:
  *         for i__ in range (1, n_1+1):
  *             b_map[i__, 0, 0] = i__-1             # <<<<<<<<<<<<<<
@@ -21749,7 +21749,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_20 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i__ - 1);
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":286
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":286
  *         for i__ in range (1, n_1+1):
  *             b_map[i__, 0, 0] = i__-1
  *             b_map[i__, 0, 1] = 0             # <<<<<<<<<<<<<<
@@ -21778,7 +21778,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = 0;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":288
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":288
  *             b_map[i__, 0, 1] = 0
  * 
  *             for j__ in range (1, n_2+1):             # <<<<<<<<<<<<<<
@@ -21790,7 +21790,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           for (__pyx_t_18 = 1; __pyx_t_18 < __pyx_t_22; __pyx_t_18+=1) {
             __pyx_v_j__ = __pyx_t_18;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":289
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":289
  * 
  *             for j__ in range (1, n_2+1):
  *                 if i__ == 1:             # <<<<<<<<<<<<<<
@@ -21800,7 +21800,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = (__pyx_v_i__ == 1);
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":290
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":290
  *             for j__ in range (1, n_2+1):
  *                 if i__ == 1:
  *                     b_map[0, j__, 0] = 0             # <<<<<<<<<<<<<<
@@ -21829,7 +21829,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_20 * __pyx_v_b_map.strides[2]) )) = 0;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":291
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":291
  *                 if i__ == 1:
  *                     b_map[0, j__, 0] = 0
  *                     b_map[0, j__, 1] = j__-1             # <<<<<<<<<<<<<<
@@ -21858,7 +21858,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":289
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":289
  * 
  *             for j__ in range (1, n_2+1):
  *                 if i__ == 1:             # <<<<<<<<<<<<<<
@@ -21867,7 +21867,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":293
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":293
  *                     b_map[0, j__, 1] = j__-1
  * 
  *                 w_s = d_mat[i__-1, j__-1] + dist_mat[c_dict[s_1_c[i__-1]],             # <<<<<<<<<<<<<<
@@ -21900,7 +21900,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               __PYX_ERR(0, 293, __pyx_L13_error)
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":294
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":294
  * 
  *                 w_s = d_mat[i__-1, j__-1] + dist_mat[c_dict[s_1_c[i__-1]],
  *                                                             c_dict[s_2_c[j__-1]]]             # <<<<<<<<<<<<<<
@@ -21918,7 +21918,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               __PYX_ERR(0, 294, __pyx_L13_error)
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":293
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":293
  *                     b_map[0, j__, 1] = j__-1
  * 
  *                 w_s = d_mat[i__-1, j__-1] + dist_mat[c_dict[s_1_c[i__-1]],             # <<<<<<<<<<<<<<
@@ -21942,7 +21942,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_s = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) ))) + (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_dist_mat.data + __pyx_t_26 * __pyx_v_dist_mat.strides[0]) ) + __pyx_t_27 * __pyx_v_dist_mat.strides[1]) ))));
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":295
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":295
  *                 w_s = d_mat[i__-1, j__-1] + dist_mat[c_dict[s_1_c[i__-1]],
  *                                                             c_dict[s_2_c[j__-1]]]
  *                 s_s_0 = i__-1             # <<<<<<<<<<<<<<
@@ -21951,7 +21951,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             __pyx_v_s_s_0 = (__pyx_v_i__ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":296
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":296
  *                                                             c_dict[s_2_c[j__-1]]]
  *                 s_s_0 = i__-1
  *                 s_s_1 = j__-1             # <<<<<<<<<<<<<<
@@ -21960,7 +21960,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             __pyx_v_s_s_1 = (__pyx_v_j__ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":298
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":298
  *                 s_s_1 = j__-1
  * 
  *                 w_d = d_mat[i__-1, j__] + del_c             # <<<<<<<<<<<<<<
@@ -21984,7 +21984,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_d = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_25 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_d_mat.strides[1]) ))) + __pyx_v_del_c);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":299
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":299
  * 
  *                 w_d = d_mat[i__-1, j__] + del_c
  *                 if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -21994,7 +21994,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = (__pyx_v_w_d < __pyx_v_w_s);
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":300
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":300
  *                 w_d = d_mat[i__-1, j__] + del_c
  *                 if w_d < w_s:
  *                     w_s = w_d             # <<<<<<<<<<<<<<
@@ -22003,7 +22003,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_w_s = __pyx_v_w_d;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":301
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":301
  *                 if w_d < w_s:
  *                     w_s = w_d
  *                     s_s_0 = i__-1             # <<<<<<<<<<<<<<
@@ -22012,7 +22012,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = (__pyx_v_i__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":302
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":302
  *                     w_s = w_d
  *                     s_s_0 = i__-1
  *                     s_s_1 = j__             # <<<<<<<<<<<<<<
@@ -22021,7 +22021,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = __pyx_v_j__;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":299
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":299
  * 
  *                 w_d = d_mat[i__-1, j__] + del_c
  *                 if w_d < w_s:             # <<<<<<<<<<<<<<
@@ -22030,7 +22030,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":304
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":304
  *                     s_s_1 = j__
  * 
  *                 w_i = d_mat[i__, j__-1] + ins_c             # <<<<<<<<<<<<<<
@@ -22054,7 +22054,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_i = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_25 * __pyx_v_d_mat.strides[1]) ))) + __pyx_v_ins_c);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":305
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":305
  * 
  *                 w_i = d_mat[i__, j__-1] + ins_c
  *                 if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -22064,7 +22064,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = (__pyx_v_w_i < __pyx_v_w_s);
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":306
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":306
  *                 w_i = d_mat[i__, j__-1] + ins_c
  *                 if w_i < w_s:
  *                     w_s = w_i             # <<<<<<<<<<<<<<
@@ -22073,7 +22073,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_w_s = __pyx_v_w_i;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":307
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":307
  *                 if w_i < w_s:
  *                     w_s = w_i
  *                     s_s_0 = i__             # <<<<<<<<<<<<<<
@@ -22082,7 +22082,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = __pyx_v_i__;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":308
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":308
  *                     w_s = w_i
  *                     s_s_0 = i__
  *                     s_s_1 = j__-1             # <<<<<<<<<<<<<<
@@ -22091,7 +22091,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":305
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":305
  * 
  *                 w_i = d_mat[i__, j__-1] + ins_c
  *                 if w_i < w_s:             # <<<<<<<<<<<<<<
@@ -22100,7 +22100,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":310
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":310
  *                     s_s_1 = j__-1
  * 
  *                 d_mat[i__, j__] = w_s             # <<<<<<<<<<<<<<
@@ -22124,7 +22124,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_25 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_w_s;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":311
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":311
  * 
  *                 d_mat[i__, j__] = w_s
  *                 b_map[i__, j__, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -22153,7 +22153,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_25 * __pyx_v_b_map.strides[1]) ) + __pyx_t_27 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":312
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":312
  *                 d_mat[i__, j__] = w_s
  *                 b_map[i__, j__, 0] = s_s_0
  *                 b_map[i__, j__, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -22185,7 +22185,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":283
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":283
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -22207,7 +22207,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":314
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":314
  *                 b_map[i__, j__, 1] = s_s_1
  * 
  *     opt_align = character_generic_backtracking(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -22218,7 +22218,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":315
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":315
  * 
  *     opt_align = character_generic_backtracking(s_1, s_2,
  *                                                d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -22230,7 +22230,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":316
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":316
  *     opt_align = character_generic_backtracking(s_1, s_2,
  *                                                d_mat, b_map,
  *                                                n_1, n_2)             # <<<<<<<<<<<<<<
@@ -22268,7 +22268,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_opt_align = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":318
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":318
  *                                                n_1, n_2)
  * 
  *     cdef double wf_s = d_mat[n_1, n_2]             # <<<<<<<<<<<<<<
@@ -22292,7 +22292,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   __pyx_v_wf_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_25 * __pyx_v_d_mat.strides[1]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":320
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":320
  *     cdef double wf_s = d_mat[n_1, n_2]
  * 
  *     return opt_align, wf_s             # <<<<<<<<<<<<<<
@@ -22314,7 +22314,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_11 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":238
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":238
  * 
  * 
  * def generalized_edit (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -22334,7 +22334,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_12, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_19, 1);
   __Pyx_XDECREF(__pyx_t_28);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.generalized_edit", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.generalized_edit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tmp_1);
@@ -22350,7 +22350,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":323
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":323
  * 
  * 
  * def needleman_wunsch (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -22359,15 +22359,15 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_9needleman_wunsch(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_9needleman_wunsch(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_9needleman_wunsch = {"needleman_wunsch", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_9needleman_wunsch, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_9needleman_wunsch(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_9needleman_wunsch = {"needleman_wunsch", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_9needleman_wunsch, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_9needleman_wunsch(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -22470,14 +22470,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     Py_XDECREF(values[__pyx_temp]);
   }
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_dist_mat, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.needleman_wunsch", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.needleman_wunsch", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 323, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 323, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dict_chr_idx), (&PyDict_Type), 1, "dict_chr_idx", 1))) __PYX_ERR(0, 325, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_8needleman_wunsch(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_gap_c, __pyx_v_conc_b, __pyx_v_dict_chr_idx, __pyx_v_dist_mat);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_8needleman_wunsch(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_gap_c, __pyx_v_conc_b, __pyx_v_dict_chr_idx, __pyx_v_dist_mat);
 
   /* function exit code */
   goto __pyx_L0;
@@ -22497,7 +22497,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_8needleman_wunsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_gap_c, double __pyx_v_conc_b, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_8needleman_wunsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, double __pyx_v_gap_c, double __pyx_v_conc_b, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_dist_mat) {
   PyObject *__pyx_v_tmp_1 = NULL;
   PyObject *__pyx_v_tmp_2 = NULL;
   PyObject *__pyx_v_n_dict = NULL;
@@ -22553,7 +22553,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("needleman_wunsch", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":327
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":327
  *                       dict dict_chr_idx, double[:,:] dist_mat) :
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -22564,7 +22564,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":328
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":328
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,
  *                                                  dict_chr_idx)             # <<<<<<<<<<<<<<
@@ -22651,7 +22651,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __pyx_L4_unpacking_done:;
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":327
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":327
  *                       dict dict_chr_idx, double[:,:] dist_mat) :
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -22665,7 +22665,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_n_dict = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":330
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":330
  *                                                  dict_chr_idx)
  * 
  *     cdef int[:] s_1_c = tmp_1             # <<<<<<<<<<<<<<
@@ -22677,7 +22677,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":331
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":331
  * 
  *     cdef int[:] s_1_c = tmp_1
  *     cdef int[:] s_2_c = tmp_2             # <<<<<<<<<<<<<<
@@ -22689,7 +22689,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":334
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":334
  * 
  *     ## Convert python dict to c dict for nogil loops
  *     cdef map[int, int] c_dict = dict_to_cmap(n_dict)             # <<<<<<<<<<<<<<
@@ -22699,11 +22699,11 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1 = __pyx_v_n_dict;
   __Pyx_INCREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_1))) __PYX_ERR(0, 334, __pyx_L1_error)
-  __pyx_t_9 = __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_dict_to_cmap(((PyObject*)__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_9 = __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_dict_to_cmap(((PyObject*)__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_dict = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_9);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":337
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":337
  * 
  *     ## Declare some constants
  *     cdef int n_1 = len(s_1)             # <<<<<<<<<<<<<<
@@ -22717,7 +22717,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_10 = __Pyx_PyList_GET_SIZE(__pyx_v_s_1); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 337, __pyx_L1_error)
   __pyx_v_n_1 = __pyx_t_10;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":338
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":338
  *     ## Declare some constants
  *     cdef int n_1 = len(s_1)
  *     cdef int n_2 = len(s_2)             # <<<<<<<<<<<<<<
@@ -22731,7 +22731,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_10 = __Pyx_PyList_GET_SIZE(__pyx_v_s_2); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 338, __pyx_L1_error)
   __pyx_v_n_2 = __pyx_t_10;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":340
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":340
  *     cdef int n_2 = len(s_2)
  * 
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -22740,7 +22740,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":341
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":341
  * 
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -22749,7 +22749,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":344
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":344
  * 
  *     ## Declare the D matrix
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -22811,7 +22811,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":347
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":347
  * 
  *     ## Fill the first column and row
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -22824,7 +22824,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":348
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":348
  *     ## Fill the first column and row
  *     with nogil:
  *         for i_ in range(n_1+1):             # <<<<<<<<<<<<<<
@@ -22836,7 +22836,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i_ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":349
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":349
  *     with nogil:
  *         for i_ in range(n_1+1):
  *             d_mat[i_][0] = - i_ * gap_c             # <<<<<<<<<<<<<<
@@ -22861,7 +22861,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )) = ((-__pyx_v_i_) * __pyx_v_gap_c);
         }
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":351
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":351
  *             d_mat[i_][0] = - i_ * gap_c
  * 
  *         for j_ in range(n_2+1):             # <<<<<<<<<<<<<<
@@ -22873,7 +22873,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_j_ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":352
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":352
  * 
  *         for j_ in range(n_2+1):
  *             d_mat[0][j_] = - j_ * gap_c             # <<<<<<<<<<<<<<
@@ -22899,7 +22899,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":347
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":347
  * 
  *     ## Fill the first column and row
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -22921,7 +22921,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":356
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":356
  * 
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -22950,7 +22950,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_6 = 0;
   __pyx_t_11 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":357
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":357
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -22989,7 +22989,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_GOTREF(__pyx_t_1);
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":356
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":356
  * 
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -23002,7 +23002,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_19.memview = NULL;
   __pyx_t_19.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":359
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":359
  *                                      dtype=np.intc)
  * 
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -23011,7 +23011,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":360
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":360
  * 
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -23020,7 +23020,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":362
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":362
  *     cdef int s_s_1 = 0
  * 
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -23029,7 +23029,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":363
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":363
  * 
  *     cdef double w_s = 0.0
  *     cdef double w_d = 0.0             # <<<<<<<<<<<<<<
@@ -23038,7 +23038,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_w_d = 0.0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":365
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":365
  *     cdef double w_d = 0.0
  * 
  *     cdef int i__ = 0             # <<<<<<<<<<<<<<
@@ -23047,7 +23047,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_i__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":366
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":366
  * 
  *     cdef int i__ = 0
  *     cdef int j__ = 0             # <<<<<<<<<<<<<<
@@ -23056,7 +23056,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
   __pyx_v_j__ = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":369
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":369
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -23069,7 +23069,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":370
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":370
  *     ## Fill the D-matrix
  *     with nogil:
  *         for i__ in range (1, n_1+1):             # <<<<<<<<<<<<<<
@@ -23081,7 +23081,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         for (__pyx_t_15 = 1; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i__ = __pyx_t_15;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":371
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":371
  *     with nogil:
  *         for i__ in range (1, n_1+1):
  *             b_map[i__, 0, 0] = i__-1             # <<<<<<<<<<<<<<
@@ -23110,7 +23110,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_20 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i__ - 1);
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":372
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":372
  *         for i__ in range (1, n_1+1):
  *             b_map[i__, 0, 0] = i__-1
  *             b_map[i__, 0, 1] = 0             # <<<<<<<<<<<<<<
@@ -23139,7 +23139,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = 0;
 
-          /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":374
+          /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":374
  *             b_map[i__, 0, 1] = 0
  * 
  *             for j__ in range (1, n_2+1):             # <<<<<<<<<<<<<<
@@ -23151,7 +23151,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
           for (__pyx_t_18 = 1; __pyx_t_18 < __pyx_t_22; __pyx_t_18+=1) {
             __pyx_v_j__ = __pyx_t_18;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":375
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":375
  * 
  *             for j__ in range (1, n_2+1):
  *                 if i__ == 1:             # <<<<<<<<<<<<<<
@@ -23161,7 +23161,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = (__pyx_v_i__ == 1);
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":376
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":376
  *             for j__ in range (1, n_2+1):
  *                 if i__ == 1:
  *                     b_map[0, j__, 0] = 0             # <<<<<<<<<<<<<<
@@ -23190,7 +23190,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_20 * __pyx_v_b_map.strides[2]) )) = 0;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":377
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":377
  *                 if i__ == 1:
  *                     b_map[0, j__, 0] = 0
  *                     b_map[0, j__, 1] = j__-1             # <<<<<<<<<<<<<<
@@ -23219,7 +23219,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":375
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":375
  * 
  *             for j__ in range (1, n_2+1):
  *                 if i__ == 1:             # <<<<<<<<<<<<<<
@@ -23228,7 +23228,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":379
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":379
  *                     b_map[0, j__, 1] = j__-1
  * 
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:             # <<<<<<<<<<<<<<
@@ -23258,7 +23258,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = ((*((int *) ( /* dim=0 */ (__pyx_v_s_1_c.data + __pyx_t_16 * __pyx_v_s_1_c.strides[0]) ))) == (*((int *) ( /* dim=0 */ (__pyx_v_s_2_c.data + __pyx_t_17 * __pyx_v_s_2_c.strides[0]) ))));
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":380
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":380
  * 
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:
  *                     w_s = d_mat[i__-1, j__-1] + conc_b             # <<<<<<<<<<<<<<
@@ -23282,7 +23282,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               }
               __pyx_v_w_s = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) ))) + __pyx_v_conc_b);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":379
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":379
  *                     b_map[0, j__, 1] = j__-1
  * 
  *                 if s_1_c[i__-1] == s_2_c[j__-1]:             # <<<<<<<<<<<<<<
@@ -23292,7 +23292,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
               goto __pyx_L20;
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":382
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":382
  *                     w_s = d_mat[i__-1, j__-1] + conc_b
  *                 else:
  *                     w_s = d_mat[i__-1, j__-1] - dist_mat[c_dict[s_1_c[i__-1]],             # <<<<<<<<<<<<<<
@@ -23326,7 +23326,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
                 __PYX_ERR(0, 382, __pyx_L13_error)
               }
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":383
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":383
  *                 else:
  *                     w_s = d_mat[i__-1, j__-1] - dist_mat[c_dict[s_1_c[i__-1]],
  *                                                          c_dict[s_2_c[j__-1]]]             # <<<<<<<<<<<<<<
@@ -23344,7 +23344,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
                 __PYX_ERR(0, 383, __pyx_L13_error)
               }
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":382
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":382
  *                     w_s = d_mat[i__-1, j__-1] + conc_b
  *                 else:
  *                     w_s = d_mat[i__-1, j__-1] - dist_mat[c_dict[s_1_c[i__-1]],             # <<<<<<<<<<<<<<
@@ -23370,7 +23370,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_L20:;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":384
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":384
  *                     w_s = d_mat[i__-1, j__-1] - dist_mat[c_dict[s_1_c[i__-1]],
  *                                                          c_dict[s_2_c[j__-1]]]
  *                 s_s_0 = i__-1             # <<<<<<<<<<<<<<
@@ -23379,7 +23379,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             __pyx_v_s_s_0 = (__pyx_v_i__ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":385
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":385
  *                                                          c_dict[s_2_c[j__-1]]]
  *                 s_s_0 = i__-1
  *                 s_s_1 = j__-1             # <<<<<<<<<<<<<<
@@ -23388,7 +23388,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             __pyx_v_s_s_1 = (__pyx_v_j__ - 1);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":387
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":387
  *                 s_s_1 = j__-1
  * 
  *                 w_d = d_mat[i__, j__-1] - gap_c             # <<<<<<<<<<<<<<
@@ -23412,7 +23412,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_d = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_25 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_d_mat.strides[1]) ))) - __pyx_v_gap_c);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":388
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":388
  * 
  *                 w_d = d_mat[i__, j__-1] - gap_c
  *                 if w_d > w_s:             # <<<<<<<<<<<<<<
@@ -23422,7 +23422,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = (__pyx_v_w_d > __pyx_v_w_s);
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":389
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":389
  *                 w_d = d_mat[i__, j__-1] - gap_c
  *                 if w_d > w_s:
  *                     w_s = w_d             # <<<<<<<<<<<<<<
@@ -23431,7 +23431,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_w_s = __pyx_v_w_d;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":390
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":390
  *                 if w_d > w_s:
  *                     w_s = w_d
  *                     s_s_0 = i__             # <<<<<<<<<<<<<<
@@ -23440,7 +23440,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = __pyx_v_i__;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":391
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":391
  *                     w_s = w_d
  *                     s_s_0 = i__
  *                     s_s_1 = j__-1             # <<<<<<<<<<<<<<
@@ -23449,7 +23449,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = (__pyx_v_j__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":388
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":388
  * 
  *                 w_d = d_mat[i__, j__-1] - gap_c
  *                 if w_d > w_s:             # <<<<<<<<<<<<<<
@@ -23458,7 +23458,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":393
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":393
  *                     s_s_1 = j__-1
  * 
  *                 w_d = d_mat[i__-1, j__] - gap_c             # <<<<<<<<<<<<<<
@@ -23482,7 +23482,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             __pyx_v_w_d = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_25 * __pyx_v_d_mat.strides[1]) ))) - __pyx_v_gap_c);
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":394
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":394
  * 
  *                 w_d = d_mat[i__-1, j__] - gap_c
  *                 if w_d > w_s:             # <<<<<<<<<<<<<<
@@ -23492,7 +23492,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             __pyx_t_23 = (__pyx_v_w_d > __pyx_v_w_s);
             if (__pyx_t_23) {
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":395
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":395
  *                 w_d = d_mat[i__-1, j__] - gap_c
  *                 if w_d > w_s:
  *                     w_s = w_d             # <<<<<<<<<<<<<<
@@ -23501,7 +23501,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_w_s = __pyx_v_w_d;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":396
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":396
  *                 if w_d > w_s:
  *                     w_s = w_d
  *                     s_s_0 = i__-1             # <<<<<<<<<<<<<<
@@ -23510,7 +23510,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_0 = (__pyx_v_i__ - 1);
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":397
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":397
  *                     w_s = w_d
  *                     s_s_0 = i__-1
  *                     s_s_1 = j__             # <<<<<<<<<<<<<<
@@ -23519,7 +23519,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
               __pyx_v_s_s_1 = __pyx_v_j__;
 
-              /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":394
+              /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":394
  * 
  *                 w_d = d_mat[i__-1, j__] - gap_c
  *                 if w_d > w_s:             # <<<<<<<<<<<<<<
@@ -23528,7 +23528,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
             }
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":399
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":399
  *                     s_s_1 = j__
  * 
  *                 d_mat[i__, j__] = w_s             # <<<<<<<<<<<<<<
@@ -23552,7 +23552,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_25 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_20 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_w_s;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":400
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":400
  * 
  *                 d_mat[i__, j__] = w_s
  *                 b_map[i__, j__, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -23581,7 +23581,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
             }
             *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_20 * __pyx_v_b_map.strides[0]) ) + __pyx_t_25 * __pyx_v_b_map.strides[1]) ) + __pyx_t_27 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-            /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":401
+            /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":401
  *                 d_mat[i__, j__] = w_s
  *                 b_map[i__, j__, 0] = s_s_0
  *                 b_map[i__, j__, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -23613,7 +23613,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         }
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":369
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":369
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -23635,7 +23635,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":403
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":403
  *                 b_map[i__, j__, 1] = s_s_1
  * 
  *     opt_align = character_generic_backtracking(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -23646,7 +23646,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 403, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":404
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":404
  * 
  *     opt_align = character_generic_backtracking(s_1, s_2,
  *                                                d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -23658,7 +23658,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":405
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":405
  *     opt_align = character_generic_backtracking(s_1, s_2,
  *                                                d_mat, b_map,
  *                                                n_1, n_2)             # <<<<<<<<<<<<<<
@@ -23696,7 +23696,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_opt_align = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":406
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":406
  *                                                d_mat, b_map,
  *                                                n_1, n_2)
  *     cdef double nw_s = d_mat[n_1, n_2]             # <<<<<<<<<<<<<<
@@ -23720,7 +23720,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   __pyx_v_nw_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_25 * __pyx_v_d_mat.strides[1]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":408
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":408
  *     cdef double nw_s = d_mat[n_1, n_2]
  * 
  *     return opt_align, nw_s             # <<<<<<<<<<<<<<
@@ -23742,7 +23742,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_11 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":323
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":323
  * 
  * 
  * def needleman_wunsch (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -23762,7 +23762,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_12, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_19, 1);
   __Pyx_XDECREF(__pyx_t_28);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.needleman_wunsch", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.needleman_wunsch", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tmp_1);
@@ -23778,7 +23778,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":411
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":411
  * 
  * 
  * cdef map[int, int] dict_to_cmap(dict p_dict):             # <<<<<<<<<<<<<<
@@ -23786,7 +23786,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
  *     cdef int map_key
 */
 
-static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_dict_to_cmap(PyObject *__pyx_v_p_dict) {
+static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_dict_to_cmap(PyObject *__pyx_v_p_dict) {
   int __pyx_v_map_key;
   int __pyx_v_map_val;
   std::pair<int,int>  __pyx_v_map_e;
@@ -23809,7 +23809,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("dict_to_cmap", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":419
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":419
  *     cdef map[int, int] c_map
  * 
  *     for key,val in p_dict.items():             # <<<<<<<<<<<<<<
@@ -23837,7 +23837,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
     __Pyx_XDECREF_SET(__pyx_v_val, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":420
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":420
  * 
  *     for key,val in p_dict.items():
  *         map_key = key             # <<<<<<<<<<<<<<
@@ -23847,7 +23847,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
     __pyx_t_7 = __Pyx_PyLong_As_int(__pyx_v_key); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 420, __pyx_L1_error)
     __pyx_v_map_key = __pyx_t_7;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":421
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":421
  *     for key,val in p_dict.items():
  *         map_key = key
  *         map_val = val             # <<<<<<<<<<<<<<
@@ -23857,7 +23857,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
     __pyx_t_7 = __Pyx_PyLong_As_int(__pyx_v_val); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 421, __pyx_L1_error)
     __pyx_v_map_val = __pyx_t_7;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":422
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":422
  *         map_key = key
  *         map_val = val
  *         map_e = (map_key, map_val)             # <<<<<<<<<<<<<<
@@ -23880,7 +23880,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_v_map_e = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_9);
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":423
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":423
  *         map_val = val
  *         map_e = (map_key, map_val)
  *         c_map.insert(map_e)             # <<<<<<<<<<<<<<
@@ -23896,7 +23896,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":425
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":425
  *         c_map.insert(map_e)
  * 
  *     return c_map             # <<<<<<<<<<<<<<
@@ -23906,7 +23906,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
   __pyx_r = __pyx_v_c_map;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":411
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":411
  * 
  * 
  * cdef map[int, int] dict_to_cmap(dict p_dict):             # <<<<<<<<<<<<<<
@@ -23920,7 +23920,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.dict_to_cmap", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.dict_to_cmap", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_key);
@@ -23929,7 +23929,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":428
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":428
  * 
  * 
  * def int_convert(list s_1, list s_2):             # <<<<<<<<<<<<<<
@@ -23938,15 +23938,15 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_8scanpath_10similarity_23c_co
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_11int_convert(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_11int_convert(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_11int_convert = {"int_convert", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_11int_convert, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_11int_convert(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_11int_convert = {"int_convert", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_11int_convert, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_11int_convert(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -24016,13 +24016,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 428, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 428, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_10int_convert(__pyx_self, __pyx_v_s_1, __pyx_v_s_2);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_10int_convert(__pyx_self, __pyx_v_s_1, __pyx_v_s_2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -24041,7 +24041,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_10int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_10int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2) {
   PyObject *__pyx_v_dict_str_int = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_str_ = NULL;
@@ -24066,7 +24066,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("int_convert", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":430
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":430
  * def int_convert(list s_1, list s_2):
  * 
  *     dict_str_int = dict()             # <<<<<<<<<<<<<<
@@ -24078,7 +24078,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_dict_str_int = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":431
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":431
  * 
  *     dict_str_int = dict()
  *     for i, str_ in enumerate(sorted(set(s_1 + s_2))):             # <<<<<<<<<<<<<<
@@ -24121,7 +24121,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":432
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":432
  *     dict_str_int = dict()
  *     for i, str_ in enumerate(sorted(set(s_1 + s_2))):
  *         dict_str_int.update({str_: i})             # <<<<<<<<<<<<<<
@@ -24136,7 +24136,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":431
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":431
  * 
  *     dict_str_int = dict()
  *     for i, str_ in enumerate(sorted(set(s_1 + s_2))):             # <<<<<<<<<<<<<<
@@ -24147,7 +24147,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":435
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":435
  * 
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(             # <<<<<<<<<<<<<<
@@ -24162,7 +24162,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":436
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":436
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],             # <<<<<<<<<<<<<<
@@ -24193,7 +24193,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":437
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":437
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -24234,7 +24234,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_tmp_1 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":439
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":439
  *         dtype=np.int32
  *             )
  *     tmp_2 = np.array(             # <<<<<<<<<<<<<<
@@ -24249,7 +24249,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":440
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":440
  *             )
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],             # <<<<<<<<<<<<<<
@@ -24280,7 +24280,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":441
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":441
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -24321,7 +24321,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_tmp_2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":444
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":444
  *             )
  * 
  *     return tmp_1, tmp_2             # <<<<<<<<<<<<<<
@@ -24341,7 +24341,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":428
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":428
  * 
  * 
  * def int_convert(list s_1, list s_2):             # <<<<<<<<<<<<<<
@@ -24357,7 +24357,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dict_str_int);
@@ -24370,7 +24370,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":447
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":447
  * 
  * 
  * def int_convert_from_dict(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -24379,15 +24379,15 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_13int_convert_from_dict(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_13int_convert_from_dict(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_13int_convert_from_dict = {"int_convert_from_dict", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_13int_convert_from_dict, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_13int_convert_from_dict(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_13int_convert_from_dict = {"int_convert_from_dict", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_13int_convert_from_dict, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_13int_convert_from_dict(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -24465,14 +24465,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 447, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 447, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dict_chr_idx), (&PyDict_Type), 1, "dict_chr_idx", 1))) __PYX_ERR(0, 448, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_12int_convert_from_dict(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dict_chr_idx);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_12int_convert_from_dict(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dict_chr_idx);
 
   /* function exit code */
   goto __pyx_L0;
@@ -24491,7 +24491,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_12int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_12int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx) {
   PyObject *__pyx_v_dict_str_int = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_str_ = NULL;
@@ -24522,7 +24522,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("int_convert_from_dict", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":451
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":451
  * 
  *     ## Create dict from str to int
  *     dict_str_int = dict()             # <<<<<<<<<<<<<<
@@ -24534,7 +24534,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_dict_str_int = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":453
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":453
  *     dict_str_int = dict()
  * 
  *     for i, str_ in enumerate(dict_chr_idx.keys()):             # <<<<<<<<<<<<<<
@@ -24568,7 +24568,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __pyx_t_1 = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":454
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":454
  * 
  *     for i, str_ in enumerate(dict_chr_idx.keys()):
  *         dict_str_int.update({str_: i})             # <<<<<<<<<<<<<<
@@ -24586,7 +24586,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":457
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":457
  * 
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(             # <<<<<<<<<<<<<<
@@ -24601,7 +24601,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":458
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":458
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],             # <<<<<<<<<<<<<<
@@ -24632,7 +24632,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":459
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":459
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -24673,7 +24673,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_tmp_1 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":461
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":461
  *         dtype=np.int32
  *             )
  *     tmp_2 = np.array(             # <<<<<<<<<<<<<<
@@ -24688,7 +24688,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":462
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":462
  *             )
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],             # <<<<<<<<<<<<<<
@@ -24719,7 +24719,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":463
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":463
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -24760,7 +24760,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_tmp_2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":466
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":466
  *             )
  *     ## Create dict from int to indexes for the dist_mat
  *     n_dict = dict()             # <<<<<<<<<<<<<<
@@ -24772,7 +24772,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_n_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":467
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":467
  *     ## Create dict from int to indexes for the dist_mat
  *     n_dict = dict()
  *     for key, val in dict_chr_idx.items():             # <<<<<<<<<<<<<<
@@ -24800,7 +24800,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_XDECREF_SET(__pyx_v_val, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":468
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":468
  *     n_dict = dict()
  *     for key, val in dict_chr_idx.items():
  *         n_key = dict_str_int[key]             # <<<<<<<<<<<<<<
@@ -24812,7 +24812,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_XDECREF_SET(__pyx_v_n_key, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":469
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":469
  *     for key, val in dict_chr_idx.items():
  *         n_key = dict_str_int[key]
  *         n_dict.update({n_key: val})             # <<<<<<<<<<<<<<
@@ -24829,7 +24829,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":471
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":471
  *         n_dict.update({n_key: val})
  * 
  *     return tmp_1, tmp_2, n_dict             # <<<<<<<<<<<<<<
@@ -24852,7 +24852,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":447
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":447
  * 
  * 
  * def int_convert_from_dict(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -24868,7 +24868,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dict_str_int);
@@ -24885,7 +24885,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":474
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":474
  * 
  * 
  * def character_generic_backtracking(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -24894,15 +24894,15 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_15character_generic_backtracking(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_15character_generic_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_15character_generic_backtracking = {"character_generic_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_15character_generic_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_15character_generic_backtracking(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_15character_generic_backtracking = {"character_generic_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_15character_generic_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_15character_generic_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -25006,13 +25006,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_d_mat, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_map, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 474, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 474, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_14character_generic_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_n_1, __pyx_v_n_2);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_14character_generic_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_n_1, __pyx_v_n_2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -25033,7 +25033,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_14character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_14character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2) {
   PyObject *__pyx_v_opt_align = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_j = NULL;
@@ -25058,7 +25058,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("character_generic_backtracking", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":478
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":478
  *                                    int n_1, int n_2):
  * 
  *     opt_align = []             # <<<<<<<<<<<<<<
@@ -25070,7 +25070,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_opt_align = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":479
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":479
  * 
  *     opt_align = []
  *     i, j = n_1, n_2             # <<<<<<<<<<<<<<
@@ -25086,7 +25086,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_j = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":482
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":482
  * 
  *     ## Fast enough using Python
  *     while i != 0 or j != 0:             # <<<<<<<<<<<<<<
@@ -25105,7 +25105,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __pyx_L5_bool_binop_done:;
     if (!__pyx_t_3) break;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":483
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":483
  *     ## Fast enough using Python
  *     while i != 0 or j != 0:
  *         i_n = b_map[i, j, 0]             # <<<<<<<<<<<<<<
@@ -25139,7 +25139,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_XDECREF_SET(__pyx_v_i_n, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":484
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":484
  *     while i != 0 or j != 0:
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]             # <<<<<<<<<<<<<<
@@ -25173,7 +25173,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_XDECREF_SET(__pyx_v_j_n, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":485
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":485
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:             # <<<<<<<<<<<<<<
@@ -25188,7 +25188,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_3) {
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":486
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":486
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:
  *             if j_n == j-1:             # <<<<<<<<<<<<<<
@@ -25203,7 +25203,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_3) {
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":487
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":487
  *         if i_n == i-1:
  *             if j_n == j-1:
  *                 opt_align.insert(0, [s_1[i-1], s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -25239,7 +25239,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         __pyx_t_12 = PyList_Insert(__pyx_v_opt_align, 0, __pyx_t_2); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 487, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":486
+        /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":486
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:
  *             if j_n == j-1:             # <<<<<<<<<<<<<<
@@ -25249,7 +25249,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
         goto __pyx_L8;
       }
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":489
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":489
  *                 opt_align.insert(0, [s_1[i-1], s_2[j-1]])
  *             else:
  *                 opt_align.insert(0, [s_1[i-1], '__'])             # <<<<<<<<<<<<<<
@@ -25279,7 +25279,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       }
       __pyx_L8:;
 
-      /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":485
+      /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":485
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:             # <<<<<<<<<<<<<<
@@ -25289,7 +25289,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
       goto __pyx_L7;
     }
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":491
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":491
  *                 opt_align.insert(0, [s_1[i-1], '__'])
  *         else:
  *             opt_align.insert(0, ['__', s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -25319,7 +25319,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     }
     __pyx_L7:;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":493
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":493
  *             opt_align.insert(0, ['__', s_2[j-1]])
  * 
  *         i, j = i_n, j_n             # <<<<<<<<<<<<<<
@@ -25336,7 +25336,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
     __pyx_t_11 = 0;
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":495
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":495
  *         i, j = i_n, j_n
  * 
  *     return opt_align             # <<<<<<<<<<<<<<
@@ -25348,7 +25348,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_r = __pyx_v_opt_align;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":474
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":474
  * 
  * 
  * def character_generic_backtracking(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -25361,7 +25361,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_opt_align);
@@ -25374,7 +25374,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":498
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":498
  * 
  * 
  * def dtw_links_backtracking(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -25383,15 +25383,15 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_17dtw_links_backtracking(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_17dtw_links_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_17dtw_links_backtracking = {"dtw_links_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_17dtw_links_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_17dtw_links_backtracking(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_17dtw_links_backtracking = {"dtw_links_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_17dtw_links_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_17dtw_links_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -25505,12 +25505,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_s_2, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_d_mat, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_map, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.dtw_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.dtw_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_opt_links), (&PyList_Type), 1, "opt_links", 1))) __PYX_ERR(0, 499, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_16dtw_links_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_opt_links, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_i, __pyx_v_j);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_16dtw_links_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_opt_links, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_i, __pyx_v_j);
 
   /* function exit code */
   goto __pyx_L0;
@@ -25533,7 +25533,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_16dtw_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_16dtw_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j) {
   PyObject *__pyx_v_i_n = NULL;
   PyObject *__pyx_v_j_n = NULL;
   PyObject *__pyx_r = NULL;
@@ -25560,7 +25560,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("dtw_links_backtracking", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":503
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":503
  *                            int i, int j):
  * 
  *     i_n = b_map[i, j, 0]             # <<<<<<<<<<<<<<
@@ -25592,7 +25592,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_i_n = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":504
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":504
  * 
  *     i_n = b_map[i, j, 0]
  *     j_n = b_map[i, j, 1]             # <<<<<<<<<<<<<<
@@ -25624,7 +25624,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   __pyx_v_j_n = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":505
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":505
  *     i_n = b_map[i, j, 0]
  *     j_n = b_map[i, j, 1]
  *     opt_links.insert(0, [s_1[:,i_n-1],             # <<<<<<<<<<<<<<
@@ -25665,7 +25665,7 @@ __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __p
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_7, 1);
   __pyx_t_7.memview = NULL; __pyx_t_7.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":506
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":506
  *     j_n = b_map[i, j, 1]
  *     opt_links.insert(0, [s_1[:,i_n-1],
  *                          s_2[:,j_n-1],             # <<<<<<<<<<<<<<
@@ -25702,7 +25702,7 @@ __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __p
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_7, 1);
   __pyx_t_7.memview = NULL; __pyx_t_7.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":507
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":507
  *     opt_links.insert(0, [s_1[:,i_n-1],
  *                          s_2[:,j_n-1],
  *                          [i_n-1, j_n-1]])             # <<<<<<<<<<<<<<
@@ -25722,7 +25722,7 @@ __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __p
   __pyx_t_9 = 0;
   __pyx_t_10 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":505
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":505
  *     i_n = b_map[i, j, 0]
  *     j_n = b_map[i, j, 1]
  *     opt_links.insert(0, [s_1[:,i_n-1],             # <<<<<<<<<<<<<<
@@ -25743,7 +25743,7 @@ __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __p
   __pyx_t_12 = PyList_Insert(__pyx_v_opt_links, 0, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 505, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":509
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":509
  *                          [i_n-1, j_n-1]])
  * 
  *     if i_n == 1 and j_n == 1:             # <<<<<<<<<<<<<<
@@ -25761,7 +25761,7 @@ __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __p
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_13) {
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":510
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":510
  * 
  *     if i_n == 1 and j_n == 1:
  *         opt_links.insert(0, [s_1[:,0],             # <<<<<<<<<<<<<<
@@ -25798,7 +25798,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
     __PYX_XCLEAR_MEMVIEW(&__pyx_t_7, 1);
     __pyx_t_7.memview = NULL; __pyx_t_7.data = NULL;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":511
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":511
  *     if i_n == 1 and j_n == 1:
  *         opt_links.insert(0, [s_1[:,0],
  *                              s_2[:,0],             # <<<<<<<<<<<<<<
@@ -25831,7 +25831,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
     __PYX_XCLEAR_MEMVIEW(&__pyx_t_7, 1);
     __pyx_t_7.memview = NULL; __pyx_t_7.data = NULL;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":512
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":512
  *         opt_links.insert(0, [s_1[:,0],
  *                              s_2[:,0],
  *                              [0, 0]])             # <<<<<<<<<<<<<<
@@ -25847,7 +25847,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
     __Pyx_GIVEREF(__pyx_mstate_global->__pyx_int_0);
     if (__Pyx_PyList_SET_ITEM(__pyx_t_8, 1, __pyx_mstate_global->__pyx_int_0) != (0)) __PYX_ERR(0, 512, __pyx_L1_error);
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":510
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":510
  * 
  *     if i_n == 1 and j_n == 1:
  *         opt_links.insert(0, [s_1[:,0],             # <<<<<<<<<<<<<<
@@ -25868,7 +25868,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
     __pyx_t_12 = PyList_Insert(__pyx_v_opt_links, 0, __pyx_t_5); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 510, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":514
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":514
  *                              [0, 0]])
  * 
  *         return np.asarray(opt_links)             # <<<<<<<<<<<<<<
@@ -25906,7 +25906,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
     __pyx_t_5 = 0;
     goto __pyx_L0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":509
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":509
  *                          [i_n-1, j_n-1]])
  * 
  *     if i_n == 1 and j_n == 1:             # <<<<<<<<<<<<<<
@@ -25915,7 +25915,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
 */
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":516
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":516
  *         return np.asarray(opt_links)
  * 
  *     return dtw_links_backtracking(s_1, s_2, opt_links,             # <<<<<<<<<<<<<<
@@ -25931,7 +25931,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
   __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_v_s_2, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 516, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":517
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":517
  * 
  *     return dtw_links_backtracking(s_1, s_2, opt_links,
  *                                   d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -25943,7 +25943,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
   __pyx_t_17 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":518
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":518
  *     return dtw_links_backtracking(s_1, s_2, opt_links,
  *                                   d_mat, b_map,
  *                                   i_n, j_n)             # <<<<<<<<<<<<<<
@@ -25978,7 +25978,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":498
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":498
  * 
  * 
  * def dtw_links_backtracking(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -25996,7 +25996,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_16);
   __Pyx_XDECREF(__pyx_t_17);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.dtw_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.dtw_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i_n);
@@ -26006,7 +26006,7 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
   return __pyx_r;
 }
 
-/* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":521
+/* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":521
  * 
  * 
  * def frechet_links_backtracking(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -26015,15 +26015,15 @@ __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_t_7, 1, (PyObject *(*)(char *)) __
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_19frechet_links_backtracking(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_19frechet_links_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_19frechet_links_backtracking = {"frechet_links_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_19frechet_links_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_19frechet_links_backtracking(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_19frechet_links_backtracking = {"frechet_links_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_19frechet_links_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_19frechet_links_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -26137,12 +26137,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_s_2, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_d_mat, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_map, 1);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.frechet_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.frechet_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_opt_links), (&PyList_Type), 1, "opt_links", 1))) __PYX_ERR(0, 522, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_18frechet_links_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_opt_links, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_i, __pyx_v_j);
+  __pyx_r = __pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_18frechet_links_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_opt_links, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_i, __pyx_v_j);
 
   /* function exit code */
   goto __pyx_L0;
@@ -26165,7 +26165,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_18frechet_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j) {
+static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_18frechet_links_backtracking(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_s_1, __Pyx_memviewslice __pyx_v_s_2, PyObject *__pyx_v_opt_links, __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_i, int __pyx_v_j) {
   int __pyx_v_i_n;
   int __pyx_v_j_n;
   PyObject *__pyx_r = NULL;
@@ -26193,7 +26193,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("frechet_links_backtracking", 0);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":526
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":526
  *                                int i, int j):
  * 
  *     i_n = b_map[i, j, 0]             # <<<<<<<<<<<<<<
@@ -26222,7 +26222,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   __pyx_v_i_n = (*((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_1 * __pyx_v_b_map.strides[0]) ) + __pyx_t_2 * __pyx_v_b_map.strides[1]) ) + __pyx_t_3 * __pyx_v_b_map.strides[2]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":527
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":527
  * 
  *     i_n = b_map[i, j, 0]
  *     j_n = b_map[i, j, 1]             # <<<<<<<<<<<<<<
@@ -26251,7 +26251,7 @@ static PyObject *__pyx_pf_14vision_toolkit_8scanpath_10similarity_23c_comparison
   }
   __pyx_v_j_n = (*((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_3 * __pyx_v_b_map.strides[0]) ) + __pyx_t_2 * __pyx_v_b_map.strides[1]) ) + __pyx_t_1 * __pyx_v_b_map.strides[2]) )));
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":528
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":528
  *     i_n = b_map[i, j, 0]
  *     j_n = b_map[i, j, 1]
  *     opt_links.insert(0, [s_1[:,i_n],             # <<<<<<<<<<<<<<
@@ -26288,7 +26288,7 @@ __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __p
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL; __pyx_t_5.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":529
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":529
  *     j_n = b_map[i, j, 1]
  *     opt_links.insert(0, [s_1[:,i_n],
  *                    s_2[:,j_n],             # <<<<<<<<<<<<<<
@@ -26321,7 +26321,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __p
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL; __pyx_t_5.data = NULL;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":530
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":530
  *     opt_links.insert(0, [s_1[:,i_n],
  *                    s_2[:,j_n],
  *                    [i_n, j_n]])             # <<<<<<<<<<<<<<
@@ -26341,7 +26341,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __p
   __pyx_t_8 = 0;
   __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":528
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":528
  *     i_n = b_map[i, j, 0]
  *     j_n = b_map[i, j, 1]
  *     opt_links.insert(0, [s_1[:,i_n],             # <<<<<<<<<<<<<<
@@ -26362,7 +26362,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __p
   __pyx_t_11 = PyList_Insert(__pyx_v_opt_links, 0, __pyx_t_9); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":532
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":532
  *                    [i_n, j_n]])
  * 
  *     if i_n == 0 and j_n == 0:             # <<<<<<<<<<<<<<
@@ -26380,7 +26380,7 @@ __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __p
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_12) {
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":533
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":533
  * 
  *     if i_n == 0 and j_n == 0:
  *         opt_links.insert(0, [s_1[:,0],             # <<<<<<<<<<<<<<
@@ -26417,7 +26417,7 @@ __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __p
     __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
     __pyx_t_5.memview = NULL; __pyx_t_5.data = NULL;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":534
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":534
  *     if i_n == 0 and j_n == 0:
  *         opt_links.insert(0, [s_1[:,0],
  *                        s_2[:,0],             # <<<<<<<<<<<<<<
@@ -26450,7 +26450,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
     __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
     __pyx_t_5.memview = NULL; __pyx_t_5.data = NULL;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":535
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":535
  *         opt_links.insert(0, [s_1[:,0],
  *                        s_2[:,0],
  *                        [0, 0]])             # <<<<<<<<<<<<<<
@@ -26466,7 +26466,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
     __Pyx_GIVEREF(__pyx_mstate_global->__pyx_int_0);
     if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 1, __pyx_mstate_global->__pyx_int_0) != (0)) __PYX_ERR(0, 535, __pyx_L1_error);
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":533
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":533
  * 
  *     if i_n == 0 and j_n == 0:
  *         opt_links.insert(0, [s_1[:,0],             # <<<<<<<<<<<<<<
@@ -26487,7 +26487,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
     __pyx_t_11 = PyList_Insert(__pyx_v_opt_links, 0, __pyx_t_6); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 533, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":537
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":537
  *                        [0, 0]])
  * 
  *         return np.asarray(opt_links)             # <<<<<<<<<<<<<<
@@ -26525,7 +26525,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
     __pyx_t_6 = 0;
     goto __pyx_L0;
 
-    /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":532
+    /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":532
  *                    [i_n, j_n]])
  * 
  *     if i_n == 0 and j_n == 0:             # <<<<<<<<<<<<<<
@@ -26534,7 +26534,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
 */
   }
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":539
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":539
  *         return np.asarray(opt_links)
  * 
  *     return frechet_links_backtracking(s_1, s_2, opt_links,             # <<<<<<<<<<<<<<
@@ -26550,7 +26550,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
   __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_s_2, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 539, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":540
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":540
  * 
  *     return frechet_links_backtracking(s_1, s_2, opt_links,
  *                                   d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -26562,7 +26562,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
   __pyx_t_16 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 540, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":541
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":541
  *     return frechet_links_backtracking(s_1, s_2, opt_links,
  *                                   d_mat, b_map,
  *                                   i_n, j_n)             # <<<<<<<<<<<<<<
@@ -26603,7 +26603,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":521
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":521
  * 
  * 
  * def frechet_links_backtracking(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
@@ -26623,7 +26623,7 @@ __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_t_5, 1, (PyObject *(*)(char *)) __
   __Pyx_XDECREF(__pyx_t_16);
   __Pyx_XDECREF(__pyx_t_17);
   __Pyx_XDECREF(__pyx_t_18);
-  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.frechet_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.scanpath.similarity.c_comparison_algorithms.frechet_links_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -26757,7 +26757,7 @@ static PyType_Slot __pyx_type___pyx_array_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_array_spec = {
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.array",
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.array",
   sizeof(struct __pyx_array_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_SEQUENCE,
@@ -26791,7 +26791,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.""array", /*tp_name*/
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.""array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -26936,7 +26936,7 @@ static PyType_Slot __pyx_type___pyx_MemviewEnum_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.Enum",
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.Enum",
   sizeof(struct __pyx_MemviewEnum_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -26946,7 +26946,7 @@ static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.""Enum", /*tp_name*/
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.""Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -27213,7 +27213,7 @@ static PyType_Slot __pyx_type___pyx_memoryview_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryview_spec = {
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.memoryview",
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.memoryview",
   sizeof(struct __pyx_memoryview_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -27247,7 +27247,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.""memoryview", /*tp_name*/
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.""memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -27392,7 +27392,7 @@ static PyType_Slot __pyx_type___pyx_memoryviewslice_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms._memoryviewslice",
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms._memoryviewslice",
   sizeof(struct __pyx_memoryviewslice_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC|Py_TPFLAGS_SEQUENCE,
@@ -27402,7 +27402,7 @@ static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms.""_memoryviewslice", /*tp_name*/
+  "vision_toolkit.scanpath.similarity.c_comparison_algorithms.""_memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -27952,13 +27952,13 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (__Pyx_InitConstants(__pyx_mstate) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   stringtab_initialized = 1;
   if (__Pyx_InitGlobals() < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__pyx_module_is_main_vision_toolkit__scanpath__similarity__c_comparison_algorithms__c_comparison_algorithms) {
+  if (__pyx_module_is_main_vision_toolkit__scanpath__similarity__c_comparison_algorithms) {
     if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_name_2, __pyx_mstate_global->__pyx_n_u_main) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms")) {
-      if (unlikely((PyDict_SetItemString(modules, "vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "vision_toolkit.scanpath.similarity.c_comparison_algorithms")) {
+      if (unlikely((PyDict_SetItemString(modules, "vision_toolkit.scanpath.similarity.c_comparison_algorithms", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   /*--- Builtin init code ---*/
@@ -28467,7 +28467,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Enum, __pyx_t_4) < (0)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":7
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":7
  * from libcpp cimport bool
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -28480,14 +28480,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_4) < (0)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":11
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":11
  * 
  * 
  * def DTW (double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
  *          double[:,:] dist_mat):
  * 
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_1DTW, 0, __pyx_mstate_global->__pyx_n_u_DTW, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_1DTW, 0, __pyx_mstate_global->__pyx_n_u_DTW, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -28495,14 +28495,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_DTW, __pyx_t_4) < (0)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":73
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":73
  * 
  * 
  * def discrete_frechet(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
  *                      double[:,:] dist_mat):
  * 
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_3discrete_frechet, 0, __pyx_mstate_global->__pyx_n_u_discrete_frechet, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_3discrete_frechet, 0, __pyx_mstate_global->__pyx_n_u_discrete_frechet, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -28510,7 +28510,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_discrete_frechet, __pyx_t_4) < (0)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":153
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":153
  * 
  * def levenshtein (list s_1, list s_2,
  *                  double del_c = 1.0, double ins_c = 1.0, double sub_c = 1.0) :             # <<<<<<<<<<<<<<
@@ -28524,7 +28524,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   __pyx_t_9 = PyFloat_FromDouble(((double)1.0)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":152
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":152
  * 
  * 
  * def levenshtein (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -28536,7 +28536,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_5levenshtein, 0, __pyx_mstate_global->__pyx_n_u_levenshtein, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_5levenshtein, 0, __pyx_mstate_global->__pyx_n_u_levenshtein, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28546,14 +28546,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_levenshtein, __pyx_t_9) < (0)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":238
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":238
  * 
  * 
  * def generalized_edit (list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                       double del_c, double ins_c,
  *                       dict dict_chr_idx, double[:,:] dist_mat) :
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_7generalized_edit, 0, __pyx_mstate_global->__pyx_n_u_generalized_edit, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_7generalized_edit, 0, __pyx_mstate_global->__pyx_n_u_generalized_edit, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28561,14 +28561,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_generalized_edit, __pyx_t_9) < (0)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":323
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":323
  * 
  * 
  * def needleman_wunsch (list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                       double gap_c, double conc_b,
  *                       dict dict_chr_idx, double[:,:] dist_mat) :
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_9needleman_wunsch, 0, __pyx_mstate_global->__pyx_n_u_needleman_wunsch, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_9needleman_wunsch, 0, __pyx_mstate_global->__pyx_n_u_needleman_wunsch, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28576,14 +28576,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_needleman_wunsch, __pyx_t_9) < (0)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":428
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":428
  * 
  * 
  * def int_convert(list s_1, list s_2):             # <<<<<<<<<<<<<<
  * 
  *     dict_str_int = dict()
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_11int_convert, 0, __pyx_mstate_global->__pyx_n_u_int_convert, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[5])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 428, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_11int_convert, 0, __pyx_mstate_global->__pyx_n_u_int_convert, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[5])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 428, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28591,14 +28591,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_int_convert, __pyx_t_9) < (0)) __PYX_ERR(0, 428, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":447
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":447
  * 
  * 
  * def int_convert_from_dict(list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                           dict dict_chr_idx):
  * 
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_13int_convert_from_dict, 0, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[6])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_13int_convert_from_dict, 0, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[6])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28606,14 +28606,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict, __pyx_t_9) < (0)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":474
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":474
  * 
  * 
  * def character_generic_backtracking(list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                                    double[:,:] d_mat, int[:,:,:] b_map,
  *                                    int n_1, int n_2):
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_15character_generic_backtracking, 0, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[7])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 474, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_15character_generic_backtracking, 0, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[7])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28621,14 +28621,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking, __pyx_t_9) < (0)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":498
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":498
  * 
  * 
  * def dtw_links_backtracking(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
  *                            list opt_links,
  *                            double[:,:] d_mat, int[:,:,:] b_map,
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_17dtw_links_backtracking, 0, __pyx_mstate_global->__pyx_n_u_dtw_links_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[8])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 498, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_17dtw_links_backtracking, 0, __pyx_mstate_global->__pyx_n_u_dtw_links_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[8])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 498, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28636,14 +28636,14 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_dtw_links_backtracking, __pyx_t_9) < (0)) __PYX_ERR(0, 498, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":521
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":521
  * 
  * 
  * def frechet_links_backtracking(double[:,:] s_1, double[:,:] s_2,             # <<<<<<<<<<<<<<
  *                                list opt_links,
  *                                double[:,:] d_mat, int[:,:,:] b_map,
 */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_23c_comparison_algorithms_19frechet_links_backtracking, 0, __pyx_mstate_global->__pyx_n_u_frechet_links_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[9])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_8scanpath_10similarity_23c_comparison_algorithms_19frechet_links_backtracking, 0, __pyx_mstate_global->__pyx_n_u_frechet_links_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_scanpath_similari, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[9])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 521, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_9);
@@ -28651,7 +28651,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_frechet_links_backtracking, __pyx_t_9) < (0)) __PYX_ERR(0, 521, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":1
+  /* "src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx":1
  * # distutils: language = c++             # <<<<<<<<<<<<<<
  * 
  * from libcpp.map cimport map
@@ -28671,7 +28671,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
   __Pyx_XDECREF(__pyx_t_10);
   if (__pyx_m) {
     if (__pyx_mstate->__pyx_d && stringtab_initialized) {
-      __Pyx_AddTraceback("init vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init vision_toolkit.scanpath.similarity.c_comparison_algorithms", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     #if !CYTHON_USE_MODULE_STATE
     Py_CLEAR(__pyx_m);
@@ -28685,7 +28685,7 @@ __Pyx_RefNannySetupContext("PyInit_c_comparison_algorithms", 0);
     }
     #endif
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init vision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithms");
+    PyErr_SetString(PyExc_ImportError, "init vision_toolkit.scanpath.similarity.c_comparison_algorithms");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -28798,25 +28798,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{2},{6},{35},{9},{30},{50},{8},{90},{20},{32},{22},{30},{37},{5},{3},{8},{20},{8},{15},{2},{3},{15},{5},{7},{18},{5},{4},{1},{6},{30},{9},{17},{18},{6},{5},{5},{5},{8},{12},{12},{16},{8},{6},{22},{5},{15},{6},{9},{5},{5},{6},{7},{26},{8},{5},{16},{12},{1},{2},{3},{3},{2},{10},{5},{3},{5},{5},{11},{21},{4},{13},{5},{8},{1},{2},{3},{3},{3},{4},{3},{11},{8},{7},{4},{10},{3},{3},{6},{5},{4},{8},{4},{16},{7},{2},{5},{4},{3},{3},{9},{9},{4},{3},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{3},{5},{3},{5},{5},{5},{12},{10},{12},{19},{5},{4},{5},{4},{4},{4},{6},{5},{8},{3},{5},{5},{6},{6},{3},{6},{82},{3},{3},{3},{4},{1},{5},{477},{610},{586},{633},{636},{144},{160},{174},{138},{180},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2693 bytes) */
-const char* const cstring = "BZh91AY&SY\026k~|\000\003/\177\377\377\377\377\377\177\377\377\377\277\347\377\224\277\377\377\360@@@@@@@@@@@@@\000@\000`\013_=\000\342(\004\022\220\212B[2\247[\233\260\001S\034\204\242\223Q\240\001\240\321\232\232=\023&\324d\000\321\240\006@\000\000\000\000\000\0004\032hF\204M\000S5\032\233\023L\210\310\014\214\232\0004\003F\200\000\000\320i\223F\232bhA\200\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\022\"\222M\000\000\001\243A\206\211\264\330\222\000\014\232\000\001\240\006@\320\r\032\r4hA\200\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\022(\321\000\246\0014\rLM5O\320S\365&\324i\35244\000\000\000\310i\220\017S\324\000h\362\215=J\253\307p\306\320\330\332G\342\027\371\021\357#\375%\376\305\347\377\236\212\252\225r\363\310\261\216\306\325JAFQ\220\246@\304\324\321TW\320T(\220PAcH\322M\215\2660Lbm46\306\r\241\215\203Ccm\200\306\306\301\2466\350D]\230\005l%?|\364\200\254#b$\246\213\221{\033@1\242\025\223\t-\001B\361L\334\036\223r'Q\240\330+\325\311\210\035\024\024B\303\022\010!\007%\211\026\014L`\320\230\r\334\211\242(\210\321\235[Q*\227\211PH\277A\2344k+0\255J\2516\004\211\023\236\250!\205\371\010\300'\031\n\004\273\210W\334%T\025\026\026\010\316\333Hi\210/\013\216\225\230\300\272\355s\005Q\031A\230\232J\025\251\242M\214\2636\004wFg3\220.\010\025\241\326\302\252\205\200\2460;)$l:\366\204\300\270b+iz\204\316@\345u;\003\264?P\335\246\354\236\255\303\335\377).\233GEz\327\317\262\364\276\201qL\222:L'\345UE\202\365\226\225\357N\340\254\357\330\242\3428\220\364\177\337\023\331zd\366\347)=\301W\372\307p|JW\26769\004\207w+X9lx\254\034W#w\242G\273X\275n\241V\200\3701Vd\021K)\031\247e\270\341]oxo\354\016s\330\361%\352$\275C\326\357\226#\264U\2503\326\232E\222\370PARU\222\227`Z\246\024\240\2471M\"\205n\210\002\340\265\035\275\340\270*\222\252\005\215\351\037:\010\365o\357x\275\314\271\036Aw\327$.\3579\214\024\027\300\351 \215g\367\250\273{\214w7(\322\016\274s=\356V\t~\001'H\215\036\376\216A\366\005F\324#b\341I\034\250:9z(\024(\225\032\033\234\334""\324\302E}\246\250\"\002\202\306\320\366L\370\027\240-\025\266\245g\267\354\330X\221C\332S\230Z\026\205\003\256\025UB\247\304\222\321C\243\371\302'\262\217oQ\332\377G\223X\277'\273;o\014\311-IjH\332v\321Hh\2440(\304\345\n\0319BR\354\320\021\010\204Us\007\007\366\351\313\276uf\307\020\304\021\210\030\243\370\367\260\251U\341\367\266\365aZ\206\010\303NUA6\212\225d\362\362\327\203v\311\331\263_\004uO\3158* \3103\254\375\325\235Q\024\240\270\342bi\2568T\010\033\202$\265\304\"\202\217/\306\306\245DT\n\205\241\346\2025p\330@\033=W52\337\361U\004i\003\225x\337\260\344\345~\236\252\244f\223\004,\223;\231\271\276_\005YW\267\033m\334\260p9\227c\271\301\277\036\343\332\270\227#\000\255\220\031z=\313\355\025\241\024\001\203[\251a1<W\341\226b\320=\013\2279b$V\315L\362\265\\\364\037-\356\300\022.\243\265\345\020\202\006j\345\246\r\2671\211&H:#~J\350M\214\253\201M*\205r\216\256\0323^\007x\030\260\323\351\365\3460\003_*\227U\000V\003\303\260m\251\302\014\240c\025\323\032\027O\033U(\005\034\324k\270p\260\006\310\247\020\224\254G\021\346/vU\207B:F\221\322\272\316\3054)I\016d\272\321\341\361EI2\262\223\036\375\332\273\213O\314(OA\321\326\024\025\031\001G\234W\254\203:\346\337\253\232\355\263\202\361|\220v\270\221\244gM9\353\240\005\271\353},\256\nR\000\202\344\007\367\256\013=\371\007\277\3437\023Y\354\231\224\030$b\206<\\\206\363T\241\302#\205\034\233\203\224\321r\032>F\016D\234\346bH\207\257\247.j\356,N*9\227\006ckP#X\205B\204s\340:2\270a\264@z\305s\004\314\006d\033x\367\277\354\003\036\005\331]\227'\222\311\256o>\024q`\236:\314I\3344*\310\223\251\367@z*b)\313 \022$\265e\245\223^\305\237\"\352\254\215\254\006 \326\257mCI\344\266\220t\2261\332\005\031\016<\227\346\227\014h\200\215\":\036\002\220q\254\2653c\021:'\022\361\237(\252\351\212\343\214\214z\264M\272\352\345\003\007\211\265\234\307\235\365\257\001\316$s\2079\260=}\3366q\243hf\317\263\200\327\342\331Mtf\200\316\216\350Q\021\224\270\346\247\211\302\027\035\275p\260\304.|\001)&\330\3209_G\276\374\357\177\223\224!\220g\232,\260""\377\255\261\272\332/I\356\215WB\010\006Y\2223\346w\004\201i\r\370\303'|\231\3416V\234\323s`\202ln\267\210\3001Qa\004\364\231\004\37226N+\206\210\277\224\250\250\360\214\231.\307\336W\017>1\343\232\264d&\215\223\262\355|eCn\001\245\356\272A\246\354\003\005T\256\t\r\2709\347\240\300JH\267\014\024dK\250D\202\303\024\317\252\000(\032\201 \243jxD\324*\004\326\372p$\320\325`Z\212H*\333\014\316\226\347+\202\203\211z\2063\270wl2\353\270J$\346\020\r\372\244*\201\000\341\266\260\014\314\020\212IJ\243 \254c\320\244\202A\021i\202\260\005\032\250\222`\030\272>c\303\304\0351\331\2401av\356\003\203@h7>*\006$`0\270\216\031c \300&\251O\236L&,\214\357}\326o\036\034!;KI\031\222\221JX\233\033\027\203V\215\345\373\t}G\n\361\243gF'\002\024=/T#p\205uu\333\214\265\244\353\246\373\322\211\343kA]\213%\360a \262\010\234bBe\215VL\2150\215N\231\246\033\333\301p\316I\255\310\327\244\3426\3576\010\325\251:\327+\360\023\304>\004\004\210\224^e)\224D\224\233l\225$\226\265\244\r\"\324f9\264\310\3342\351K\016GYR\260\233e\025s\216\014\234\032.\256\320\2431~\232\350\273k\235Ij\033\360\326\032\362'\017y\221\253+\256d\240)\265\2410\335\255\214\001\232\234\330\306\023efv\005\010k\330\333\234\2044\224\\c\024\205\265\357[\320\033\322\336\205\322T\257\023\341k\220a\034\332\310\203\201\313Y\266Iu9\263\026\266\251@\225^K+\251\313\222\013\2533\020\252\241\310$\"\275[x\325\003\337\314\264\307\256\245FmD\203\221\031,\372\014\257\265\360=\0358\317\020$d\237\022\270\210\027\201\345e\352\262\257V\031\311\341\004\245\356\256NC\223\2148\2759\324\257\016\007\033|\007\235\221\302[N\215\302\213@Ex\343\253\024\177\016}\224\206\262\324z\364z\204@*\322\230\252\200\322\272F\032 \245\r\027\177^K$^\202\234zq\3061*\356\356\027\336P\310m\036\034fr\203\013\354\317\014\034\027l(\364\235\201\020!wq\300Iy\233\300Q'R\2032S\222\266\351^\251\327\340S\324G\241zR\356+\264\317H\366#\036d34\201{\2112\223B\372\311\342\302>\001\340\031P>\250n\376&V\320\210\330c\037\206m\201\236AP%\363\275\201\231?\253\305`\027\325\374\022,D\204\3202\213\243""\260\363\001\334\362\222\0063\234(I\013\320\217q{ch\354\304\tR\331\234\232\031:F\020w\350\035\202D\024\002V\240\350UWL}!\021\022\317\020\177C\002\024\222(_f6(\3754\257\360E\202}e|\232\262\003\n\010V\000\260\027\026d\311\206h3\272F\241b5\210\240P\036Q\242\014\270Z+<\\\360be S\001\371\021AR\r\000)Lh]\020\214\346\264\023\342]\000\356\205tR\"\264&\212\306G\256\262I$b\346[\014O\344\003\254\316\232\333lT\205\306C\033\373\246\224\005\020\0208\206\305c0\245\327\346\030L\005\331\2429(\240b\2061A\025\027.\214y\010\244*\003\031\025\013\025&\236\227Z\t1\210\010\023\0067\020\025\241\224\225\216\222\252W^HQ]\204\340\224L9\225\003E\300z\\\345l\254\254\256\017\261\n\202\202\202f\332Uc\225\020\014T\205V\312Z3\365\201\223QD\214pVM\306\225\240-R\362\020\362(\201P\035B\366\325\241\311\014\350T\211&\210)\207\213}\217Il\305\006\371\245\254Mj\203\035\302jC\026Q18f\031\363\206\324\014\341\340\026p\233\204,edU#Lb8#\204\310\350FA\233\"\315S\345\034Q\204\010\303\014EH\270\204`\203vb9hc\277\014\004\306\030L3W\007\2462,\245{\300\351\231p\034%\0107I1\005Q[\n\360\202\245h\361\260\320\177t\n\324\266\236?E._O\202\346#\362\263\0246\036\205\336EC\216I\222\024\367\326\022\025=\344]\225\314\300jr\254\235H-\224\256\3137\332\346\242\036C\327\263#=\326\370\003*!\353\n\251\223\025\n e\212\t\003\226\r\237\214\032\270!\331e\303-(\356j\002*Jh\241:\310\272,\204\347J\225(\235IC(2U\221aU5(\213$\004\212\005f9\016\301\310\221\022\"ld\340@\201'\t&\210d\222\020\305\336n\3622baT@\230\2072`\263\006E&\n\203'\207#t\021\023\212R\202J@!\204\351\020\322\211E$\245d\241Pc\034\014\202\244\207\"\007\020\020\317\376.\344\212p\241 ,\326\374\370";
-    PyObject *data = __Pyx_DecompressString(cstring, 2693, 2);
+    const struct { const unsigned int length: 10; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{2},{6},{35},{9},{30},{50},{8},{90},{20},{32},{22},{30},{37},{5},{3},{8},{20},{8},{15},{2},{3},{15},{5},{7},{18},{5},{4},{1},{6},{30},{9},{17},{18},{6},{5},{5},{5},{8},{12},{12},{16},{8},{6},{22},{5},{15},{6},{9},{5},{5},{6},{7},{26},{8},{5},{16},{12},{1},{2},{3},{3},{2},{10},{5},{3},{5},{5},{11},{21},{4},{13},{5},{8},{1},{2},{3},{3},{3},{4},{3},{11},{8},{7},{4},{10},{3},{3},{6},{5},{4},{8},{4},{16},{7},{2},{5},{4},{3},{3},{9},{9},{4},{3},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{3},{5},{3},{5},{5},{5},{12},{10},{12},{19},{5},{4},{5},{4},{4},{4},{6},{5},{8},{3},{5},{5},{6},{6},{3},{6},{58},{3},{3},{3},{4},{1},{5},{477},{610},{586},{633},{636},{144},{160},{174},{138},{180},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2713 bytes) */
+const char* const cstring = "BZh91AY&SY#F\004\315\000\003.\377\377\377\377\377\377\177\377\377\377\277\347\377\224\277\377\377\360@@@@@@@@@@@@@\000@\000`\013_\000\030\233f\250\301ISZ\025$\225Y\241P\010\020\004\221A\003)\244\3615=\030\251\355=LF\320T\3625<\223\312\007\244\323\3226\240\032\036\243M\033B\017\325\r=G\251\211\265\003\324\032\004\002\000Dd\236\224\366\243OI3P4z\206\232h\003@4h\000\000\r\006\2324i\246\010A\200\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000A\200\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000A\200\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\022!\010B4\214\024e?H\365\023\304\2316\215\232\205\003A\210\000\000\310h\000\323@\321\3514\364\032\213\255\007\230\306\320\330\332G\345\027\274#\376#\337K\376\213\305\360\374\027W.\343\305\006\030\360\332\271j,\3132\224\22415(\272/\360\027\013$\026\020[\306x\323cm\214\023\030\233M\r\261\203hc`\320\330\333`1\261\260i\215\273\025Y\357\200\262\244\247\343?\360\013\005q\"\024\2434h\306\320\014h\245\211\010\\\001cAI\312\037\370\345D\334h8\205\242\3151\003\262\242\310Z\265\224QH:\330H\300\304\306\r\t\200\336h\224U\221\\\033VW\022\271\240\225\204\2158\r\241\301\302^B\367.\241\260 \202g\253E0\323`\215A5\260T%\330B\3231+\240\270\265`F\326\332CLA\240fs\255\363Q\236|2\n\3426Q\276JJ\226I\242\033\031\215\375Ey\2036\233J\026\365\013 \354\260\272\261\200R0;v\204q\035\2360\2203\030\213\344h\2513\2248z\235q\331\037\250^\312\366\017\253A\356\377\261wMa\321N\265O\3544j\210J\336fc\244\241\376\\\220L'Y#.\363\350\021Y\272\361J\316\262>\217w\304\366Z7{os\232\201\023\373\266\201\253CN\323\324\356\016\035\313\326a\215m\256a\204\256^\364\034}\311B\244\244M\026\001\254SER\020\266-[\363\214\265\352\277\013\346\016n\330yG\251\350%\334Iw\r\336q\204z\"\275\301\233\245#\021\351QE\310\274(\355\206JB\326\024\310\245\"\305\363\252\0030\311\031\260\005 \215%\032\005%4\216\314$;t\360d\360Km\245\n\\c\213^\361$$B\250\016\221\010i?\336B\233\374\203\327\256*\340\334\225~\377\r\205U\200\237\030C/\177.Q\373\002CS#\211r$\216\272\017/""\257\345\330,Y+472\345HA\177e\253\010\240\260\265\344\036\301\267Q\242\003!e\222X\366\275\214\030H\261\354\251\220\3102\013\006\030Tj0\214\334u\324\210\326\346\205\020iD\326o\231\233\303\275`]\356X(\323\n\251*\351uR8\317F\312\006\213S\002\314N)S&)(\355\360\005R)\027WCC\236iq\027\352\311 H\010\220\t\021\344\301R25\217\317f\375H\343\n\210\251ZX\320KE\313\262v{w\336\345\342\234qp\357W\233>\344\321q\006\300\332\266\371\213j\262-ay5\"i\257&\225\202\206\350\250\\5H\260\253\333\360k\271q\027\002\341\220{\224WW\223\005\001\305\351\271Re\341\272\242\272\200u\327u\372\216\034i\324\363n\222\253\224\021\251<\365\341\305\320\340\222\242v\241\274\275\271\206\003\306\245\264`u[\255\247*\322\345$[\201\273\321\355\3258J&\"J\026}I\207\207\327U\227\274N\003\320\242bja\306\223X\342\351\311\217\236\327\324\312\001\230\244Yj2#\006\006\022\2766.\363\305d\3630yCc\221\210\316f\351Xe\231\010\322\361\325\263,*.\3608Lf\364\377\207\213\000\323\303\032H\200E\003\303\230]O\201\013\312\321,\320\3113r3\306 E\216CM\006\325\200\346Hu\207:a\264\017\320\321\342\354<\264s\215#\235vN\332\224(\2049#\262\217?\320\253\220\313\3040{\273x\367\305\207\234\034\026\361\257`\016\004\343\014\003\216\340S*\300\270\265n\343\252[\307byC{W\032\031\206%\233\031d\002Q\245Tf\214\014\243\000 l`7\275@\217\330\205\335\346\215\262V\334I\262\215I\032\320\307\255\300\336\375\313\034\2029\021\326\345\016\271\301\232\032>v\247\0049\223Y\005>\036}\237\"\374\246\023\253\216L\303|\343j\205:2\021\221\216t\003\022\243\005\032\214\006\224%\200,\000\300\206\365\273\377\365\201O\2014&\2063\357\325y7\253\362c\261\206\376L\\\265Q8\210\263o\216\271\302\262\205\261\257\226\301\262\321\234\244fZv\346\327&y8\3470+\0139v\220+\231\3117\006'Z; \311H\355\272\254\035\2702\200%q\216\1771\014\035\250\354\352\266\210>%\306\250cx\222f\204\255\205\306\017\033\324\332:\367\000\250\322\026X\272t6\0259xH\274\027\215 \337\265\326cQ\026B\256\216\226\200\313\2073\262q\213\300\270\207 \007\020j\323J\222\3246\212C\301\330\305J\200\221\330\002!6\306\003\215,""\371\264\332\371\273\375p\246Q\266Q\214\037\023ln\372cZ\2779\307H\020\2007`P\307\006`f\004\3346B\313\267K\030\026\204\217\021\321l \246\014\3370B\200TM\000\301p\025\222\353\254fV}/i\361\203\3108\350\325\230NQ\362J@\356\251\271\252Q\006\030\214\206e\204\262\322\036\006z\001\201\355\311\000\302T*\"\024\254(.\261\316>z\200\347\022PX\202\342\244L8$\024\313\034\360\000\310,A@\311s\264\010\263\231\253\306\274\273E\323\3160i\22468\236Y\232Zx\"\206\035}pK\276\243\342\320\277M\003\240\3468\020\033$PD\002\000\354\336H\003y\300\301!\231\224\211HJ\026\345\r\215\214\306\227\034`2\234\322\264\204\272U\324}m\205-|\\\001\255\206|\273\306\367\000p\034\257\310\260k+P\326erF\270\rJU\255\352\222\022-\206\327\315\2347A\323h\226\"!\005\244H\034\350\021\2303\005\313\306\375\321=\262\252Cj\241\226\214\253b\202\006\215HF5\230FFM\350_(\276Y\252\250\242^.\222\034N\346\016\0008H\016`\004O|\220\231c[\211\221\246\021\253\r0\362\273\002\344\230Mr\243\207\250y\007\0371\304#\253\325N\367\331\246\241=k\265J\n\212\320\331\022Y\020\241\266\310\264%\221`\000\300\026\"\321\253\004\033`\304\221)\270oG=\211t\004LG\005\334\031RZ\204UM\272i\2255y1vq\262\0131\246\342\334\337RY:\224R\2102\325\221Y\307\224\316\005\204x\241\276/\".\371L\231:\345\351\340L\233A\251\343e\2158y\2272\003\231.d.r\341\372\017h\313p\030\r\253 \314,4\310gB-\363S8Ny\335\000\3513\221\324\217\200\344j\316\357\030\210\202\230\330\242\263\2375\346\212\327\323\244\217\206\345\306q\242\027Y\025\225\327\212\347\023\260\357\343\324\265\000\020VG\240\244\031\201r\316\270L\236\217\337\245\301h\301\037\225[\266[\324\r>\235\024\364\303A\241\2639\320\304=R\215\2055\374R\030\253\317\006\312\271\206\244+\013q1j\321i\033\000i\252\307WV\353@\236\351\256\245\320\305bU*)\240\213R\264\222C!w\237`\323B\306\301\264y\372\344\353\203\r1\266\230\367\243\312 \365\252F`\304s\325\240(\275\213\341EGI\221YQ\304\364\376\031\035~\373\016\331\321\312\274iwU\024\307\214j\343\r\342v3\216/\310\200\344L\205\317\001\336\310~\201\364\214n\003{\341w\310rY\035\353o\036v-\003""\035\361B%\3153\214v\375\032\252 ^\367\314\345\0048\231\003\021-m\223\363\003W8\340\303\027\202!\320\277\244x\027\330L\250\034!\356qCF\"\0238\350\307\204?\250\273C\000\365\377\021#nc\340Gi%\341\020|a\347B\222E\013\370a\230O\350d\266g\024\347<\013\365e\214\006\010GQ\001\020n\257\024\020\031O\023?\031\032.\343]\305\002\200\366\206\210?l/\205xE\352\203\023:\000\350\200\367\304Q\322\203\304\007BcB\372\341\036\353^$\374\027\001\334W:\004nBh\3342?\216\342I$b\372]\320\356|P\017q\356\316\346\333\027@w\231\014o\336M(\n\200\201\3046+~\343\241\356\375C\t\200\310\370G%P\305\014b\202:N\365\317ZB:\003\244\016\372:E\351\244\323\361\375\310$\357\220\020&\014n 7!\235\006\341\364\035=\013\356\311\n7Y8%\023\016e@\321\336\007\343\372\213\272n7\033\240\377d*(\242g\272\227O\254t\220\014]\001\323\335:\032<;\301\365\272J\221\216\r\304\367\232^\220\036\227C\365\320\375z\201Pq\223mm\r\000\354qn\"\002\010\\\353\273m\354v\272\347X\333\006n\023k\323\252\234\3553\246P\006\334\010\201\340\312e9\235\2318\306lF<\214\327\306\312\320\214\306^\227\314\ns\24722\242\034fF]\nv\035\006Q\337\022\305\302<\340\315\215\337\331C\r\262\030\223\014\031\0303\254\035\301\207\306\224\327\373\207\205\303\n\276\035\363\203`f\032`\326\rv=\"\274\301\361\\\365\001\256\361]\257q1\271n\2407\032\270jvC\222\320n\366\364\247\237\203\200,o\340\3542\376{\033\245\350un\321\323)-y\216\245\003%\277\240\356\243x\337\241)\243J\214\341,Hk\001u$\212\305\2203\n\210\007\032\233?05\230S\3063\031\221g\233T\025r%\026&\360gX\244\346\327.Y;\221L\260\310\274\030.\245EV \010,\027\221\300\3608 \2532\362\355A\203\005\250V\234bU\223%\325^\252\316\322\336\"\014\0271N\322E\307f\2568\035\253\024\316q\230\2762\313\"\320\301\222_,bmQV\205\030\212V\030\307C(\271\003\202\207T\024\317\376.\344\212p\241 F\214\t\232";
+    PyObject *data = __Pyx_DecompressString(cstring, 2713, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (2570 bytes) */
-const char* const cstring = "x\332\315WKs\333F\022\016m*Q,e#Z\362#\211\235\002\355\310\212\327\teJV\036\033\257S\224\2548\256\332M\"\313v\252\266\266jj\010\014%X \000b\000I\314\311G\036q\304\021G\034y\344QG\037}\304\221?a\177\302~=\000_1\345uR\373\252\242\006\363\350\231\356\376\372\353\236\321\237\264\232ei\206\331\024\2664\035[j\256'ta\230\366\336hR[6\264f }\255.4\3236\304\26104n\033\232\355\370\232\264L\210o\006\215\206\360\264CS\034i\206#\244Z\022\307\256#\205&}\3174\204\334\342\266\346\330V[\323=\301}\241q\255\236m\362\367\271\257\231R\323\035\3337\367\002'\220P\2425E\323\361\332\025\354\242\243\270\224\346\236\255\371\216\206\315\306\347\352\234L\202T\346B\371\301G\236\351\363\272%r\201\314\250\206\3474_\267W\271\245\035\231\376\276\346\267]\241\255\344\363\276\307m\251\334\030m\311\304\260\303\004T\376\030v\367\307\00133\0202\241\355\246\353\2675\271\317q\264\037\2700\256\341x\232\336\366\367\035\273\302=\217\267\037*\003\234\300\327\234\206Vw\002\333\220\332\247\374\030\247,\0337\037\276\252+\003?p]\307\363\205\361\320>\344\226\211(9\206\370\214\200\2070\202\264\242\257h\320\263\002e\344\310\312g\332\036v\r\2043s\200\265Rs\367\257\312\301\247\344 L\370\301\001\224*4[\312J\362\307\020\226Y\027\036@\006\204\024V(Q\361\263\265\237\266\177\372\374\316Ww\024-<\361\014\352%\254\253\353\026\"\007:\220O\201i\371PF\360\312\212\366\260\241\265\235@\263\005\314DX]\310\215o\360\367\205\255I\341SG[Q\261\340>\374f\330\016n\256\344\270\232\207\202v\177\307-)*?N\200\007\223s\202q]\027r\200\346\256/\\\255\311\333\n?\360\371\027\3419#\240\237\330\21298\022l<\024\036\210\341\213&\215\235:9U\271\267r\363[n\030\314&x\310Y\r\010\335>\326\035\313\"s\020\230\n\257\353w\307\270LB\231\261\367~==\240\320=\303\224\244W(\355{\272\366)\205iO\261\207<\240d\024\307\276\260}\225\032\243\2744e\266\305 +\245\371\213\320\356\376Y\273\375\n\267l\007\241k\360\300\3625\306<a\004\272`L3\002\345\250\355\330\237#\224\207&\267\260\252\233\266\351c1s\367\236\364\364\325CS*\340\035\307:0\375U\251s\333\345\376\376\2524\233\246\305""\221l\355U\235\351N\323E_B\220[{\016f\367\233\362\264\371\212\333>\276\233\225\005c\002\237W\347\210\276C\230&\326\207\263\3010f\334\262\034]\325\026\362Z3\270\317+SV3\336\323\031yi\252\324v\267\036>\274\377\370\347m\3132]iJ\306~j\037\343\357>\030\316~\000\364\217DcW\264\002a\353\202\022\2442\312\025\306\020\357\301\321,c\234R\317e\376i\333\272\351Tt\307Cr\233\266\220u\326\344n\235K\241\353\314\200\002}\237{\2342\211\355\t\033\301\326Y\235\353\007\310W\375\000\201GH(%\030\033t\366\204O\321\246!Nc&\"\003QA{@/l\326\301\177\337\200\022\037\371\312t\246\224\344\255\276\3571\3238V}8\217\335>\270\207\302\t\333\033@s_\320\330W\233\235\200\230\345\0371\3509\220\023F\031\224\304\252a\000+\343\n\260A\361\021v\320T\025Bx\236\3435,\276'\301F\034\227\227\240\\\311\2243\031k\0040\237\355q\227\351\n\t\024\251_\204\301\210\335\214\334\226>A\314L\223\231h\231m\032\3704\251\000\342K\345\323\264\033\246-\211\303\376\372\032\032\226'\361X\227\321E\240\260\300\244N\326\017\003\223\345P\236H\317\236\261g\014?\373@\264\361\223\026\223\2268D\332\355\373\002\220\003 \325\212&]\010Tu1p\214\300\302\327fU\233\255\331J\211\315\260\331\346M\232\316Z$/\325<K4\271\315\216\002[\352\373\230%\036\331.\260s\333\366\021\223\016\263\000\252\343\372H\032\334{\324Q\200\271\200\312u\\\306\220@\210\245\320\017d\320\314F98\324UqQ\275\300vM\375\000Fm\333\003\271Cu7\022\235Z\001\2672\243FEa\330\313\312\307\330\2048\246\356\036\310!<\311\252\3701]\2625\374\350+\331mj\252\214\241f\347\256\242\227W\035\325\317\r\034\353\017t\250|$\3201\355aM\270\322w\\\242'\376\002\334$A\235h\354c\035-n\322\246\313\252\324\254\301? \022\270\310t\201;\r\277@\310\311zU\031\324\253\312\250^UN\253K\247\314\0371\343\210\231\210\313Q\203\311c\2721\344\363\302?\336~kf)\\\017y(\243rZ\\\034u\257F\217\242\303\370Q,\223r\262\236\350\335R\367\223n\243\267\331\343\375\342\273\235R\347z\347Ix-\254\245jp\255\363\035\r\372\305+\321f\324\2107c#\271\226l%~w\255\273\333+\244\313\267\222\265d'-\236\017\313\252\351\027/\204\030\242\351\027\227\350""\214\213!\0375\375w\317\245\263\3638\361FT\210\026\243\373\361\231\270\234\316/\204o\207\"\252F[\221\037\257\305;\351\302R\370}T\213v\261z=\336M\316$\345\376\302\305\260\036\235\211\226\243V|\0262\273\311Y\245v\341rt6Z\213F\235W\005\013\351\302bx'\364\242R\272\364!\234_\272\002=^\\\242Nm\\\274\030o\305^RzU\2746\334\323_\200_\241\021\335\210qj\326\375$\022qub@\260\317u\200\306;\317\217:\274#\3032\200\327\341m\rv.^\034u\227\302\255\260\005\263\327#\036\265\372\305\205\227\0137b\036\007\311v\267\224\256T\022\236\256\334J6\272\305\256\002\221\360\331\206\005\305\271\3167!\177\223\340\006\311w\335\033\2753\275r?\217\343vx9*E\327\242\261X\n(\030\305p1\254\252&\217\322\203pCE\251\226\316\227\302R\270\034\036\003\245\231x'g@+\325>M\n\311\005\030\232\257K\340(\3432\360\030\233hM?\355z\370\267\3744=YJ\036\rN[L\206\353Oh\363\370@\035\335\377}L\253\215\263\2545`\330c\n\351\305|\326\213\027\007\014\230\306\252\221P\355_1\212D\357+\372\355\274\t\233n\306\325x\233\324\376\007\030\365Gd\370Fw\246\273\223\336Z\353\226\323[\253\211\354\226\273\353]\243w\275\267C\371>\260\226R\355qr>\251\216\0306\373\326\314|\347\313\360\346\313\217nw\013\335\013]\236V\327\372\305\313Q!\245\206\214*\307\363I-\331\031q\2615`bk\024'Z\375\370\264\202\203\305ssY\240\226\225\351U\n\325yD|\007\206\255Gud\332\253\253\250G\341\323l\265?\031vRv\3655\205j\2344\003\272\017mx\020~\201\004\271\216\302S@4_Oj\320\351\235\3600\332\211tb\304 \320\224\200K\037\250C\236\304\313qk|@\276WGL\242\372\264\216|\227\260\362\373n\255\373\264W\355m\237\224N\256\237\354\234\360\364\356\346I\371d\343E\341\305\342\213\332\213\234\210\344\374\2403y\316\006\325\310i\254l\001\276qVn+cw\247\213\327\206{2f\212\350KT\347\274\273A\271:1P\374B\231J\002T\250\325/@\217\325;]\324\226Ka\0006>\211\313\377OLZS\267I\271\177\032\227\362u\262\364M\3513\2544\377#\"-\016\n*\324\020\005T\361D\031G8\263\333\257\212r\226\301T\357\026\372S\247g{\205\336\305^\353d\006\244\323_\224^\224\323\257\277\235\030\236J\2747f\322o\344\351\357&^:\205xii\371\345\362""\327=uk~\025~\203\252\030\304\265\021\361\372\003\212\215q\355\352k\370\365Zj\244c\324\030#\354\024NR\364?9\265\272e\367\335\364\3526\242Z?/v\223|{\034\237\237\244\327\353\371\266\004?[\377~\276U\263\315\313\321Q\314\373y7\300\r\227\213\377j\002N\\\370h\032c'\230\221\221iBU\220l\342\351\261t)\364\325]}\371\343\210\247\2275\265X\243\316P|\206^\201P6U\2740\334\323\037Y=ndibpZ\321\233\362@;G\227\366r\247\025\236%n\245\305s\343\203\367:?\243\356\354*@\351A\242n\361\022\335\340\333\021\316x\347\271\337Y\357\324\303bx\237x\221\316\226\302Kc\340W\323K\037\"8;\351%\225\225\375\331\367;\236z\334\021\365_\316-\343U\225\275\354\256\335\204\375\327V\342\326o\263'\243\315\007WF]\245nP\242\336\300\276\253Z\366\371\030{J\277\266\257\034\227@\253\000O\275q\373Pz/S\006\316v\316\"Y\277\306Q\177W\217\313\331\245\360\001B\3664{\007\275\327\331\3544\360\332\233}\267s\005%\001\240\341\215dd\307%\273\270]J\351\354\037`\031Rg\376ME\351\334\363a)\205\352\031\340\360\227\370mP`v!\234W\257*\310\354\205\217\302\243\210Sl\277\014W\242\322\363\002]s\255th\353\003\305\310VRT$\373\357XL7j9\303\255\024\026R\025\223\215li\016\257\375-@\276\030n*Za\223\010\253x\034R\232O\016\346:w\324\203\262\n\265\363\357w\374\254\016\242@.|\020]\302\365\225U\371BRBZ\336Q\217\307*\036+x\021O[Fu\271\020\376\254HP\210/f\305\200r\274\257\324\004\364_\344\\\247\372\343?\001\214r9\207";
-    PyObject *data = __Pyx_DecompressString(cstring, 2570, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (2567 bytes) */
+const char* const cstring = "x\332\315WKs\333F\022\016m*Q,e#Z\362#\211\235\002\355\310\212\327\teJV\036\033\257S\224\2548\256\332M\"\313v\252\266\266jj\010\014%X \000b\000I\314\311G\036q\304\021G\034y\344QG\037}\304\221?a\177\302~=\000_1\345uR\373\252\242\006\363\350\231\356\376\372\353\236\321\237\264\232ei\206\331\024\2664\035[j\256'ta\230\366\336hR[6\264f }\255.4\3236\304\26104n\033\232\355\370\232\264L\210o\006\215\206\360\264CS\034i\206#\244Z\022\307\256#\205&}\3174\204\334\342\266\346\330V[\323=\301}\241q\255\236m\362\367\271\257\231R\323\035\3337\367\002'\220P\2425E\323\361\332\025\354\242\243\270\224\346\236\255\371\216\206\315\306\347\352\234L\202T\346B\371\301G\236\351\363\272%r\201\314\250\206\3474_\267W\271\245\035\231\376\276\346\267]\241\255\344\363\276\307m\251\334\030m\311\304\260\303\004T\376\030v\367\307\00133\0202\241\355\246\353\2675\271\317q\264\037\2700\256\341x\232\336\366\367\035\273\302=\217\267\037*\003\234\300\327\234\206Vw\002\333\220\332\247\374\030\247,\0337\037\276\252+\003?p]\307\363\205\361\320>\344\226\211(9\206\370\214\200\2070\202\264\242\257h\320\263\002e\344\310\312g\332\036v\r\2043s\200\265Rs\367\257\312\301\247\344 L\370\301\001\224*4[\312J\362\307\020\226Y\027\036@\006\204\024V(Q\361\263\265\237\266\177\372\374\316Ww\024-<\361\014\352%\254\253\353\026\"\007:\220O\201i\371PF\360\312\212\366\260\241\265\235@\263\005\314DX]\310\215o\360\367\205\255I\341SG[Q\261\340>\374f\330\016n\256\344\270\232\207\202v\177\307-)*?N\200\007\223s\202q]\027r\200\346\256/\\\255\311\333\n?\360\371\027\3419#\240\237\330\21298\022l<\024\036\210\341\213&\215\235:9U\271\267r\363[n\030\314&x\310Y\r\010\335>\326\035\313\"s\020\230\n\257\353w\307\270LB\231\261\367~==\240\320=\303\224\244W(\355{\272\366)\205iO\261\207<\240d\024\307\276\260}\225\032\243\2744e\266\305 +\245\371\213\320\356\376Y\273\375\n\267l\007\241k\360\300\3625\306<a\004\272`L3\002\345\250\355\330\237#\224\207&\267\260\252\233\266\351c1s\367\236\364\364\325CS*\340\035\307:0\375U\251s\333\345\376\376\2524\233\246\305""\221l\355U\235\351N\323E_B\220[{\016f\367\233\362\264\371\212\333>\276\233\225\005c\002\237W\347\210\276C\230&\326\207\263\3010f\334\262\034]\325\026\362Z3\270\317+SV3\336\323\031yi\252\324v\267\036>\274\377\370\347m\3132]iJ\306~j\037\343\357>\030\316~\000\364\217DcW\264\002a\353\202\022\2442\312\025\306\020\357\301\321,c\234R\317e\376i\333\272\351Tt\307Cr\233\266\220u\326\344n\235K\241\353\314\200\002}\237{\2342\211\355\t\033\301\326Y\235\353\007\310W\375\000\201GH(%\030\033t\366\204O\321\246!Nc&\"\003QA{@/l\326\301\177\337\200\022\037\371\312t\246\224\344\255\276\3571\3238V}8\217\335>\270\207\302\t\333\033@s_\320\330W\233\235\200\230\345\0371\3509\220\023F\031\224\304\252a\000+\343\n\260A\361\021v\320T\025Bx\236\3435,\276'\301F\034\227\227\240\\\311\2243\031k\0040\237\355q\227\351\n\t\024\251_\204\301\210\335\214\334\226>A\314L\223\231h\231m\032\3704\251\000\342K\345\323\264\033\246-\211\303\376\372\032\032\226'\361X\227\321E\240\260\300\244N\326\017\003\223\345P\236H\317\236\261g\014?\373@\264\361\223\026\223\2268D\332\355\373\002\220\003 \325\212&]\010Tu1p\214\300\302\327fU\233\255\331J\211\315\260\331\346M\232\316Z$/\325<K4\271\315\216\002[\352\373\230%\036\331.\260s\333\366\021\223\016\263\000\252\343\372H\032\334{\324Q\200\271\200\312u\\\306\220@\210\245\320\017d\320\314F98\324UqQ\275\300vM\375\000Fm\333\003\271Cu7\022\235Z\001\2672\243FEa\330\313\312\307\330\2048\246\356\036\310!<\311\252\3701]\2625\374\350+\331mj\252\214\241f\347\256\242\227W\035\325\317\r\034\353\017t\250|$\3201\355aM\270\322w\\\242'\376\002\334$A\235h\354c\035-n\322\246\313\252\324\254\301? \022\270\310t\201;\r\277@\310\311zU\031\324\253\312\250^UN\251KG\3148b&\360?j0yL7\203|^\370\307\333o\315,\205\353!\017eTN\213\213\243\356\325\350Qt\030?\212eRN\326\023\275[\352~\322m\3646{\274_|\267S\352\\\357<\t\257\205\265T\r\256u\276\243A\277x%\332\214\032\361fl$\327\222\255\304\357\256uw{\205t\371V\262\226\354\244\305\363aY5\375\342\205\020C4\375\342\022\235q1\344\243\246\377\356\271tv\036'\336""\210\n\321bt?>\023\227\323\371\205\360\355PD\325h+\362\343\265x']X\n\277\217j\321.V\257\307\273\311\231\244\334_\270\030\326\2433\321r\324\212\317Bf79\253\324.\\\216\316Fk\321\250\363\252`!]X\014\357\204^TJ\227>\204\363KW\240\307\213K\324\251\215\213\027\343\255\330KJ\257\212\327\206{\372\013\360+4\242\0331N\315\272\237D\"\256N\014\010\366\271\016\320x\347\371Q\207wdX\006\360:\274\255\301\316\305\213\243\356R\270\025\266`\366z\304\243V\277\270\360r\341F\314\343 \331\356\226\322\225J\302\323\225[\311F\267\330U \022>\333\260\2408\327\371&\344o\022\334 \371\256{\243w\246W\356\347q\334\016/G\245\350Z4\026K\001\005\243\030.\206U\325\344Qz\020n\250(\325\322\371RX\n\227\303c\2404\023\357\344\014h\245\332\247I!\271\000C\363u\t\034e\\\006\036c\023\255\351\247]\017\377\226\237\246'K\311\243\301i\213\311p\375\tm\036\037\250\243\373\277\217i\265q\226\265\006\014{L!\275\230\317z\361\342\200\001\323X5\022\252\375+F\221\350}E\277\2357a\323\315\270\032o\223\332\377\000\243\376\210\014\337\350\316tw\322[k\335rzk5\221\335rw\275k\364\256\367v(\337\007\326R\252=N\316'\325\021\303f\337\232\231\357|\031\336|\371\321\355n\241{\241\313\323\352Z\277x9*\244\324\220Q\345x>\251%;#.\266\006Ll\215\342D\253\037\237Vp\260xn.\013\324\2622\275J\241:\217\210\357\300\260\365\250\216L{u\025\365(|\232\255\366'\303N\312\256\276\246P\215\223f@\367\241\r\017\302/\220 \327Qx\n\210\346\353I\r:\275\023\036F;\221N\214\030\004\232\022p\351\003u\310\223x9n\215\017\310\367\352\210IT\237\326\221\357\022V~\337\255u\237\366\252\275\355\223\322\311\365\223\235\023\236\336\335<)\237l\274(\274X|Q{\221\023\221\234\037t&\317\331\240\0329\215\225-\3007\316\312me\354\356t\361\332pO\306L\021}\211\352\234w7(W'\006\212_(SI\200\n\265\372\005\350\261z\247\213\332r)\014\300\306'q\371\377\211Ik\3526)\367O\343R\276N\226\276)}\206\225\346\177D\244\305AA\205\032\242\200*\236(\343\010gv\373UQ\3162\230\352\335B\177\352\364l\257\320\273\330k\235\314\200t\372\213\322\213r\372\365\267\023\303S\211\367\306L\372\215<\375\335\304K\247\020/-""-\277\\\376\272\247n\315\257\302oP\025\203\2706\"^\177@\2611\256]}\r\277^K\215t\214\032c\204\235\302I\212\376'\247V\267\354\276\233^\335FT\353\347\305n\222o\217\343\363\223\364z=\337\226\340g\353\337\317\267j\266y9:\212y?\357\006\270\341r\361_M\300\211\013\037Mc\354\004322M\250\n\222M<=\226.\205\276\272\253/\177\034\361\364\262\246\026k\324\031\212\317\320+\020\312\246\212\027\206{\372#\253\307\215,M\014N+zS\036h\347\350\322^\356\264\302\263\304\255\264xn|\360^\347g\324\235]\005(=H\324-^\242\033|;\302\031\357<\367;\353\235zX\014\357\023/\322\331Rxi\014\374jz\351C\004g'\275\244\262\262?\373~\307S\217;\242\376\313\271e\274\252\262\227\335\265\233\260\377\332J\334\372m\366d\264\371\340\312\250\253\324\rJ\324\033\330wU\313>\037cO\351\327\366\225\343\022h\025\340\2517n\037J\357e\312\300\331\316Y$\353\3278\352\357\352q9\273\024>@\310\236f\357\240\367:\233\235\006^{\263\357v\256\240$\0004\274\221\214\354\270d\027\267K)\235\375\003,C\352\314\277\251(\235{>,\245P=\003\034\376\022\277\r\n\314.\204\363\352U\005\231\275\360Qx\024q\212\355\227\341JTz^\240k\256\225\016m}\240\030\331J\212\212d\377\035\213\351F-g\270\225\302B\252b\262\221-\315\341\265\277\005\310\027\303ME+l\022a\025\217CJ\363\311\301\\\347\216zPV\241v\376\375\216\237\325A\024\310\205\017\242K\270\276\262*_HJH\313;\352\361X\305c\005/\342i\313\250.\027\302\237\025\t\n\361\305\254\030P\216\367\225\232\200\376\213\234\353T\177\374'\302\256/\303";
+    PyObject *data = __Pyx_DecompressString(cstring, 2567, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (6098 bytes) */
-const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenablegc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__ object>src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx<strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIDTWEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryView__abcallocate_bufferarrayasarrayasyncio.coroutinesb_mapbasecc_dictcharacter_generic_backtracking__class____class_getitem__cline_in_tracebackconc_bcountd_matdel_c__dict__dict_chr_idxdict_str_intdiscrete_frechetdist_matdoubledtw_links_backtrackingdtypedtype_is_objectencodeenumerateerrorflagsformatfortranfrechet_links_backtracking__func__gap_cgeneralized_edit__getstate__ii_i__i_nid__import__indexinfins_cint32int_convertint_convert_from_dictintc_is_coroutineitemsitemsizejj_j__j_nkeykeysl_slevenshtein__main__memviewmode__module__n_1n_2n_dictn_keyname__name__ndimneedleman_wunsch__new__npnumpynw_so_lobjopt_alignopt_linkspackpop__pyx_checksum__pyx_state__p""yx_type__pyx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__registers_1s_1_cs_2s_2_cs_s_0s_s_1__set_name__setdefault__setstate____setstate_cython__shapesizestartstepstopstr_structsub_c__test__tmptmp_1tmp_2unpackupdatevalvaluesvision_toolkit.scanpath.similarity.c_comparison_algorithms.c_comparison_algorithmsw_dw_iw_swf_sxzeros\200\001\360\006\000\005\024\2203\220a\220s\230!\330\004\023\2203\220a\220s\230!\330\004\035\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\340\004\t\210\021\210#\210U\220\"\220A\330\004\t\210\021\210\"\210F\220\"\220A\340\004\034\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\330\004\022\220!\330\004\022\220!\340\004\025\220Q\330\004\025\220Q\340\004\024\220A\330\004\026\220a\330\004\026\220a\330\004\026\220a\340\t\n\330\010\014\210F\220&\230\001\230\023\230D\240\002\240!\330\014\020\220\006\220e\2301\230C\230t\2402\240Q\330\020\024\220H\230A\230S\240\002\240#\240S\250\002\250!\340\020\026\220b\230\002\230%\230q\240\003\2402\240S\250\003\2502\250Q\330\020\030\230\003\2302\230Q\330\020\030\230\003\2302\230Q\340\020\026\220b\230\002\230%\230q\240\003\2402\240S\250\001\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230r\240\021\330\024\034\230A\340\020\026\220b\230\002\230%\230q\240\004\240C\240r\250\021\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230r\240\021\340\020\025\220Q\220d\230&\240\001\330\020\025\220Q\220d\230$\230e\2401\330\020\025\220Q\220d\230$\230e\2401\360\006\000\005\013\210!\330\004\007\200w\210a\210s\220!\2203\220c\230\023\230A\230Q\330\023\026\220c\230\023\230A\230Q\330\023\024\220C\220q\230\003\2303\230a\230q\340\004\020\320\020&\240a\240u\250E\260\021\330'.\250a\330'+\2505\260\004\260A\330\004\026\220e\2301\230E\240\021\340\004\013\210;\220a\200\001\360\006\000\005\024\2203\220a\220s\230!\330\004\023\2203\220a\220s\230!\330\004\035\230R\230v\240R\240u\250F\260&\270\002\270!\340\004\t\210\021\210\"\210E""\220\030\230\021\230\"\230A\340\004\034\230B\230f\240B\240e\2505\260\001\330%+\2502\250Q\330\004\023\2201\330\004\023\2201\340\t\n\330\010\014\210G\2205\230\001\230\023\230A\330\014\021\220\021\220%\220x\230q\240\005\240Q\240d\250\"\250C\250q\330 (\250\001\250\025\250a\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\t\n\330\010\014\210G\2205\230\001\230\023\230A\330\014\021\220\021\220#\220Z\230q\240\005\240Q\240c\250\024\250R\250q\330 (\250\001\250\023\250A\330\014\021\220\021\220#\220U\230%\230q\330\014\021\220\021\220#\220U\230%\230s\240!\2401\340\004\022\220!\330\004\022\220!\340\004\025\220Q\330\004\025\220Q\340\004\024\220A\330\004\026\220a\330\004\026\220a\330\004\026\220a\340\t\n\330\010\014\210F\220&\230\001\230\023\230A\330\014\020\220\006\220e\2301\230C\230q\330\020\024\220H\230A\230T\240\021\340\020\026\220e\2301\230C\230r\240\023\240C\240r\250\021\330\020\030\230\003\2302\230Q\330\020\030\230\003\2302\230Q\340\020\026\220e\2301\230C\230r\240\023\240A\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230r\240\021\330\024\034\230A\340\020\026\220e\2301\230D\240\003\2402\240Q\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230r\240\021\340\020\025\220Q\220d\230)\2401\240E\250\021\330\020\025\220Q\220d\230$\230e\2401\330\020\025\220Q\220d\230$\230e\2401\360\006\000\005\013\210!\330\004\007\200w\210a\210s\220!\2203\220c\230\023\230A\230Q\330\023\026\220c\230\023\230A\230Q\330\023\024\220C\220q\230\003\2303\230a\230q\340\004\020\320\020*\250!\2505\260\005\260Q\330+2\260!\330+/\250s\260!\2603\260d\270#\270Q\270a\340\004\026\220e\2301\230D\240\002\240#\240T\250\022\2501\340\004\013\210;\220a\200\001\360\010\000\005\014\2107\220)\320\0330\260\001\260\025\260a\33012\340\004\030\230\001\330\004\030\230\001\360\006\000\005!\240\014\250A\250Q\360\006\000\005\024\2203\220a\220q\330\004\023\2203\220a\220q\340\004\022\220!\330\004\022\220!\360\006\000\005\036\230R\230v\240R""\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\n\013\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\022\220#\220Q\220e\2303\230b\240\001\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\022\220\"\220A\220V\2303\230b\240\001\340\004\026\220a\330\004\026\220a\330\004\026\220a\360\006\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\340\004\025\220Q\330\004\025\220Q\340\004\023\2201\330\004\023\2201\360\006\000\n\013\330\010\014\210G\2206\230\021\230#\230S\240\001\240\021\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\014\020\220\007\220v\230Q\230c\240\023\240A\240Q\330\020\023\2204\220s\230!\330\024\031\230\021\230#\230U\240%\240q\330\024\031\230\021\230#\230U\240%\240s\250!\2501\340\020\026\220e\2301\230C\230q\240\003\2403\240a\240s\250\"\250H\260A\260V\2701\270E\300\021\300#\300Q\300a\330<B\300!\3005\310\001\310\023\310A\310Q\330\020\030\230\003\2301\230A\330\020\030\230\003\2301\230A\340\020\026\220e\2301\230C\230q\240\003\2405\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230q\240\001\330\024\034\230A\340\020\026\220e\2301\230E\240\023\240A\240S\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230q\240\001\340\020\025\220Q\220e\2307\240!\330\020\025\220Q\220e\2305\240\005\240Q\330\020\025\220Q\220e\2305\240\005\240Q\340\004\020\320\020.\250a\250u\260A\330/6\260a\330/4\260A\340\004\027\220u\230A\230U\240!\340\004\013\210;\220a\200\001\360\010\000\005\014\2107\220)\320\0330\260\001\260\025\260a\33012\340\004\030\230\001\330\004\030\230\001\360\006\000\005!\240\014\250A\250Q\360\006\000\005\024\2203\220a\220q\330\004\023\2203\220a\220q\340\004\022\220!\330\004\022\220!\360\006\000\005\036\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\n\013\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\022\220#\220Q\220e\2302\230S\240\002\240!\340\010\014\210F\220%\220q""\230\003\2301\230A\330\014\022\220\"\220A\220V\2302\230S\240\002\240!\360\010\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\340\004\025\220Q\330\004\025\220Q\340\004\026\220a\330\004\026\220a\340\004\023\2201\330\004\023\2201\360\006\000\n\013\330\010\014\210G\2206\230\021\230#\230S\240\001\240\021\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\014\020\220\007\220v\230Q\230c\240\023\240A\240Q\330\020\023\2204\220s\230!\330\024\031\230\021\230#\230U\240%\240q\330\024\031\230\021\230#\230U\240%\240s\250!\2501\340\020\023\2205\230\001\230\023\230A\230S\240\003\2405\250\001\250\023\250A\250Q\330\024\032\230%\230q\240\003\2401\240C\240s\250!\2503\250b\260\001\340\024\032\230%\230q\240\003\2401\240C\240s\250!\2503\250b\260\010\270\001\270\026\270q\300\005\300Q\300c\310\021\310!\3309?\270q\300\005\300Q\300c\310\021\310!\330\020\030\230\003\2301\230A\330\020\030\230\003\2301\230A\340\020\026\220e\2301\230E\240\023\240A\240S\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230q\240\001\340\020\026\220e\2301\230C\230q\240\003\2405\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230q\240\001\330\024\034\230A\340\020\025\220Q\220e\2307\240!\330\020\025\220Q\220e\2305\240\005\240Q\330\020\025\220Q\220e\2305\240\005\240Q\340\004\020\320\020.\250a\250u\260A\330/6\260a\330/4\260A\330\004\027\220u\230A\230U\240!\340\004\013\210;\220a\200\001\330\021%\320%9\270\021\340\004\013\2108\220;\230a\230u\240A\340\004\030\230\001\330\004\030\230\001\340\004\023\2203\220a\220q\330\004\023\2203\220a\220q\340\004\035\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\330\004\025\220Q\330\004\025\220Q\340\004\022\220!\330\004\022\220!\360\006\000\n\013\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\021\220\021\220$\220e\2303\230b\240""\001\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\021\220\021\220#\220V\2303\230b\240\001\340\004\026\220a\330\004\026\220a\330\004\026\220a\340\004\023\2201\330\004\023\2201\340\004\026\220a\360\006\000\n\013\330\010\014\210G\2206\230\021\230#\230T\240\022\2401\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\014\020\220\007\220v\230Q\230c\240\024\240R\240q\330\020\023\2204\220s\230!\330\024\031\230\021\230#\230U\240%\240q\330\024\031\230\021\230#\230U\240%\240s\250!\2501\340\020\023\2205\230\001\230\023\230A\230S\240\003\2405\250\001\250\023\250A\250Q\330\024\032\230%\230q\240\003\2401\240C\240s\250!\2501\330\024\031\230\021\230%\230w\240a\340\024\031\230\021\230%\230u\240E\250\023\250A\250Q\330\024\031\230\021\230%\230u\240E\250\023\250A\250Q\360\006\000\025\033\230%\230q\240\003\2401\240C\240s\250!\2503\250b\260\001\330\024\034\230C\230q\240\001\330\024\034\230C\230q\240\001\340\024\032\230%\230q\240\003\2401\240C\240u\250B\250a\330\024\027\220t\2302\230Q\330\030\036\230a\330\030 \240\003\2401\240A\330\030 \240\001\340\024\032\230%\230q\240\005\240S\250\001\250\023\250B\250a\330\024\027\220t\2302\230Q\330\030\036\230a\330\030 \240\001\330\030 \240\003\2401\240A\340\024\031\230\021\230%\230w\240a\330\024\031\230\021\230%\230u\240E\250\021\330\024\031\230\021\230%\230u\240E\250\021\340\004\020\320\020.\250a\250u\260A\330/6\260a\330/4\260A\340\004\026\220e\2301\230E\240\021\340\004\013\210;\220a\200\001\360\n\000\005\013\210%\210q\220\003\2203\220a\330\004\n\210%\210q\220\003\2203\220a\330\004\r\210W\220A\220S\230\001\230\023\230C\230q\330\023\026\220c\230\021\330\023\024\220E\230\021\340\004\007\200t\2103\210b\220\004\220D\230\003\2301\330\010\021\220\027\230\001\230\023\230A\230S\240\003\2401\330\027\032\230#\230Q\330\027\030\230\003\2301\340\010\017\210r\220\030\230\021\230!\340\004\013\320\013%\240Q\240e\2505\260\001\330\")\250\021\330\"'\240q\200\001\360\n\000\005\013\210%\210q\220\003\2203\220a\330\004\n""\210%\210q\220\003\2203\220a\330\004\r\210W\220A\220S\230\001\230\023\230C\230s\240!\2401\330\031\034\230C\230s\240!\2401\330\031\032\230#\230Q\230c\240\023\240A\240Q\340\004\007\200t\2103\210b\220\004\220D\230\003\2301\330\010\021\220\027\230\001\230\023\230A\230S\240\003\2401\330\035 \240\003\2401\330\035\036\230c\240\021\340\010\017\210r\220\030\230\021\230!\340\004\013\320\013!\240\021\240%\240u\250A\330\")\250\021\330\"'\240q\200\001\360\010\000\005\030\220q\340\004\010\210\003\2108\2209\230A\230\\\250\025\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\022\220\021\330\004\010\210\005\210W\220L\240\006\240a\330\010\020\220\014\230A\230Q\330\010\016\210g\220R\220w\230a\340\004\013\2107\220'\230\021\200\001\340\004\027\220q\330\004\010\210\003\2108\2209\230G\2401\240C\240q\250\004\250B\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\014\2107\220!\200\001\360\010\000\005\021\220\001\330\004\007\200t\2105\220\001\360\006\000\005\013\210\"\210C\210r\220\023\220B\220c\230\021\330\010\016\210e\2201\220C\220s\230!\330\010\016\210e\2201\220C\220s\230!\330\010\013\2104\210s\220!\2201\220A\330\014\017\210t\2203\220a\220q\230\001\330\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250s\260!\2601\260A\260Q\340\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250q\340\014\025\220W\230A\230S\240\001\240\026\240s\250!\2501\250A\250Q\340\010\013\2104\210u\220A\340\004\013\2101O";
+    #else /* compression: none (6074 bytes) */
+const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenablegc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__ object>src/vision_toolkit/scanpath/similarity/c_comparison_algorithms/c_comparison_algorithms.pyx<strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIDTWEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryView__abcallocate_bufferarrayasarrayasyncio.coroutinesb_mapbasecc_dictcharacter_generic_backtracking__class____class_getitem__cline_in_tracebackconc_bcountd_matdel_c__dict__dict_chr_idxdict_str_intdiscrete_frechetdist_matdoubledtw_links_backtrackingdtypedtype_is_objectencodeenumerateerrorflagsformatfortranfrechet_links_backtracking__func__gap_cgeneralized_edit__getstate__ii_i__i_nid__import__indexinfins_cint32int_convertint_convert_from_dictintc_is_coroutineitemsitemsizejj_j__j_nkeykeysl_slevenshtein__main__memviewmode__module__n_1n_2n_dictn_keyname__name__ndimneedleman_wunsch__new__npnumpynw_so_lobjopt_alignopt_linkspackpop__pyx_checksum__pyx_state__p""yx_type__pyx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__registers_1s_1_cs_2s_2_cs_s_0s_s_1__set_name__setdefault__setstate____setstate_cython__shapesizestartstepstopstr_structsub_c__test__tmptmp_1tmp_2unpackupdatevalvaluesvision_toolkit.scanpath.similarity.c_comparison_algorithmsw_dw_iw_swf_sxzeros\200\001\360\006\000\005\024\2203\220a\220s\230!\330\004\023\2203\220a\220s\230!\330\004\035\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\340\004\t\210\021\210#\210U\220\"\220A\330\004\t\210\021\210\"\210F\220\"\220A\340\004\034\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\330\004\022\220!\330\004\022\220!\340\004\025\220Q\330\004\025\220Q\340\004\024\220A\330\004\026\220a\330\004\026\220a\330\004\026\220a\340\t\n\330\010\014\210F\220&\230\001\230\023\230D\240\002\240!\330\014\020\220\006\220e\2301\230C\230t\2402\240Q\330\020\024\220H\230A\230S\240\002\240#\240S\250\002\250!\340\020\026\220b\230\002\230%\230q\240\003\2402\240S\250\003\2502\250Q\330\020\030\230\003\2302\230Q\330\020\030\230\003\2302\230Q\340\020\026\220b\230\002\230%\230q\240\003\2402\240S\250\001\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230r\240\021\330\024\034\230A\340\020\026\220b\230\002\230%\230q\240\004\240C\240r\250\021\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230r\240\021\340\020\025\220Q\220d\230&\240\001\330\020\025\220Q\220d\230$\230e\2401\330\020\025\220Q\220d\230$\230e\2401\360\006\000\005\013\210!\330\004\007\200w\210a\210s\220!\2203\220c\230\023\230A\230Q\330\023\026\220c\230\023\230A\230Q\330\023\024\220C\220q\230\003\2303\230a\230q\340\004\020\320\020&\240a\240u\250E\260\021\330'.\250a\330'+\2505\260\004\260A\330\004\026\220e\2301\230E\240\021\340\004\013\210;\220a\200\001\360\006\000\005\024\2203\220a\220s\230!\330\004\023\2203\220a\220s\230!\330\004\035\230R\230v\240R\240u\250F\260&\270\002\270!\340\004\t\210\021\210\"\210E\220\030\230\021\230\"""\230A\340\004\034\230B\230f\240B\240e\2505\260\001\330%+\2502\250Q\330\004\023\2201\330\004\023\2201\340\t\n\330\010\014\210G\2205\230\001\230\023\230A\330\014\021\220\021\220%\220x\230q\240\005\240Q\240d\250\"\250C\250q\330 (\250\001\250\025\250a\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\t\n\330\010\014\210G\2205\230\001\230\023\230A\330\014\021\220\021\220#\220Z\230q\240\005\240Q\240c\250\024\250R\250q\330 (\250\001\250\023\250A\330\014\021\220\021\220#\220U\230%\230q\330\014\021\220\021\220#\220U\230%\230s\240!\2401\340\004\022\220!\330\004\022\220!\340\004\025\220Q\330\004\025\220Q\340\004\024\220A\330\004\026\220a\330\004\026\220a\330\004\026\220a\340\t\n\330\010\014\210F\220&\230\001\230\023\230A\330\014\020\220\006\220e\2301\230C\230q\330\020\024\220H\230A\230T\240\021\340\020\026\220e\2301\230C\230r\240\023\240C\240r\250\021\330\020\030\230\003\2302\230Q\330\020\030\230\003\2302\230Q\340\020\026\220e\2301\230C\230r\240\023\240A\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230r\240\021\330\024\034\230A\340\020\026\220e\2301\230D\240\003\2402\240Q\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230r\240\021\340\020\025\220Q\220d\230)\2401\240E\250\021\330\020\025\220Q\220d\230$\230e\2401\330\020\025\220Q\220d\230$\230e\2401\360\006\000\005\013\210!\330\004\007\200w\210a\210s\220!\2203\220c\230\023\230A\230Q\330\023\026\220c\230\023\230A\230Q\330\023\024\220C\220q\230\003\2303\230a\230q\340\004\020\320\020*\250!\2505\260\005\260Q\330+2\260!\330+/\250s\260!\2603\260d\270#\270Q\270a\340\004\026\220e\2301\230D\240\002\240#\240T\250\022\2501\340\004\013\210;\220a\200\001\360\010\000\005\014\2107\220)\320\0330\260\001\260\025\260a\33012\340\004\030\230\001\330\004\030\230\001\360\006\000\005!\240\014\250A\250Q\360\006\000\005\024\2203\220a\220q\330\004\023\2203\220a\220q\340\004\022\220!\330\004\022\220!\360\006\000\005\036\230R\230v\240R\240s\250!\2503\250c\260""\021\260$\260f\270B\270a\360\006\000\n\013\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\022\220#\220Q\220e\2303\230b\240\001\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\022\220\"\220A\220V\2303\230b\240\001\340\004\026\220a\330\004\026\220a\330\004\026\220a\360\006\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\340\004\025\220Q\330\004\025\220Q\340\004\023\2201\330\004\023\2201\360\006\000\n\013\330\010\014\210G\2206\230\021\230#\230S\240\001\240\021\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\014\020\220\007\220v\230Q\230c\240\023\240A\240Q\330\020\023\2204\220s\230!\330\024\031\230\021\230#\230U\240%\240q\330\024\031\230\021\230#\230U\240%\240s\250!\2501\340\020\026\220e\2301\230C\230q\240\003\2403\240a\240s\250\"\250H\260A\260V\2701\270E\300\021\300#\300Q\300a\330<B\300!\3005\310\001\310\023\310A\310Q\330\020\030\230\003\2301\230A\330\020\030\230\003\2301\230A\340\020\026\220e\2301\230C\230q\240\003\2405\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230q\240\001\330\024\034\230A\340\020\026\220e\2301\230E\240\023\240A\240S\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230q\240\001\340\020\025\220Q\220e\2307\240!\330\020\025\220Q\220e\2305\240\005\240Q\330\020\025\220Q\220e\2305\240\005\240Q\340\004\020\320\020.\250a\250u\260A\330/6\260a\330/4\260A\340\004\027\220u\230A\230U\240!\340\004\013\210;\220a\200\001\360\010\000\005\014\2107\220)\320\0330\260\001\260\025\260a\33012\340\004\030\230\001\330\004\030\230\001\360\006\000\005!\240\014\250A\250Q\360\006\000\005\024\2203\220a\220q\330\004\023\2203\220a\220q\340\004\022\220!\330\004\022\220!\360\006\000\005\036\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\n\013\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\022\220#\220Q\220e\2302\230S\240\002\240!\340\010\014\210F\220%\220q\230\003\2301\230A\330\014""\022\220\"\220A\220V\2302\230S\240\002\240!\360\010\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\340\004\025\220Q\330\004\025\220Q\340\004\026\220a\330\004\026\220a\340\004\023\2201\330\004\023\2201\360\006\000\n\013\330\010\014\210G\2206\230\021\230#\230S\240\001\240\021\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\014\020\220\007\220v\230Q\230c\240\023\240A\240Q\330\020\023\2204\220s\230!\330\024\031\230\021\230#\230U\240%\240q\330\024\031\230\021\230#\230U\240%\240s\250!\2501\340\020\023\2205\230\001\230\023\230A\230S\240\003\2405\250\001\250\023\250A\250Q\330\024\032\230%\230q\240\003\2401\240C\240s\250!\2503\250b\260\001\340\024\032\230%\230q\240\003\2401\240C\240s\250!\2503\250b\260\010\270\001\270\026\270q\300\005\300Q\300c\310\021\310!\3309?\270q\300\005\300Q\300c\310\021\310!\330\020\030\230\003\2301\230A\330\020\030\230\003\2301\230A\340\020\026\220e\2301\230E\240\023\240A\240S\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230A\330\024\034\230C\230q\240\001\340\020\026\220e\2301\230C\230q\240\003\2405\250\002\250!\330\020\023\2204\220r\230\021\330\024\032\230!\330\024\034\230C\230q\240\001\330\024\034\230A\340\020\025\220Q\220e\2307\240!\330\020\025\220Q\220e\2305\240\005\240Q\330\020\025\220Q\220e\2305\240\005\240Q\340\004\020\320\020.\250a\250u\260A\330/6\260a\330/4\260A\330\004\027\220u\230A\230U\240!\340\004\013\210;\220a\200\001\330\021%\320%9\270\021\340\004\013\2108\220;\230a\230u\240A\340\004\030\230\001\330\004\030\230\001\340\004\023\2203\220a\220q\330\004\023\2203\220a\220q\340\004\035\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\330\004\025\220Q\330\004\025\220Q\340\004\022\220!\330\004\022\220!\360\006\000\n\013\330\010\014\210F\220%\220q\230\003\2301\230A\330\014\021\220\021\220$\220e\2303\230b\240\001\330\010\014\210F\220%""\220q\230\003\2301\230A\330\014\021\220\021\220#\220V\2303\230b\240\001\340\004\026\220a\330\004\026\220a\330\004\026\220a\340\004\023\2201\330\004\023\2201\340\004\026\220a\360\006\000\n\013\330\010\014\210G\2206\230\021\230#\230T\240\022\2401\330\014\021\220\021\220%\220s\230%\230s\240!\2401\330\014\021\220\021\220%\220s\230%\230q\340\014\020\220\007\220v\230Q\230c\240\024\240R\240q\330\020\023\2204\220s\230!\330\024\031\230\021\230#\230U\240%\240q\330\024\031\230\021\230#\230U\240%\240s\250!\2501\340\020\023\2205\230\001\230\023\230A\230S\240\003\2405\250\001\250\023\250A\250Q\330\024\032\230%\230q\240\003\2401\240C\240s\250!\2501\330\024\031\230\021\230%\230w\240a\340\024\031\230\021\230%\230u\240E\250\023\250A\250Q\330\024\031\230\021\230%\230u\240E\250\023\250A\250Q\360\006\000\025\033\230%\230q\240\003\2401\240C\240s\250!\2503\250b\260\001\330\024\034\230C\230q\240\001\330\024\034\230C\230q\240\001\340\024\032\230%\230q\240\003\2401\240C\240u\250B\250a\330\024\027\220t\2302\230Q\330\030\036\230a\330\030 \240\003\2401\240A\330\030 \240\001\340\024\032\230%\230q\240\005\240S\250\001\250\023\250B\250a\330\024\027\220t\2302\230Q\330\030\036\230a\330\030 \240\001\330\030 \240\003\2401\240A\340\024\031\230\021\230%\230w\240a\330\024\031\230\021\230%\230u\240E\250\021\330\024\031\230\021\230%\230u\240E\250\021\340\004\020\320\020.\250a\250u\260A\330/6\260a\330/4\260A\340\004\026\220e\2301\230E\240\021\340\004\013\210;\220a\200\001\360\n\000\005\013\210%\210q\220\003\2203\220a\330\004\n\210%\210q\220\003\2203\220a\330\004\r\210W\220A\220S\230\001\230\023\230C\230q\330\023\026\220c\230\021\330\023\024\220E\230\021\340\004\007\200t\2103\210b\220\004\220D\230\003\2301\330\010\021\220\027\230\001\230\023\230A\230S\240\003\2401\330\027\032\230#\230Q\330\027\030\230\003\2301\340\010\017\210r\220\030\230\021\230!\340\004\013\320\013%\240Q\240e\2505\260\001\330\")\250\021\330\"'\240q\200\001\360\n\000\005\013\210%\210q\220\003\2203\220a\330\004\n\210%\210q\220\003\2203\220a""\330\004\r\210W\220A\220S\230\001\230\023\230C\230s\240!\2401\330\031\034\230C\230s\240!\2401\330\031\032\230#\230Q\230c\240\023\240A\240Q\340\004\007\200t\2103\210b\220\004\220D\230\003\2301\330\010\021\220\027\230\001\230\023\230A\230S\240\003\2401\330\035 \240\003\2401\330\035\036\230c\240\021\340\010\017\210r\220\030\230\021\230!\340\004\013\320\013!\240\021\240%\240u\250A\330\")\250\021\330\"'\240q\200\001\360\010\000\005\030\220q\340\004\010\210\003\2108\2209\230A\230\\\250\025\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\022\220\021\330\004\010\210\005\210W\220L\240\006\240a\330\010\020\220\014\230A\230Q\330\010\016\210g\220R\220w\230a\340\004\013\2107\220'\230\021\200\001\340\004\027\220q\330\004\010\210\003\2108\2209\230G\2401\240C\240q\250\004\250B\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\014\2107\220!\200\001\360\010\000\005\021\220\001\330\004\007\200t\2105\220\001\360\006\000\005\013\210\"\210C\210r\220\023\220B\220c\230\021\330\010\016\210e\2201\220C\220s\230!\330\010\016\210e\2201\220C\220s\230!\330\010\013\2104\210s\220!\2201\220A\330\014\017\210t\2203\220a\220q\230\001\330\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250s\260!\2601\260A\260Q\340\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250q\340\014\025\220W\230A\230S\240\001\240\026\240s\250!\2501\250A\250Q\340\010\013\2104\210u\220A\340\004\013\2101O";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif

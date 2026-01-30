@@ -16,33 +16,10 @@ from vision_toolkit.visualization.scanpath.single.rqa import (
 
 class RQAAnalysis(RecurrenceBase):
     def __init__(self, input, **kwargs):
-        """
-
-
-        Parameters
-        ----------
-        input : str or BinarySegmentation or Scanpath
-            DESCRIPTION.
-        sampling_frequency : TYPE
-            DESCRIPTION.
-        segmentation_method : TYPE, optional
-            DESCRIPTION. The default is 'I_HMM'.
-        **kwargs : TYPE
-            DESCRIPTION.
-
-        Raises
-        ------
-        ValueError
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
+      
         verbose = kwargs.get("verbose", True)
         display_results = kwargs.get("display_results", True)
+        display_path = kwargs.get("display_path", None)
 
         if verbose:
             print("Processing RQA Analysis...\n")
@@ -70,7 +47,7 @@ class RQAAnalysis(RecurrenceBase):
                     ]
                 )
             )
-            * 0.015
+            * 0.1
         )
     
         self.scanpath.config.update(
@@ -79,9 +56,11 @@ class RQAAnalysis(RecurrenceBase):
                     "scanpath_RQA_distance_threshold", d_thrs
                 ),
                 "scanpath_RQA_minimum_length": kwargs.get(
-                    "scanpath_RQA_minimum_length", 3
+                    "scanpath_RQA_minimum_length", 2
                 ),
-                "verbose": verbose
+                "verbose": verbose,
+                "display_results": display_results,
+                "display_path": display_path
             }
         )
 
@@ -96,17 +75,14 @@ class RQAAnalysis(RecurrenceBase):
         r_c = np.triu_indices(self.n, 1)
         self.r_u[r_c] = self.r_m[r_c]
 
-        ## Compute the set of horizontal lines
-        self.h_set = self.find_lines(
-            self.r_u.T,
-            self.scanpath.config["scanpath_RQA_minimum_length"],
-            "horizontal",
-        )
+        L = self.scanpath.config["scanpath_RQA_minimum_length"]
 
-        ## Compute the set of vertical lines
-        self.v_set = self.find_lines(
-            self.r_u, self.scanpath.config["scanpath_RQA_minimum_length"], "vertical"
-        )
+        # verticales dans r_u (OK)
+        self.v_set = self.find_lines(self.r_u, L, "vertical")
+        
+        # horizontales = verticales dans r_u.T, puis remap coords (i,j) -> (j,i)
+        h_set_T = self.find_lines(self.r_u.T, L, "vertical")
+        self.h_set = [line[:, [1, 0]] for line in h_set_T]
 
         ## Compute the set of diagonal lines
         self.d_set = self.find_diags(
@@ -114,24 +90,14 @@ class RQAAnalysis(RecurrenceBase):
         )
 
         if display_results:
-            plot_RQA(self.r_m)
+            plot_RQA(self.r_m, display_path)
  
         if verbose:
             print("...RQA Analysis done\n")
 
+
     def comp_recurrence_matrix(self):
-        """
-
-
-        Returns
-        -------
-        r_m : TYPE
-            DESCRIPTION.
-        r_p : TYPE
-            DESCRIPTION.
-
-        """
-
+     
         s_ = self.s_[0:2]
         n = self.n
 
@@ -144,229 +110,164 @@ class RQAAnalysis(RecurrenceBase):
 
         return r_m, r_p
 
-    def scanapath_RQA_recurrence_rate(self, display_results):
-        """
 
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        self.scanpath.config.update({"display_results": display_results})
-        r_r = (200 * self.r_p) / ((self.n - 1) * self.n)
-
-        if np.isnan(r_r):
-            results = dict({"RQA_recurrence_rate": 0})
-
+    def scanpath_RQA_recurrence_rate(self):
+        
+        denom = (self.n - 1) * self.n
+        if denom <= 0 or self.r_p <= 0:
+            r_r = 0.0
         else:
-            results = dict({"RQA_recurrence_rate": r_r})
-
+            r_r = (200.0 * self.r_p) / denom
+    
+        results = {"RQA_recurrence_rate": float(r_r)}
         self.scanpath.verbose()
-
+        
         return results
-
-    def scanpath_RQA_laminarity(self, display_results):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        self.scanpath.config.update({"display_results": display_results})
-        s_l = 0
-
-        v_set = self.v_set
-        h_set = self.h_set
-
-        for v in v_set:
-            s_l += len(v)
-
-        for h in h_set:
-            s_l += len(h)
-
-        lam = (50 / self.r_p) * s_l
-
+    
+    
+    def scanpath_RQA_laminarity(self, display_results=True, display_path=None):
+        
+        self.scanpath.config.update({"display_results": display_results, "display_path": display_path})
+        s_l = sum(len(v) for v in self.v_set) + sum(len(h) for h in self.h_set)
+    
+        if self.r_p <= 0 or s_l == 0:
+            lam = 0.0
+        else:
+            lam = (50.0 * s_l) / self.r_p
+    
         if self.scanpath.config["display_results"]:
-            plot_RQA_laminarity(self.r_m, self.h_set, self.v_set)
-
-        if np.isnan(lam):
-            results = dict({"RQA_laminarity": 0})
-
-        else:
-            results = dict({"RQA_laminarity": lam})
-
+            plot_RQA_laminarity(self.r_m, self.h_set, self.v_set, self.scanpath.config['display_path'])
+    
+        results = {"RQA_laminarity": float(lam)}
+        
         self.scanpath.verbose()
-
         return results
-
-    def scanpath_RQA_determinism(self, display_results):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        self.scanpath.config.update({"display_results": display_results})
-        s_l = 0
-
-        d_set = self.d_set
-
-        for d in d_set:
-            s_l += len(d)
-      
-        det = (100 / self.r_p) * s_l
-
+    
+    
+    def scanpath_RQA_determinism(self, display_results=True, display_path=None):
+        
+        self.scanpath.config.update({"display_results": display_results, "display_path": display_path})
+        s_l = sum(len(d) for d in self.d_set)
+    
+        if self.r_p <= 0 or s_l == 0:
+            det = 0.0
+        else:
+            det = (100.0 * s_l) / self.r_p
+    
         if self.scanpath.config["display_results"]:
-            plot_RQA_determinism(self.r_m, self.d_set)
-
-        if np.isnan(det):
-            results = dict({"RQA_determinism": 0})
-
-        else:
-            results = dict({"RQA_determinism": det})
-
+            plot_RQA_determinism(self.r_m, self.d_set, self.scanpath.config['display_path'])
+    
+        results = {"RQA_determinism": float(det)}
         self.scanpath.verbose()
-
+        
         return results
-
-    def scanpath_RQA_CORM(self, display_results):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        self.scanpath.config.update({"display_results": display_results})
+    
+    
+    def scanpath_RQA_CORM(self):
+        
         n = self.n
         r_m = self.r_m
-
-        corm = 100 / ((n - 1) * self.r_p)
-
-        r_ = 0
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                r_ += r_m[i, j] * (j - i)
-
-        corm *= r_
-
-        if np.isnan(corm):
-            results = dict({"RQA_CORM": 0})
-
+        denom = (n - 1) * self.r_p
+    
+        if denom <= 0:
+            corm = 0.0
         else:
-            results = dict({"RQA_CORM": corm})
-
+            r_ = 0
+            for i in range(n - 1):
+                for j in range(i + 1, n):
+                    r_ += r_m[i, j] * (j - i)
+            corm = 100.0 * r_ / denom
+    
+        results = {"RQA_CORM": float(corm)}
         self.scanpath.verbose()
-
+        
         return results
-
-    def scanpath_RQA_entropy(self, display_results):
-        """
-
-
-        Returns
-        -------
-        results : TYPE
-            DESCRIPTION.
-
-        """
-
-        self.scanpath.config.update({"display_results": display_results})
+    
+    
+    def scanpath_RQA_entropy(self):
+        
         d_set = self.d_set
-
-        l_s = np.array([len(d) for d in d_set])
-        u_, c_ = np.unique(l_s, return_counts=True)
-        p_ = c_ / len(l_s)
-        entropy = 0
-
-        for p in list(p_):
-            entropy -= p * np.log(p)
-
-        if np.isnan(entropy):
-            results = dict({"RQA_entropy": 0})
-
+    
+        if len(d_set) == 0:
+            entropy = 0.0
         else:
-            results = dict({"RQA_entropy": entropy})
-
+            l_s = np.array([len(d) for d in d_set], dtype=int)
+            l_s = l_s[l_s > 0]
+            if l_s.size == 0:
+                entropy = 0.0
+            else:
+                _, c_ = np.unique(l_s, return_counts=True)
+                p_ = c_ / np.sum(c_)
+                entropy = 0.0
+                for p in p_:
+                    if p > 0:
+                        entropy -= p * np.log(p)
+    
+        results = {"RQA_entropy": float(entropy)}
         self.scanpath.verbose()
-
+        
         return results
 
 
 def scanpath_RQA_recurrence_rate(input, **kwargs):
-    display_results = kwargs.get("display_results", True)
-
+ 
     if isinstance(input, RQAAnalysis):
-        results = input.scanpath_RQA_recurrence_rate(display_results)
+        results = input.scanpath_RQA_recurrence_rate()
 
     else:
         geometrical_analysis = RQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_RQA_recurrence_rate(display_results)
+        results = geometrical_analysis.scanpath_RQA_recurrence_rate()
 
     return results
 
 
 def scanpath_RQA_laminarity(input, **kwargs):
     display_results = kwargs.get("display_results", True)
+    display_path = kwargs.get("display_path", None)
 
     if isinstance(input, RQAAnalysis):
-        results = input.scanpath_RQA_laminarity(display_results)
+        results = input.scanpath_RQA_laminarity(display_results, display_path)
 
     else:
         geometrical_analysis = RQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_RQA_laminarity(display_results)
+        results = geometrical_analysis.scanpath_RQA_laminarity(display_results, display_path)
 
     return results
 
 
 def scanpath_RQA_determinism(input, **kwargs):
     display_results = kwargs.get("display_results", True)
+    display_path = kwargs.get("display_path", None)
 
     if isinstance(input, RQAAnalysis):
-        results = input.scanpath_RQA_determinism(display_results)
+        results = input.scanpath_RQA_determinism(display_results, display_path)
 
     else:
         geometrical_analysis = RQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_RQA_determinism(display_results)
+        results = geometrical_analysis.scanpath_RQA_determinism(display_results, display_path)
 
     return results
 
 
 def scanpath_RQA_CORM(input, **kwargs):
-    display_results = kwargs.get("display_results", True)
 
     if isinstance(input, RQAAnalysis):
-        results = input.scanpath_RQA_CORM(display_results)
+        results = input.scanpath_RQA_CORM()
 
     else:
         geometrical_analysis = RQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_RQA_CORM(display_results)
+        results = geometrical_analysis.scanpath_RQA_CORM()
 
     return results
 
 
 def scanpath_RQA_entropy(input, **kwargs):
-    display_results = kwargs.get("display_results", True)
-
+  
     if isinstance(input, RQAAnalysis):
-        results = input.scanpath_RQA_entropy(display_results)
+        results = input.scanpath_RQA_entropy()
 
     else:
         geometrical_analysis = RQAAnalysis(input, **kwargs)
-        results = geometrical_analysis.scanpath_RQA_entropy(display_results)
+        results = geometrical_analysis.scanpath_RQA_entropy()
 
     return results

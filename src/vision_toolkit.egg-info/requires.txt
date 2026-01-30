@@ -29,3 +29,4 @@ pytlsd==0.0.2
 [test]
 pytest
 sp-tool @ git+https://github.com/v01dxyz/sp_tool
+tabulate

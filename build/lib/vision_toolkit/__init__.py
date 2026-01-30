@@ -40,7 +40,7 @@ from.oculomotor.segmentation_based.pursuit import (
     PursuitAnalysis,
     pursuit_count,
     pursuit_frequency,
-    pursuit_duration, 
+    pursuit_durations, 
     pursuit_proportion,
     pursuit_velocity,
     pursuit_velocity_means,
@@ -54,7 +54,7 @@ from .oculomotor.segmentation_based.pursuit_task import (
     PursuitTask, 
     pursuit_task_count,
     pursuit_task_frequency,
-    pursuit_task_duration,
+    pursuit_task_durations,
     pursuit_task_proportion,
     pursuit_task_velocity,
     pursuit_task_velocity_means,
@@ -65,9 +65,12 @@ from .oculomotor.segmentation_based.pursuit_task import (
     pursuit_task_slope_ratios,
     pursuit_task_crossing_time, 
     pursuit_task_overall_gain,
+    pursuit_task_overall_gain_x,
+    pursuit_task_overall_gain_y,
     pursuit_task_sinusoidal_phase,
     pursuit_task_accuracy,
-    pursuit_task_entropy
+    pursuit_task_entropy,
+    pursuit_task_slope_gain
     )
 
 
@@ -89,6 +92,28 @@ from .oculomotor.signal_based.stochastic import (DACF, DFA, MSD,
 
 # For Scanpath Processing
 from .scanpath.scanpath_base import (Scanpath)
+
+from .scanpath.single.geometrical.geometrical import (
+    GeometricalAnalysis,
+    scanpath_BCEA,
+    scanpath_convex_hull,
+    scanpath_HFD,
+    scanpath_k_coefficient,
+    scanpath_length,
+    scanpath_voronoi_cells)
+from .scanpath.single.rqa.rqa import (
+    RQAAnalysis, 
+    scanpath_RQA_CORM,
+    scanpath_RQA_determinism,
+    scanpath_RQA_entropy,
+    scanpath_RQA_laminarity,
+    scanpath_RQA_recurrence_rate)
+from .scanpath.single.saliency.saliency_map_base import (
+    SaliencyMap, 
+    scanpath_saliency_map,
+    scanpath_absolute_duration_saliency_map,
+    scanpath_relative_duration_saliency_map)
+
 from .scanpath.similarity.saliency.saliency_comparison import ( 
     SaliencyReference, 
     scanpath_saliency_percentile,
@@ -116,24 +141,7 @@ from .scanpath.similarity.distance_based.point_mapping.point_mapping import (
 from .scanpath.similarity.specific_similarity_metrics.multimatch_alignment import scanpath_multimatch_alignment
 from .scanpath.similarity.specific_similarity_metrics.scanmatch_score import scanpath_scanmatch_score
 from .scanpath.similarity.specific_similarity_metrics.subsmatch_similarity import scanpath_subsmatch_similarity
-from .scanpath.single.geometrical.geometrical import (
-    GeometricalAnalysis,
-    scanpath_BCEA,
-    scanpath_convex_hull,
-    scanpath_HFD,
-    scanpath_k_coefficient,
-    scanpath_length,
-    scanpath_voronoi_cells)
-from .scanpath.single.rqa.rqa import (
-    RQAAnalysis, 
-    scanpath_RQA_CORM,
-    scanpath_RQA_determinism,
-    scanpath_RQA_entropy,
-    scanpath_RQA_laminarity,
-    scanpath_RQA_recurrence_rate)
-from .scanpath.single.saliency.saliency_map_base import (
-    SaliencyMap, 
-    scanpath_saliency_map)
+
 
 
 
@@ -141,23 +149,10 @@ from .scanpath.single.saliency.saliency_map_base import (
 ## For Segmentation Processing
 from .segmentation.processing.binary_segmentation import BinarySegmentation
 from .segmentation.processing.ternary_segmentation import TernarySegmentation
-from .segmentation.processing.learning_segmentation import LearningSegmentation
+# from .segmentation.processing.learning_segmentation import LearningSegmentation
 
 
 
-
-
-from .visualization.aoi.spatio_temporal_based.dwell_time import (
-    AoI_predefined_dwell_time)
-from .visualization.aoi.spatio_temporal_based.sankey_diagram import (
-    AoI_sankey_diagram)
-from .visualization.aoi.spatio_temporal_based.scarf_plot import AoI_scarf_plot
-from .visualization.aoi.spatio_temporal_based.time_plot import AoI_time_plot
-from .visualization.aoi.transition_based.chord_diagram import AoI_chord_diagram
-from .visualization.aoi.transition_based.directed_graph import (
-    AoI_directed_graph)
-from .visualization.aoi.transition_based.transition_flow import (
-    AoI_transition_flow)
 
 
 
@@ -191,6 +186,19 @@ from .aoi.pattern_mining.n_gram import AoI_NGram
 from .aoi.pattern_mining.spam import AoI_SPAM
 
 
+
+## For AoI visualization
+from .visualization.aoi.spatio_temporal_based.dwell_time import (
+    AoI_predefined_dwell_time)
+from .visualization.aoi.spatio_temporal_based.sankey_diagram import (
+    AoI_sankey_diagram)
+from .visualization.aoi.spatio_temporal_based.scarf_plot import AoI_scarf_plot
+from .visualization.aoi.spatio_temporal_based.time_plot import AoI_time_plot
+from .visualization.aoi.transition_based.chord_diagram import AoI_chord_diagram
+from .visualization.aoi.transition_based.directed_graph import (
+    AoI_directed_graph)
+from .visualization.aoi.transition_based.transition_flow import (
+    AoI_transition_flow)
 
 
 

@@ -8,20 +8,7 @@ import numpy as np
 
 class RecurrenceBase:
     def __init__(self, input):
-        """
-
-
-        Parameters
-        ----------
-        input : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-
+  
         if isinstance(input, list):
             self.s_1, self.s_2 = input[0], input[1]
 
@@ -35,9 +22,11 @@ class RecurrenceBase:
             self.s_ = input
             self.n = input.shape[1]
 
+
     def find_lines(self, r_m, m_l, direction):
+        
         l_set = []
-        ## get indices where value is not zero
+     
         t_a = np.argwhere(r_m != 0)
 
         t_a = t_a.T
@@ -57,11 +46,8 @@ class RecurrenceBase:
                         if direction == "vertical":
                             l_set.append(np.array([c_i, [c] * l]).T)
 
-                        ## Add horizontal line as an array of (i,j) matrix coordinates
-                        if direction == "horizontal":
-                            l_set.append(np.array([[c] * l, c_i]).T)
-
         return l_set
+    
 
     def find_diags(self, r_m, m_l, full=False):
         d_set = []

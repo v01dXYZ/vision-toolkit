@@ -5,12 +5,12 @@
     "distutils": {
         "depends": [],
         "language": "c++",
-        "name": "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms",
+        "name": "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms",
         "sources": [
             "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx"
         ]
     },
-    "module_name": "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms"
+    "module_name": "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms"
 }
 END: Cython Metadata */
 
@@ -1140,8 +1140,8 @@ static int __Pyx_init_co_variables(void) {
     #define __PYX_EXTERN_C extern "C++"
 #endif
 
-#define __PYX_HAVE__vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms__c_alignment_algorithms
-#define __PYX_HAVE_API__vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms__c_alignment_algorithms
+#define __PYX_HAVE__vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms
+#define __PYX_HAVE_API__vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms
 /* Early includes */
 #include "ios"
 #include "new"
@@ -3030,7 +3030,7 @@ static PyObject *__pyx_memoryviewslice__get_base(struct __pyx_memoryviewslice_ob
 
 /* Module declarations from "libcpp" */
 
-/* Module declarations from "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms" */
+/* Module declarations from "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms" */
 static PyObject *__pyx_collections_abc_Sequence = 0;
 static PyObject *generic = 0;
 static PyObject *strided = 0;
@@ -3039,7 +3039,7 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_dict_to_cmap(PyObject *); /*proto*/
+static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_dict_to_cmap(PyObject *); /*proto*/
 static std::pair<int,int>  __pyx_convert_pair_from_py_int__and_int(PyObject *); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char const *, char *); /*proto*/
@@ -3079,11 +3079,11 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, 
 static const __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 static const __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, __PYX_IS_UNSIGNED(int) ? 'U' : 'I', __PYX_IS_UNSIGNED(int), 0 };
 /* #### Code section: before_global_var ### */
-#define __Pyx_MODULE_NAME "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms"
-extern int __pyx_module_is_main_vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms__c_alignment_algorithms;
-int __pyx_module_is_main_vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms__c_alignment_algorithms = 0;
+#define __Pyx_MODULE_NAME "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms"
+extern int __pyx_module_is_main_vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms;
+int __pyx_module_is_main_vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms = 0;
 
-/* Implementation of "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms" */
+/* Implementation of "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms" */
 /* #### Code section: global_var ### */
 static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_builtin___import__;
@@ -3135,11 +3135,11 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_longest_common_subsequence(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_2smith_waterman(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_sim_mat, double __pyx_v_del_c_base, double __pyx_v_del_c, double __pyx_v_sim_weigth); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_4int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_6int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx); /* proto */
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_8character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_longest_common_subsequence(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_2smith_waterman(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_sim_mat, double __pyx_v_del_c_base, double __pyx_v_del_c, double __pyx_v_sim_weigth); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_4int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_6int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx); /* proto */
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_8character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -16881,7 +16881,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   return __pyx_r;
 }
 
-/* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":11
+/* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":11
  * 
  * 
  * def longest_common_subsequence (list s_1, list s_2) :             # <<<<<<<<<<<<<<
@@ -16890,15 +16890,15 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_1longest_common_subsequence(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_1longest_common_subsequence(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_1longest_common_subsequence = {"longest_common_subsequence", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_1longest_common_subsequence, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_1longest_common_subsequence(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_1longest_common_subsequence = {"longest_common_subsequence", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_1longest_common_subsequence, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_1longest_common_subsequence(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -16968,13 +16968,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.longest_common_subsequence", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.longest_common_subsequence", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 11, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 11, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_longest_common_subsequence(__pyx_self, __pyx_v_s_1, __pyx_v_s_2);
+  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_longest_common_subsequence(__pyx_self, __pyx_v_s_1, __pyx_v_s_2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -16993,7 +16993,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_longest_common_subsequence(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2) {
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_longest_common_subsequence(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2) {
   PyObject *__pyx_v_tmp_1 = NULL;
   PyObject *__pyx_v_tmp_2 = NULL;
   __Pyx_memviewslice __pyx_v_s_1_c = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -17043,7 +17043,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("longest_common_subsequence", 0);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":13
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":13
  * def longest_common_subsequence (list s_1, list s_2) :
  * 
  *     tmp_1, tmp_2 = int_convert(s_1, s_2)             # <<<<<<<<<<<<<<
@@ -17128,7 +17128,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_tmp_2 = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":14
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":14
  * 
  *     tmp_1, tmp_2 = int_convert(s_1, s_2)
  *     cdef int[:] s_1_c = tmp_1             # <<<<<<<<<<<<<<
@@ -17140,7 +17140,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":15
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":15
  *     tmp_1, tmp_2 = int_convert(s_1, s_2)
  *     cdef int[:] s_1_c = tmp_1
  *     cdef int[:] s_2_c = tmp_2             # <<<<<<<<<<<<<<
@@ -17152,7 +17152,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":17
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":17
  *     cdef int[:] s_2_c = tmp_2
  * 
  *     cdef int n_1 = len(s_1)             # <<<<<<<<<<<<<<
@@ -17166,7 +17166,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_v_s_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 17, __pyx_L1_error)
   __pyx_v_n_1 = __pyx_t_8;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":18
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":18
  * 
  *     cdef int n_1 = len(s_1)
  *     cdef int n_2 = len(s_2)             # <<<<<<<<<<<<<<
@@ -17180,7 +17180,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_v_s_2); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 18, __pyx_L1_error)
   __pyx_v_n_2 = __pyx_t_8;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":20
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":20
  *     cdef int n_2 = len(s_2)
  * 
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -17242,7 +17242,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_11.memview = NULL;
   __pyx_t_11.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":22
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":22
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -17271,7 +17271,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_9 = 0;
   __pyx_t_10 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":23
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":23
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -17310,7 +17310,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_GOTREF(__pyx_t_1);
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":22
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":22
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)
  *     ## Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -17323,7 +17323,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":24
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":24
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -17332,7 +17332,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":25
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":25
  *                                      dtype=np.intc)
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -17341,7 +17341,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":27
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":27
  *     cdef int s_s_1 = 0
  * 
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -17350,7 +17350,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":28
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":28
  * 
  *     cdef double w_s = 0.0
  *     cdef double w_i = 0.0             # <<<<<<<<<<<<<<
@@ -17359,7 +17359,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_i = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":30
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":30
  *     cdef double w_i = 0.0
  * 
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -17368,7 +17368,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":31
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":31
  * 
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -17377,7 +17377,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":33
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":33
  *     cdef int j_ = 0
  * 
  *     cdef double tmp = 0.0             # <<<<<<<<<<<<<<
@@ -17386,7 +17386,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_tmp = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":36
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":36
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -17399,7 +17399,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":37
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":37
  *     ## Fill the D-matrix
  *     with nogil:
  *         for i_ in range (1, n_1 + 1):             # <<<<<<<<<<<<<<
@@ -17411,7 +17411,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         for (__pyx_t_15 = 1; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_i_ = __pyx_t_15;
 
-          /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":38
+          /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":38
  *     with nogil:
  *         for i_ in range (1, n_1 + 1):
  *             b_map[i_, 0, 0] = i_-1             # <<<<<<<<<<<<<<
@@ -17440,7 +17440,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_18 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i_ - 1);
 
-          /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":39
+          /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":39
  *         for i_ in range (1, n_1 + 1):
  *             b_map[i_, 0, 0] = i_-1
  *             b_map[i_, 0, 1] = 0             # <<<<<<<<<<<<<<
@@ -17469,7 +17469,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
           }
           *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_18 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = 0;
 
-          /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":41
+          /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":41
  *             b_map[i_, 0, 1] = 0
  * 
  *             for j_ in range (1, n_2 + 1):             # <<<<<<<<<<<<<<
@@ -17481,7 +17481,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
           for (__pyx_t_19 = 1; __pyx_t_19 < __pyx_t_21; __pyx_t_19+=1) {
             __pyx_v_j_ = __pyx_t_19;
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":42
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":42
  * 
  *             for j_ in range (1, n_2 + 1):
  *                 if i_ == 1:             # <<<<<<<<<<<<<<
@@ -17491,7 +17491,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             __pyx_t_22 = (__pyx_v_i_ == 1);
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":43
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":43
  *             for j_ in range (1, n_2 + 1):
  *                 if i_ == 1:
  *                     b_map[0, j_, 0] = 0             # <<<<<<<<<<<<<<
@@ -17520,7 +17520,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_18 * __pyx_v_b_map.strides[2]) )) = 0;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":44
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":44
  *                 if i_ == 1:
  *                     b_map[0, j_, 0] = 0
  *                     b_map[0, j_, 1] = j_-1             # <<<<<<<<<<<<<<
@@ -17549,7 +17549,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_18 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_16 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_j_ - 1);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":42
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":42
  * 
  *             for j_ in range (1, n_2 + 1):
  *                 if i_ == 1:             # <<<<<<<<<<<<<<
@@ -17558,7 +17558,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":46
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":46
  *                     b_map[0, j_, 1] = j_-1
  * 
  *                 if s_1_c[i_-1] == s_2_c[j_-1]:             # <<<<<<<<<<<<<<
@@ -17588,7 +17588,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             __pyx_t_22 = ((*((int *) ( /* dim=0 */ (__pyx_v_s_1_c.data + __pyx_t_16 * __pyx_v_s_1_c.strides[0]) ))) == (*((int *) ( /* dim=0 */ (__pyx_v_s_2_c.data + __pyx_t_17 * __pyx_v_s_2_c.strides[0]) ))));
             if (__pyx_t_22) {
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":47
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":47
  * 
  *                 if s_1_c[i_-1] == s_2_c[j_-1]:
  *                     tmp = d_mat[i_-1, j_-1] + 1             # <<<<<<<<<<<<<<
@@ -17612,7 +17612,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               __pyx_v_tmp = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) ))) + 1.0);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":48
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":48
  *                 if s_1_c[i_-1] == s_2_c[j_-1]:
  *                     tmp = d_mat[i_-1, j_-1] + 1
  *                     d_mat[i_, j_] = tmp             # <<<<<<<<<<<<<<
@@ -17636,7 +17636,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_tmp;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":50
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":50
  *                     d_mat[i_, j_] = tmp
  * 
  *                     b_map[i_, j_, 0] = i_-1             # <<<<<<<<<<<<<<
@@ -17665,7 +17665,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_17 * __pyx_v_b_map.strides[0]) ) + __pyx_t_16 * __pyx_v_b_map.strides[1]) ) + __pyx_t_18 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_i_ - 1);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":51
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":51
  * 
  *                     b_map[i_, j_, 0] = i_-1
  *                     b_map[i_, j_, 1] = j_-1             # <<<<<<<<<<<<<<
@@ -17694,7 +17694,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_18 * __pyx_v_b_map.strides[0]) ) + __pyx_t_16 * __pyx_v_b_map.strides[1]) ) + __pyx_t_17 * __pyx_v_b_map.strides[2]) )) = (__pyx_v_j_ - 1);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":46
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":46
  *                     b_map[0, j_, 1] = j_-1
  * 
  *                 if s_1_c[i_-1] == s_2_c[j_-1]:             # <<<<<<<<<<<<<<
@@ -17704,7 +17704,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               goto __pyx_L13;
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":54
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":54
  * 
  *                 else:
  *                     w_s = d_mat[i_-1, j_]             # <<<<<<<<<<<<<<
@@ -17729,7 +17729,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               __pyx_v_w_s = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) )));
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":55
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":55
  *                 else:
  *                     w_s = d_mat[i_-1, j_]
  *                     s_s_0 = i_-1             # <<<<<<<<<<<<<<
@@ -17738,7 +17738,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_0 = (__pyx_v_i_ - 1);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":56
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":56
  *                     w_s = d_mat[i_-1, j_]
  *                     s_s_0 = i_-1
  *                     s_s_1 = j_             # <<<<<<<<<<<<<<
@@ -17747,7 +17747,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_1 = __pyx_v_j_;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":58
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":58
  *                     s_s_1 = j_
  * 
  *                     w_i = d_mat[i_, j_-1]             # <<<<<<<<<<<<<<
@@ -17771,7 +17771,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               __pyx_v_w_i = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )));
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":59
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":59
  * 
  *                     w_i = d_mat[i_, j_-1]
  *                     if w_i > w_s:             # <<<<<<<<<<<<<<
@@ -17781,7 +17781,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               __pyx_t_22 = (__pyx_v_w_i > __pyx_v_w_s);
               if (__pyx_t_22) {
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":60
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":60
  *                     w_i = d_mat[i_, j_-1]
  *                     if w_i > w_s:
  *                         w_s = w_i             # <<<<<<<<<<<<<<
@@ -17790,7 +17790,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_w_s = __pyx_v_w_i;
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":61
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":61
  *                     if w_i > w_s:
  *                         w_s = w_i
  *                         s_s_0 = i_             # <<<<<<<<<<<<<<
@@ -17799,7 +17799,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_s_s_0 = __pyx_v_i_;
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":62
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":62
  *                         w_s = w_i
  *                         s_s_0 = i_
  *                         s_s_1 = j_-1             # <<<<<<<<<<<<<<
@@ -17808,7 +17808,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_s_s_1 = (__pyx_v_j_ - 1);
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":59
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":59
  * 
  *                     w_i = d_mat[i_, j_-1]
  *                     if w_i > w_s:             # <<<<<<<<<<<<<<
@@ -17817,7 +17817,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               }
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":64
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":64
  *                         s_s_1 = j_-1
  * 
  *                     d_mat[i_, j_] = w_s             # <<<<<<<<<<<<<<
@@ -17841,7 +17841,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_17 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_16 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_w_s;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":65
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":65
  * 
  *                     d_mat[i_, j_] = w_s
  *                     b_map[i_, j_, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -17870,7 +17870,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_16 * __pyx_v_b_map.strides[0]) ) + __pyx_t_17 * __pyx_v_b_map.strides[1]) ) + __pyx_t_18 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":66
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":66
  *                     d_mat[i_, j_] = w_s
  *                     b_map[i_, j_, 0] = s_s_0
  *                     b_map[i_, j_, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -17904,7 +17904,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         }
       }
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":36
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":36
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -17926,7 +17926,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       }
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":68
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":68
  *                     b_map[i_, j_, 1] = s_s_1
  * 
  *     common_s, opt_align = character_generic_backtracking(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -17937,7 +17937,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":69
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":69
  * 
  *     common_s, opt_align = character_generic_backtracking(s_1, s_2,
  *                                                          d_mat, b_map,             # <<<<<<<<<<<<<<
@@ -17949,7 +17949,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_b_map, 3, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":70
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":70
  *     common_s, opt_align = character_generic_backtracking(s_1, s_2,
  *                                                          d_mat, b_map,
  *                                                          n_1, n_2)             # <<<<<<<<<<<<<<
@@ -18035,7 +18035,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_L16_unpacking_done:;
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":68
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":68
  *                     b_map[i_, j_, 1] = s_s_1
  * 
  *     common_s, opt_align = character_generic_backtracking(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -18047,7 +18047,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_opt_align = __pyx_t_24;
   __pyx_t_24 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":72
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":72
  *                                                          n_1, n_2)
  *     ## To return
  *     cdef double lcs_l = d_mat[n_1, n_2]             # <<<<<<<<<<<<<<
@@ -18071,7 +18071,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   }
   __pyx_v_lcs_l = (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_16 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_17 * __pyx_v_d_mat.strides[1]) )));
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":74
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":74
  *     cdef double lcs_l = d_mat[n_1, n_2]
  * 
  *     return common_s, opt_align, lcs_l             # <<<<<<<<<<<<<<
@@ -18096,7 +18096,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_24 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":11
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":11
  * 
  * 
  * def longest_common_subsequence (list s_1, list s_2) :             # <<<<<<<<<<<<<<
@@ -18116,7 +18116,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_11, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_12, 1);
   __Pyx_XDECREF(__pyx_t_24);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.longest_common_subsequence", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.longest_common_subsequence", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tmp_1);
@@ -18132,7 +18132,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   return __pyx_r;
 }
 
-/* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":77
+/* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":77
  * 
  * 
  * def smith_waterman (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -18141,15 +18141,15 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_3smith_waterman(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_3smith_waterman(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_3smith_waterman = {"smith_waterman", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_3smith_waterman, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_3smith_waterman(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_3smith_waterman = {"smith_waterman", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_3smith_waterman, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_3smith_waterman(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -18260,14 +18260,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     Py_XDECREF(values[__pyx_temp]);
   }
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_sim_mat, 1);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.smith_waterman", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.smith_waterman", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 77, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 77, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dict_chr_idx), (&PyDict_Type), 1, "dict_chr_idx", 1))) __PYX_ERR(0, 78, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_2smith_waterman(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dict_chr_idx, __pyx_v_sim_mat, __pyx_v_del_c_base, __pyx_v_del_c, __pyx_v_sim_weigth);
+  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_2smith_waterman(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dict_chr_idx, __pyx_v_sim_mat, __pyx_v_del_c_base, __pyx_v_del_c, __pyx_v_sim_weigth);
 
   /* function exit code */
   goto __pyx_L0;
@@ -18287,7 +18287,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_2smith_waterman(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_sim_mat, double __pyx_v_del_c_base, double __pyx_v_del_c, double __pyx_v_sim_weigth) {
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_2smith_waterman(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx, __Pyx_memviewslice __pyx_v_sim_mat, double __pyx_v_del_c_base, double __pyx_v_del_c, double __pyx_v_sim_weigth) {
   PyObject *__pyx_v_tmp_1 = NULL;
   PyObject *__pyx_v_tmp_2 = NULL;
   PyObject *__pyx_v_n_dict = NULL;
@@ -18367,7 +18367,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("smith_waterman", 0);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":82
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":82
  *                     double sim_weigth):
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -18378,7 +18378,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":83
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":83
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,
  *                                                  dict_chr_idx)             # <<<<<<<<<<<<<<
@@ -18465,7 +18465,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_L4_unpacking_done:;
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":82
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":82
  *                     double sim_weigth):
  * 
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,             # <<<<<<<<<<<<<<
@@ -18479,7 +18479,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_n_dict = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":84
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":84
  *     tmp_1, tmp_2, n_dict = int_convert_from_dict(s_1, s_2,
  *                                                  dict_chr_idx)
  *     cdef int[:] s_1_c = tmp_1             # <<<<<<<<<<<<<<
@@ -18491,7 +18491,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":85
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":85
  *                                                  dict_chr_idx)
  *     cdef int[:] s_1_c = tmp_1
  *     cdef int[:] s_2_c = tmp_2             # <<<<<<<<<<<<<<
@@ -18503,7 +18503,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":88
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":88
  * 
  *     ## Convert python dict to c dict for nogil loops
  *     cdef map[int, int] c_dict = dict_to_cmap(n_dict)             # <<<<<<<<<<<<<<
@@ -18513,11 +18513,11 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_1 = __pyx_v_n_dict;
   __Pyx_INCREF(__pyx_t_1);
   if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_1))) __PYX_ERR(0, 88, __pyx_L1_error)
-  __pyx_t_9 = __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_dict_to_cmap(((PyObject*)__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_9 = __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_dict_to_cmap(((PyObject*)__pyx_t_1)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_dict = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_9);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":91
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":91
  * 
  *     ## Declare some constants
  *     cdef int n_1 = len(s_1)             # <<<<<<<<<<<<<<
@@ -18531,7 +18531,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_10 = __Pyx_PyList_GET_SIZE(__pyx_v_s_1); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 91, __pyx_L1_error)
   __pyx_v_n_1 = __pyx_t_10;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":92
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":92
  *     ## Declare some constants
  *     cdef int n_1 = len(s_1)
  *     cdef int n_2 = len(s_2)             # <<<<<<<<<<<<<<
@@ -18545,7 +18545,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_10 = __Pyx_PyList_GET_SIZE(__pyx_v_s_2); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 92, __pyx_L1_error)
   __pyx_v_n_2 = __pyx_t_10;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":95
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":95
  * 
  *     ## Declare the D matrix
  *     cdef double[:,:] d_mat = np.zeros((n_1+1, n_2+1), dtype=np.double)             # <<<<<<<<<<<<<<
@@ -18607,7 +18607,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":98
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":98
  * 
  *     # Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -18636,7 +18636,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_6 = 0;
   __pyx_t_11 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":99
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":99
  *     # Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),
  *                                      dtype=np.intc)             # <<<<<<<<<<<<<<
@@ -18675,7 +18675,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_GOTREF(__pyx_t_1);
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":98
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":98
  * 
  *     # Declare a path matrix for backtracking
  *     cdef int[:,:,:] b_map = np.zeros((n_1 + 1, n_2 + 1, 2),             # <<<<<<<<<<<<<<
@@ -18688,7 +18688,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_13.memview = NULL;
   __pyx_t_13.data = NULL;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":101
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":101
  *                                      dtype=np.intc)
  * 
  *     cdef int s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -18697,7 +18697,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_s_s_0 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":102
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":102
  * 
  *     cdef int s_s_0 = 0
  *     cdef int s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -18706,7 +18706,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_s_s_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":104
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":104
  *     cdef int s_s_1 = 0
  * 
  *     cdef double w_s = 0.0             # <<<<<<<<<<<<<<
@@ -18715,7 +18715,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_s = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":105
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":105
  * 
  *     cdef double w_s = 0.0
  *     cdef double w_t = 0.0             # <<<<<<<<<<<<<<
@@ -18724,7 +18724,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_t = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":107
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":107
  *     cdef double w_t = 0.0
  * 
  *     cdef double w_k = 0.0             # <<<<<<<<<<<<<<
@@ -18733,7 +18733,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_k = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":108
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":108
  * 
  *     cdef double w_k = 0.0
  *     cdef double w_k_s = 0.0             # <<<<<<<<<<<<<<
@@ -18742,7 +18742,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_k_s = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":110
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":110
  *     cdef double w_k_s = 0.0
  * 
  *     cdef double w_l = 0.0             # <<<<<<<<<<<<<<
@@ -18751,7 +18751,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_l = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":111
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":111
  * 
  *     cdef double w_l = 0.0
  *     cdef double w_l_s = 0.0             # <<<<<<<<<<<<<<
@@ -18760,7 +18760,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_w_l_s = 0.0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":113
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":113
  *     cdef double w_l_s = 0.0
  * 
  *     cdef int i_ = 0             # <<<<<<<<<<<<<<
@@ -18769,7 +18769,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_i_ = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":114
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":114
  * 
  *     cdef int i_ = 0
  *     cdef int j_ = 0             # <<<<<<<<<<<<<<
@@ -18778,7 +18778,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_j_ = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":116
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":116
  *     cdef int j_ = 0
  * 
  *     cdef int k_ = 0             # <<<<<<<<<<<<<<
@@ -18787,7 +18787,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_k_ = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":117
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":117
  * 
  *     cdef int k_ = 0
  *     cdef int l_ = 0             # <<<<<<<<<<<<<<
@@ -18796,7 +18796,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_l_ = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":119
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":119
  *     cdef int l_ = 0
  * 
  *     cdef int k_s = 0             # <<<<<<<<<<<<<<
@@ -18805,7 +18805,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_k_s = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":120
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":120
  * 
  *     cdef int k_s = 0
  *     cdef int l_s = 0             # <<<<<<<<<<<<<<
@@ -18814,7 +18814,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
   __pyx_v_l_s = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":123
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":123
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -18827,7 +18827,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":124
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":124
  *     ## Fill the D-matrix
  *     with nogil:
  *         for i_ in range (1, n_1+1):             # <<<<<<<<<<<<<<
@@ -18839,7 +18839,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         for (__pyx_t_16 = 1; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
           __pyx_v_i_ = __pyx_t_16;
 
-          /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":125
+          /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":125
  *     with nogil:
  *         for i_ in range (1, n_1+1):
  *             for j_ in range (1, n_2+1):             # <<<<<<<<<<<<<<
@@ -18851,7 +18851,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
           for (__pyx_t_19 = 1; __pyx_t_19 < __pyx_t_18; __pyx_t_19+=1) {
             __pyx_v_j_ = __pyx_t_19;
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":127
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":127
  *             for j_ in range (1, n_2+1):
  *                 ## Compute substitution cost
  *                 w_s = d_mat[i_-1, j_-1] + sim_weigth * sim_mat[c_dict[s_1_c[i_-1]],             # <<<<<<<<<<<<<<
@@ -18884,7 +18884,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               __PYX_ERR(0, 127, __pyx_L6_error)
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":128
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":128
  *                 ## Compute substitution cost
  *                 w_s = d_mat[i_-1, j_-1] + sim_weigth * sim_mat[c_dict[s_1_c[i_-1]],
  *                                                                c_dict[s_2_c[j_-1]]]             # <<<<<<<<<<<<<<
@@ -18902,7 +18902,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               __PYX_ERR(0, 128, __pyx_L6_error)
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":127
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":127
  *             for j_ in range (1, n_2+1):
  *                 ## Compute substitution cost
  *                 w_s = d_mat[i_-1, j_-1] + sim_weigth * sim_mat[c_dict[s_1_c[i_-1]],             # <<<<<<<<<<<<<<
@@ -18926,7 +18926,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             }
             __pyx_v_w_s = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_20 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_21 * __pyx_v_d_mat.strides[1]) ))) + (__pyx_v_sim_weigth * (*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_sim_mat.data + __pyx_t_25 * __pyx_v_sim_mat.strides[0]) ) + __pyx_t_26 * __pyx_v_sim_mat.strides[1]) )))));
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":129
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":129
  *                 w_s = d_mat[i_-1, j_-1] + sim_weigth * sim_mat[c_dict[s_1_c[i_-1]],
  *                                                                c_dict[s_2_c[j_-1]]]
  *                 s_s_0 = i_-1             # <<<<<<<<<<<<<<
@@ -18935,7 +18935,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             __pyx_v_s_s_0 = (__pyx_v_i_ - 1);
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":130
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":130
  *                                                                c_dict[s_2_c[j_-1]]]
  *                 s_s_0 = i_-1
  *                 s_s_1 = j_-1             # <<<<<<<<<<<<<<
@@ -18944,7 +18944,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             __pyx_v_s_s_1 = (__pyx_v_j_ - 1);
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":133
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":133
  * 
  *                 ## Explore column
  *                 w_k_s = 0.0             # <<<<<<<<<<<<<<
@@ -18953,7 +18953,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             __pyx_v_w_k_s = 0.0;
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":134
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":134
  *                 ## Explore column
  *                 w_k_s = 0.0
  *                 for k_ in range (1, i_+1):             # <<<<<<<<<<<<<<
@@ -18965,7 +18965,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             for (__pyx_t_22 = 1; __pyx_t_22 < __pyx_t_28; __pyx_t_22+=1) {
               __pyx_v_k_ = __pyx_t_22;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":135
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":135
  *                 w_k_s = 0.0
  *                 for k_ in range (1, i_+1):
  *                     w_k = d_mat[i_-k_, j_] - (del_c_base + k_*del_c)             # <<<<<<<<<<<<<<
@@ -18989,7 +18989,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               __pyx_v_w_k = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_24 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_23 * __pyx_v_d_mat.strides[1]) ))) - (__pyx_v_del_c_base + (__pyx_v_k_ * __pyx_v_del_c)));
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":136
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":136
  *                 for k_ in range (1, i_+1):
  *                     w_k = d_mat[i_-k_, j_] - (del_c_base + k_*del_c)
  *                     if w_k >= w_k_s:             # <<<<<<<<<<<<<<
@@ -18999,7 +18999,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               __pyx_t_30 = (__pyx_v_w_k >= __pyx_v_w_k_s);
               if (__pyx_t_30) {
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":137
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":137
  *                     w_k = d_mat[i_-k_, j_] - (del_c_base + k_*del_c)
  *                     if w_k >= w_k_s:
  *                         w_k_s = w_k             # <<<<<<<<<<<<<<
@@ -19008,7 +19008,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_w_k_s = __pyx_v_w_k;
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":138
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":138
  *                     if w_k >= w_k_s:
  *                         w_k_s = w_k
  *                         k_s = k_             # <<<<<<<<<<<<<<
@@ -19017,7 +19017,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_k_s = __pyx_v_k_;
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":136
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":136
  *                 for k_ in range (1, i_+1):
  *                     w_k = d_mat[i_-k_, j_] - (del_c_base + k_*del_c)
  *                     if w_k >= w_k_s:             # <<<<<<<<<<<<<<
@@ -19027,7 +19027,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":139
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":139
  *                         w_k_s = w_k
  *                         k_s = k_
  *                 if w_k_s > w_s:             # <<<<<<<<<<<<<<
@@ -19037,7 +19037,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             __pyx_t_30 = (__pyx_v_w_k_s > __pyx_v_w_s);
             if (__pyx_t_30) {
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":140
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":140
  *                         k_s = k_
  *                 if w_k_s > w_s:
  *                     w_s = w_k_s             # <<<<<<<<<<<<<<
@@ -19046,7 +19046,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_w_s = __pyx_v_w_k_s;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":141
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":141
  *                 if w_k_s > w_s:
  *                     w_s = w_k_s
  *                     s_s_0 = i_-k_s             # <<<<<<<<<<<<<<
@@ -19055,7 +19055,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_0 = (__pyx_v_i_ - __pyx_v_k_s);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":142
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":142
  *                     w_s = w_k_s
  *                     s_s_0 = i_-k_s
  *                     s_s_1 = j_             # <<<<<<<<<<<<<<
@@ -19064,7 +19064,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_1 = __pyx_v_j_;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":139
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":139
  *                         w_k_s = w_k
  *                         k_s = k_
  *                 if w_k_s > w_s:             # <<<<<<<<<<<<<<
@@ -19073,7 +19073,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":145
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":145
  * 
  *                 ## Explore row
  *                 w_l_s = 0.0             # <<<<<<<<<<<<<<
@@ -19082,7 +19082,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             __pyx_v_w_l_s = 0.0;
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":146
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":146
  *                 ## Explore row
  *                 w_l_s = 0.0
  *                 for l_ in range (1, j_+1):             # <<<<<<<<<<<<<<
@@ -19094,7 +19094,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             for (__pyx_t_22 = 1; __pyx_t_22 < __pyx_t_28; __pyx_t_22+=1) {
               __pyx_v_l_ = __pyx_t_22;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":147
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":147
  *                 w_l_s = 0.0
  *                 for l_ in range (1, j_+1):
  *                     w_l = d_mat[i_, j_-l_] - (del_c_base + l_*del_c)             # <<<<<<<<<<<<<<
@@ -19118,7 +19118,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
               __pyx_v_w_l = ((*((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_23 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_24 * __pyx_v_d_mat.strides[1]) ))) - (__pyx_v_del_c_base + (__pyx_v_l_ * __pyx_v_del_c)));
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":148
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":148
  *                 for l_ in range (1, j_+1):
  *                     w_l = d_mat[i_, j_-l_] - (del_c_base + l_*del_c)
  *                     if w_l >= w_l_s:             # <<<<<<<<<<<<<<
@@ -19128,7 +19128,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               __pyx_t_30 = (__pyx_v_w_l >= __pyx_v_w_l_s);
               if (__pyx_t_30) {
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":149
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":149
  *                     w_l = d_mat[i_, j_-l_] - (del_c_base + l_*del_c)
  *                     if w_l >= w_l_s:
  *                         w_l_s = w_l             # <<<<<<<<<<<<<<
@@ -19137,7 +19137,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_w_l_s = __pyx_v_w_l;
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":150
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":150
  *                     if w_l >= w_l_s:
  *                         w_l_s = w_l
  *                         l_s = l_             # <<<<<<<<<<<<<<
@@ -19146,7 +19146,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
                 __pyx_v_l_s = __pyx_v_l_;
 
-                /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":148
+                /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":148
  *                 for l_ in range (1, j_+1):
  *                     w_l = d_mat[i_, j_-l_] - (del_c_base + l_*del_c)
  *                     if w_l >= w_l_s:             # <<<<<<<<<<<<<<
@@ -19156,7 +19156,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
               }
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":151
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":151
  *                         w_l_s = w_l
  *                         l_s = l_
  *                 if w_l_s > w_s:             # <<<<<<<<<<<<<<
@@ -19166,7 +19166,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             __pyx_t_30 = (__pyx_v_w_l_s > __pyx_v_w_s);
             if (__pyx_t_30) {
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":152
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":152
  *                         l_s = l_
  *                 if w_l_s > w_s:
  *                     w_s = w_l_s             # <<<<<<<<<<<<<<
@@ -19175,7 +19175,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_w_s = __pyx_v_w_l_s;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":153
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":153
  *                 if w_l_s > w_s:
  *                     w_s = w_l_s
  *                     s_s_0 = i_             # <<<<<<<<<<<<<<
@@ -19184,7 +19184,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_0 = __pyx_v_i_;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":154
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":154
  *                     w_s = w_l_s
  *                     s_s_0 = i_
  *                     s_s_1 = j_-l_s             # <<<<<<<<<<<<<<
@@ -19193,7 +19193,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_1 = (__pyx_v_j_ - __pyx_v_l_s);
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":151
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":151
  *                         w_l_s = w_l
  *                         l_s = l_
  *                 if w_l_s > w_s:             # <<<<<<<<<<<<<<
@@ -19202,7 +19202,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":158
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":158
  *                 ## If no similarity, terminate the process
  *                 ## Usefull only if negative similarity values
  *                 if w_t > w_s:             # <<<<<<<<<<<<<<
@@ -19212,7 +19212,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             __pyx_t_30 = (__pyx_v_w_t > __pyx_v_w_s);
             if (__pyx_t_30) {
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":159
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":159
  *                 ## Usefull only if negative similarity values
  *                 if w_t > w_s:
  *                     w_s = w_t             # <<<<<<<<<<<<<<
@@ -19221,7 +19221,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_w_s = __pyx_v_w_t;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":160
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":160
  *                 if w_t > w_s:
  *                     w_s = w_t
  *                     s_s_0 = 0             # <<<<<<<<<<<<<<
@@ -19230,7 +19230,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_0 = 0;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":161
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":161
  *                     w_s = w_t
  *                     s_s_0 = 0
  *                     s_s_1 = 0             # <<<<<<<<<<<<<<
@@ -19239,7 +19239,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
               __pyx_v_s_s_1 = 0;
 
-              /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":158
+              /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":158
  *                 ## If no similarity, terminate the process
  *                 ## Usefull only if negative similarity values
  *                 if w_t > w_s:             # <<<<<<<<<<<<<<
@@ -19248,7 +19248,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
             }
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":163
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":163
  *                     s_s_1 = 0
  *                 ## Add best score and keep track
  *                 d_mat[i_, j_] = w_s             # <<<<<<<<<<<<<<
@@ -19272,7 +19272,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             }
             *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_d_mat.data + __pyx_t_24 * __pyx_v_d_mat.strides[0]) ) + __pyx_t_23 * __pyx_v_d_mat.strides[1]) )) = __pyx_v_w_s;
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":164
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":164
  *                 ## Add best score and keep track
  *                 d_mat[i_, j_] = w_s
  *                 b_map[i_, j_, 0] = s_s_0             # <<<<<<<<<<<<<<
@@ -19301,7 +19301,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
             }
             *((int *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_b_map.data + __pyx_t_23 * __pyx_v_b_map.strides[0]) ) + __pyx_t_24 * __pyx_v_b_map.strides[1]) ) + __pyx_t_26 * __pyx_v_b_map.strides[2]) )) = __pyx_v_s_s_0;
 
-            /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":165
+            /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":165
  *                 d_mat[i_, j_] = w_s
  *                 b_map[i_, j_, 0] = s_s_0
  *                 b_map[i_, j_, 1] = s_s_1             # <<<<<<<<<<<<<<
@@ -19333,7 +19333,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         }
       }
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":123
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":123
  * 
  *     ## Fill the D-matrix
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -19355,7 +19355,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       }
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":168
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":168
  * 
  *     ## Fast enough using Python
  *     d_mat_p = np.asarray(d_mat)             # <<<<<<<<<<<<<<
@@ -19394,7 +19394,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_d_mat_p = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":170
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":170
  *     d_mat_p = np.asarray(d_mat)
  *     ## Find best score value in the D-matrix
  *     i_m, j_m = np.unravel_index(np.argmax(d_mat_p), d_mat_p.shape)             # <<<<<<<<<<<<<<
@@ -19512,7 +19512,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_j_m = __pyx_t_31;
   __pyx_t_31 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":173
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":173
  * 
  *     ## To return
  *     cdef double sw_l = d_mat_p[i_m, j_m]             # <<<<<<<<<<<<<<
@@ -19534,7 +19534,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
   __pyx_v_sw_l = __pyx_t_32;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":175
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":175
  *     cdef double sw_l = d_mat_p[i_m, j_m]
  *     ## To manipulate
  *     cdef double local_v = d_mat_p[i_m, j_m]             # <<<<<<<<<<<<<<
@@ -19556,7 +19556,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_local_v = __pyx_t_32;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":177
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":177
  *     cdef double local_v = d_mat_p[i_m, j_m]
  * 
  *     opt_align, common_s = [], []             # <<<<<<<<<<<<<<
@@ -19572,7 +19572,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_common_s = ((PyObject*)__pyx_t_31);
   __pyx_t_31 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":178
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":178
  * 
  *     opt_align, common_s = [], []
  *     i = np.copy(i_m)             # <<<<<<<<<<<<<<
@@ -19608,7 +19608,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_i = __pyx_t_31;
   __pyx_t_31 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":179
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":179
  *     opt_align, common_s = [], []
  *     i = np.copy(i_m)
  *     j = np.copy(j_m)             # <<<<<<<<<<<<<<
@@ -19644,7 +19644,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_j = __pyx_t_31;
   __pyx_t_31 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":182
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":182
  * 
  *     ## Compute non-generic backtracking using the B map
  *     while local_v > 0:             # <<<<<<<<<<<<<<
@@ -19655,7 +19655,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_t_30 = (__pyx_v_local_v > 0.0);
     if (!__pyx_t_30) break;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":183
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":183
  *     ## Compute non-generic backtracking using the B map
  *     while local_v > 0:
  *         i_n = b_map[i, j, 0]             # <<<<<<<<<<<<<<
@@ -19689,7 +19689,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_XDECREF_SET(__pyx_v_i_n, __pyx_t_31);
     __pyx_t_31 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":184
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":184
  *     while local_v > 0:
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]             # <<<<<<<<<<<<<<
@@ -19723,7 +19723,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_XDECREF_SET(__pyx_v_j_n, __pyx_t_31);
     __pyx_t_31 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":186
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":186
  *         j_n = b_map[i, j, 1]
  * 
  *         if i_n == i-1:             # <<<<<<<<<<<<<<
@@ -19738,7 +19738,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_30) {
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":187
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":187
  * 
  *         if i_n == i-1:
  *             if j_n == j-1:             # <<<<<<<<<<<<<<
@@ -19753,7 +19753,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
       if (__pyx_t_30) {
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":189
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":189
  *             if j_n == j-1:
  *                 ## Compute alignement
  *                 opt_align.insert(0, [s_1[i-1], s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -19789,7 +19789,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __pyx_t_34 = PyList_Insert(__pyx_v_opt_align, 0, __pyx_t_31); if (unlikely(__pyx_t_34 == ((int)-1))) __PYX_ERR(0, 189, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":190
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":190
  *                 ## Compute alignement
  *                 opt_align.insert(0, [s_1[i-1], s_2[j-1]])
  *                 common_s.insert(0, [s_1[i-1], s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -19825,7 +19825,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __pyx_t_34 = PyList_Insert(__pyx_v_common_s, 0, __pyx_t_31); if (unlikely(__pyx_t_34 == ((int)-1))) __PYX_ERR(0, 190, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":187
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":187
  * 
  *         if i_n == i-1:
  *             if j_n == j-1:             # <<<<<<<<<<<<<<
@@ -19834,7 +19834,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
       }
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":186
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":186
  *         j_n = b_map[i, j, 1]
  * 
  *         if i_n == i-1:             # <<<<<<<<<<<<<<
@@ -19843,7 +19843,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
     }
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":192
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":192
  *                 common_s.insert(0, [s_1[i-1], s_2[j-1]])
  * 
  *         if i_n == i:             # <<<<<<<<<<<<<<
@@ -19855,7 +19855,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
     if (__pyx_t_30) {
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":193
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":193
  * 
  *         if i_n == i:
  *             k_m = j - j_n             # <<<<<<<<<<<<<<
@@ -19867,7 +19867,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       __Pyx_XDECREF_SET(__pyx_v_k_m, __pyx_t_31);
       __pyx_t_31 = 0;
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":194
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":194
  *         if i_n == i:
  *             k_m = j - j_n
  *             for k in range(i, k_m+1):             # <<<<<<<<<<<<<<
@@ -19906,7 +19906,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_31);
         __pyx_t_31 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":195
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":195
  *             k_m = j - j_n
  *             for k in range(i, k_m+1):
  *                 opt_align.insert(0, ['_', s_2[j-k]])             # <<<<<<<<<<<<<<
@@ -19933,7 +19933,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __pyx_t_34 = PyList_Insert(__pyx_v_opt_align, 0, __pyx_t_31); if (unlikely(__pyx_t_34 == ((int)-1))) __PYX_ERR(0, 195, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":194
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":194
  *         if i_n == i:
  *             k_m = j - j_n
  *             for k in range(i, k_m+1):             # <<<<<<<<<<<<<<
@@ -19943,7 +19943,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       }
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":192
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":192
  *                 common_s.insert(0, [s_1[i-1], s_2[j-1]])
  * 
  *         if i_n == i:             # <<<<<<<<<<<<<<
@@ -19952,7 +19952,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
     }
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":197
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":197
  *                 opt_align.insert(0, ['_', s_2[j-k]])
  * 
  *         if j_n == j:             # <<<<<<<<<<<<<<
@@ -19964,7 +19964,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     if (__pyx_t_30) {
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":198
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":198
  * 
  *         if j_n == j:
  *             k_m = i - i_n             # <<<<<<<<<<<<<<
@@ -19976,7 +19976,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       __Pyx_XDECREF_SET(__pyx_v_k_m, __pyx_t_11);
       __pyx_t_11 = 0;
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":199
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":199
  *         if j_n == j:
  *             k_m = i - i_n
  *             for k in range(1, k_m):             # <<<<<<<<<<<<<<
@@ -20012,7 +20012,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_11);
         __pyx_t_11 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":200
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":200
  *             k_m = i - i_n
  *             for k in range(1, k_m):
  *                 opt_align.insert(0, [s_1[i-k], '_'])             # <<<<<<<<<<<<<<
@@ -20039,7 +20039,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __pyx_t_34 = PyList_Insert(__pyx_v_opt_align, 0, __pyx_t_11); if (unlikely(__pyx_t_34 == ((int)-1))) __PYX_ERR(0, 200, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":199
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":199
  *         if j_n == j:
  *             k_m = i - i_n
  *             for k in range(1, k_m):             # <<<<<<<<<<<<<<
@@ -20049,7 +20049,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       }
       __Pyx_DECREF(__pyx_t_31); __pyx_t_31 = 0;
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":197
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":197
  *                 opt_align.insert(0, ['_', s_2[j-k]])
  * 
  *         if j_n == j:             # <<<<<<<<<<<<<<
@@ -20058,7 +20058,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
     }
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":201
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":201
  *             for k in range(1, k_m):
  *                 opt_align.insert(0, [s_1[i-k], '_'])
  *         i = i_n             # <<<<<<<<<<<<<<
@@ -20068,7 +20068,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_INCREF(__pyx_v_i_n);
     __Pyx_DECREF_SET(__pyx_v_i, __pyx_v_i_n);
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":202
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":202
  *                 opt_align.insert(0, [s_1[i-k], '_'])
  *         i = i_n
  *         j = j_n             # <<<<<<<<<<<<<<
@@ -20078,7 +20078,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_INCREF(__pyx_v_j_n);
     __Pyx_DECREF_SET(__pyx_v_j, __pyx_v_j_n);
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":203
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":203
  *         i = i_n
  *         j = j_n
  *         local_v = d_mat_p[i, j]             # <<<<<<<<<<<<<<
@@ -20101,7 +20101,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_v_local_v = __pyx_t_32;
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":205
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":205
  *         local_v = d_mat_p[i, j]
  * 
  *     return common_s, opt_align, sw_l             # <<<<<<<<<<<<<<
@@ -20126,7 +20126,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_31 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":77
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":77
  * 
  * 
  * def smith_waterman (list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -20146,7 +20146,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_12, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_13, 1);
   __Pyx_XDECREF(__pyx_t_31);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.smith_waterman", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.smith_waterman", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tmp_1);
@@ -20172,7 +20172,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   return __pyx_r;
 }
 
-/* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":208
+/* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":208
  * 
  * 
  * cdef map[int, int] dict_to_cmap(dict p_dict):             # <<<<<<<<<<<<<<
@@ -20180,7 +20180,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
  *     cdef int map_key
 */
 
-static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_dict_to_cmap(PyObject *__pyx_v_p_dict) {
+static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_dict_to_cmap(PyObject *__pyx_v_p_dict) {
   int __pyx_v_map_key;
   int __pyx_v_map_val;
   std::pair<int,int>  __pyx_v_map_e;
@@ -20203,7 +20203,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("dict_to_cmap", 0);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":215
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":215
  *     cdef map[int, int] c_map
  * 
  *     for key,val in p_dict.items():             # <<<<<<<<<<<<<<
@@ -20231,7 +20231,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
     __Pyx_XDECREF_SET(__pyx_v_val, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":216
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":216
  * 
  *     for key,val in p_dict.items():
  *         map_key = key             # <<<<<<<<<<<<<<
@@ -20241,7 +20241,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
     __pyx_t_7 = __Pyx_PyLong_As_int(__pyx_v_key); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L1_error)
     __pyx_v_map_key = __pyx_t_7;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":217
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":217
  *     for key,val in p_dict.items():
  *         map_key = key
  *         map_val = val             # <<<<<<<<<<<<<<
@@ -20251,7 +20251,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
     __pyx_t_7 = __Pyx_PyLong_As_int(__pyx_v_val); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 217, __pyx_L1_error)
     __pyx_v_map_val = __pyx_t_7;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":218
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":218
  *         map_key = key
  *         map_val = val
  *         map_e = (map_key, map_val)             # <<<<<<<<<<<<<<
@@ -20274,7 +20274,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_v_map_e = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_9);
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":219
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":219
  *         map_val = val
  *         map_e = (map_key, map_val)
  *         c_map.insert(map_e)             # <<<<<<<<<<<<<<
@@ -20290,7 +20290,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":221
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":221
  *         c_map.insert(map_e)
  * 
  *     return c_map             # <<<<<<<<<<<<<<
@@ -20300,7 +20300,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
   __pyx_r = __pyx_v_c_map;
   goto __pyx_L0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":208
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":208
  * 
  * 
  * cdef map[int, int] dict_to_cmap(dict p_dict):             # <<<<<<<<<<<<<<
@@ -20314,7 +20314,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.dict_to_cmap", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.dict_to_cmap", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_key);
@@ -20323,7 +20323,7 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
   return __pyx_r;
 }
 
-/* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":224
+/* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":224
  * 
  * 
  * def int_convert(list s_1, list s_2):             # <<<<<<<<<<<<<<
@@ -20332,15 +20332,15 @@ static std::map<int,int>  __pyx_f_14vision_toolkit_3aoi_18common_subsequence_15l
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_5int_convert(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_5int_convert(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_5int_convert = {"int_convert", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_5int_convert, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_5int_convert(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_5int_convert = {"int_convert", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_5int_convert, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_5int_convert(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -20410,13 +20410,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 224, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 224, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_4int_convert(__pyx_self, __pyx_v_s_1, __pyx_v_s_2);
+  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_4int_convert(__pyx_self, __pyx_v_s_1, __pyx_v_s_2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -20435,7 +20435,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_4int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2) {
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_4int_convert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2) {
   PyObject *__pyx_v_dict_str_int = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_str_ = NULL;
@@ -20460,7 +20460,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("int_convert", 0);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":226
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":226
  * def int_convert(list s_1, list s_2):
  * 
  *     dict_str_int = dict()             # <<<<<<<<<<<<<<
@@ -20472,7 +20472,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_dict_str_int = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":227
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":227
  * 
  *     dict_str_int = dict()
  *     for i, str_ in enumerate(sorted(set(s_1 + s_2))):             # <<<<<<<<<<<<<<
@@ -20515,7 +20515,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":228
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":228
  *     dict_str_int = dict()
  *     for i, str_ in enumerate(sorted(set(s_1 + s_2))):
  *         dict_str_int.update({str_: i})             # <<<<<<<<<<<<<<
@@ -20530,7 +20530,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":227
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":227
  * 
  *     dict_str_int = dict()
  *     for i, str_ in enumerate(sorted(set(s_1 + s_2))):             # <<<<<<<<<<<<<<
@@ -20541,7 +20541,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":231
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":231
  * 
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(             # <<<<<<<<<<<<<<
@@ -20556,7 +20556,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":232
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":232
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],             # <<<<<<<<<<<<<<
@@ -20587,7 +20587,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":233
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":233
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -20628,7 +20628,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_tmp_1 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":235
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":235
  *         dtype=np.int32
  *             )
  *     tmp_2 = np.array(             # <<<<<<<<<<<<<<
@@ -20643,7 +20643,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":236
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":236
  *             )
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],             # <<<<<<<<<<<<<<
@@ -20674,7 +20674,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":237
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":237
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -20715,7 +20715,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_tmp_2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":240
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":240
  *             )
  * 
  *     return tmp_1, tmp_2             # <<<<<<<<<<<<<<
@@ -20735,7 +20735,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":224
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":224
  * 
  * 
  * def int_convert(list s_1, list s_2):             # <<<<<<<<<<<<<<
@@ -20751,7 +20751,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.int_convert", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dict_str_int);
@@ -20764,7 +20764,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   return __pyx_r;
 }
 
-/* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":243
+/* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":243
  * 
  * 
  * def int_convert_from_dict(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -20773,15 +20773,15 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_7int_convert_from_dict(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_7int_convert_from_dict(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_7int_convert_from_dict = {"int_convert_from_dict", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_7int_convert_from_dict, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_7int_convert_from_dict(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_7int_convert_from_dict = {"int_convert_from_dict", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_7int_convert_from_dict, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_7int_convert_from_dict(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -20859,14 +20859,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 243, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 243, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dict_chr_idx), (&PyDict_Type), 1, "dict_chr_idx", 1))) __PYX_ERR(0, 244, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_6int_convert_from_dict(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dict_chr_idx);
+  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_6int_convert_from_dict(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_dict_chr_idx);
 
   /* function exit code */
   goto __pyx_L0;
@@ -20885,7 +20885,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_6int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx) {
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_6int_convert_from_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, PyObject *__pyx_v_dict_chr_idx) {
   PyObject *__pyx_v_dict_str_int = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_str_ = NULL;
@@ -20916,7 +20916,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("int_convert_from_dict", 0);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":247
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":247
  * 
  *     ## Create dict from str to int
  *     dict_str_int = dict()             # <<<<<<<<<<<<<<
@@ -20928,7 +20928,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_dict_str_int = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":249
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":249
  *     dict_str_int = dict()
  * 
  *     for i, str_ in enumerate(dict_chr_idx.keys()):             # <<<<<<<<<<<<<<
@@ -20962,7 +20962,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_t_1 = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":250
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":250
  * 
  *     for i, str_ in enumerate(dict_chr_idx.keys()):
  *         dict_str_int.update({str_: i})             # <<<<<<<<<<<<<<
@@ -20980,7 +20980,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":253
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":253
  * 
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(             # <<<<<<<<<<<<<<
@@ -20995,7 +20995,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":254
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":254
  *     ## Convert input lists of str to list of int
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],             # <<<<<<<<<<<<<<
@@ -21026,7 +21026,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":255
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":255
  *     tmp_1 = np.array(
  *         [dict_str_int[s_1[i]] for i in range(len(s_1))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -21067,7 +21067,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_tmp_1 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":257
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":257
  *         dtype=np.int32
  *             )
  *     tmp_2 = np.array(             # <<<<<<<<<<<<<<
@@ -21082,7 +21082,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   { /* enter inner scope */
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":258
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":258
  *             )
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],             # <<<<<<<<<<<<<<
@@ -21113,7 +21113,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     }
   } /* exit inner scope */
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":259
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":259
  *     tmp_2 = np.array(
  *         [dict_str_int[s_2[j]] for j in range(len(s_2))],
  *         dtype=np.int32             # <<<<<<<<<<<<<<
@@ -21154,7 +21154,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_tmp_2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":262
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":262
  *             )
  *     ## Create dict from int to indexes for the dist_mat
  *     n_dict = dict()             # <<<<<<<<<<<<<<
@@ -21166,7 +21166,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_n_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":263
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":263
  *     ## Create dict from int to indexes for the dist_mat
  *     n_dict = dict()
  *     for key, val in dict_chr_idx.items():             # <<<<<<<<<<<<<<
@@ -21194,7 +21194,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_XDECREF_SET(__pyx_v_val, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":264
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":264
  *     n_dict = dict()
  *     for key, val in dict_chr_idx.items():
  *         n_key = dict_str_int[key]             # <<<<<<<<<<<<<<
@@ -21206,7 +21206,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_XDECREF_SET(__pyx_v_n_key, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":265
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":265
  *     for key, val in dict_chr_idx.items():
  *         n_key = dict_str_int[key]
  *         n_dict.update({n_key: val})             # <<<<<<<<<<<<<<
@@ -21223,7 +21223,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":267
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":267
  *         n_dict.update({n_key: val})
  * 
  *     return tmp_1, tmp_2, n_dict             # <<<<<<<<<<<<<<
@@ -21246,7 +21246,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":243
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":243
  * 
  * 
  * def int_convert_from_dict(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -21262,7 +21262,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.int_convert_from_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dict_str_int);
@@ -21279,7 +21279,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   return __pyx_r;
 }
 
-/* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":270
+/* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":270
  * 
  * 
  * def character_generic_backtracking(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -21288,15 +21288,15 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_9character_generic_backtracking(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_9character_generic_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_9character_generic_backtracking = {"character_generic_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_9character_generic_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_9character_generic_backtracking(PyObject *__pyx_self, 
+static PyMethodDef __pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_9character_generic_backtracking = {"character_generic_backtracking", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_9character_generic_backtracking, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_9character_generic_backtracking(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -21400,13 +21400,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_d_mat, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_map, 1);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_1), (&PyList_Type), 1, "s_1", 1))) __PYX_ERR(0, 270, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s_2), (&PyList_Type), 1, "s_2", 1))) __PYX_ERR(0, 270, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_8character_generic_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_n_1, __pyx_v_n_2);
+  __pyx_r = __pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_8character_generic_backtracking(__pyx_self, __pyx_v_s_1, __pyx_v_s_2, __pyx_v_d_mat, __pyx_v_b_map, __pyx_v_n_1, __pyx_v_n_2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -21427,7 +21427,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_8character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2) {
+static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_8character_generic_backtracking(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s_1, PyObject *__pyx_v_s_2, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_d_mat, __Pyx_memviewslice __pyx_v_b_map, int __pyx_v_n_1, int __pyx_v_n_2) {
   PyObject *__pyx_v_opt_align = NULL;
   PyObject *__pyx_v_common_s = NULL;
   PyObject *__pyx_v_i = NULL;
@@ -21453,7 +21453,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("character_generic_backtracking", 0);
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":274
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":274
  *                                    int n_1, int n_2):
  * 
  *     opt_align, common_s = [], []             # <<<<<<<<<<<<<<
@@ -21469,7 +21469,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_common_s = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":275
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":275
  * 
  *     opt_align, common_s = [], []
  *     i, j = n_1, n_2             # <<<<<<<<<<<<<<
@@ -21485,7 +21485,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_v_j = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":278
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":278
  * 
  *     ## Fast enough using Python
  *     while i != 0 or j != 0:             # <<<<<<<<<<<<<<
@@ -21504,7 +21504,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_L5_bool_binop_done:;
     if (!__pyx_t_3) break;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":279
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":279
  *     ## Fast enough using Python
  *     while i != 0 or j != 0:
  *         i_n = b_map[i, j, 0]             # <<<<<<<<<<<<<<
@@ -21538,7 +21538,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_XDECREF_SET(__pyx_v_i_n, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":280
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":280
  *     while i != 0 or j != 0:
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]             # <<<<<<<<<<<<<<
@@ -21572,7 +21572,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_XDECREF_SET(__pyx_v_j_n, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":281
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":281
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:             # <<<<<<<<<<<<<<
@@ -21587,7 +21587,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_3) {
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":282
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":282
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:
  *             if j_n == j-1:             # <<<<<<<<<<<<<<
@@ -21602,7 +21602,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_3) {
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":283
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":283
  *         if i_n == i-1:
  *             if j_n == j-1:
  *                 opt_align.insert(0, [s_1[i-1], s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -21638,7 +21638,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __pyx_t_12 = PyList_Insert(__pyx_v_opt_align, 0, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 283, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":284
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":284
  *             if j_n == j-1:
  *                 opt_align.insert(0, [s_1[i-1], s_2[j-1]])
  *                 common_s.insert(0, [s_1[i-1], s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -21674,7 +21674,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         __pyx_t_12 = PyList_Insert(__pyx_v_common_s, 0, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 284, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":282
+        /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":282
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:
  *             if j_n == j-1:             # <<<<<<<<<<<<<<
@@ -21684,7 +21684,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
         goto __pyx_L8;
       }
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":286
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":286
  *                 common_s.insert(0, [s_1[i-1], s_2[j-1]])
  *             else:
  *                 opt_align.insert(0, [s_1[i-1], '_'])             # <<<<<<<<<<<<<<
@@ -21714,7 +21714,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       }
       __pyx_L8:;
 
-      /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":281
+      /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":281
  *         i_n = b_map[i, j, 0]
  *         j_n = b_map[i, j, 1]
  *         if i_n == i-1:             # <<<<<<<<<<<<<<
@@ -21724,7 +21724,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
       goto __pyx_L7;
     }
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":288
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":288
  *                 opt_align.insert(0, [s_1[i-1], '_'])
  *         else:
  *             opt_align.insert(0, ['_', s_2[j-1]])             # <<<<<<<<<<<<<<
@@ -21754,7 +21754,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     }
     __pyx_L7:;
 
-    /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":291
+    /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":291
  * 
  *         ## Iterate
  *         i, j = i_n, j_n             # <<<<<<<<<<<<<<
@@ -21771,7 +21771,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
     __pyx_t_2 = 0;
   }
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":293
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":293
  *         i, j = i_n, j_n
  * 
  *     return common_s, opt_align             # <<<<<<<<<<<<<<
@@ -21791,7 +21791,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":270
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":270
  * 
  * 
  * def character_generic_backtracking(list s_1, list s_2,             # <<<<<<<<<<<<<<
@@ -21804,7 +21804,7 @@ static PyObject *__pyx_pf_14vision_toolkit_3aoi_18common_subsequence_15local_ali
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.character_generic_backtracking", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_opt_align);
@@ -21944,7 +21944,7 @@ static PyType_Slot __pyx_type___pyx_array_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_array_spec = {
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.array",
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.array",
   sizeof(struct __pyx_array_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_SEQUENCE,
@@ -21978,7 +21978,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.""array", /*tp_name*/
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.""array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -22123,7 +22123,7 @@ static PyType_Slot __pyx_type___pyx_MemviewEnum_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.Enum",
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.Enum",
   sizeof(struct __pyx_MemviewEnum_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -22133,7 +22133,7 @@ static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.""Enum", /*tp_name*/
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.""Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -22400,7 +22400,7 @@ static PyType_Slot __pyx_type___pyx_memoryview_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryview_spec = {
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.memoryview",
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.memoryview",
   sizeof(struct __pyx_memoryview_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -22434,7 +22434,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.""memoryview", /*tp_name*/
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.""memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -22579,7 +22579,7 @@ static PyType_Slot __pyx_type___pyx_memoryviewslice_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms._memoryviewslice",
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms._memoryviewslice",
   sizeof(struct __pyx_memoryviewslice_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC|Py_TPFLAGS_SEQUENCE,
@@ -22589,7 +22589,7 @@ static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms.""_memoryviewslice", /*tp_name*/
+  "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.""_memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -23137,13 +23137,13 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (__Pyx_InitConstants(__pyx_mstate) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   stringtab_initialized = 1;
   if (__Pyx_InitGlobals() < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__pyx_module_is_main_vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms__c_alignment_algorithms) {
+  if (__pyx_module_is_main_vision_toolkit__aoi__common_subsequence__local_alignment__c_alignment_algorithms) {
     if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_name_2, __pyx_mstate_global->__pyx_n_u_main) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms")) {
-      if (unlikely((PyDict_SetItemString(modules, "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms")) {
+      if (unlikely((PyDict_SetItemString(modules, "vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   /*--- Builtin init code ---*/
@@ -23652,7 +23652,7 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Enum, __pyx_t_4) < (0)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":7
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":7
  * from libcpp cimport bool
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -23665,14 +23665,14 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_4) < (0)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":11
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":11
  * 
  * 
  * def longest_common_subsequence (list s_1, list s_2) :             # <<<<<<<<<<<<<<
  * 
  *     tmp_1, tmp_2 = int_convert(s_1, s_2)
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_1longest_common_subsequence, 0, __pyx_mstate_global->__pyx_n_u_longest_common_subsequence, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_1longest_common_subsequence, 0, __pyx_mstate_global->__pyx_n_u_longest_common_subsequence, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -23680,14 +23680,14 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_longest_common_subsequence, __pyx_t_4) < (0)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":77
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":77
  * 
  * 
  * def smith_waterman (list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                     dict dict_chr_idx, double[:,:] sim_mat,
  *                     double del_c_base, double del_c,
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_3smith_waterman, 0, __pyx_mstate_global->__pyx_n_u_smith_waterman, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_3smith_waterman, 0, __pyx_mstate_global->__pyx_n_u_smith_waterman, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -23695,14 +23695,14 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_smith_waterman, __pyx_t_4) < (0)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":224
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":224
  * 
  * 
  * def int_convert(list s_1, list s_2):             # <<<<<<<<<<<<<<
  * 
  *     dict_str_int = dict()
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_5int_convert, 0, __pyx_mstate_global->__pyx_n_u_int_convert, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_5int_convert, 0, __pyx_mstate_global->__pyx_n_u_int_convert, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -23710,14 +23710,14 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_int_convert, __pyx_t_4) < (0)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":243
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":243
  * 
  * 
  * def int_convert_from_dict(list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                           dict dict_chr_idx):
  * 
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_7int_convert_from_dict, 0, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_7int_convert_from_dict, 0, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -23725,14 +23725,14 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_int_convert_from_dict, __pyx_t_4) < (0)) __PYX_ERR(0, 243, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":270
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":270
  * 
  * 
  * def character_generic_backtracking(list s_1, list s_2,             # <<<<<<<<<<<<<<
  *                                    double[:,:] d_mat, int[:,:,:] b_map,
  *                                    int n_1, int n_2):
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_22c_alignment_algorithms_9character_generic_backtracking, 0, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14vision_toolkit_3aoi_18common_subsequence_15local_alignment_22c_alignment_algorithms_9character_generic_backtracking, 0, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking, NULL, __pyx_mstate_global->__pyx_n_u_vision_toolkit_aoi_common_subseq, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -23740,7 +23740,7 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_character_generic_backtracking, __pyx_t_4) < (0)) __PYX_ERR(0, 270, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":1
+  /* "src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx":1
  * # distutils: language = c++             # <<<<<<<<<<<<<<
  * 
  * from libcpp.map cimport map
@@ -23758,7 +23758,7 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
   __Pyx_XDECREF(__pyx_t_5);
   if (__pyx_m) {
     if (__pyx_mstate->__pyx_d && stringtab_initialized) {
-      __Pyx_AddTraceback("init vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     #if !CYTHON_USE_MODULE_STATE
     Py_CLEAR(__pyx_m);
@@ -23772,7 +23772,7 @@ __Pyx_RefNannySetupContext("PyInit_c_alignment_algorithms", 0);
     }
     #endif
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithms");
+    PyErr_SetString(PyExc_ImportError, "init vision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -23885,25 +23885,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{2},{6},{35},{9},{30},{50},{8},{107},{20},{32},{22},{30},{37},{5},{8},{20},{8},{15},{1},{3},{15},{6},{5},{7},{18},{5},{4},{1},{6},{30},{9},{17},{18},{8},{4},{5},{5},{7},{5},{10},{8},{12},{12},{6},{5},{15},{6},{9},{5},{5},{6},{7},{8},{12},{2},{1},{3},{3},{2},{10},{5},{5},{11},{21},{4},{13},{5},{8},{2},{1},{3},{3},{2},{1},{3},{3},{3},{4},{2},{3},{5},{7},{26},{8},{7},{4},{10},{3},{3},{6},{5},{4},{8},{4},{7},{2},{5},{3},{9},{4},{3},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{3},{5},{3},{5},{5},{5},{12},{10},{12},{19},{5},{7},{10},{4},{14},{5},{4},{4},{4},{6},{4},{8},{3},{5},{5},{6},{13},{6},{3},{6},{99},{3},{3},{5},{3},{5},{3},{3},{1},{5},{927},{491},{219},{174},{138},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2306 bytes) */
-const char* const cstring = "BZh91AY&SY?C\261<\000\001\341\377\377\377\377\377\377\177\377\377\377\377\247\377\214\277\377\377\370@@@@@@@@@@@@@\000@\000`\t\037\036\2171\355u\316\307+\2352\024N\233l\336\273\000\243\274\tMB\223I\2104\364M=2f\210L\r6\246 A\2404\032\000\031\003C\320&L\231\014\217Q\241\351\006\204\t\243$\236\023D\312a\246\232C@\000\006\200\000h\000h\000\006\206\200\001\240\r\000IS\362I\243\322\r\032\006\206\206\215\001\240\320\000\323@\320\000\320\001\220i\211\265\030\232\000\022\232 B\000\231I\372\032)\246\322z\215\251\220\r\032\000\000\000\000\000\000\000\000\365\000\203\000\004\300\000L\000\000\000\000\000\000\000\000\000\000\000\000\022$$\321\204\223\320\320\000\320&S\321\036\246\203A\240z\200\000\000\000\006\200\000\311\351\006\225,Maci6\275\264\273\007`\032\016\310\037\3229\371\350Q\215\265#\265\317B\212*\211\003\222\355\020`\025d\210_\352\377\230\320\232m\264\330\301\214ba\nx\322T\254\301\333\020AV\204\311\254(\302\232\002h\252\270\316\nA\250\200\223\032\n\261d\013\231B\205\004]\204\210`\223\354\036\326C!\241\214\234\302\230\225\2620\220\205\204\274FpM\204\346\324\353\260X\0144Y\t\243`1L\302\226\033R\271\266&\320Y\263Ya|+\002\353\013\025\227\337\223\002U\275\305Z/J\362b\240\331yP\020\216\334%8\335\302\023\002x\033\300+\177\013\203He\205\322]\003\314\356\375\345\273\213\030\251\235\\h5+\240K \314\306:\210\345T\203P\0239)W\356+\010\254\327(\226\216\321\036/\353\013\260\324\273\355C\273V\021>\332\232\303ZCM8U\230\231\313\236/$\243.;\311\027f\217\356\263\\\267W\023\341d\361RY!<C\025\235g,\261[b\302\233\213hmn0\341\344\016@9\002m6\223\212P\320\311\371\360\322\202L\240q\231\311\235\003\204*M\212\214Tv\333\305\357i\260P\245`-\273\314\033\035\020t3Q\242k\367\216\355\331\024\266\003O\306C\025\232\3046.\2722\217\231uD*\005`\260\013\313\320?\301\331\311\320\207\t\232|\246HP( d]\320\212\000\250H\036\234\215\221\010w\001J#-\211\226\2160X\367\254\222\241^\001\234~M\255\000\274sw\021o\250\205\000\250!`I\303\033l\212\021\023\224C\212=\332\202\245!Q*\032F\251\373m[\272p_m\241h\201@b\225y\332""\226\362\374\360\200\200\022W&\233ar\305I\217\\W\244\257b\226\032\000\215X\343\232\022D\263\010\210\026\227\203Y?\247\264\302m6,\024 \317bz:\nf\271\263\345`\330\335%\334'Ol\334\352\001\0218f\\Rj\254\335\237N-7\336\207\204\022\346\342x\025\254\3375)\311J\214\004\026\000\206\035D\265\321\031]U\223!\305,\255\250\374z\2218h\347b\336\270\376\216]T\0169M\372\265\t\325\031^\242\234\302\326\325=\210D\202d\001\323P\333M&2.\013$r\032\317\201\032\245\302\364\220\214\340l\2061\333CJF\272xUYD\017\3402)\202\264>\014\023\201N|\342B\001\000\331*\025\351\243\210-\314\262\332Y\202\340\271l\t\026r\211\265^\236\210\361(w\232\225U7\300R:\346')0\314,\302\336\016\036>Re\002\224 \211*\0217%\3058\241\0048\322\350m\231|3p\3163u\202b\233&BcO<\204'\031\370*\311\303\227\230\016\3242u\224\024\206UR\331J\220f\024\366=\356'44\332d\375\034DU\273\321\272\372r\231H4\3357\246K}\336\221\215\014x\334\r\344\250\241\254\006\315\234\001\242\314&;\373\323\216\242\014\007%\254\342\305\301M\322\214\245M\332D\313\330\312uI\245\t\214\034vL\216\346\036\351\0204_l\355\234\014\346.?\367\002\026\247\337{\3263\301R\327\303F\266u\205&x\t\014h\356\341\245\021\314\355\266\324\005\242Z2\3020\022&\367C\332\366\352\265\337%[+\006\017j~\356D\371)\242&hVl\307\352&vY\263\345\322\023\353h\014\362D\316\242\350\302\022\236\274\261,\245\237#o\\nf.{j\266L\265\250m\313Y*\331\204\331f\301\330q\302\270\303omw\306@\3604VTd\013\365\3562rg\313!\2141\230\303\246h\005\365C\351J\333\200\334\013\016\353\2430\272\360\316\rXM\014%\250\307N\036\014X\327\007\351\276\022D\2150\305\3259RBT\311Vm9\032\273)C\007b[\215M1\002\020]\"x\262m\323\307N\232\276X\330\204%}\343\025\014\032U%\031\216n\006\234\223\303E\257\3435T(\261M\253\327\323\236\3217\303\024\345\236\317\322\215\004;\013\244k\2249\203V\010\347T%\314\306\030\226\313\334,\027\325\330-=\363\250\273\254t\016^\246\000\326\235\306\334\0304U\373\226\301V\002PU\246\323{\033\030\201\242T\026!W\032\021pS~7C\0236\371z\323\177E\246\312\347\274\307gHO\031\"$\330u\036$\374\334N4,\016[\315\\8\023\220B""\275\203\222\340\243\270PY\025\024\320^\356\235\262\rf.\256\342HHE'p\352\241p\326\021r\004\322Rh\316\266m&\262\347\005\254+\270\266\374b\3205\336j\203\240ZR\321\206\"\231b\350\014!%\212\234\304\203\000\2573\236\354\252\314;r\204\246` \261()K\223cb\331\323N`\226\351A\342\344\005s\006[u\220Q\030\304a\032\214L\327\321\225#e\2621\022\003<7\243\212\201\230\3449\020u\003\212I\365d\023\"r\034\334\354\300\323\r\315\240\322jK.\2324s\315CKDF~zt\272\333-\023\341\230JP\366\213\242EH\205\r\244<\335\233Q\243p\306m\316\346\301\026w\277J\243\316\222h\330\316\371\316<\274z\360\271$C\347%2\276\221\211a\230\t\342\343\212\356\025\022\227-4\023\301\225\352\212\374\231\207+\335\273K@\264\340\235\246\006[l\236\036\252d\230\326\364W}tVhl\006\300m\233&\341QV\243\312\233xA-\272\211H\312\237sRC\263q(U\276\372\006\271\304\023\273\t\253rU\214-J=S\311\t\r+9f#\016\336\350&\372\\\243ka\006\353\033\370\2336r3<\355\035\030\"\250\200\020NGy\341k\005\2578\272i\211\312s\346D\302\0214\257\213\345x\275%\331\346\016Ml\034\225\000\273\277,\"\034\322L\246\243\213\207pa\312\226\371\255\025\375\274\033\001h!w\020\272\0060\267\223\206\265\222d\014%\010\355\252\020\032\023\020\014\256T\211\223\204\301\247\2247\212\027\r\243\037&\274\311\003F[$\307\021\266sN\006oT_)]X\251\342\360\005j\323\220\230\271-f\272\364\324\322\\\\\272\376\306=\314j\327\023\032\227I\313Tp8\326\021\274\215=\200\331AP\021\342&m\351\205\240\265\235\231\230p\271\304\001)f\335\003\363z=\220\233\306\211\007\244\220\365\3520\203p\230-\204\3117\275\263\302gh\320q!\341h\037\335}\360\332f\354\320\035\003Xi\301DM\214\016\177\000\366\206\361\226o\243i\030=\000\203CV<.\022\007\330\304s$5q\343t\301\010\304\313,\010y\0062\217\201I\276l\2517\030\200\354\010\335\220\021\220u(\351\241S\376\016p\263qc7q\300\310_\210\336\241\221\263\245bM\2103\310\016\2148\265\362I%FO\254>\014\025SI)\365Z\327@qT \214\222\311\326\254\305B\275Ww\301\315\270\240\201\177\250\344\345U\002\310\252\261\035B\230\3443\364Z\2252\337\362\"\027\020y\017\233\246\372Q\331\230\310$\272""\347\030\267\203\307|\\M\2707\215\367\277\014a\202;\256\360\236\021\030\"r\212pg\210\240\2168\247\320\0345\003\250\346\204\342\310\214\341\006tA}>*\005j\305\006*O\211T(\204Q\005\022xi\305\020Nb\370\230\034\360\226^\005\231D\313\262\352Q\201\243rj\034\274|\363\030\2663f\227\037+\342o\037\0059$e\341$\251\356\177\016g\341\333\265\255\005\355C{C\331(\n\321\375r\340\222\207\265a\010E]\311IJ\252\034\206gu\020r\254\255$\301\203\240uX\022\304\204fn%\025\336T@9\203G#UD\203vff\225&94$#\224\210gf4\226\016\177\361w$S\205\t\003\364;\023\300";
-    PyObject *data = __Pyx_DecompressString(cstring, 2306, 2);
+    const struct { const unsigned int length: 10; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{2},{6},{35},{9},{30},{50},{8},{107},{20},{32},{22},{30},{37},{5},{8},{20},{8},{15},{1},{3},{15},{6},{5},{7},{18},{5},{4},{1},{6},{30},{9},{17},{18},{8},{4},{5},{5},{7},{5},{10},{8},{12},{12},{6},{5},{15},{6},{9},{5},{5},{6},{7},{8},{12},{2},{1},{3},{3},{2},{10},{5},{5},{11},{21},{4},{13},{5},{8},{2},{1},{3},{3},{2},{1},{3},{3},{3},{4},{2},{3},{5},{7},{26},{8},{7},{4},{10},{3},{3},{6},{5},{4},{8},{4},{7},{2},{5},{3},{9},{4},{3},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{3},{5},{3},{5},{5},{5},{12},{10},{12},{19},{5},{7},{10},{4},{14},{5},{4},{4},{4},{6},{4},{8},{3},{5},{5},{6},{13},{6},{3},{6},{76},{3},{3},{5},{3},{5},{3},{3},{1},{5},{927},{491},{219},{174},{138},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2318 bytes) */
+const char* const cstring = "BZh91AY&SY\252\223\335\035\000\001\341\177\377\377\377\377\377\177\377\377\377\377\247\377\214\277\377\377\370@@@@@@@@@@@@@\000@\000`\010\377z\235\274\354\352\324\204\2665\206\332\031\350\356\316\356\331\000`Jj\025G\352FF\232zjm&cD\3126\206\233S\0212\031\031\032\r\000\006\203!\351\014\203M\006\207\250\320\364\203\"\0011#\021\240\223\024\374SMOI\352z\200\000\320\000\r\000\r\000\000\320\320\0004\002*{E=S\365'\352\236\246\200b\031\031\003&M0#&##\t\240\r44\320\r\r\014\215\032`\231\000%4 \211\251\204\231\244\311\251\201\251\351\03144\003@\320\320\000\000\000\000\000\000\032\032\020`\000\230\000\t\200\000\000\000\000\000\000\000\000\000\000\000\002E\002\020\311)\370\212oM=#T\362OI\264\203\324\033P4\000\000\0004\036\240\3204\000i\352= \365(\2605c\033I\265\357%\310r\003A\374\201\375#\227\226d\330\333Q;<\263(\317W\200P\335Q\313\rr\007o\365\272\310L2d\222d\204\010C\023\010)cIN\262\256a\004\nf\221%b,M\001$R\270k\005`\333 %\215\222\314]\002\334\251R\2420\315$0K\356\217{\241\220\230B&B\230\266P`;\r\201\234cHJ\t\224\323|\303X\302\215xi\033\340X\321\"eBj\210\200\242\020'\301\0211j\231\201Y\211\231\333m\365%[\324\253E\311\\HS\033.(\004\021\315\004\245\r\333\002@J\246\363U`\370\325\013!H\013d\265\311\351\303j\350\334\005<\201\250\223\3272\022\200\033\303\220\204\r\322\201\341,\020\273\001\250(Y\366t\200\224\306\252\201P\212*$\217\255\r\263\"\373x\352\325\231 #Yj@\312\t\007\344\345ZJ\035]Q\211*4lbI\206\230\377-E\325\302\331>k\247\213\023\236\023\3041jZr\307\032\253\305\206\231\235\341z\337\r\276\000\340\003\200&\246\245\001\312*)\303\237\025(\222N$\004\240L\350\233aQ4T\"\242\n\375\356<\265\205\nU\020\257g\265\037^\230K\235\326x\236\366\264\323\246,k\202\177\033\356w=\312\216nk\270S\314\322\3020\007\021\210\031\263\20719MN\010\341\224\252\370Z\202\241YC\253\255ZT\013\n\203\217\253z)9\201\214(yP\364\362\206\217\275\245p\031\266\016\202|\235\255\300\374s\367\025\262\300\213\201\270\214B\332\r\t!\350;\314;\247\242\346T*\3205\031\250n\033\307\347\310\313\230p\347\313 \310\241\240\342\261""\275\016\266~\303\347\245\005\000\216h\365_M\030\262:\263U\275F}\214hx\002\270j\036hV\223\244D@\270\217\006\262\237Wm\232\215F.\025 \325r\233<\345C]\031\3640n\267f\273\264\351\357\247\231P\")\014\313\202Z\313OG\272\213\321\370\320\360\202yY<\n\371r\2661\357\326HTP\252\0070A\266\2246\313\346\200p\215&\330\273\274\222\257n\256J6M\257\364\226u\324A,Iu\360\026\262\266I\206\324\rk\331')*&\240Bw?#\313\235X\006\225\202\243S\300\256\026n\222\304\242Q\035L\251\235Qo\035\215\264\3031\251\377\002\0030\316\227\340\341h\027\364m\021 (\035\233)\233\252\260!\260v9\327\035\232\006\214\340E\251`\236\264\323\234X\263\254\346\355k+\204\243\375\006*!\007,nX\334\001\315\347tI(\024\240\343\303PyP\335\214\275\007\035>\346\256I\257\2779F\223\227\340\004\215(\221\331\025\\\346\024\264tva\301\273h\331\222\234\034\353\214P\341{\3547\204@\311:R\201\203\303\321\350\033\350X!M\336\205\267O\204\330 s\234\367\244G\236\356H\306\206<n\003y(L\320\006|\372Cf\354&:x\247\035D\031\207'Y\301\227\036\273\305YMw\253\0241cA\305M0\230\314\343\262dw\220\370I\003F7\324\332\200\324e\315\353f!m\276\373\356\312\\\350n-f\272\355\266\326K\205\353)\351J\023gz%\304\236HE\337a7A\002E\036LX\330t\343cR\021H\2015\213\377u\014wd\373\330\341zD\345\037\250B\2452\335\223\000S\206\254\303\312(t\227B\020\2255\350\211\320]\363\267\033\003kI\203\337n\371\364]\235'\035\tV\313\r,\274\344p\337]\020\334\334]3 xZ\353a\031\002\355\253L\235,\261\310c\014f0\356\214\301u \373\230\342\265-K\t\336t$\026\334\032\301\263\004\332\006\365\313i\267\247\025\257Och$\311\031b\213*;-\261\272]P\262\334\252\317J\030`\211fT\313\030\214ad\211\342\272\374\273\364\351\274\022\265\021cx0\010\2500\251TJ:\303d\306\026\272w\306\3161\236\005\351G\030r?\210\261\313:9\267Ey\231xb\220\234\303\026\261\314\315h#\231`\235\315\200\311n\342\341v\306\316\005\351\276t\227{\261P\350\366\366\0164\332n@\253]]\253\024\nTF\0059\3157}\370\001\2423\026\004W\034\214\260)\265\033\301\2236\371\212\342c\320(\313\007\304\330\273\244'\214\361\022\331\272O\022\374\254\234hY\216\256&""\337#1I\010X\260s\360\n\273\205E\235UQ\006.\351\333;\027c\013m$\204\204V\230\016\254\030\rq\030&M*Z5.>D\266\275!\222\013\354\031g\3206\321\276\271u\rFE2\020bS[\3548`\020\330\323\250@@\033FT\334\307\355\tLK\032 \024L\225\016uJ D\007\232\373\366\2134\232Hh\240\3150\354\360\306\214(8\220+\325\313\317\225\3341}\230\326\242!\023u\244r8\r\243\224d0X\n\217e\232\360\200\350<PP\273\2112\n\023\303\0013\333\2211\211r\214\023FpF\030\024ui:\002\234m,b\247\010\252\260<\205*\210\210\025\312Nq~aQ\277r\215A\004Ul\301\036\256{K5\005[\207\036N<g$ET\363\226\373%x\342hv\303!\242\007N\346\0266\313\3562\010u\340w\243\265,\224;\265\310\016\225\r\240\202\nQ\216\317\0052,kz\025\335\\\326\034\327\205\341\270i5\024)\235\3545\240a+\365\311I\241>\326\332C\263p(V\307\032\266\272D\024\3035\025\371\366c5\353W\262yB@\266*\"C'\335I\201\313\202\207\234HC\254\216u\016[\205g$\310\227l\253*\000QiMr\rh<\211XNf\014\204\246\253\270*\3657\206\361\3265\215_\356P\250l\002\252\001/\020\266\210q\310\2455\034l[\303\026V\013\360\332<K\2705%\246\211\224\311\201\306%\316\304\277\202\205\346\352\305o\016S\021\324\302\202y\260B\326\2520\224{g\024KF\321\217\245\265\" \230\327\232\020\235\371'R\\G\005L\361\033\027\032\235>\020\273W\004\306\242\373\357\274{\336\272\336\275\265\346cY\215\213Bc^\3759l\016\007\036\261\033\210\325\366\206\312\n\340\216\331\243\257\357\205\007\326\207\027\021\330\204\t\003y\316\276\243\223d\212c^\273&{\244\342\376\003|>\363@\376\246\233\\k\306\r\036a\346\300\234B\201\376}?\230}\251yz\210H\353\013HQ\023c\203\237\272=\241\270f\0374{\221O\224\020hlI\313\373\220>\245G2CZ\0367<\020\212\231\205\261\017 \306Y\351*\267\301\225V\337\020\032B6\370\001!\007U\222\262\025o\340\347\0137\032Co \014\225\370\221\352\031;>;q[\203<\200\351\003{\331\224DWd\373#\340\301a4En\203]i\216,\004\021\224\\:6X\256Z\260\356\3009\276*\010\027\372\216V]\200.\n\303\022W+\016C?Q\252\326.\367\0079\252\006\222\351d\252\256\267\001\016\036\333F0\324\203ET\250\222qH\246\251\271\010)\216\321xO\010\312br\216ph\010\240\215\370\347""\320\0345\003=\315\t\305\301\031\302\014\350\302l\370\350\026l\224\030\257>5\\\242\021\306\024I\341\253\034a9\211\246\020L\014\023\000.J0\245\227\362\212Z\227\306\271{\221\240c\23437\014\274\332\232a\357\356\326\210\220\300\"\"5\277N/\247\315\232\327O1j\234m\227\272P\026\253\373\006\001*\036\366\204!\026\245\032\032\033\013\253\0234\244\025V\211\211\263I%\034\244EKK;$\250Y\342\224\264\025\025\252\236\214\242\035\352\251336\206\225d\354\354\254\365\254\322e=\244\242\377\305\334\221N\024$*\244\367G@";
+    PyObject *data = __Pyx_DecompressString(cstring, 2318, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (2151 bytes) */
-const char* const cstring = "x\332\275U\315s\333\306\0257\035\312\221c6\026\365a\313\216\223Y:Vh71mJJc\247\256SJ\376\030\315\264\211i\325\311\241\235\331Y\002K\n&\270\000\261\013\212L/>\342\210#\2168\342\310#\217>\372\230#\216\374\023\374'\364\275\005(Q\376j;\235\351\014\271x\273\330\335\367\336\357\375~\017\337\223\206m\023\323\352q!-GH\342z\334\340\246%:\307\213d\303$=_*\322\342\304\022&\037r\2230a\022\341(\"m\013\266\357\370\3556\367\310\300\342\207\304t\270\324\257\370\320u$'Ry\226\311\345.\023\304\021\366\210\030\036g\212\023FZ\331!u\300\024\261$1\034\241\254\216\357\370\022\234\220\036\3579\336\250\006\247\360*&\245\325\021D9\004\016\2337\365=\331\016t\231o\312/>\364,\305Z6\3177dA\265=\247\367\241\263:-rh\251\003\242F.'\325|]yLH\235\306\361\221l\033\234\260\000*5\207\335\203y\300\254\014\204l\323\303\236\253FD\0360\270Z\371.\004\327v<b\214\324\201#j\314\363\330hO\007\340\370\2128m\322r|aJr\235\r\341\226\r\363\306\336\333\2762\360}\327u<\305\315=1`\266\005UrL\376\r\002\017\233\241HU\243J\300O\025\234a\"\325oH\007N\3156g\341\000\326\332\315\275\277\352\004\177\306\004!\204\037\035\200R\227fWG\211\371\230\334\266Z\334\003\220\001B,+8\321\365\023\344\311\303'7\267\357lkZx\3749\270\227\020]\313\260\241r@\007\314\311\267l\005\316\020^Y#{m2r|\"8\204\teua\337\374\001u\300\005\221\\\241A\252\272\026LA\336\024\216\0037\2539\256\326\200\343\351G\314\226\274\366\323\t\360 \344\234`\3140\270\234\241\271\257\270Kzl\244\361\003>\377\312=\347\030\350gB3\007\256\0046\016\270\007\304P\274\207s\247\205I\325\356Wo\374\300L\223\n\204\007\223%\200\320\355\241\341\3306\206\003\205\251\261\226qo\216\313\270)\013\366\376\233\3133\n\3357-\211~\271\366\3361\310u,SG\263\0073@1\362\241\342Bii\034\353\322\222\331\021\023\243\224\326\257\234\334\373\023\271\375\026\267\204\003\245k3\337V\204R\217\233\276\301)%\246\257\023\025\216\270\t\245\034X\314\206\267\206%,\005/\263t\357K\317\2705\260\244\006\336q\354\256\245n1\307\272e8\275\036,A\275$\357\373\\\030\374\226\355\030\314\246\300\253\216\200\350\324-\343\330\006\253""\343\200(\017z\362=\3135w4\274\227\365\t\363\004`o\257!\237\217p;\361\376h\325?*\"\2631,\254\024\302@L\246X\355\035o3!\340\035y\257\2525\366w\367\366\036\332\266\345JKR\372d4\204\377\003\340;\375\021\n\361\224\267\367\363\274Q.\265c\345P(\376\354Z\232\321\217y\235\036\033\352\000\230\314\037#aXN\315p<\320\273%\270l\321\036s[Lr\303\240&x1\016\230\307P\\\264\303\005\324\337\240-ftA\302F\027\270\000UB\225P:3:\\!\001p\n\267Q\013\212\005[9\236\231U\312p\334\221\001\302P&\270\312\006\352\202\236\251\241\007\212\316\251\366\235\217\306\201G-s\250m@\005.U\246\343#\327P\300z\240\000M\306\023@\002\032\017\027~Ow\007\356y\216\327\266YG\002\023\301S\336~(m\373\302\300\260!`\251\020\"jQ\313\242=\213\n\313\204I\017\273\031<\261\027\202\303\255M\030h\256\3049\223b7\327a\302\242\201a\034A\231\t!W\303s\372\3749\355=\247\242K\273]\332\353R\331\345#\370I\233\332T\332\206\244vF\333\201\355\210\016\227\350\340MbS\200\n\000\245\320\376\261\367c\203\205\211c\3726<\005\255\013\272)t(\202\302\315\202\365p9\033A\2470\002)\250p\001\032w\004`9\256\312\024\340Bq\\\307\245\024\250\017`s\243+\375^6\313\241AS\303\254-_\270\226\321\005\247\017\305l\337@\177\346\020\317\276\317\354\314\351\261\276\217\254\254\023\314-\360!\232\035K\002\301$\255\303\217\002\024\233\360\303\247\244\267q\250S\n\3557O\005\254\274\201h;\017p\316\236\371\320J\222\2207T\035\037\207\334\352\250\003\254\205\354\201\322\351!l\006F\0108\345\301Q\356J\345\270H/\370\373\360\3158\204\302P\205\225\240\n>\231=\227\326q\330\3645^\276\360\330\000\350\252\371\341\273 g\016_2\370\371\\\236\354R5\350R\265\267\213Y{\243K\325\336\323\216\336\275|H\255C\332\205\037\30581Tx\302O\r\361#\"_\024^\177rj\241\024|\027\336\370\355\263\333\343\302xm\314\322\372fZ\\\217\nzx}\346\324B%.%\215\244\211\346j\270\025\262\260\237\026W2\003\327\276\210\236F\203\370i,\223J\262\225\030\343\362\370\332\270=\331\2310|\371y\264\023\265\343\235\330L\256&\273\211\032o\216\367'\205t\343\353d3iN\213ka3\305aZ\274\020\262\024\207\334\002\317\363\326rXIq\230\267V\302:""\206Q\007/\237\234K\027K\301\243\360\253\250\020\255D\273Q?.\244\245\245\360L\330\216\032\321~\374Q\\\217\033\323\245\013!\217\352\020\016\213d|5n\304\373\311\351\344\353\361\323\361\341\204M\006/\233/\371\253\372\253\235W\354U?\375\341\341\211\351\322zt:\252D\365#\003\\\226/\001@K\253\341\243\350\253\270\020\257@\206,\356\247\253\227\243\r\360~:\256\304\333\261\0024\272\223\345\311\346\2449a\351\352\305PE[\021K\327\tD\267\376\005XK+\341\037\242e\270\027\216U\322\325+:\266>\032\215\177\347\241\250\247\377\275\207\306\221\233\327\213\247\312\253\341v\350E\345\223o\001)\250Hh\242\33347\257E<\256\237\230`m\317\007\255p\021 /O\213g\203\013\201\027~\241s\257&\345\344\367\343\307\023\275g=<\004o>\340_\274\034U\343r\274\021\367\247\305\363\301?\341\032\250\356bp:\330\010\372aa\316\304c\347\202\353\341\325\260\221.~\032\360\260\036\356\206\022\"\234\237L\027\317\005\333\201\014+\260\320HK\347\003\225\021\022\330\262t)\272\250\021\303\022\027 \230J\262\235\310qe\\\0377\306M,\342\307\020'\222b7\356\353\r\3274k\365\206\243{\323\3222D\260\003\024\004&-\204\317\240\356[\221\001\tT\3229\007\317\222/\223f\302\222\376\270\360\341\223,}gX}$n#\037\226\303jT\216\276\214@\016\347\202\357\303\277\307\205\027\0054\357\204\177\3140<\226\345t&\300#%N\213\237\277O\207\323\342\225\017\2500}\247\n\217u\006\323\267$\366\000)\236\226\312a9\274\026\032\321Z\324\202\314\312\363\013l:'@\315V$\343\026\274\003\272]\322i\376-^\203\325\271I\013a\231\302\266o\301\t\260\026\224,\221/\240\323JR\237\027\327\226\336\273\222\354$\371\005\327 \275\30647M8\344!\300\351\233\013\220\310\332gs\267\260\223\252\233\236PW?S\324f\324\314\304\224\311\212\350\243\365\351\261\333y/\375\023\223i\361\323\300\376\355\362\235Ia\262\006\002\275\373\347\227\205\364\356},\310z\264\0205QGs\245\006E.,\315\204\361\361\013\025|;\323\302\325`\027\324\265\002\234B\370\336\253\211\364\275\232H\3777M\274\233\272\323\322Z\370\213\256o\001\212g\350\345z\202\255\353l\t\342\360\303F\226\\3Km\0359\272\030|\004t\276\013\247\376\221\254A""\361\026W\303\307\200\360\317YC\371]\260\023\264Q\365g\203+\320j\214#$}\370\376\354\303\327I'\337\n\201\376\245\377t+\336\273\034\226\261\277,\004\277\204\177\211\317@\325\027\227\302\022\304\320\304=\235\360)\366(\214\365;\024 j\356\"\nk\026\353\343\034\225\242\246\333\377'b\374\"W~\372\027\355c\212\026";
-    PyObject *data = __Pyx_DecompressString(cstring, 2151, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (2149 bytes) */
+const char* const cstring = "x\332\275U\315s\333\306\0257\035\312\221c6\026\365a\313\216\223Y:Vh71mJJc\247\256SJ\376\030\315\264\211i\325\311\241\235\331Y\002K\n&\270\000\261\013\212L/>\342\210#\2168\342\310#\217>\372\230#\216\374\023\374'\364\275\005(Q\376j;\235\351\014\271x\273\330\335\367\336\357\375~\017\337\223\206m\023\323\352q!-GH\342z\334\340\246%:\307\213d\303$=_*\322\342\304\022&\037r\2230a\022\341(\"m\013\266\357\370\3556\367\310\300\342\207\304t\270\324\257\370\320u$'Ry\226\311\345.\023\304\021\366\210\030\036g\212\023FZ\331!u\300\024\261$1\034\241\254\216\357\370\022\234\220\036\3579\336\250\006\247\360*&\245\325\021D9\004\016\2337\365=\331\016t\231o\312/>\364,\305Z6\3177dA\265=\247\367\241\263:-rh\251\003\242F.'\325|]yLH\235\306\361\221l\033\234\260\000*5\207\335\203y\300\254\014\204l\323\303\236\253FD\0360\270Z\371.\004\327v<b\214\324\201#j\314\363\330hO\007\340\370\2128m\322r|aJr\235\r\341\226\r\363\306\336\333\2762\360}\327u<\305\315=1`\266\005UrL\376\r\002\017\233\241HU\243J\300O\025\234a\"\325oH\007N\3156g\341\000\326\332\315\275\277\352\004\177\306\004!\204\037\035\200R\227fWG\211\371\230\334\266Z\334\003\220\001B,+8\321\365\023\344\311\303'7\267\357lkZx\3749\270\227\020]\313\260\241r@\007\314\311\267l\005\316\020^Y#{m2r|\"8\204\teua\337\374\001u\300\005\221\\\241A\252\272\026LA\336\024\216\0037\2539\256\326\200\343\351G\314\226\274\366\323\t\360 \344\234`\3140\270\234\241\271\257\270Kzl\244\361\003>\377\312=\347\030\350gB3\007\256\0046\016\270\007\304P\274\207s\247\205I\325\356Wo\374\300L\223\n\204\007\223%\200\320\355\241\341\3306\206\003\205\251\261\226qo\216\313\270)\013\366\376\233\3133\n\3357-\211~\271\366\3361\310u,SG\263\0073@1\362\241\342Bii\034\353\322\222\331\021\023\243\224\326\257\234\334\373\023\271\375\026\267\204\003\245k3\337V\204R\217\233\276\301)%\246\257\023\025\216\270\t\245\034X\314\206\267\206%,\005/\263t\357K\317\2705\260\244\006\336q\354\256\245n1\307\272e8\275\036,A\275$\357\373\\\030\374\226\355\030\314\246\300\253\216\200\350\324-\343\330\006\253""\343\200(\017z\362=\3135w4\274\227\365\t\363\004`o\257!\237\217p;\361\376h\325?*\"\2631,\254\024\302@L\246X\355\035o3!\340\035y\257\2525\366w\367\366\036\332\266\345JKR\372d4\204\377\003\340;\375\021\n\361\224\267\367\363\274Q.\265c\345P(\376\354Z\232\321\217y\235\036\033\352\000\230\314\037#aXN\315p<\320\273%\270l\321\036s[Lr\303\240&x1\016\230\307P\\\264\303\005\324\337\240-ftA\302F\027\270\000UB\225P:3:\\!\001p\n\267Q\013\212\005[9\236\231U\312p\334\221\001\302P&\270\312\006\352\202\236\251\241\007\212\316\251\366\235\217\306\201G-s\250m@\005.U\246\343#\327P\300z\240\000M\306\023@\002\032\017\027~Ow\007\356y\216\327\266YG\002\023\301S\336~(m\373\302\300\260!`\251\020\"jQ\313\242=\213\n\313\204I\017\273\031<\261\027\202\303\255M\030h\256\3049\223b7\327a\302\242\201a\034A\231\t!W\303s\372\3749\355=\247\242K\273]\332\353R\331\345#\370I\233\332T\332\206\244vF\333\201\355\210\016\227\350\340MbS\200\n\000\245\320\376\261\367c\203\205\211c\3726<\005\255\013\272)t(\202\302\315\202\365p9\033A\2470\002)\250p\001\032w\004`9\256\312\024\340Bq\\\307\245\024\250\017`s\243+\375^6\313\241AS\303\254-_\270\226\321\005\247\017\305l\337@\177\346\020\317\276\317\354\314\351\261\276\217\254\254\023\314-\360!\232\035K\002\301$\255\303\217\002\024\233\360\303\247\244\267q\250S\n\3557O\005\254\274\201h;\017p\316\236\371\320J\222\2207T\035\037\207\334\352\250\003\254\205\354\201\322\351!l\006F\0108\345\301Q\356J\345\270H/\370\373\360\3158\204\302P\205\225\240\n>\231=\227\326q\330\3645^\276\360\330\000\350\252\371\341\273 g\016_2\370\371\\\236\354R5\350R\265\267\213Y{\243K\325\336\335\216\016\251uH\273\360\243\030\020\306\004O\370\251!~-\344\213\302\353ON-\224\202\357\302\033\277}v{\\\030\257\215YZ\337L\213\353QA\017\257\317\234Z\250\304\245\244\2214\321\\\r\267B\026\366\323\342Jf\340\332\027\321\323h\020?\215eRI\266\022c\\\036_\033\267';\023\206/?\217v\242v\274\023\233\311\325d7Q\343\315\361\376\244\220n|\235l&\315iq-l\2468L\213\027B\226\342\220[\340y\336Z\016+)\016\363\326JX\3070\352""\340\345\223s\351b)x\024~\025\025\242\225h7\352\307\205\264\264\024\236\t\333Q#\332\217?\212\353qc\272t!\344Q\035\302a\221\214\257\306\215x?9\235|=~:>\234\260\311\340e\363%\177U\177\265\363\212\275\352\247?<<1]Z\217NG\225\250~d\200\313\362%\000hi5|\024}\025\027\342\025\310\220\305\375t\365r\264\001\336O\307\225x;V\200Fw\262<\331\2344',]\275\030\252h+b\351:\201\350\326\277\000ki%\374C\264\014\367\302\261J\272zE\307\326G\243\361\357<\024\365\364\277\367\3208r\363z\361Ty5\334\016\275\250|\362- \005\025\tMt\233\346\346\265\210\307\365\023\023\254\355\371\240\025.\002\344\345i\361lp!\360\302/t\356\325\244\234\374~\374x\242\367\254\207\207\340\315\007\374\213\227\243j\\\2167\342\376\264x>\370'\\\003\325]\014N\007\033A?,\314\231x\354\\p=\274\0326\322\305O\003\036\326\303\335PB\204\363\223\351\342\271`;\220a\005\026\032i\351|\2402B\002[\226.E\0275bX\342\002\004SI\266\0239\256\214\353\343\306\270\211E\374\030\342DR\354\306}\275\341\232f\255\336ptoZZ\206\010v\200\202\300\244\205\360\031\324}+2 \201J:\347\340Y\362e\322LX\322\037\027>|\222\245\357\014\253\217\304m\344\303rX\215\312\321\227\021\310\341\\\360}\370\367\270\360\242\200\346\235\360\217\031\206\307\262\234\316\004x\244\304i\361\363\367\351pZ\274\362\001\025\246\357T\341\261\316`\372\226\304\036 \305\323R9,\207\327B#Z\213Z\220Yy~\201M\347\004\250\331\212d\334\202w@\267K:\315\277\305k\260:7i!,S\330\366-8\001\326\202\222%\362\005tZI\352\363\342\332\322{W\222\235$\277\340\032\244\327\230\346\246\t\207<\0048}s\001\022Y\373l\356\026vRu\323\023\352\352g\212\332\214\232\231\2302Y\021}\264>=v;\357\245\177b2-~\032\330\277]\2763)L\326@\240w\377\374\262\220\336\275\217\005Y\217\026\242&\352h\256\324\240\310\205\245\2310>~\241\202ogZ\270\032\354\202\272V\200S\010\337{5\221\276W\023\351\377\246\211wSwZZ\013\177\321\365-@\361\014\275\\O\260u\235-A\034~\330\310\222kf\251\255#G\027\203\217\200\316w\341\324?\2225(\336\342j\370\030\020\3769k(\277\013v\2026\252\376lp\005Z\215q\204\244\017\337\237}\370:\351\344[!\320\277\364\237n\305{""\227\3032\366\227\205\340\227\360/\361\031\250\372\342RX\202\030\232\270\247\023>\305\036\205\261~\207\002D\315]Da\315b}\234\243R\324t\373\377D\214_\344\312O\377\002\360\204\200\316";
+    PyObject *data = __Pyx_DecompressString(cstring, 2149, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (4328 bytes) */
-const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenablegc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__ object>src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx<strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryView_abcallocate_bufferargmaxarrayasarrayasyncio.coroutinesb_mapbasecc_dictcharacter_generic_backtracking__class____class_getitem__cline_in_tracebackcommon_scopycountd_matd_mat_pdel_cdel_c_base__dict__dict_chr_idxdict_str_intdoubledtypedtype_is_objectencodeenumerateerrorflagsformatfortran__func____getstate__i_ii_mi_nid__import__indexint32int_convertint_convert_from_dictintc_is_coroutineitemsitemsizej_jj_mj_nk_kk_mk_skeykeysl_l_slcs_llocal_vlongest_common_subsequence__main__memviewmode__module__n_1n_2n_dictn_keyname__name__ndim__new__npnumpyobjopt_alignpackpop__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname___""_reduce____reduce_cython____reduce_ex__registers_1s_1_cs_2s_2_cs_s_0s_s_1__set_name__setdefault__setstate____setstate_cython__shapesim_matsim_weigthsizesmith_watermanstartstepstopstr_structsw_l__test__tmptmp_1tmp_2unpackunravel_indexupdatevalvaluesvision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithms.c_alignment_algorithmsw_iw_kw_k_sw_lw_l_sw_sw_txzeros\200\001\360\n\000\005\014\2107\220)\320\0330\260\001\260\025\260a\33012\330\004\030\230\001\330\004\030\230\001\360\006\000\005!\240\014\250A\250Q\360\006\000\005\024\2203\220a\220q\330\004\023\2203\220a\220q\360\006\000\005\036\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\340\004\025\220Q\330\004\025\220Q\340\004\026\220a\330\004\026\220a\340\004\026\220a\330\004\030\230\001\340\004\026\220a\330\004\030\230\001\340\004\022\220!\330\004\022\220!\340\004\022\220!\330\004\022\220!\340\004\023\2201\330\004\023\2201\360\006\000\n\013\330\010\014\210F\220&\230\001\230\023\230C\230q\240\001\330\014\020\220\006\220f\230A\230S\240\003\2401\240A\340\020\026\220e\2301\230B\230a\230s\240\"\240A\240S\250\002\250+\260R\260w\270a\270v\300Q\300e\3101\310B\310a\310q\330?E\300Q\300e\3101\310B\310a\310q\330\020\030\230\002\230!\2301\330\020\030\230\002\230!\2301\360\006\000\021\031\230\001\330\020\024\220F\230&\240\001\240\023\240B\240a\240q\330\024\032\230%\230q\240\002\240!\2404\240t\2503\250k\270\022\2702\270Q\270a\330\024\027\220t\2303\230a\330\030 \240\001\330\030\036\230a\330\020\023\2206\230\022\2301\330\024\032\230!\330\024\034\230B\230a\230q\330\024\034\230A\360\006\000\021\031\230\001\330\020\024\220F\230&\240\001\240\023\240B\240a\240q\330\024\032\230%\230q\240\004\240B\240a\240t\2503\250k\270\022\2702\270Q\270a\330\024\027\220t\2303\230a\330\030 \240\001\330\030\036\230a\330\020\023\2206\230\022\2301\330\024\032\230!\330\024\034\230A\330\024\034\230B\230a\230q\360\010\000\021\024\2204\220r\230""\021\330\024\032\230!\330\024\034\230A\330\024\034\230A\340\020\025\220Q\220d\230&\240\001\330\020\025\220Q\220d\230$\230e\2401\330\020\025\220Q\220d\230$\230e\2401\360\006\000\005\017\210b\220\010\230\001\230\021\340\004\t\210\026\210r\220\036\230q\240\002\240'\250\021\250*\260G\2701\360\006\000\005\030\220w\230a\230u\240A\340\004\032\230'\240\021\240%\240q\340\004\017\210{\230$\230a\330\004\010\210\002\210%\210q\220\001\330\004\010\210\002\210%\210q\220\001\360\006\000\005\013\210(\220\"\220A\330\010\016\210e\2201\220C\220s\230!\330\010\016\210e\2201\220C\220s\230!\340\010\013\2104\210s\220!\2201\220A\330\014\017\210t\2203\220a\220q\230\001\340\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250s\260!\2601\260A\260Q\330\020\030\230\007\230q\240\003\2401\240C\240q\250\001\250\021\250$\250c\260\021\260!\2601\260A\340\010\013\2104\210s\220!\330\014\022\220\"\220B\220a\330\014\020\220\005\220U\230!\2303\230c\240\021\240!\330\020\031\230\027\240\001\240\023\240A\240U\250#\250Q\250a\250q\260\001\340\010\013\2104\210s\220!\330\014\022\220\"\220B\220a\330\014\020\220\005\220U\230!\2303\230a\330\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250q\330\010\014\210A\330\010\014\210A\330\010\022\220'\230\021\230#\230Q\340\004\013\210:\220[\240\001\200\001\340\004\013\2108\220;\230a\230u\240A\330\004\030\230\001\330\004\030\230\001\340\004\023\2203\220a\220q\330\004\023\2203\220a\220q\340\004\035\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\340\004\034\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\330\004\025\220Q\330\004\025\220Q\340\004\026\220a\330\004\026\220a\340\004\022\220!\330\004\022\220!\340\004\026\220a\360\006\000\n\013\330\010\014\210F\220&\230\001\230\023\230D\240\002\240!\330\014\021\220\021\220$\220c\230\025\230b\240\001\240\021\330\014\021\220\021\220$\220c\230\025\230a\340\014\020\220\006\220f\230A\230S\240\004\240B\240a\330\020\023\2203\220c\230\021\330\024\031\230\021\230#""\230T\240\025\240a\330\024\031\230\021\230#\230T\240\025\240b\250\001\250\021\340\020\023\2205\230\001\230\022\2301\230C\230s\240%\240q\250\002\250!\2501\330\024\032\230%\230q\240\002\240!\2403\240b\250\001\250\023\250B\250a\330\024\031\230\021\230$\230f\240A\340\024\031\230\021\230$\230d\240%\240r\250\021\250!\330\024\031\230\021\230$\230d\240%\240r\250\021\250!\360\006\000\025\033\230%\230q\240\002\240!\2403\240a\330\024\034\230B\230a\230q\330\024\034\230A\340\024\032\230%\230q\240\004\240B\240a\240q\330\024\027\220t\2302\230Q\330\030\036\230a\330\030 \240\001\330\030 \240\002\240!\2401\340\024\031\230\021\230$\230f\240A\330\024\031\230\021\230$\230d\240%\240q\330\024\031\230\021\230$\230d\240%\240q\340\004\016\210l\320\0328\270\001\270\025\270a\3309@\300\001\3309>\270a\340\004\030\230\005\230Q\230e\2401\340\004\013\210:\220[\240\001\200\001\360\010\000\005\020\210{\230$\230a\330\004\007\200t\2105\220\001\360\006\000\005\013\210\"\210C\210r\220\023\220B\220c\230\021\330\010\016\210e\2201\220C\220s\230!\330\010\016\210e\2201\220C\220s\230!\330\010\013\2104\210s\220!\2201\220A\330\014\017\210t\2203\220a\220q\230\001\330\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250s\260!\2601\260A\260Q\330\020\030\230\007\230q\240\003\2401\240C\240q\250\001\250\021\250$\250c\260\021\260!\2601\260A\340\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250q\340\014\025\220W\230A\230S\240\001\240\025\240c\250\021\250!\2501\250A\360\006\000\t\014\2104\210u\220A\340\004\013\210:\220Q\200\001\360\010\000\005\030\220q\340\004\010\210\003\2108\2209\230A\230\\\250\025\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\022\220\021\330\004\010\210\005\210W\220L\240\006\240a\330""\010\020\220\014\230A\230Q\330\010\016\210g\220R\220w\230a\340\004\013\2107\220'\230\021\200\001\340\004\027\220q\330\004\010\210\003\2108\2209\230G\2401\240C\240q\250\004\250B\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\014\2107\220!O";
+    #else /* compression: none (4305 bytes) */
+const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenablegc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__ object>src/vision_toolkit/aoi/common_subsequence/local_alignment/c_alignment_algorithms/c_alignment_algorithms.pyx<strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryView_abcallocate_bufferargmaxarrayasarrayasyncio.coroutinesb_mapbasecc_dictcharacter_generic_backtracking__class____class_getitem__cline_in_tracebackcommon_scopycountd_matd_mat_pdel_cdel_c_base__dict__dict_chr_idxdict_str_intdoubledtypedtype_is_objectencodeenumerateerrorflagsformatfortran__func____getstate__i_ii_mi_nid__import__indexint32int_convertint_convert_from_dictintc_is_coroutineitemsitemsizej_jj_mj_nk_kk_mk_skeykeysl_l_slcs_llocal_vlongest_common_subsequence__main__memviewmode__module__n_1n_2n_dictn_keyname__name__ndim__new__npnumpyobjopt_alignpackpop__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname___""_reduce____reduce_cython____reduce_ex__registers_1s_1_cs_2s_2_cs_s_0s_s_1__set_name__setdefault__setstate____setstate_cython__shapesim_matsim_weigthsizesmith_watermanstartstepstopstr_structsw_l__test__tmptmp_1tmp_2unpackunravel_indexupdatevalvaluesvision_toolkit.aoi.common_subsequence.local_alignment.c_alignment_algorithmsw_iw_kw_k_sw_lw_l_sw_sw_txzeros\200\001\360\n\000\005\014\2107\220)\320\0330\260\001\260\025\260a\33012\330\004\030\230\001\330\004\030\230\001\360\006\000\005!\240\014\250A\250Q\360\006\000\005\024\2203\220a\220q\330\004\023\2203\220a\220q\360\006\000\005\036\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\360\006\000\005\035\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\340\004\025\220Q\330\004\025\220Q\340\004\026\220a\330\004\026\220a\340\004\026\220a\330\004\030\230\001\340\004\026\220a\330\004\030\230\001\340\004\022\220!\330\004\022\220!\340\004\022\220!\330\004\022\220!\340\004\023\2201\330\004\023\2201\360\006\000\n\013\330\010\014\210F\220&\230\001\230\023\230C\230q\240\001\330\014\020\220\006\220f\230A\230S\240\003\2401\240A\340\020\026\220e\2301\230B\230a\230s\240\"\240A\240S\250\002\250+\260R\260w\270a\270v\300Q\300e\3101\310B\310a\310q\330?E\300Q\300e\3101\310B\310a\310q\330\020\030\230\002\230!\2301\330\020\030\230\002\230!\2301\360\006\000\021\031\230\001\330\020\024\220F\230&\240\001\240\023\240B\240a\240q\330\024\032\230%\230q\240\002\240!\2404\240t\2503\250k\270\022\2702\270Q\270a\330\024\027\220t\2303\230a\330\030 \240\001\330\030\036\230a\330\020\023\2206\230\022\2301\330\024\032\230!\330\024\034\230B\230a\230q\330\024\034\230A\360\006\000\021\031\230\001\330\020\024\220F\230&\240\001\240\023\240B\240a\240q\330\024\032\230%\230q\240\004\240B\240a\240t\2503\250k\270\022\2702\270Q\270a\330\024\027\220t\2303\230a\330\030 \240\001\330\030\036\230a\330\020\023\2206\230\022\2301\330\024\032\230!\330\024\034\230A\330\024\034\230B\230a\230q\360\010\000\021\024\2204\220r\230\021\330\024\032\230!""\330\024\034\230A\330\024\034\230A\340\020\025\220Q\220d\230&\240\001\330\020\025\220Q\220d\230$\230e\2401\330\020\025\220Q\220d\230$\230e\2401\360\006\000\005\017\210b\220\010\230\001\230\021\340\004\t\210\026\210r\220\036\230q\240\002\240'\250\021\250*\260G\2701\360\006\000\005\030\220w\230a\230u\240A\340\004\032\230'\240\021\240%\240q\340\004\017\210{\230$\230a\330\004\010\210\002\210%\210q\220\001\330\004\010\210\002\210%\210q\220\001\360\006\000\005\013\210(\220\"\220A\330\010\016\210e\2201\220C\220s\230!\330\010\016\210e\2201\220C\220s\230!\340\010\013\2104\210s\220!\2201\220A\330\014\017\210t\2203\220a\220q\230\001\340\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250s\260!\2601\260A\260Q\330\020\030\230\007\230q\240\003\2401\240C\240q\250\001\250\021\250$\250c\260\021\260!\2601\260A\340\010\013\2104\210s\220!\330\014\022\220\"\220B\220a\330\014\020\220\005\220U\230!\2303\230c\240\021\240!\330\020\031\230\027\240\001\240\023\240A\240U\250#\250Q\250a\250q\260\001\340\010\013\2104\210s\220!\330\014\022\220\"\220B\220a\330\014\020\220\005\220U\230!\2303\230a\330\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250q\330\010\014\210A\330\010\014\210A\330\010\022\220'\230\021\230#\230Q\340\004\013\210:\220[\240\001\200\001\340\004\013\2108\220;\230a\230u\240A\330\004\030\230\001\330\004\030\230\001\340\004\023\2203\220a\220q\330\004\023\2203\220a\220q\340\004\035\230R\230v\240R\240s\250!\2503\250c\260\021\260$\260f\270B\270a\340\004\034\230B\230f\240B\240d\250\"\250C\250t\2602\260S\270\001\330%+\2502\250Q\330\004\025\220Q\330\004\025\220Q\340\004\026\220a\330\004\026\220a\340\004\022\220!\330\004\022\220!\340\004\026\220a\360\006\000\n\013\330\010\014\210F\220&\230\001\230\023\230D\240\002\240!\330\014\021\220\021\220$\220c\230\025\230b\240\001\240\021\330\014\021\220\021\220$\220c\230\025\230a\340\014\020\220\006\220f\230A\230S\240\004\240B\240a\330\020\023\2203\220c\230\021\330\024\031\230\021\230#\230T\240\025\240a\330""\024\031\230\021\230#\230T\240\025\240b\250\001\250\021\340\020\023\2205\230\001\230\022\2301\230C\230s\240%\240q\250\002\250!\2501\330\024\032\230%\230q\240\002\240!\2403\240b\250\001\250\023\250B\250a\330\024\031\230\021\230$\230f\240A\340\024\031\230\021\230$\230d\240%\240r\250\021\250!\330\024\031\230\021\230$\230d\240%\240r\250\021\250!\360\006\000\025\033\230%\230q\240\002\240!\2403\240a\330\024\034\230B\230a\230q\330\024\034\230A\340\024\032\230%\230q\240\004\240B\240a\240q\330\024\027\220t\2302\230Q\330\030\036\230a\330\030 \240\001\330\030 \240\002\240!\2401\340\024\031\230\021\230$\230f\240A\330\024\031\230\021\230$\230d\240%\240q\330\024\031\230\021\230$\230d\240%\240q\340\004\016\210l\320\0328\270\001\270\025\270a\3309@\300\001\3309>\270a\340\004\030\230\005\230Q\230e\2401\340\004\013\210:\220[\240\001\200\001\360\010\000\005\020\210{\230$\230a\330\004\007\200t\2105\220\001\360\006\000\005\013\210\"\210C\210r\220\023\220B\220c\230\021\330\010\016\210e\2201\220C\220s\230!\330\010\016\210e\2201\220C\220s\230!\330\010\013\2104\210s\220!\2201\220A\330\014\017\210t\2203\220a\220q\230\001\330\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250s\260!\2601\260A\260Q\330\020\030\230\007\230q\240\003\2401\240C\240q\250\001\250\021\250$\250c\260\021\260!\2601\260A\340\020\031\230\027\240\001\240\023\240A\240S\250\001\250\021\250!\2504\250q\340\014\025\220W\230A\230S\240\001\240\025\240c\250\021\250!\2501\250A\360\006\000\t\014\2104\210u\220A\340\004\013\210:\220Q\200\001\360\010\000\005\030\220q\340\004\010\210\003\2108\2209\230A\230\\\250\025\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\022\220\021\330\004\010\210\005\210W\220L\240\006\240a\330\010\020\220\014\230A""\230Q\330\010\016\210g\220R\220w\230a\340\004\013\2107\220'\230\021\200\001\340\004\027\220q\330\004\010\210\003\2108\2209\230G\2401\240C\240q\250\004\250B\250a\330\010\024\220G\2302\230V\2401\360\006\000\005\r\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\340\004\014\210B\210f\220A\330\010\t\210\034\220Q\220c\230\021\230$\230d\240%\240u\250A\250S\260\001\260\021\330\010\016\210b\220\001\360\006\000\005\014\2107\220!O";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
