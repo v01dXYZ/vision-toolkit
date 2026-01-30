@@ -20,9 +20,9 @@ jobs:
       matrix:
         args:
           - name: Fast
-            cutoff: 50
+            cutoff: 10
           - name: Long
-            cutoff: 170
+            cutoff: 100
     name: ${{ matrix.args.name }} Test Report
     runs-on: ubuntu-latest
 
@@ -58,12 +58,12 @@ jobs:
 
       - name: Upload report.png
         run: |
-          mv report.png report_hollywood2_fast_${{ github.run_id }}.png
+          mv report.png report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png
           git fetch --depth 1 origin imgs
           git switch -f imgs
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
-          git add report_hollywood2_fast_${{ github.run_id }}.png
+          git add report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png
           git commit -m "Publish report hollywood2 ${{ github.run_id }}"
           git push origin imgs
 
@@ -80,7 +80,7 @@ jobs:
             const sha = '${{ github.event.pull_request.head.sha }}';
 
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot](https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_fast_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot](https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
 
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
