@@ -79,4 +79,4 @@ jobs:
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable
           git commit -m "Publish report hollywood2 ${{ github.run_id }}"
-          git push imgs origin
+          git push origin imgs
