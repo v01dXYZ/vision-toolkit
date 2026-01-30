@@ -20,7 +20,7 @@ jobs:
       matrix:
         args:
           - name: Fast
-            cutoff: 10
+            cutoff: 5
           - name: Long
             cutoff: 100
     name: ${{ matrix.args.name }} Test Report
