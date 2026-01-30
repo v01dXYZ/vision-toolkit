@@ -12,8 +12,8 @@ permissions:
   packages: write
 
 jobs:
-  deploy:
-    name: Deploy
+  fast-test-report:
+    name: Fast Test Report on Comment
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/test_report')
     runs-on: ubuntu-latest
 
@@ -60,8 +60,10 @@ jobs:
 
             const name = '${{ github.workflow	}}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const sha = '{{ steps.comment-branch.outputs.head_sha }}';
+
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync('report.md', 'utf-8');
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync('report.md', 'utf-8') + "\n\ncommit: " + sha + "\n";
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
