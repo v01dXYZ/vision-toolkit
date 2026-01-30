@@ -63,7 +63,7 @@ jobs:
     needs: fast-test-report
     if: always()
     steps:
-      - use: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: report-markdown
       - name: Add workflow result as comment on PR
