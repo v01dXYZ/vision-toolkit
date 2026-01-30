@@ -6,7 +6,6 @@ on:
     types: [created]
   pull_request:
     types: [opened, reopened, synchronize]
-    paths: [main]
 
 permissions:
   contents: read
@@ -18,7 +17,7 @@ permissions:
 jobs:
   fast-test-report:
     name: Fast Test Report on Comment
-    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test_report')
+#    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test_report')
     runs-on: ubuntu-latest
 
     steps:
