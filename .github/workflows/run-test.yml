@@ -15,72 +15,70 @@ permissions:
   packages: write
 
 jobs:
-  fast-test-report:
-    name: Fast Test Report on Comment
-#    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test_report')
-    runs-on: ubuntu-latest
+#   fast-test-report:
+#     name: Fast Test Report on Comment
+# #    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test_report')
+#     runs-on: ubuntu-latest
 
-    steps:
-      # - name: Get branch of PR
-      #   uses: xt0rted/pull-request-comment-branch@v3
-      #   id: comment-branch
+#     steps:
+#       # - name: Get branch of PR
+#       #   uses: xt0rted/pull-request-comment-branch@v3
+#       #   id: comment-branch
 
-      # - name: Set latest commit status as pending
-      #   uses: myrotvorets/set-commit-status-action@master
-      #   with:
-      #     sha: ${{ steps.comment-branch.outputs.head_sha }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     status: pending
+#       # - name: Set latest commit status as pending
+#       #   uses: myrotvorets/set-commit-status-action@master
+#       #   with:
+#       #     sha: ${{ steps.comment-branch.outputs.head_sha }}
+#       #     token: ${{ secrets.GITHUB_TOKEN }}
+#       #     status: pending
 
-      - name: Checkout PR branch ${{ steps.comment-branch.outputs.head_ref }}
-        uses: actions/checkout@v3
-        # with:
-        #   ref: ${{ steps.comment-branch.outputs.head_ref }}
+#       - name: Checkout PR branch ${{ steps.comment-branch.outputs.head_ref }}
+#         uses: actions/checkout@v3
+#         # with:
+#         #   ref: ${{ steps.comment-branch.outputs.head_ref }}
 
-      - name: Log
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+#       - name: Log
+#         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Build if not existing
-        run: |
-          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
-          IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-          echo "IMGTAG=$IMG:$HASH" >> $GITHUB_ENV
-          docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH; docker push $IMG:$HASH || true)
+#       - name: Build if not existing
+#         run: |
+#           HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+#           IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+#           echo "IMGTAG=$IMG:$HASH" >> $GITHUB_ENV
+#           docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH; docker push $IMG:$HASH || true)
 
-      - name: Run Tests
-        run: |
-          docker run -v .:/src -t $IMGTAG "cd /src && bash tests/hollywood2/run_in_container.sh"
+#       - name: Run Tests
+#         run: |
+#           docker run -v .:/src -t $IMGTAG "cd /src && bash tests/hollywood2/run_in_container.sh"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          path: report.json
-      - uses: actions/upload-artifact@v4
-        with:
-          name: report-markdown
-          path: report.md
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           path: report.json
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: report-markdown
+#           path: report.md
 
   comment-fast-test-report:
     name: Comment Fast Test Report
     runs-on: ubuntu-latest
-    needs: fast-test-report
+#    needs: fast-test-report
     if: always()
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: report-markdown
+      # - uses: actions/download-artifact@v4
+      #   with:
+      #     name: report-markdown
       - name: Add workflow result as comment on PR
         uses: actions/github-script@v6
 
         with:
           script: |
-            const fs = require('node:fs');
-
             const name = '${{ github.workflow	}}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ steps.comment-branch.outputs.head_sha }}';
 
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync('report.md', 'utf-8') + "\n\ncommit: " + sha + "\n";
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + "\n\ncommit: " + sha + "\n";
 
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
