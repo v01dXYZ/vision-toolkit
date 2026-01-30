@@ -2,9 +2,9 @@ name: "Deploy on Comment"
 
 # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on:
-  issue_comment:
-    types: [created]
-  pull_request:
+  push:
+    branches: "master"
+  pull_request_target:
     types: [opened, reopened, synchronize]
 
 permissions:
@@ -34,6 +34,8 @@ jobs:
 
       - name: Checkout PR branch
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Log
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
