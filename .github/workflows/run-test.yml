@@ -3,7 +3,7 @@ name: "Test suite reports"
 # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on:
   push:
-    path: "master"
+    branches: "master"
   pull_request:
     types: [opened, reopened, synchronize]
 
