@@ -72,7 +72,7 @@ jobs:
             const sha = '${{ github.event.pull_request.head.sha }}';
 
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot]((https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_fast_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot](https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_fast_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
 
             await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
