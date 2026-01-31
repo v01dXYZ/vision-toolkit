@@ -30,4 +30,5 @@ aoi_s = v.AoISequence(bs,
                       ref_image=image_ref,
                       AoI_identification_method='I_MS', 
                       display_AoI_path='figures/school',
-                      verbose=False)
+                      verbose=False,
+                      AoI_MS_cluster_all=False)

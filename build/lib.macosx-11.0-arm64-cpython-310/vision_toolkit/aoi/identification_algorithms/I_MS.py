@@ -1,113 +1,109 @@
 # -*- coding: utf-8 -*-
 
-
 import numpy as np
 from sklearn.cluster import MeanShift
 
 from vision_toolkit.utils.identification_utils import compute_aoi_sequence
-from vision_toolkit.visualization.aoi.basic_representation import (
-    display_aoi_identification, display_aoi_identification_reference_image)
 
 
 def process_IMS(values, config, ref_image=None):
     """
-    
+    MeanShift-based AoI identification.
 
-    Parameters
-    ----------
-    values : TYPE
-        DESCRIPTION.
-    config : TYPE
-        DESCRIPTION.
-    ref_image : TYPE, optional
-        DESCRIPTION. The default is None.
+    config keys:
+      - AoI_IMS_bandwidth
+      - AoI_MS_cluster_all (bool, default True)
 
     Returns
     -------
-    dict
-        DESCRIPTION.
-
+    results : dict
+    new_values : np.ndarray (3, n')
     """
+
     pos_ = values[0:2]
     dur_ = values[2]
+
     bandwidth = config["AoI_IMS_bandwidth"]
+    cluster_all = bool(config.get("AoI_MS_cluster_all", True))
+ 
+    ms = MeanShift(bandwidth=bandwidth, cluster_all=cluster_all)
+    seq_all = ms.fit_predict(pos_.T).astype(int)
+ 
+    if not cluster_all:
+        keep = seq_all >= 0
 
-    ms = MeanShift(bandwidth=bandwidth, cluster_all=True).fit(pos_.T)
-    seq_ = ms.labels_.astype(int)
+        pos_f = pos_[:, keep]
+        dur_f = dur_[keep]
+        seq_f = seq_all[keep]
 
-    # Build clusters from unique labels (robust)
-    labels = np.unique(seq_)
+        # Fallback: everything unassigned
+        if seq_f.size == 0:
+            seq0 = np.zeros(pos_.shape[1], dtype=int)
+            centers_ = {"A": np.mean(pos_, axis=1)}
+            clus_ = {"A": np.arange(pos_.shape[1], dtype=int)}
+            seq_letters, seq_dur = compute_aoi_sequence(seq0, dur_, config)
+            new_values = np.vstack((pos_, dur_))
+            return (
+                {
+                    "AoI_sequence": seq_letters,
+                    "AoI_durations": seq_dur,
+                    "centers": centers_,
+                    "clustered_fixations": clus_,
+                },
+                new_values,
+            )
 
-    # Identify singletons to relabel
-    clus_tmp = {lab: np.where(seq_ == lab)[0] for lab in labels}
-    multi_labels = [lab for lab, idxs in clus_tmp.items() if len(idxs) >= 2]
-    single_idxs = np.concatenate(
-        [idxs for lab, idxs in clus_tmp.items() if len(idxs) < 2],
-        axis=0
-    ) if any(len(idxs) < 2 for idxs in clus_tmp.values()) else np.array([], dtype=int)
+        # Remap labels to 0..K-1
+        uniq = np.unique(seq_f)
+        remap = {lab: i for i, lab in enumerate(uniq)}
+        seq_f = np.array([remap[l] for l in seq_f], dtype=int)
 
-    # Fallback: everything is singleton
-    if len(multi_labels) == 0:
-        seq_ = np.zeros(pos_.shape[1], dtype=int)
-        clus_ = {"A": np.arange(pos_.shape[1], dtype=int)}
-        centers_ = {"A": np.mean(pos_, axis=1)}
-        seq_, seq_dur = compute_aoi_sequence(seq_, dur_, config)
+        centers_ = {}
+        clus_ = {}
+        K = len(uniq)
 
-        if config.get("display_AoI", False):
-            if ref_image is None:
-                display_aoi_identification(pos_, clus_, config)
-            else:
-                display_aoi_identification_reference_image(pos_, clus_, config, ref_image)
+        for i in range(K):
+            idxs = np.where(seq_f == i)[0]
+            key = chr(i + 65)
+            clus_[key] = idxs
+            centers_[key] = np.mean(pos_f[:, idxs], axis=1)
 
-        return {
-            "AoI_sequence": seq_,
-            "AoI_durations": seq_dur,
-            "centers": centers_,
-            "clustered_fixations": clus_,
-        }
+        seq_letters, seq_dur = compute_aoi_sequence(seq_f, dur_f, config)
+        new_values = np.vstack((pos_f, dur_f))
 
-    # Compute centers for multi-point clusters
-    centers_by_lab = {
-        lab: np.mean(pos_[:, clus_tmp[lab]], axis=1) for lab in multi_labels
-    }
-    multi_centers = np.array([centers_by_lab[lab] for lab in multi_labels])
+        return (
+            {
+                "AoI_sequence": seq_letters,
+                "AoI_durations": seq_dur,
+                "centers": centers_,
+                "clustered_fixations": clus_,
+            },
+            new_values,
+        )
 
-    # Relabel singleton points to nearest multi cluster
-    if single_idxs.size > 0:
-        for idx in single_idxs:
-            p = pos_[:, idx]
-            d = np.sum((multi_centers - p) ** 2, axis=1)
-            nearest_lab = multi_labels[int(np.argmin(d))]
-            seq_[idx] = nearest_lab
+    uniq = np.unique(seq_all)
+    remap = {lab: i for i, lab in enumerate(uniq)}
+    seq_ = np.array([remap[l] for l in seq_all], dtype=int)
 
-    # Remap labels to contiguous 0..K-1 and A,B,C...
-    final_labels = np.unique(seq_)
-    remap = {lab: i for i, lab in enumerate(final_labels)}
-    seq_ = np.array([remap[lab] for lab in seq_], dtype=int)
-
-    clus_ = {}
     centers_ = {}
-    for i, lab in enumerate(final_labels):
-        idxs = np.where(np.array([lab2 for lab2 in np.array(list(remap.keys()))]) == lab)[0]  # not used; ignore
+    clus_ = {}
+    K = len(uniq)
 
-    # Build final clusters by index
-    for i in range(len(final_labels)):
+    for i in range(K):
         idxs = np.where(seq_ == i)[0]
         key = chr(i + 65)
         clus_[key] = idxs
         centers_[key] = np.mean(pos_[:, idxs], axis=1)
 
-    seq_, seq_dur = compute_aoi_sequence(seq_, dur_, config)
+    seq_letters, seq_dur = compute_aoi_sequence(seq_, dur_, config)
+    new_values = np.vstack((pos_, dur_))
 
-    if config.get("display_AoI", False):
-        if ref_image is None:
-            display_aoi_identification(pos_, clus_, config)
-        else:
-            display_aoi_identification_reference_image(pos_, clus_, config, ref_image)
-
-    return {
-        "AoI_sequence": seq_,
-        "AoI_durations": seq_dur,
-        "centers": centers_,
-        "clustered_fixations": clus_,
-    }
+    return (
+        {
+            "AoI_sequence": seq_letters,
+            "AoI_durations": seq_dur,
+            "centers": centers_,
+            "clustered_fixations": clus_,
+        },
+        new_values,
+    )

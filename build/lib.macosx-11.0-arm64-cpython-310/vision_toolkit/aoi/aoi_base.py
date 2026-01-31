@@ -17,6 +17,8 @@ from vision_toolkit.segmentation.processing.binary_segmentation import BinarySeg
 from vision_toolkit.utils.identification_utils import (collapse_AoI,
                                                temporal_binning_AoI,
                                                merge_small_aois)
+from vision_toolkit.visualization.aoi.basic_representation import (
+    display_aoi_identification, display_aoi_identification_reference_image)
 
 
 class AoISequence(Scanpath):
@@ -141,6 +143,7 @@ class AoISequence(Scanpath):
                                 "AoI_IDT_density_threshold", 0.05 * vf_diag
                             ),
                             "AoI_IDT_min_samples": kwargs.get("AoI_IDT_min_samples", 5),
+                            "AoI_IDT_reassign_noise": kwargs.get("AoI_IDT_reassign_noise", False),
                         }
                     )
 
@@ -161,6 +164,7 @@ class AoISequence(Scanpath):
                             "AoI_IMS_bandwidth": kwargs.get(
                                 "AoI_IMS_bandwidth", 0.1 * vf_diag
                             ),
+                            "AoI_MS_cluster_all": kwargs.get("AoI_MS_cluster_all", True),
                         }
                     )
 
@@ -223,27 +227,51 @@ class AoISequence(Scanpath):
         if self.config["AoI_identification_method"] == None:
             return
         
-        self.identification_results = self.dict_methods_aoi[
-            self.config["AoI_identification_method"]
-        ](self.values, self.config, self.ref_image)
+        method = self.config["AoI_identification_method"]
+        
+        # Méthodes qui retournent (results, new_values)
+        methods_with_new_values = {"I_DT", "I_MS"}
+        
+        if method in methods_with_new_values:
+            self.identification_results, self.values = self.dict_methods_aoi[method](
+                self.values, self.config, self.ref_image
+            )
+        else:
+            self.identification_results = self.dict_methods_aoi[method](
+                self.values, self.config, self.ref_image
+            )
         
         min_fix = self.config.get("AoI_min_fixations", None)
         if min_fix is not None and min_fix > 0:
-            seq, dur, centers = merge_small_aois(
+            seq, dur, centers, clus_ = merge_small_aois(
                 self.identification_results["AoI_sequence"],
                 self.identification_results["AoI_durations"],
                 self.identification_results["centers"],
+                self.identification_results["clustered_fixations"],
                 min_fix,
+                relabel=True
             )
         
             self.identification_results["AoI_sequence"] = seq
             self.identification_results["AoI_durations"] = dur
             self.identification_results["centers"] = centers
+            self.identification_results["clustered_fixations"] = clus_
         
         self.sequence = self.identification_results["AoI_sequence"]
         self.durations = self.identification_results["AoI_durations"]
         self.centers = self.identification_results["centers"]
+        self.clustered = self.identification_results["clustered_fixations"]
         self.nb_aoi = len(self.centers.keys())
+        
+        if self.config["display_AoI"]:
+            if self.ref_image is None:
+                display_aoi_identification(self.values[0:2], self.clustered, 
+                                           self.config)
+            else:
+                display_aoi_identification_reference_image(self.values[0:2], 
+                                                           self.clustered, 
+                                                           self.config, 
+                                                           self.ref_image)
         
         self.verbose()
 

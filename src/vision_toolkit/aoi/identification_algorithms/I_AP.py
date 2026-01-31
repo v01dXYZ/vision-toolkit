@@ -5,8 +5,7 @@ import numpy as np
 from sklearn.cluster import AffinityPropagation
 
 from vision_toolkit.utils.identification_utils import compute_aoi_sequence
-from vision_toolkit.visualization.aoi.basic_representation import (
-    display_aoi_identification, display_aoi_identification_reference_image)
+
 
 
 def process_IAP(values, config, ref_image=None):
@@ -83,14 +82,7 @@ def process_IAP(values, config, ref_image=None):
 
     # Convert to AoI sequence (collapse / binning handled inside)
     seq_, seq_dur = compute_aoi_sequence(seq_, dur_, config)
-
-    # Display
-    if config["display_AoI"]:
-        if ref_image is None:
-            display_aoi_identification(pos_, clus_, config)
-        else:
-            display_aoi_identification_reference_image(pos_, clus_, config, ref_image)
-
+ 
     return {
         "AoI_sequence": seq_,
         "AoI_durations": seq_dur,

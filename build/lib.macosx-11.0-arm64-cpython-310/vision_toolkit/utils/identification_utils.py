@@ -83,77 +83,112 @@ def compute_aoi_sequence(seq_, dur_, config):
 
     return seq_, np.array(seq_dur)
 
+ 
 
-def merge_small_aois(sequence, durations, centers, min_fixations):
+def merge_small_aois(sequence,
+                     durations,
+                     centers,
+                     clustered_fixations,
+                     min_fixations,
+                     relabel=True):
     """
-    Merge AoIs with fewer than `min_fixations` fixations into the nearest AoI
-    based on Euclidean distance between AoI centers.
+    Merge small AoIs when AoI labels are LETTERS only.
 
     Parameters
     ----------
-    sequence : array-like of int
-        AoI index sequence (0..K-1).
+    sequence : array-like of str
+        AoI sequence like ["A","A","G", ...] (already converted to letters).
+        Can be the output of compute_aoi_sequence (binning/collapse).
     durations : array-like
-        AoI durations.
-    centers : dict
-        Mapping {AoI_label: np.array([x, y])}.
+        Sequence durations aligned with `sequence` (same length).
+        Returned unchanged (still aligned with the merged/relabeled sequence).
+    centers : dict[str, np.ndarray]
+        {label: np.array([x, y])}
+    clustered_fixations : dict[str, np.ndarray]
+        {label: fixation_indices_in_original_fixations}
     min_fixations : int
+        AoIs with < min_fixations in clustered_fixations are merged.
+    relabel : bool
+        If True, relabel remaining AoIs to "A","B","C"... in sorted order.
 
     Returns
     -------
-    new_sequence : np.ndarray
-    new_durations : array-like
-    new_centers : dict
+    new_sequence : np.ndarray of str
+    new_durations : np.ndarray
+    new_centers : dict[str, np.ndarray]
+    new_clustered_fixations : dict[str, np.ndarray]
     """
-
-    seq = np.asarray(sequence, dtype=int).copy()
-    durations = np.asarray(durations).copy()
+    seq = np.asarray(sequence, dtype=str).copy()
+    dur = np.asarray(durations).copy()
 
     if min_fixations is None or min_fixations <= 0:
-        return seq, durations, centers
+        return seq, dur, centers, clustered_fixations
 
-    keys = sorted(centers.keys())
-    n_aois = len(keys)
+    if centers is None or len(centers) <= 1:
+        return seq, dur, centers, clustered_fixations
 
-    if n_aois <= 1:
-        return seq, durations, centers
+    if clustered_fixations is None or len(clustered_fixations) == 0:
+        # fallback: estimate "fixations per AoI" from occurrences in sequence
+        # (less faithful if temporal binning=True, but avoids crashing)
+        labels, counts = np.unique(seq, return_counts=True)
+        clustered_fixations = {lab: np.arange(c, dtype=int) for lab, c in zip(labels, counts)}
 
-    # Build fixation indices per AoI
-    clus = {k: np.where(seq == i)[0] for i, k in enumerate(keys)}
+    # Only consider labels existing in centers
+    labels = sorted([lab for lab in clustered_fixations.keys() if lab in centers])
+    if len(labels) <= 1:
+        return seq, dur, centers, clustered_fixations
 
-    small_keys = [k for k, v in clus.items() if len(v) < min_fixations]
-    valid_keys = [k for k, v in clus.items() if len(v) >= min_fixations]
+    # Small/valid based on number of fixations (clustered_fixations)
+    small = [lab for lab in labels if len(clustered_fixations.get(lab, [])) < min_fixations]
+    valid = [lab for lab in labels if len(clustered_fixations.get(lab, [])) >= min_fixations]
 
-    # Nothing to merge or everything small → return unchanged
-    if not small_keys or not valid_keys:
-        return seq, durations, centers
+    # Nothing to merge or everything small
+    if not small or not valid:
+        return seq, dur, centers, clustered_fixations
 
-    key_to_idx = {k: i for i, k in enumerate(keys)}
+    valid_centers = np.array([centers[lab] for lab in valid], dtype=float)
 
-    valid_centers = np.array([centers[k] for k in valid_keys])
-
-    # Merge small AoIs
-    for k in small_keys:
-        src_idx = key_to_idx[k]
-        src_center = centers[k]
-
+    # Build merge mapping: small -> nearest valid
+    merge_into = {}
+    for lab in small:
+        src_center = np.asarray(centers[lab], dtype=float)
         dists = np.sum((valid_centers - src_center) ** 2, axis=1)
-        nearest_key = valid_keys[int(np.argmin(dists))]
-        tgt_idx = key_to_idx[nearest_key]
+        tgt = valid[int(np.argmin(dists))]
+        merge_into[lab] = tgt
 
-        seq[seq == src_idx] = tgt_idx
+    # --- update sequence labels ---
+    for src, tgt in merge_into.items():
+        seq[seq == src] = tgt
 
-    # Re-index AoIs to contiguous labels
-    kept_keys = [k for k in keys if k not in small_keys]
-    new_key_to_idx = {k: i for i, k in enumerate(kept_keys)}
+    # --- update clustered_fixations ---
+    # start from valid labels
+    new_clus = {lab: np.asarray(clustered_fixations.get(lab, []), dtype=int).copy() for lab in valid}
 
-    new_seq = np.array(
-        [new_key_to_idx[keys[i]] for i in seq], dtype=int
-    )
+    # add merged fixations into target
+    for src, tgt in merge_into.items():
+        src_idx = np.asarray(clustered_fixations.get(src, []), dtype=int)
+        if src_idx.size == 0:
+            continue
+        new_clus[tgt] = np.unique(np.concatenate([new_clus.get(tgt, np.array([], dtype=int)), src_idx])).astype(int)
 
-    new_centers = {k: centers[k] for k in kept_keys}
+    # keep only labels still present after merge
+    kept = sorted(set(seq.tolist()))
+    new_centers = {lab: centers[lab] for lab in kept if lab in centers}
+    new_clus = {lab: new_clus.get(lab, np.array([], dtype=int)) for lab in kept}
 
-    return new_seq, durations, new_centers
+    if not relabel:
+        return seq, dur, new_centers, new_clus
+
+    # --- relabel to A,B,C,... (compact) ---
+    kept_sorted = sorted(new_centers.keys())
+    mapping = {old: chr(65 + i) for i, old in enumerate(kept_sorted)}
+
+    new_seq = np.array([mapping[lab] for lab in seq], dtype=str)
+    relabeled_centers = {mapping[old]: new_centers[old] for old in kept_sorted}
+    relabeled_clus = {mapping[old]: new_clus[old] for old in kept_sorted}
+
+    return new_seq, dur, relabeled_centers, relabeled_clus
+
 
 
 def temporal_binning_AoI(seq_, dur_, config):
