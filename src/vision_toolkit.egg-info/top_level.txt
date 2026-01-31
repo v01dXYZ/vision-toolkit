@@ -1,2 +1,0 @@
-reference_image_mapper
-vision_toolkit
