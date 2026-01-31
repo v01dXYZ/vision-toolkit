@@ -39,8 +39,18 @@ jobs:
         run: |
           HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
           IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-          echo "IMGTAG=$IMG:$HASH" >> $GITHUB_ENV
-          docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH; docker push $IMG:$HASH)
+          IMGTAG=$IMG:$HASH
+          echo "IMGTAG=$IMGTAG" >> $GITHUB_ENV
+          while ! docker manifest inspect $IMGTAG &&
+                  ([ -z $DOCKER_PUSH_PID ] || kill -0 $DOCKER_PUSH_PID ); do
+
+            [ -z $DOCKER_PUSH_PID ] &&
+              docker build -f Containerfile . -t $IMGHASH &&
+              docker push $IMGTAG & DOCKER_PUSH_PID=$!
+
+            echo '[GA-STEP-SCRIPT] Waiting for docker registry to get image. Early stop if already there.'
+            sleep 1;
+          done
 
       - name: Run tests
         run: |
