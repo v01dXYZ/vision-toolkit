@@ -1,0 +1,91 @@
+name: "Test suite reports"
+
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+on:
+  push:
+    branches: "master"
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+# BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
+# Limitations should be set in order to prevent this.
+jobs:
+  test-report:
+    strategy:
+      matrix:
+        args:
+          - name: Fast
+            cutoff: 5
+          - name: Long
+            cutoff: 100
+    name: ${{ matrix.args.name }} Test Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        # with:
+        #   ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Log
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build container if not existing
+        run: |
+          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+          IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+          echo "IMGTAG=$IMG:$HASH" >> $GITHUB_ENV
+          docker manifest inspect $IMG:$HASH || (docker build -f Containerfile . -t $IMG:$HASH; docker push $IMG:$HASH)
+
+      - name: Run tests
+        run: |
+          docker run -v .:/src -t $IMGTAG "cd /src && bash tests/hollywood2/run_in_container.sh ${{ matrix.args.cutoff }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-json-${{ matrix.args.name }}
+          path: report.json
+
+      - uses: actions/upload-artifact@v4
+        id: report-png
+        with:
+          name: report-png-${{ matrix.args.name }}
+          path: report.png
+
+      - name: Upload report.png
+        run: |
+          mv report.png report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png
+          git fetch --depth 1 origin imgs
+          git switch -f imgs
+          git config user.name "imgs-uploader"
+          git config user.email "nocontact@unreachable"
+          git add report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png
+          git commit -m "Publish report hollywood2 ${{ github.run_id }}"
+          git push origin imgs
+
+      # Hack to display image in comment as artifact can't be used for such a thing
+      - name: Add report as comment on PR
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            const fs = require('node:fs');
+
+            const name = '${{ github.workflow	}}';
+            const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const sha = '${{ github.event.pull_request.head.sha }}';
+
+            const success = '${{ job.status }}' === 'success';
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot](https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
+
+            await github.rest.issues.createComment({
+              issue_number: ${{ github.event.pull_request.number }},
+              owner: '${{ github.repository_owner }}',
+              repo: '${{ github.event.repository.name }}',
+              body: body
+            })

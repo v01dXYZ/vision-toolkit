@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -91,6 +90,8 @@ def process_predefined(values, config, ref_image=None):
 
 
 def define(image):
+    import cv2
+
     ref_point = []
     l_ref_point = []
 
@@ -155,6 +156,8 @@ def define(image):
 
 
 if __name__ == "__main__":
+    import cv2
+
     path = "dataset/2023_09_11_10_41_15/"
     ref_im = cv2.imread(path + "image_ref.jpg")
 

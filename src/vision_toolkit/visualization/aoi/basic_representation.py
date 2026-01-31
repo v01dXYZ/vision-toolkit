@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import cv2
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,6 +10,7 @@ np.random.seed(1)
 
 
 def display_aoi_predefined_reference_image(positions, clusters, config, ref_image):
+    import cv2
    
     path = config.get("display_AoI_path", None)
 
@@ -102,7 +102,7 @@ def display_aoi_predefined_reference_image(positions, clusters, config, ref_imag
 
 
 def display_aoi_identification_reference_image(positions, clusters, config, ref_image):
- 
+    import cv2
  
     path = config.get("display_AoI_path", None)
 
