@@ -80,6 +80,9 @@ def process_I2MC(data_set, config):
 
         trs_1 = np.where(np.diff(lbl_1) != 0)[0] + 1
 
+        if len(trs_1) == 0:
+            continue
+
         # Compute weigths
         w_1 = np.zeros(n_wc)
         w_1[trs_1] = 1 / len(trs_1)

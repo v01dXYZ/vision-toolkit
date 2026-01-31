@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-
-import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
 
 def display_scanpath_reference_image(values, config, ref_image):
- 
+    import cv2
+
     path = config["display_scanpath_path"]
  
     if isinstance(ref_image, str):
