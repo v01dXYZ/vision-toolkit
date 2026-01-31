@@ -7,6 +7,10 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+env:
+  CONTAINERCLI: docker # podman
+  PYPKGMGR: pip # "uv pip"
+
 permissions:
   contents: write
   pull-requests: write
@@ -15,7 +19,86 @@ permissions:
 # BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
 # Limitations should be set in order to prevent this.
 jobs:
+  basic_code_checker:
+    name: Basic code checker (style + lint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+
+      - uses: astral-sh/ruff-action@v3
+
+  build_container_image:
+    name: Build container image
+    runs-on: ubuntu-latest
+    outputs:
+      imgtag: ${{ steps.build_container_image.outputs.imgtag }}
+    steps:
+      - name: Log into Github Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | $CONTAINERCLI login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            Containerfile
+            setup.py
+            setup.cfg
+            pyproject.toml
+          sparse-checkout-cone-mode: false
+          path: sparse
+
+      - name: Check container image exists
+        id: build_container_image
+        continue-on-error: true
+        run: |
+          cd sparse
+          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+          IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+          IMGTAG=$IMG:$HASH
+          echo "imgtag=$IMGTAG" >> $GITHUB_OUTPUT
+          echo "IMGTAG=$IMGTAG" >> $GITHUB_ENV
+
+          if $CONTAINERCLI manifest inspect $IMGTAG; then
+            echo "imgexists=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout PR branch
+        if: ${{ ! steps.build_container_image.outputs.imgexists }}
+        uses: actions/checkout@v3
+
+      - name: build it
+        if: ${{ ! steps.build_container_image.outputs.imgexists }}
+        run: |
+          $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
+          $CONTAINERCLI push $IMGTAG
+
+          # buggy, I need to work on this.
+          # while ! $CONTAINERCLI manifest inspect $IMGTAG; do
+
+          #   if [ -z $CONTAINERCLI_BUILD_PUSH_PID ]; then
+          #     (
+          #       $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
+          #       $CONTAINERCLI push $IMGTAG
+          #     ) &
+          #     CONTAINERCLI_BUILD_PUSH_PID=$!
+          #   fi
+
+          #   if ! kill -0 $CONTAINERCLI_BUILD_PUSH_PID; then
+          #     exit $(wait $CONTAINERCLI_BUILD_PUSH_PID)
+          #   fi
+
+          #   echo '[GA-STEP-SCRIPT] Waiting for registry to get image. Early stop if already there.'
+          #   sleep 1;
+          # done
+
+      - name: Show container-cli version/info
+        if: ${{ failure() }} # only show it for debugging purposes
+        run: $CONTAINERCLI version; $CONTAINERCLI info
+
+
   test-report:
+    needs: build_container_image
     strategy:
       matrix:
         args:
@@ -33,28 +116,14 @@ jobs:
         #   ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Log
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Build container if not existing
-        run: |
-          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
-          IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-          IMGTAG=$IMG:$HASH
-          echo "IMGTAG=$IMGTAG" >> $GITHUB_ENV
-          while ! docker manifest inspect $IMGTAG &&
-                  ([ -z $DOCKER_PUSH_PID ] || kill -0 $DOCKER_PUSH_PID ); do
-
-            [ -z $DOCKER_PUSH_PID ] &&
-              docker build -f Containerfile . -t $IMGHASH &&
-              docker push $IMGTAG & DOCKER_PUSH_PID=$!
-
-            echo '[GA-STEP-SCRIPT] Waiting for docker registry to get image. Early stop if already there.'
-            sleep 1;
-          done
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | $CONTAINERCLI login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Run tests
         run: |
-          docker run -v .:/src -t $IMGTAG "cd /src && bash tests/hollywood2/run_in_container.sh ${{ matrix.args.cutoff }}"
+          $CONTAINERCLI run \
+            -v .:/src \
+            -t ${{ needs.build_container_image.outputs.imgtag }} \
+            "cd /src && bash tests/hollywood2/run_in_container.sh ${{ matrix.args.cutoff }}"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -69,19 +138,29 @@ jobs:
 
       - name: Upload report.png
         run: |
-          mv report.png report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png
           git fetch --depth 1 origin imgs
           git switch -f imgs
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
-          git add report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png
+          IMGNAME='report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
+          echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
+          mv report.png $IMGNAME
+          git add $IMGNAME
           git commit -m "Publish report hollywood2 ${{ github.run_id }}"
           git push origin imgs
+
+      - run: |
+          echo "## Image" >> $GITHUB_STEP_SUMMARY
+          echo "![barplot](https://github.com/${{ github.repository }}/blob/imgs/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
+          echo "## Table" >> $GITHUB_STEP_SUMMARY
+          cat report.md >> $GITHUB_STEP_SUMMARY
+          echo -n '\n' >> $GITHUB_STEP_SUMMARY
 
       # Hack to display image in comment as artifact can't be used for such a thing
       - name: Add report as comment on PR
         uses: actions/github-script@v6
-        if: always()
+        # disable commenting as it creates a lot of clutter in the PR
+        if: ${{ !cancelled() }}
         with:
           script: |
             const fs = require('node:fs');
@@ -90,12 +169,64 @@ jobs:
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
+            const MAGIC = '<!-- MAGIC github-action-bot ${{ matrix.args.name }} Test Report -->';
+
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}\n` + fs.readFileSync("report.md") + "\n\n![barplot](https://github.com/${{ github.repository }}/blob/imgs/report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}.png?raw=true)\n\ncommit: " + sha + "\n";
+            const body = 
+            `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}
+            ${url}
+            ${fs.readFileSync("report.md")}
+
+
+            ![barplot](https://github.com/${{ github.repository }}/blob/imgs/${{ env.IMGNAME }}?raw=true)
+            
+
+            commit: ${sha}
+
+            ${MAGIC}
+            `;
+
+            const owner = '${{ github.repository_owner }}';
+            const repo = '${{ github.event.repository.name }}';
+            const issue_number = ${{ github.event.pull_request.number }};
+
+            for(let page = 0; page+=1;) {
+                const comments_resp = await github.rest.issues.listComments({
+                  issue_number,
+                  owner,
+                  repo,
+                  page
+                });
+
+                const comments = comments_resp.data;
+
+                console.log("comments", comments);
+
+                if(comments.length == 0) {
+                  break;
+                }
+
+                for (const comment of comments) {
+                  if (!comment.body.includes(MAGIC)) {
+                    continue;
+                  }
+
+                  await github.rest.issues.deleteComment({
+                    owner,
+                    repo,
+                    comment_id: comment.id,
+                  });
+                }
+
+
+            }
 
             await github.rest.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
-              owner: '${{ github.repository_owner }}',
-              repo: '${{ github.event.repository.name }}',
+              issue_number,
+              owner,
+              repo,
               body: body
-            })
+            });
+
+      - name: Show report
+        run: cat report.md
