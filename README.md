@@ -2,9 +2,11 @@
 
 ![tarsier](./assets/crop_tarsier_2.jpg)
 
-## Summary
 
 > You can check the docs at https://v01dxyz.github.io/vision-toolkit <!-- FOR_README_ONLY -->
+
+
+## Summary
 
 `vision-toolkit` is a Python library for processing eye tracking data and extract from them:
 
