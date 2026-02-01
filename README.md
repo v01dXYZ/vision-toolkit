@@ -16,7 +16,7 @@
     all the little movements of the eyes around what they see
 - **Areas of Interest**: Zones the viewer is attracted to.
 
-Below a video from one of testing datasets showing multiple viewers watching a movie scene:
+Below a video from one of our testing datasets showing multiple viewers watching a movie scene:
 
 ![hollywood2-eye-tracking-example](./assets/hollywood2.gif)
 
