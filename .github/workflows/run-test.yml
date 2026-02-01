@@ -10,6 +10,7 @@ on:
 env:
   CONTAINERCLI: docker # podman
   PYPKGMGR: pip # "uv pip"
+  IMGSBRANCH: v01dxyz-imgs
 
 permissions:
   contents: write
@@ -138,8 +139,8 @@ jobs:
 
       - name: Upload report.png
         run: |
-          git fetch --depth 1 origin imgs
-          git switch -f imgs
+          git fetch --depth 1 origin $IMGSBRANCH
+          git switch -f $IMGSBRANCH
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
           IMGNAME='report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
@@ -147,11 +148,11 @@ jobs:
           mv report.png $IMGNAME
           git add $IMGNAME
           git commit -m "Publish report hollywood2 ${{ github.run_id }}"
-          git push origin imgs
+          git push origin $IMGSBRANCH
 
       - run: |
           echo "## Image" >> $GITHUB_STEP_SUMMARY
-          echo "![barplot](https://github.com/${{ github.repository }}/blob/imgs/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
+          echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
           cat report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
@@ -178,7 +179,7 @@ jobs:
             ${fs.readFileSync("report.md")}
 
 
-            ![barplot](https://github.com/${{ github.repository }}/blob/imgs/${{ env.IMGNAME }}?raw=true)
+            ![barplot](https://github.com/${{ github.repository }}/blob/${{ env.IMGSBRANCH }}/${{ env.IMGNAME }}?raw=true)
             
 
             commit: ${sha}
