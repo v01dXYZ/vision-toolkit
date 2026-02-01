@@ -3,7 +3,9 @@
 ![tarsier](./assets/crop_tarsier_2.jpg)
 
 
-> You can check the docs at https://v01dxyz.github.io/vision-toolkit <!-- FOR_README_ONLY -->
+> **Check the Docs!** <!-- FOR_README_ONLY -->
+> <!-- FOR_README_ONLY -->
+> You can check the docs at https://v01dxyz.github.io/vision-toolkit. <!-- FOR_README_ONLY -->
 
 
 ## Summary
