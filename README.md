@@ -16,14 +16,19 @@
     all the little movements of the eyes around what they see
 - **Areas of Interest**: Zones the viewer is attracted to.
 
-Below a video from one of our testing datasets showing multiple viewers watching a movie scene:
+Below a video showing the gaze of multiple viewers watching a movie scene:
 
 ![hollywood2-eye-tracking-example](./assets/hollywood2.gif)
 
 `vision-toolkit` supports:
 
-- coordinates on an screen: cartesian and angular ones
-- point of gaze: a three dimension vector, often from an estimation using both eyes
+* multiple kind of coordinates:
+  - 2D: representing a point on a screen. Coordinates could be cartesian or angular.
+  - 3D: an estimation of where both eyes gazes converge, a.k.a. point of gaze
+* multiple kind of frames:
+  - static frame (the head stays still, e.g. medical settings)
+  -  dynamic frame (the head moves, e.g. glasses or VR sets)
+* using data from multiple viewers to analyse the same scene or event
 
 ## Credits
 
