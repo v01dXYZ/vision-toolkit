@@ -8,59 +8,105 @@ from vision_toolkit.segmentation.processing.binary_segmentation import BinarySeg
 from vision_toolkit.scanpath.single.saliency.saliency_map_base import SaliencyMap
 from vision_toolkit.utils.binning import spatial_bin
 
+ 
 
 class PairSaliencyMap:
     """
-    Compare deux saliency maps.
+    Compare deux saliency maps. 
     """
-    def __init__(self, input, **kwargs):
 
-        # --- validation input ---
+    _DICT_KEYS = ("saliency_map", "absolute_duration_saliency_map", "relative_duration_saliency_map")
+
+    class _FrozenSaliencyMap:
+        """Wrapper minimal pour traiter une map déjà calculée comme un SaliencyMap."""
+        def __init__(self, saliency_map, size_plan_x, size_plan_y, p_n_x, p_n_y, map_type="saliency_map"):
+            self.saliency_map = np.asarray(saliency_map, dtype=float)
+            self.size_plan_x = size_plan_x
+            self.size_plan_y = size_plan_y
+            self.p_n_x = int(p_n_x)
+            self.p_n_y = int(p_n_y)
+            self.map_type = map_type
+            self.scanpaths = None  # pas nécessaire ici
+
+    def __init__(self, input, **kwargs):
+ 
         if not isinstance(input, (list, tuple)) or len(input) != 2:
-            raise TypeError(
-                "PairSaliencyMap expects input to be a list or tuple of length 2."
-            )
+            raise TypeError("PairSaliencyMap expects input to be a list/tuple of length 2.")
 
         input_1, input_2 = input
-
-        # --- construire / récupérer les SaliencyMap ---
+ 
         self.sm_1 = self._to_saliency_obj(input_1, **kwargs)
         self.sm_2 = self._to_saliency_obj(input_2, **kwargs)
-
-        # --- s'assurer que les cartes existent ---
+ 
         if self.sm_1.saliency_map is None:
             raise ValueError("First saliency_map is None (comp_saliency_map=False ?)")
-
         if self.sm_2.saliency_map is None:
             raise ValueError("Second saliency_map is None (comp_saliency_map=False ?)")
-
-        # --- vérification des tailles physiques ---
+ 
         if self.sm_1.size_plan_x != self.sm_2.size_plan_x:
-            raise ValueError(
-                f"size_plan_x mismatch: {self.sm_1.size_plan_x} != {self.sm_2.size_plan_x}"
-            )
-
+            raise ValueError(f"size_plan_x mismatch: {self.sm_1.size_plan_x} != {self.sm_2.size_plan_x}")
         if self.sm_1.size_plan_y != self.sm_2.size_plan_y:
-            raise ValueError(
-                f"size_plan_y mismatch: {self.sm_1.size_plan_y} != {self.sm_2.size_plan_y}"
-            )
+            raise ValueError(f"size_plan_y mismatch: {self.sm_1.size_plan_y} != {self.sm_2.size_plan_y}")
 
         # --- vérification de la grille ---
         if (self.sm_1.p_n_x != self.sm_2.p_n_x) or (self.sm_1.p_n_y != self.sm_2.p_n_y):
             raise ValueError(
                 "Saliency maps must have the same grid size "
-                f"(p_n_x, p_n_y): "
-                f"({self.sm_1.p_n_x}, {self.sm_1.p_n_y}) != "
-                f"({self.sm_2.p_n_x}, {self.sm_2.p_n_y})"
+                f"(p_n_x, p_n_y): ({self.sm_1.p_n_x}, {self.sm_1.p_n_y}) != ({self.sm_2.p_n_x}, {self.sm_2.p_n_y})"
             )
-    
+
+
+    def _extract_map_from_dict(self, d):
+        
+        dict_keys_ = ("saliency_map", "absolute_duration_saliency_map", "relative_duration_saliency_map")
+        for k in dict_keys_:
+            if k in d:
+                return np.asarray(d[k], dtype=float), k
+        raise KeyError(f"dict input must contain one of: {dict_keys_}")
+
+
     def _to_saliency_obj(self, inp, **kwargs):
+        
         if isinstance(inp, SaliencyMap):
             if inp.saliency_map is None:
                 inp.saliency_map = inp.comp_map(inp.scanpaths, inp.map_type)
             return inp
-
+ 
+        if isinstance(inp, dict):
+            m, map_type = self._extract_map_from_dict(inp)
+            return self._wrap_existing_map(m, map_type=map_type, **kwargs)
+ 
+        if isinstance(inp, np.ndarray):
+            return self._wrap_existing_map(inp, map_type="saliency_map", **kwargs)
+ 
         return SaliencyMap(inp, comp_saliency_map=True, **kwargs)
+
+
+    def _wrap_existing_map(self, m, map_type="saliency_map", **kwargs):
+     
+        m = np.asarray(m, dtype=float)
+        if m.ndim != 2:
+            raise ValueError(f"saliency map must be 2D (got shape {m.shape})")
+ 
+        p_n_y, p_n_x = m.shape
+        
+        size_plan_x = kwargs.get("size_plan_x", None)
+        size_plan_y = kwargs.get("size_plan_y", None)
+        if size_plan_x is None or size_plan_y is None:
+            raise ValueError(
+                "When providing a precomputed saliency map (dict/ndarray), you must pass "
+                "size_plan_x and size_plan_y in kwargs so PairSaliencyMap can validate compatibility."
+            )
+
+        return self._FrozenSaliencyMap(
+            saliency_map=m,
+            size_plan_x=size_plan_x,
+            size_plan_y=size_plan_y,
+            p_n_x=p_n_x,
+            p_n_y=p_n_y,
+            map_type=map_type,
+        )
+
 
    
     def _as_prob(self, m):
@@ -126,59 +172,80 @@ def scanpath_saliency_kl_divergence(input,
 
 class SaliencyReference:
     def __init__(self, input, ref_saliency_map, **kwargs):
-        
+ 
         if isinstance(input, list):
+            if len(input) == 0:
+                raise ValueError("input list must not be empty")
+
             if isinstance(input[0], Scanpath):
                 self.scanpaths = input
             elif isinstance(input[0], (str, BinarySegmentation)):
                 self.scanpaths = [Scanpath.generate(inp, **kwargs) for inp in input]
             else:
-                raise ValueError("input list must contain Scanpath, csv path, or BinarySegmentation")
+                raise ValueError(
+                    "input list must contain Scanpath, csv path (str), or BinarySegmentation"
+                )
         else:
             if isinstance(input, Scanpath):
                 self.scanpaths = [input]
             elif isinstance(input, (str, BinarySegmentation)):
                 self.scanpaths = [Scanpath.generate(input, **kwargs)]
             else:
-                raise ValueError("input must be Scanpath, csv path, or BinarySegmentation")
+                raise ValueError("input must be Scanpath, csv path (str), or BinarySegmentation")
 
         sp0 = self.scanpaths[0]
         self.size_plan_x = sp0.config["size_plan_x"]
         self.size_plan_y = sp0.config["size_plan_y"]
-
-        # --- grille (doit matcher la ref) ---
+ 
         self.p_n_x = kwargs.get("scanpath_saliency_pixel_number_x", 100)
         self.p_n_y = kwargs.get("scanpath_saliency_pixel_number_y", None)
         if self.p_n_y is None:
             ratio = self.size_plan_x / self.size_plan_y
             self.p_n_y = int(round(self.p_n_x / ratio))
 
-        # forcer odd si tu veux garder ta convention
+        # keep odd convention
         self.p_n_x = self.p_n_x + 1 if (self.p_n_x % 2) == 0 else self.p_n_x
         self.p_n_y = self.p_n_y + 1 if (self.p_n_y % 2) == 0 else self.p_n_y
-        
-     
-        if isinstance(ref_saliency_map, dict):
-           
+ 
+    
+ 
+        if isinstance(ref_saliency_map, SaliencyMap):
+            # ensure the map exists
+            if ref_saliency_map.saliency_map is None:
+                ref_saliency_map.saliency_map = ref_saliency_map.comp_map(
+                    ref_saliency_map.scanpaths, ref_saliency_map.map_type
+                )
+            self.ref_sm = np.asarray(ref_saliency_map.saliency_map, dtype=float)
+
+        elif isinstance(ref_saliency_map, dict):
             for k in ("saliency_map", "absolute_duration_saliency_map", "relative_duration_saliency_map"):
                 if k in ref_saliency_map:
                     self.ref_sm = np.asarray(ref_saliency_map[k], dtype=float)
                     break
             else:
-                raise KeyError("ref_saliency_map dict must contain a saliency map key.")
-        else:
+                raise KeyError(
+                    'ref_saliency_map dict must contain one of: '
+                    '"saliency_map", "absolute_duration_saliency_map", "relative_duration_saliency_map"'
+                )
+
+        elif isinstance(ref_saliency_map, np.ndarray):
             self.ref_sm = np.asarray(ref_saliency_map, dtype=float)
 
+        else:
+            raise TypeError(
+                "ref_saliency_map must be one of: dict, np.ndarray, or SaliencyMap"
+            )
+ 
         if self.ref_sm.shape != (self.p_n_y, self.p_n_x):
             raise ValueError(
                 f"ref map shape {self.ref_sm.shape} != ({self.p_n_y}, {self.p_n_x}). "
                 "Use same binning params as the reference."
             )
-
-        # cache pour percentile
+ 
         self._ref_sorted = np.sort(self.ref_sm.ravel())
 
         self.verbose = kwargs.get("verbose", True)
+
 
 
     def _fix_bins(self, scanpath_index=0):

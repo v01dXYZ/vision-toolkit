@@ -9,6 +9,7 @@ pio.renderers.default = "browser"
 
 
 def plot_DTW_frechet(seq_1, seq_2, opt_links, id_1, id_2):
+ 
     trace1 = go.Scatter3d(
         x=np.arange(len(seq_1[0])),
         y=seq_1[0],

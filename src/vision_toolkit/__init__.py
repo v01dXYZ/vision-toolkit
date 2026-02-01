@@ -114,6 +114,8 @@ from .scanpath.single.saliency.saliency_map_base import (
     scanpath_absolute_duration_saliency_map,
     scanpath_relative_duration_saliency_map)
 
+
+
 from .scanpath.similarity.saliency.saliency_comparison import ( 
     SaliencyReference, 
     scanpath_saliency_percentile,

@@ -120,7 +120,7 @@ class ElasticDistance:
             for i in range(j):
                 try:
                     e_a = dist_method(
-                        [scanpaths[i], scanpaths[j]], config, id_1=str(i), id_2=str(j)
+                    [scanpaths[i], scanpaths[j]], config, id_1=str(i), id_2=str(j)
                     )
                     d_m[i, j] = e_a.dist_
                 except Exception:
