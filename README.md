@@ -23,13 +23,11 @@ Below a video showing the gaze of multiple viewers watching a movie scene:
 `vision-toolkit` supports:
 
 * multiple kind of coordinates:
-  
-  - 2D: representing a point on a screen. Coordinates could be cartesian or angular.
-  - 3D: an estimation of where both eyes gazes converge, a.k.a. point of gaze
+    - 2D: representing a point on a screen. Coordinates could be cartesian or angular.
+    - 3D: an estimation of where both eyes gazes converge, a.k.a. point of gaze
 * multiple kind of frames:
-
-  - static frame (the head stays still, e.g. medical settings)
-  -  dynamic frame (the head moves, e.g. glasses or VR sets)
+    - static frame (the head stays still, e.g. medical settings)
+    -  dynamic frame (the head moves, e.g. glasses or VR sets)
 * using data from multiple viewers to analyse the same scene or event
 
 ## Credits
