@@ -1,23 +1,16 @@
-# VisionToolkit
+# vision-toolkit
 
-## Install
+`vision-toolkit` is a Python package for processing eye tracking data and extract from them:
 
-To install the `vision_toolkit` package which contains our library, run
+- Scanpaths: A macro trajectory of the gaze without taking into account 
+    all the little movements of the eyes around what they see
+- Areas of Interest: Zones the viewer is attracted to.
 
-```bash
-python -m pip install .
-```
+`vision-toolkit` supports:
 
-## Notebooks
+- coordinates on an screen: cartesian and angular ones
+- point of gaze: a three dimension vector, often from an estimation using both eyes
 
-To run the notebooks, download the `documentation/demo/` folder.
-The notebooks will be expanded and further detailed by January.
-
-## Updates
-
-Note that certain functions --- specifically `aoi_visualization`, `saliency_comparison`, `saccade_task` and `pursuit_task` --- are still under internal review and will be added by January.
-Additionally, the RIM functionality is currently hosted in a separate Git repository due to its large size.
-
-
-
-python setup.py build_ext --inplace
+This work was done by Quentin Laborde as an extension to his PhD and
+Robert Dazi for industrializing the package development, both as part
+of Centre Borelli from ENS Paris-Saclay.
