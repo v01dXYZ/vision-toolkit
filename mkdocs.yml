@@ -34,7 +34,7 @@ markdown_extensions:
 nav:
   - Home:
     - index.md
-  - Contributor docs
+  - Contributor docs:
     - testing.md
 theme:
   name: material
