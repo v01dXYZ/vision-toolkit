@@ -36,7 +36,8 @@ nav:
     - index.md
 theme:
   name: material
-  logo: assets/crop_tarsier_2.jpg
+  palette:
+    primary: green
   features:
     - navigation.tabs
     - search.highlight

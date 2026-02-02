@@ -1,5 +1,7 @@
 # vision-toolkit
 
+![tarsier](./assets/crop_tarsier_2.jpg)
+
 `vision-toolkit` is a Python package for processing eye tracking data and extract from them:
 
 - Scanpaths: A macro trajectory of the gaze without taking into account 
@@ -8,7 +10,7 @@
 
 Below a video from one of testing datasets showing multiple viewers watching a movie scene:
 
-![hollywood2-eye-tracking-example](out.gif)
+![hollywood2-eye-tracking-example](./assets/hollywood2.gif)
 
 `vision-toolkit` supports:
 
