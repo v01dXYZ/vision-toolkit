@@ -13,8 +13,8 @@ We prefer integration tests over unit tests as they are easier to understand and
 ### Segmentation
 
 
-| Dataset Name   | Description                                                                               | Link                                                                |
-|----------------|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| `Hollywood2`   | Multiple viewers watch different short scenes from movies. Coordinates are 2D cartesian.  | [paper](https://bop.unibe.ch/JEMR/article/view/JEMR.13.4.5/10052)   |
-| `Zemblys`      | Planned                                                                                   |                                                                     |
-| `ETRA2019`     | Planned                                                                                   |                                                                     |
+| Dataset Name   | Description                                                                               | Link                                                                | status  |
+|----------------|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------|---------|
+| `Hollywood2`   | Multiple viewers watch different short scenes from movies. Coordinates are 2D cartesian.  | [paper](https://bop.unibe.ch/JEMR/article/view/JEMR.13.4.5/10052)   |   OK    |
+| `Zemblys`      |                                                                                           |                                                                     |  WIP    |
+| `ETRA2019`     |                                                                                           |                                                                     | Planned |
