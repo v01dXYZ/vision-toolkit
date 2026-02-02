@@ -2,11 +2,11 @@
 
 We test the library with:
 
-- unit tests: verify the inner working of the library works as expected.
-- integration tests: test cases with a given input and an expected output.
-- performance/regression tests: based on datasets documented by papers, we compute a score for the results and how long it took to get them.
+- **unit** tests: verify the inner working of the library works as expected.
+- **integration** tests: test cases with a given input and an expected output.
+- **performance/regression** tests: based on datasets documented by papers, we compute a score for the results and how long it took to get them.
 
-We prefer integration tests over unit tests as they are easier to understand and maitain.
+We prefer integration tests over unit tests as they are easier to understand and maintain.
 
 ## Test Datasets
 
