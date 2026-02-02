@@ -35,6 +35,7 @@ jobs:
         REPO_NAME: ${{ github.repository }}
         REPO_SHORTNAME: ${{ github.event.repository.name }}
       run: |
+        grep -v FOR_README_ONLY README.md >> docs/index.md
         mkdocs build
         cp out.gif site
     - uses: actions/upload-pages-artifact@v3
