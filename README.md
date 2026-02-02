@@ -2,6 +2,8 @@
 
 ![tarsier](./assets/crop_tarsier_2.jpg)
 
+> You can check the docs at https://v01dxyz.github.io/vision-toolkit <!-- FOR_README_ONLY -->
+
 `vision-toolkit` is a Python package for processing eye tracking data and extract from them:
 
 - Scanpaths: A macro trajectory of the gaze without taking into account 
@@ -20,5 +22,3 @@ Below a video from one of testing datasets showing multiple viewers watching a m
 This work was done by Quentin Laborde as an extension to his PhD and
 Robert Dazi for industrializing the package development, both as part
 of Centre Borelli from ENS Paris-Saclay.
-
-<!-- FOR_README_ONLY --> You can check the docs at https://v01dxyz.github.io/vision-toolkit
