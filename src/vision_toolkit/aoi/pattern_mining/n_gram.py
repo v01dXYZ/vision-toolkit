@@ -82,10 +82,12 @@ def AoI_NGram(input, **kwargs):
     if verbose:
         print("Processing NGram Analysis...\n")
 
-    if isinstance(input, (str, BinarySegmentation, Scanpath)):
-        aoi_sequence = AoISequence.generate(input, **kwargs)
-    elif isinstance(input, AoISequence):
+    if isinstance(input, AoISequence):
         aoi_sequence = input
+        
+    elif isinstance(input, (str, BinarySegmentation, Scanpath)):
+        aoi_sequence = AoISequence.generate(input, **kwargs)
+       
     else:
         raise ValueError(
             "Input must be a str, BinarySegmentation, Scanpath, or AoISequence."

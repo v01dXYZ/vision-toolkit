@@ -31,17 +31,18 @@ class AoIBasicAnalysis:
         if verbose:
             print("Processing Markov Based Analysis...\n")
 
-        if isinstance(input, str):
+        if isinstance(input, AoISequence):
+            self.aoi_sequence = input
+         
+        elif isinstance(input, Scanpath):
             self.aoi_sequence = AoISequence.generate(input, **kwargs)
-
+            
         elif isinstance(input, BinarySegmentation):
             self.aoi_sequence = AoISequence.generate(input, **kwargs)
 
-        elif isinstance(input, AoISequence):
-            self.aoi_sequence = input
-
-        elif isinstance(input, Scanpath):
+        elif isinstance(input, str):
             self.aoi_sequence = AoISequence.generate(input, **kwargs)
+ 
         else:
             raise ValueError(
                 "Input must be a csv, or a BinarySegmentation, or a Scanpath, or an AoISequence object"

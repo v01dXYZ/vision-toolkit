@@ -19,14 +19,14 @@ class GeometricalAnalysis:
         if verbose:
             print("Processing Geometrical Analysis...\n")
 
-        if isinstance(input, str):
-            self.scanpath = Scanpath.generate(input, **kwargs)
-
+        if isinstance(input, Scanpath):
+            self.scanpath = input
+            
         elif isinstance(input, BinarySegmentation):
             self.scanpath = Scanpath.generate(input, **kwargs)
-
-        elif isinstance(input, Scanpath):
-            self.scanpath = input
+            
+        elif isinstance(input, str):
+            self.scanpath = Scanpath.generate(input, **kwargs)
 
         else:
             raise ValueError(

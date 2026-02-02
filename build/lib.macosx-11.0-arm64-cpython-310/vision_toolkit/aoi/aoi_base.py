@@ -64,20 +64,18 @@ class AoISequence(Scanpath):
             if verbose:
                 print("Processing AoI Sequence...\n")
                 
-            
+            if isinstance(input, Scanpath):
+                self.__dict__ = input.__dict__.copy()   
+                
+            elif isinstance(input, BinarySegmentation):
+                super().__init__(input, gaze_df, ref_image, **kwargs)
 
-            if isinstance(input, pd.DataFrame):
+            elif isinstance(input, pd.DataFrame):
                 super().__init__(input, gaze_df, ref_image, **kwargs)
 
             elif isinstance(input, str):
                 super().__init__(input, gaze_df, ref_image, **kwargs)
-
-            elif isinstance(input, BinarySegmentation):
-                super().__init__(input, gaze_df, ref_image, **kwargs)
-
-            elif isinstance(input, Scanpath):
-                self.__dict__ = input.__dict__.copy()
-
+ 
             else:
                 raise ValueError(
                     "Input must be a Scanpath, or a BinarySegmentation, or a DataFrame, or a csv"
@@ -374,15 +372,15 @@ class AoIMultipleSequences:
             len(input) > 1 and type(input) == list
         ), "Input must be a list of Scanpath, or a list of BinarySegmentation, or a list of csv"
 
-        if isinstance(input[0], str): 
-            scanpaths = [Scanpath.generate(input_, **kwargs) for input_ in input]
-
+        if isinstance(input[0], Scanpath):
+            scanpaths = input
+            
         elif isinstance(input[0], BinarySegmentation):
             scanpaths = [Scanpath.generate(input_, **kwargs) for input_ in input]
-
-        elif isinstance(input[0], Scanpath):
-            scanpaths = input
-
+ 
+        elif isinstance(input[0], str): 
+            scanpaths = [Scanpath.generate(input_, **kwargs) for input_ in input]
+ 
         config = scanpaths[0].config
         config.update(
             {

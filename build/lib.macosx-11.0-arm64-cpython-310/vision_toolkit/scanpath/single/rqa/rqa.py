@@ -23,16 +23,16 @@ class RQAAnalysis(RecurrenceBase):
 
         if verbose:
             print("Processing RQA Analysis...\n")
-
-        if isinstance(input, str):
-            self.scanpath = Scanpath.generate(input, **kwargs)
-
+ 
+        if isinstance(input, Scanpath):
+            self.scanpath = input
+            
         elif isinstance(input, BinarySegmentation):
             self.scanpath = Scanpath.generate(input, **kwargs)
-
-        elif isinstance(input, Scanpath):
-            self.scanpath = input
-
+            
+        elif isinstance(input, str):
+            self.scanpath = Scanpath.generate(input, **kwargs)
+ 
         else:
             raise ValueError(
                 "Input must be a csv, a BinarySegmentation or a Scanpath object"

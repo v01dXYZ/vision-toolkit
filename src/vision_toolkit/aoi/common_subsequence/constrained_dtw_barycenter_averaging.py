@@ -122,7 +122,7 @@ class CDBA:
             raise ValueError("'AoI_CDBA_initialization_length' must be set to 'min' or 'max'")
 
         # Initialize consensus randomly (reproducible)  
-        np.random.seed(self.config.get("AoI_CDBA_initial_random_state", 1))
+        np.random.seed(self.config.get("AoI_CDBA_initial_random_state", 3))
         consensus = list(np.random.choice(list(self.centers.keys()), l_m))
         old_consensus = copy.deepcopy(consensus)
 

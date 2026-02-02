@@ -44,15 +44,15 @@ class ScanpathStringEditDistance:
             len(input) > 1 and type(input) == list
         ), "Input must be a StringEditDistance instance or a list of Scanpath, or a list of BinarySegmentation, or a list of csv"
 
-        if isinstance(input[0], str):
-            scanpaths = [Scanpath.generate(input_, **kwargs) for input_ in input]
-
+        if isinstance(input[0], Scanpath):
+            scanpaths = input
+            
         elif isinstance(input[0], BinarySegmentation):
             scanpaths = [Scanpath.generate(input_, **kwargs) for input_ in input]
 
-        elif isinstance(input[0], Scanpath):
-            scanpaths = input
-
+        elif isinstance(input[0], str):
+            scanpaths = [Scanpath.generate(input_, **kwargs) for input_ in input]
+ 
         else:
             raise ValueError(
                 "Input must be a StringEditDistance instance or a list of Scanpath, or a list of BinarySegmentation, or a list of csv"

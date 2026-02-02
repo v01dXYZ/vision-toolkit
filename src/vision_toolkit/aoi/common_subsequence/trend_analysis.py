@@ -32,7 +32,7 @@ class TrendAnalysis:
         verbose = kwargs.get("verbose", True)
 
         if verbose:
-            print("Processing AoI String Edit Distance...\n")
+            print("Processing STA...\n")
 
         assert (
             len(input) > 1 and type(input) == list
@@ -48,7 +48,7 @@ class TrendAnalysis:
         self.config.update(
             {
                 "AoI_trend_analysis_tolerance_level": kwargs.get(
-                    "AoI_trend_analysis_tolerance_level", 0.95
+                    "AoI_trend_analysis_tolerance_level", 0.5
                 ),
                 "verbose": verbose,
             }

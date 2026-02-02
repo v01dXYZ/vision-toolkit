@@ -33,13 +33,15 @@ def compute_aoi_sequence(seq_, dur_, config):
 
     n_s = len(seq_)
     aoi_temporal_binning = config["AoI_temporal_binning"]
-
+  
     if aoi_temporal_binning == False:
+        
         ## Convert to capital letters
         seq_ = [chr(seq_[i] + 65) for i in range(n_s)]
         seq_dur = [dur_[i] for i in range((n_s))]
 
     elif aoi_temporal_binning == True:
+        
         ## Convert to capital letters with repetitions depending on fixation duration
         temp_bin = config["AoI_temporal_binning_length"]
 
@@ -59,6 +61,7 @@ def compute_aoi_sequence(seq_, dur_, config):
                 seq_dur.append(dur_[i] % temp_bin)
 
     elif aoi_temporal_binning == "collapse":
+        print('called3')
         ## Convert to capital letters removing elements that have consecutive duplicates
         seq_ = [chr(seq_[i] + 65) for i in range(n_s)]
 

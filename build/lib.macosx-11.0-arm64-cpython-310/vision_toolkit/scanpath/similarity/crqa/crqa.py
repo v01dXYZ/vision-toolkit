@@ -34,18 +34,18 @@ class CRQAAnalysis(RecurrenceBase):
         
         assert isinstance(input, list) and len(input) == 2, "Input must be a list of two .csv, BinarySegmentation, or Scanpath"
         
-        if isinstance(input[0], str):
-            self.scanpath_1 = Scanpath.generate(input[0], **kwargs)
-            self.scanpath_2 = Scanpath.generate(input[1], **kwargs)
-
+        if isinstance(input[0], Scanpath):
+            self.scanpath_1 = input[0]
+            self.scanpath_2 = input[1]
+            
         elif isinstance(input[0], BinarySegmentation):
             self.scanpath_1 = Scanpath.generate(input[0], **kwargs)
             self.scanpath_2 = Scanpath.generate(input[1], **kwargs)
-
-        elif isinstance(input[0], Scanpath):
-            self.scanpath_1 = input[0]
-            self.scanpath_2 = input[1]
-        
+            
+        elif isinstance(input[0], str):
+            self.scanpath_1 = Scanpath.generate(input[0], **kwargs)
+            self.scanpath_2 = Scanpath.generate(input[1], **kwargs)
+      
         d_thrs = (
             np.linalg.norm(
                 np.array(

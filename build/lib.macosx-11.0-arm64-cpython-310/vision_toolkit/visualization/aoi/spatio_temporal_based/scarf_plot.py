@@ -115,56 +115,45 @@ def AoI_scarf_plot(input, **kwargs):
         )
         fig = plot_scarf(df, len(seq_))
 
-    dest_ = kwargs.get("AoI_scarf_plot_save", None)
+    dest_ = kwargs.get("AoI_scarf_plot_path", None)
 
     if dest_ is not None:
-        fig.write_image(dest_ + ".png")
+        fig.write_image(dest_ + "AoI_scarf_plot.png")
 
 
 def plot_scarf(df, m_len):
-    """
 
-
-    Parameters
-    ----------
-    df : TYPE
-        DESCRIPTION.
-    m_len : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
-    """
-
-    c_ = sorted(list(set(df["Resource"].tolist())))
-
+    c_ = sorted(df["Resource"].unique().tolist())
+ 
     colors_sns = sns.color_palette("pastel", n_colors=len(c_))
-    colors = dict({})
-    for i, c in enumerate(c_):
-        colors.update({c: colors_sns[i]})
+    colors = {c: colors_sns[i] for i, c in enumerate(c_)}
+ 
+    df2 = df.copy()
+    df2["Resource"] = pd.Categorical(df2["Resource"], categories=c_, ordered=True)
+    df2 = df2.sort_values(["Resource", "Task", "Start"], kind="mergesort")  # stable
 
-    ## Create a scarf plot
     fig = ff.create_gantt(
-        df,
+        df2,
         index_col="Resource",
         bar_width=0.4,
         show_colorbar=True,
         group_tasks=True,
         colors=colors,
     )
-    ## Update the layout
+    fig.update_layout(title=None)
+ 
+    fig.data = tuple(sorted(fig.data, key=lambda tr: str(tr.name)))
+ 
+    fig.update_layout(legend_traceorder="normal")
+
     fig.update_layout(
         xaxis_type="linear",
         height=400,
         width=max(300, m_len * 30),
         xaxis_title="Time (s)",
         yaxis_title="AoI sequence index",
-        title_text="Scarfplot of AoI sequences",
         legend=dict(title=dict(text="AoI")),
     )
 
     fig.show()
-
     return fig

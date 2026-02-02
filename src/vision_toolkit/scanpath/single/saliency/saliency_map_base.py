@@ -26,21 +26,28 @@ class SaliencyMap:
 
         # Build scanpaths list
         if isinstance(input, list):
-            if isinstance(input[0], str):
-                scanpaths = [Scanpath.generate(inp, **kwargs) for inp in input]
+            
+            if isinstance(input[0], Scanpath):
+                scanpaths = input
+                
             elif isinstance(input[0], BinarySegmentation):
                 scanpaths = [Scanpath.generate(inp, **kwargs) for inp in input]
-            elif isinstance(input[0], Scanpath):
-                scanpaths = input
+            
+            elif isinstance(input[0], str):
+                scanpaths = [Scanpath.generate(inp, **kwargs) for inp in input]
+            
             else:
                 raise ValueError("Input must be a list of Scanpath, BinarySegmentation or csv")
         else:
-            if isinstance(input, str):
-                scanpaths = [Scanpath.generate(input, **kwargs)]
+            if isinstance(input, Scanpath):
+                scanpaths = [input]
+                
             elif isinstance(input, BinarySegmentation):
                 scanpaths = [Scanpath.generate(input, **kwargs)]
-            elif isinstance(input, Scanpath):
-                scanpaths = [input]
+            
+            elif isinstance(input, str):
+                scanpaths = [Scanpath.generate(input, **kwargs)]
+            
             else:
                 raise ValueError("Input must be a Scanpath, a BinarySegmentation, or a csv")
 
