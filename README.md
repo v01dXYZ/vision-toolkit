@@ -6,11 +6,11 @@
 
 > You can check the docs at https://v01dxyz.github.io/vision-toolkit <!-- FOR_README_ONLY -->
 
-`vision-toolkit` is a Python package for processing eye tracking data and extract from them:
+`vision-toolkit` is a Python library for processing eye tracking data and extract from them:
 
-- Scanpaths: A macro trajectory of the gaze without taking into account 
+- **Scanpaths**: A macro trajectory of the gaze without taking into account 
     all the little movements of the eyes around what they see
-- Areas of Interest: Zones the viewer is attracted to.
+- **Areas of Interest**: Zones the viewer is attracted to.
 
 Below a video from one of testing datasets showing multiple viewers watching a movie scene:
 
