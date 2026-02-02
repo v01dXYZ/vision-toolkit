@@ -18,3 +18,5 @@ Below a video from one of testing datasets showing multiple viewers watching a m
 This work was done by Quentin Laborde as an extension to his PhD and
 Robert Dazi for industrializing the package development, both as part
 of Centre Borelli from ENS Paris-Saclay.
+
+<!-- FOR_README_ONLY --> You can check the docs at https://v01dxyz.github.io/vision-toolkit
