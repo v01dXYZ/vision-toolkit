@@ -94,7 +94,7 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
     
 
 def main(cutoff, report_name):
-    P = sorted(((pathlib.Path(__file__).parent / "data" / "test").glob(
+    P = sorted((pathlib.Path(__file__).parent / "data" / "test").glob(
         "**/*.arff"
     ))[:cutoff]
     print("P", P)
