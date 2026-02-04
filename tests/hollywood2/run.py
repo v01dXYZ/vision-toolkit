@@ -96,7 +96,7 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
 def main(cutoff, report_name):
     P = list(pathlib.Path(__file__).parent / "data" / "test").glob(
             "**/*.arff"
-    ))[:cutoff]
+    )[:cutoff]
     print("P", P)
     gt_dim_list = [
         get_ground_truth_df(p) for p in P
