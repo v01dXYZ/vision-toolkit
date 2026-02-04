@@ -10,11 +10,9 @@ import numpy as np
 from scipy.io import arff as a
 
 import vision_toolkit as v
+import vision_toolkit_test as vt
 
-NOISE = 0
-FIX = 1
-SACCADE = 2
-SP = 3
+HANDLABELLER_FINAL = "handlabeller_final"
 
 NOISE_STR = "NOISE"
 FIX_STR = "FIX"
@@ -23,17 +21,17 @@ SP_STR = "SP"
 
 
 LABELS_ORDINALS = [
-    ("NOISE", NOISE),
-    ("FIX", FIX),
-    ("SACCADE", SACCADE),
-    ("SP", SP),
+    ("NOISE", vt.NOISE),
+    ("FIX", vt.FIX),
+    ("SACCADE", vt.SACCADE),
+    ("SP", vt.SP),
 ]
 
 LABELS_STR_TO_ORDINAL = dict(LABELS_ORDINALS)
 LABELS_ORDINAL_TO_STR = dict(reversed(t) for t in LABELS_ORDINALS)
 
-X_NAME = "gazeX"
-Y_NAME = "gazeY"
+
+EYE_MOVEMENT_TYPE = "EYE_MOVEMENT_TYPE"
 
 
 def get_ground_truth_df(fp):
@@ -50,7 +48,8 @@ def get_ground_truth_df(fp):
 
     df = pd.DataFrame(arff_data["data"])
     return (
-        df[["time", "x", "y", "handlabeller_final"]],
+        arff_data,
+#        df[["time", "x", "y", "handlabeller_final"]],
         {
             "width_px": width_px,
             "height_px": height_px,
@@ -59,134 +58,23 @@ def get_ground_truth_df(fp):
         },
     )
 
-
-def convert_spt_to_vstk(
-    df,
-    width_px,
-    height_px,
-    width_mm,
-    height_mm,
-):
-    res = pd.DataFrame(
-        {
-            X_NAME: df["x"] * width_mm / width_px,
-            Y_NAME: df["y"] * height_mm / height_px,
-            "event_label": df["handlabeller_final"].replace(LABELS_STR_TO_ORDINAL),
-        }
-    )
-
-    is_out_of_bounds = (
-        (res[X_NAME] <= 0)
-        | (res[X_NAME] > width_mm)
-        | (res[Y_NAME] <= 0)
-        | (res[Y_NAME] > height_mm)
-    )
-
-    res.loc[is_out_of_bounds, "event_label"] = NOISE
-    res.loc[res["event_label"] == NOISE, [X_NAME, Y_NAME]] = np.nan
-
-    return res[[X_NAME, Y_NAME]].interpolate(), res["event_label"], df["time"]
-
-
-def convert_vstk_to_spt(
-    coords,
-    labels,
-    time,
-    width_px,
-    height_px,
-    width_mm,
-    height_mm,
-):
-    return pd.DataFrame(
-        {
-            "time": time,
-            "x": coords[X_NAME] * width_px / width_mm,
-            "y": coords[Y_NAME] * height_px / height_mm,
-            "handlabeller_final": labels.replace(LABELS_ORDINAL_TO_STR),
-        }
-    )
-
-
-def build_predictions_from_results(r, gt_df):
-    predictions = np.full(r.config["nb_samples"], NOISE_STR, dtype="<U8")
-    for k, val in [
-        ("fixation_intervals", FIX_STR),
-        ("saccade_intervals", SACCADE_STR),
-        ("pursuit_intervals", SP),
-    ]:
-        intervals = r.segmentation_results.get(k)
-
-        if intervals is None:
-            continue
-
-        for start, end in intervals:
-            predictions[start : end + 1] = val
-
-    predictions_df = gt_df.drop(columns=["handlabeller_final"])
-    predictions_df["EYE_MOVEMENT_TYPE"] = predictions
-
-    return predictions_df
-
-
-METHODS_CONFIG = {
-    "BINARY": {
-        "I_VT": {},
-        "I_DeT": {},
-        "I_HMM": {},
-        "I_2MC": {},
-        "I_DeT": {},
-        "I_DiT": {},
-        "I_HMM": {},
-        "I_KF": {},
-        "I_MST": {},
-        "I_VT": {},
-    },
-    "TERNARY": {
-        "I_BDT": {},
-        "I_VDT": {},
-        "I_VMP": {},
-    },
-}
-
-
-def run_segmentation(fp, nary, method):
-    gt_df, dimensions = get_ground_truth_df(fp)
-
-    ds, _, _ = convert_spt_to_vstk(
-        gt_df,
-        **dimensions,
-    )
-
-    if ds["gazeX"].isna().sum() >= 1:
-        return None
-
-    if nary == "BINARY":
-        Segmentation = v.BinarySegmentation
-    elif nary == "TERNARY":
-        Segmentation = v.TernarySegmentation
-    else:
-        raise RuntimeError()
-
-    r = Segmentation(
-        ds,
-        sampling_frequency=500,
-        segmentation_method=method,
-        distance_type="euclidean",
-        display_segmentation=True,
-        size_plan_x=dimensions["width_mm"],
-        size_plan_y=dimensions["height_mm"],
-        smoothing="savgol",
-        savgol_window_length=31,
-        savgol_polyorder=3,
-        verbose=False,
-    )
-
-    r.process()
-
-    predictions_df = build_predictions_from_results(r, gt_df)
-
-    return gt_df, predictions_df
-
+# def convert_vstk_to_spt(
+#     coords,
+#     labels,
+#     time,
+#     width_px,
+#     height_px,
+#     width_mm,
+#     height_mm,
+# ):
+#     return pd.DataFrame(
+#         {
+#             "time": time,
+#             "x": coords[vt.GAZE_X] * width_px / width_mm,
+#             "y": coords[vt.GAZE_Y] * height_px / height_mm,
+#             "handlabeller_final": labels.replace(LABELS_ORDINAL_TO_STR),
+#         }
+#     )
 
 def as_arff_data(x):
     column_dtypes = {
@@ -202,57 +90,106 @@ def as_arff_data(x):
     }
     return ret
 
+SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
+    
 
-def main(cutoff):
-    paths = [
-        p for p in (pathlib.Path(__file__).parent / "data" / "test").glob(
-            "**/*.arff"
-        )
-    ][:cutoff]
-
-    report = {}
-    for nary, methods in METHODS_CONFIG.items():
-        report[nary] = {}
-        for method_name, config in methods.items():
-            gt = []
-            pred = []
-
-            for i, p in enumerate(paths):
-                g_p = run_segmentation(p, nary, method_name)
-                if g_p is None:
-                    continue
-
-                g, p = g_p
-
-                pred.append(as_arff_data(p))
-                gt.append(as_arff_data(g))
-
-            res_stats = {}
-            for positive_label in sorted([FIX_STR, SACCADE_STR, SP_STR]) + [None]:
-                res_stats[positive_label or "all"] = evaluate(
-                    gt,
-                    pred,
-                    experts=["handlabeller_final"],
-                    positive_label=positive_label,
-                )
-
-            report[nary][method_name] = res_stats
+def main(cutoff, report_name):
+    report = Hollywood2ReportForEachMethod.evaluate(
+        gt_dim_list=[
+            get_ground_truth_df(p) for p in (pathlib.Path(__file__).parent / "data" / "test").glob(
+                "**/*.arff"
+            )
+        ][:cutoff], # not great but KISS
+    )
 
     s = pd.Series({
         method_name: r["all"]["F1"]
         for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
     })
 
-    s.to_json("report.json")
-    s.to_markdown("report.md")
-    s.plot.bar().figure.savefig("report.png")
+    report_path = pathlib.Path(report_name)
+
+    s.to_json(report_path.with_suffix(".json"))
+    s.to_markdown(report_path.with_suffix(".md"))
+    s.plot.bar().figure.savefig(report_path.with_suffix(".png"))
+
+
+
+class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
+    @classmethod
+    def evaluate_predictions(cls, gt_list, pred_list):
+        res_stats = {}
+
+        for positive_label in SORTED_LABELS + [None]:
+            res_stats[positive_label or "all"] = evaluate(
+                gt_list,
+                pred_list,
+                experts=[HANDLABELLER_FINAL],
+                positive_label=positive_label,
+            )
+
+        return res_stats
+
+    @classmethod
+    def convert_to_vstk(
+            cls,
+            gt,
+            width_px,
+            height_px,
+            width_mm,
+            height_mm,
+    ):
+        
+        gt_data = gt["data"]
+        coords = pd.DataFrame(
+            {
+                vt.GAZE_X: gt_data["x"] * width_mm / width_px,
+                vt.GAZE_Y: gt_data["y"] * height_mm / height_px,
+            }
+        )
+        labels = pd.Series(gt_data[HANDLABELLER_FINAL]).replace(LABELS_STR_TO_ORDINAL)
+        is_out_of_bounds = (
+            (coords[vt.GAZE_X] <= 0)
+            | (coords[vt.GAZE_X] > width_mm)
+            | (coords[vt.GAZE_Y] <= 0)
+            | (coords[vt.GAZE_Y] > height_mm)
+        )
+
+        labels[is_out_of_bounds] = vt.NOISE
+        coords.loc[labels == vt.NOISE, [vt.GAZE_X, vt.GAZE_Y]] = np.nan
+
+        return coords[[vt.GAZE_X, vt.GAZE_Y]].interpolate(), labels, gt_data["time"]
+        
+    @classmethod
+    def build_predictions_from_results(cls, r, gt, gt_vstk):
+        predictions = cls.build_labels_ordinal_from_res(
+            r,
+            {
+                vt.FIXATION_INTERVALS: FIX_STR,
+                vt.SACCADE_INTERVALS: SACCADE_STR,
+                vt.PURSUIT_INTERVALS: SP_STR,
+            },
+            default_ordinal=NOISE_STR,
+        )
+
+        predictions_sp = np.lib.recfunctions.rename_fields(
+            gt["data"].copy(),
+            {
+                HANDLABELLER_FINAL: EYE_MOVEMENT_TYPE,
+            }
+        )
+
+        predictions_sp[EYE_MOVEMENT_TYPE] = predictions
+
+        return {"data": predictions_sp}
 
 
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser()
 
     arg_parser.add_argument("cutoff", type=int)
+    arg_parser.add_argument("report_name", nargs="?", default="report")
 
     args = arg_parser.parse_args()
-    main(args.cutoff)
+    main(args.cutoff, args.report_name)
 
