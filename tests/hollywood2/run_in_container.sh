@@ -13,4 +13,4 @@ fi
 
 VISION_TOOLKIT_BUILD=$VISION_TOOLKIT_BUILD pip install "/src[test]" --no-deps
 
-cd /src && python3 tests/hollywood2/run.py $1
+cd /src && PYTHONPATH=tests python3 tests/hollywood2/run.py $1
