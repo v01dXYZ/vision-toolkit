@@ -161,12 +161,17 @@ class ReportForEachMethod:
                     pred_list.append(pred)
                     gt_list.append(gt)
 
+                cls.debug(nary, method_name, gt_list, pred_list)
                 report[nary][method_name] = cls.evaluate_predictions(
                     gt_list,
                     pred_list,
                 )
 
         return normalize_report(report)
+
+    @classmethod
+    def debug(cls, nary, method_name, gt_list, pred_list): 
+        pass
 
     @classmethod
     def evaluate_predictions(cls, gt, pred):
