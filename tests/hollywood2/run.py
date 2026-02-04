@@ -183,6 +183,18 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
 
         return {"data": predictions_sp}
 
+    @classmethod
+    def debug(cls, nary, method_name, gt_list, pred_list):
+        import pandas as pd
+
+        print("#"*30)
+        print()
+        print("NARY:", nary)
+        print("METHOD_NAME:", method_name)
+
+        for i, pred in enumerate(pred_list):
+            print(f"[{i: 2}] --- ")
+            print(pd.Series(pred["data"][EYE_MOVEMENT_TYPE]).value_counts())
 
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser()
