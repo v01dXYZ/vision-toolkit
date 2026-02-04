@@ -55,7 +55,6 @@ src/vision_toolkit/aoi/markov_based/hmm.py
 src/vision_toolkit/aoi/markov_based/markov_based.py
 src/vision_toolkit/aoi/markov_based/transition_entropy.py
 src/vision_toolkit/aoi/markov_based/transition_matrix.py
-src/vision_toolkit/aoi/markov_based/vhem.py
 src/vision_toolkit/aoi/markov_based/c_HMM/c_HMM.c
 src/vision_toolkit/aoi/pattern_mining/__init__.py
 src/vision_toolkit/aoi/pattern_mining/lempel_ziv.py

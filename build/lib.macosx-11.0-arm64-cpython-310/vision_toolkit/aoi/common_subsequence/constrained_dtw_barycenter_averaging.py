@@ -111,19 +111,32 @@ class CDBA:
 
         # Max occurrences per AoI (constraint 1)  
         counts_ = self.get_counts(S_s)
+ 
+        init_mode = self.config.get("AoI_CDBA_initialization", "medoid")
 
-        # Initialization length 
-        init_len = self.config["AoI_CDBA_initialization_length"]
-        if init_len == "min":
-            l_m = int(np.min([len(s_) for s_ in S_s]))
-        elif init_len == "max":
-            l_m = int(np.max([len(s_) for s_ in S_s]))
+        if init_mode == "medoid":
+            consensus = self.compute_medoid(S_s)
+       
+        elif init_mode == "random_observed":
+            np.random.seed(self.config.get("AoI_CDBA_initial_random_state", 1))
+            consensus = list(S_s[np.random.randint(len(S_s))])
+        
+        elif init_mode == "random":
+            np.random.seed(self.config.get("AoI_CDBA_initial_random_state", 1))
+            init_len = self.config["AoI_CDBA_initialization_length"]
+            if init_len == "min":
+                l_m = int(np.min([len(s_) for s_ in S_s]))
+            elif init_len == "max":
+                l_m = int(np.max([len(s_) for s_ in S_s]))
+            else:
+                raise ValueError("'AoI_CDBA_initialization_length' must be set to 'min' or 'max'")
+
+            consensus = list(np.random.choice(list(self.centers.keys()), l_m))
+            
         else:
-            raise ValueError("'AoI_CDBA_initialization_length' must be set to 'min' or 'max'")
-
-        # Initialize consensus randomly (reproducible)  
-        np.random.seed(self.config.get("AoI_CDBA_initial_random_state", 3))
-        consensus = list(np.random.choice(list(self.centers.keys()), l_m))
+            raise ValueError("'AoI_CDBA_initialization' must be set to 'medoid', 'random_observed' or 'random'")
+        
+        
         old_consensus = copy.deepcopy(consensus)
 
         # Iterate  
@@ -281,6 +294,28 @@ class CDBA:
             counts_.update({aoi: max(c_)})
 
         return counts_
+    
+    
+    def compute_medoid(self, S_s):
+        """
+        Returns the AoI sequence that minimizes the average DTW
+        distance to all other sequences.
+        """
+        n = len(S_s)
+        dist_sum = np.zeros(n)
+    
+        for i in range(n):
+            for j in range(n):
+                if i != j:
+                    # DTW on AoI centers (same metric as CDBA)
+                    s_i = np.array([self.centers[a] for a in S_s[i]])
+                    s_j = np.array([self.centers[a] for a in S_s[j]])
+                    d_m = cdist(s_i, s_j, metric="euclidean")
+                    _, dist_ij = c_comparison.DTW(s_i.T, s_j.T, d_m)
+                    dist_sum[i] += dist_ij
+    
+        return list(S_s[int(np.argmin(dist_sum))])
+
 
     def verbose(self, add_=None):
         """
