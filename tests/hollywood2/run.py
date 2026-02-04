@@ -94,12 +94,16 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
     
 
 def main(cutoff, report_name):
+    gt_dim_list = [
+        get_ground_truth_df(p) for p in (pathlib.Path(__file__).parent / "data" / "test").glob(
+            "**/*.arff"
+        )
+    ][:cutoff]
+
+    print("gt_dim_list", gt_dim_list)
+
     report = Hollywood2ReportForEachMethod.evaluate(
-        gt_dim_list=[
-            get_ground_truth_df(p) for p in (pathlib.Path(__file__).parent / "data" / "test").glob(
-                "**/*.arff"
-            )
-        ][:cutoff], # not great but KISS
+        gt_dim_list=gt_dim_list, # not great but KISS
     )
 
     s = pd.Series({
