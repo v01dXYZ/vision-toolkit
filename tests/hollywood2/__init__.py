@@ -112,6 +112,7 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
                 positive_label=positive_label,
             )
 
+
         return res_stats
 
     @classmethod
@@ -179,6 +180,14 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
         for i, pred in enumerate(pred_list):
             print(f"[{i: 2}] --- ")
             print(pd.Series(pred["data"][EYE_MOVEMENT_TYPE]).value_counts())
+
+    @classmethod
+    def summarize_report_into_serie(cls, report):
+        return pd.Series({
+            method_name: r["all"]["F1"]
+            for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
+        })
+
 
 # if __name__ == "__main__":
 #     arg_parser = argparse.ArgumentParser()
