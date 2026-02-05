@@ -170,6 +170,8 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
 
     @classmethod
     def debug(cls, nary, method_name, gt_list, pred_list):
+        return
+
         import pandas as pd
 
         print("#"*30)
