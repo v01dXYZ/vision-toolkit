@@ -106,6 +106,7 @@ jobs:
           - name: Fast
             dataset: hollywood2
             cutoff: 5
+            comment: true
           - name: Full
             dataset: hollywood2
             cutoff: 1000
@@ -165,8 +166,7 @@ jobs:
       # Hack to display image in comment as artifact can't be used for such a thing
       - name: Add report as comment on PR
         uses: actions/github-script@v6
-        # disable commenting as it creates a lot of clutter in the PR
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && matrix.args.comment }}
         with:
           script: |
             const fs = require('node:fs');
@@ -175,7 +175,7 @@ jobs:
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
-            const MAGIC = '<!-- MAGIC github-action-bot ${{ matrix.args.name }} Test Report -->';
+            const MAGIC = '<!-- MAGIC github-action-bot ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
 
             const success = '${{ job.status }}' === 'success';
             const body = 
