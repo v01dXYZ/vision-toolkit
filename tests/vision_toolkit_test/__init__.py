@@ -80,7 +80,6 @@ class ReportForEachMethod:
             raise RuntimeError()
 
         kwargs = {
-            "sampling_frequency": 500,
             "segmentation_method": method,
             "distance_type": "euclidean",
             "display_segmentation": True,
@@ -90,6 +89,7 @@ class ReportForEachMethod:
             "savgol_window_length": 31,
             "savgol_polyorder": 3,
             "verbose": False,
+            **cls.SEGMENTATION_KWARGS,
             **segmentation_kwargs,
         }
 
