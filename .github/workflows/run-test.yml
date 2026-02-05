@@ -127,7 +127,7 @@ jobs:
 
       - name: Run tests
         run: |
-          RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
+          echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
           $CONTAINERCLI run \
             -v .:/src \
             -t ${{ needs.build_container_image.outputs.imgtag }} \
