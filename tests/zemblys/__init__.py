@@ -17,6 +17,10 @@ SCREEN_HEIGHT = 301.0
 FAULTY_PARTICIPANT_ID = 5
 
 class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
+    SEGMENTATION_KWARGS = {
+        "sampling_frequency": 1000,
+    }
+
     @classmethod
     def evaluate_predictions(cls, gt, pred):
         (_, gt_labels_df, _) = gt
