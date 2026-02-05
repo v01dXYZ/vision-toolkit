@@ -127,6 +127,7 @@ jobs:
 
       - name: Run tests
         run: |
+          RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
           $CONTAINERCLI run \
             -v .:/src \
             -t ${{ needs.build_container_image.outputs.imgtag }} \
@@ -135,17 +136,17 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: report-${{ matrix.args.dataset}}-${{ matrix.args.name }}
-          path: ./tests/results/${{ matrix.args.dataset }}
+          path: ${{ env.RESULTS_DIR }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
-          path: ./tests/results/${{ matrix.args.dataset }}/report.json
+          path: ${{ env.RESULTS_DIR }}/report.json
 
       - uses: actions/upload-artifact@v4
         with:
           name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
-          path: ./tests/results/${{ matrix.args.dataset }}/report.png
+          path: ${{ env.RESULTS_DIR }}/report.png
 
       - name: Upload report.png
         run: |
@@ -155,7 +156,7 @@ jobs:
           git config user.email "nocontact@unreachable"
           IMGNAME='report_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
           echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
-          cp ./tests/results/${{ matrix.args.dataset }}/report.png $IMGNAME
+          cp $RESULTS_DIR/report.png $IMGNAME
           git add $IMGNAME
           git commit -m "Publish report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
           git push origin $IMGSBRANCH
@@ -185,7 +186,7 @@ jobs:
             const body = 
             `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}
             ${url}
-            ${fs.readFileSync("./tests/results/${{ matrix.args.dataset }}/report.md")}
+            ${fs.readFileSync("./${{ env.RESULTS_DIR }}/report.md")}
 
 
             ![barplot](https://github.com/${{ github.repository }}/blob/${{ env.IMGSBRANCH }}/${{ env.IMGNAME }}?raw=true)
@@ -239,4 +240,4 @@ jobs:
             });
 
       - name: Show report
-        run: cat ./tests/results/${{ matrix.args.dataset }}/report.md
+        run: cat ${{ env.RESULTS_DIR }}/report.md
