@@ -135,13 +135,18 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
-          path: report.json
+          path: /src/tests/results/{{ matrix.args.dataset }}
 
-      - uses: actions/upload-artifact@v4
-        id: report-png
-        with:
-          name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
-          path: report.png
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+      #     path: report.json
+
+      # - uses: actions/upload-artifact@v4
+      #   id: report-png
+      #   with:
+      #     name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
+      #     path: report.png
 
       - name: Upload report.png
         run: |
