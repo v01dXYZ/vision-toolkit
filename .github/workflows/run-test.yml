@@ -239,4 +239,4 @@ jobs:
             });
 
       - name: Show report
-        run: cat report.md
+        run: cat ./tests/results/${{ matrix.args.dataset }}/report.md
