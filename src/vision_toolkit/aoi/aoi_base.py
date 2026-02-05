@@ -46,8 +46,13 @@ class AoISequence(Scanpath):
 
         ## Used when generating AoI from multiple sequences
         if isinstance(input, dict):
+            
+            if "config" not in input or input["config"] is None:
+                input["config"] = {}
+                
             aoi_temporal_binning = kwargs.get("AoI_temporal_binning", False)
             input["config"].update({"AoI_temporal_binning": aoi_temporal_binning})
+            
             if aoi_temporal_binning == True:
                 input["config"].update(
                     {
@@ -274,7 +279,7 @@ class AoISequence(Scanpath):
         self.verbose()
 
 
-    def generate_from_dict(self, input, aoi_temporal_binning):
+    def generate_from_dict(self, input, aoi_temporal_binning=False):
         """
 
 
@@ -291,8 +296,18 @@ class AoISequence(Scanpath):
 
         self.identification_results = None
 
+        required_keys = ["sequence", "durations"]
+        missing = [k for k in required_keys if k not in input]
+        
+        if missing:
+            raise KeyError(
+                f"Missing required key(s) in input dictionary: {missing}. "
+                "Expected keys are 'sequence' and 'durations'."
+            )
+        
         seq_ = input["sequence"]
         seq_dur = input["durations"]
+
         config = input.get("config", dict({}))
 
         if aoi_temporal_binning == True:
@@ -304,11 +319,16 @@ class AoISequence(Scanpath):
         self.durations = seq_dur
 
         self.centers = input.get("centers", None)
-        self.nb_aoi = input["nb_aoi"]
+        
+        if "nb_aoi" in input and input["nb_aoi"] is not None:
+            self.nb_aoi = input["nb_aoi"]
+        else:
+            self.nb_aoi = len(set(self.sequence))
 
         self.values = None
         self.config = config
         self.fixation_analysis = input.get("fixation_analysis", None)
+
 
     def generate_from_hmm(self, input, gaze_df, ref_image, kwargs):
         

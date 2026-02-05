@@ -882,7 +882,7 @@ def plot_ref_seq_with_bi_tri_grams(
         yanchor="middle",
         textangle=-90,
         showarrow=False,
-        font=dict(size=17),
+        font=dict(size=16),
     )
 
     # --- Legend AoI: lignes (pas de points) ---
@@ -905,11 +905,12 @@ def plot_ref_seq_with_bi_tri_grams(
         go.Bar(
             x=bi_vals[::-1],
             y=bi_labels[::-1],
+            width=0.5,
             orientation="h",
             text=[f"{v:.2%}" for v in bi_vals[::-1]],
             textposition="outside",
             cliponaxis=False,
-            marker=dict(color=blue_bar),
+            marker=dict(color='darkblue'),
             showlegend=False
         ),
         row=2, col=1
@@ -920,14 +921,29 @@ def plot_ref_seq_with_bi_tri_grams(
         go.Bar(
             x=tri_vals[::-1],
             y=tri_labels[::-1],
+            width=0.5,
             orientation="h",
             text=[f"{v:.2%}" for v in tri_vals[::-1]],
             textposition="outside",
             cliponaxis=False,
-            marker=dict(color=red_bar),
+            marker=dict(color='darkblue'),
             showlegend=False
         ),
         row=2, col=2
+    )
+    
+    fig.update_xaxes(
+    row=2, col=1,
+    showticklabels=False,
+    ticks="",
+    showgrid=False
+    )
+    
+    fig.update_xaxes(
+        row=2, col=2,
+        showticklabels=False,
+        ticks="",
+        showgrid=False
     )
 
     # axes bas
@@ -952,7 +968,7 @@ def plot_ref_seq_with_bi_tri_grams(
             yanchor="top",
             y=1.0,
             xanchor="left",
-            x=1.02,  # dans la marge droite -> hors rectangle bleu
+            x=1.05,  # dans la marge droite -> hors rectangle bleu
         ),
     )
 
@@ -960,18 +976,21 @@ def plot_ref_seq_with_bi_tri_grams(
     # On récupère le domain du subplot du haut (xaxis/yaxis) en coordonnées paper
     xdom = fig.layout.xaxis.domain
     ydom = fig.layout.yaxis.domain
-
-    # On ajoute un rectangle bleu "derrière" (layer below) uniquement sur cette zone
+    
+    pad_x = 0.04  # augmente si besoin (0.02 à 0.06)
+    
     fig.add_shape(
         type="rect",
         xref="paper", yref="paper",
-        x0=xdom[0], x1=xdom[1],
-        y0=ydom[0], y1=ydom[1],
+        x0=xdom[0] - pad_x,   # <-- peut être négatif
+        x1=xdom[1] + pad_x,   # <-- peut être > 1
+        y0=ydom[0],
+        y1=ydom[1],
         fillcolor=scarf_bg_color,
         line=dict(width=0),
         layer="below",
     )
-
+    
     if dest_ is not None:
         fig.write_image(dest_ + "ngrams.png", scale=4)
     if show:
@@ -982,83 +1001,85 @@ def plot_ref_seq_with_bi_tri_grams(
 
 
 
-root = 'dataset/'
-sp1 = v.Scanpath(root + 'data_1.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800, 
-                display_scanpath=True,
-                verbose=False)
+# root = 'dataset/'
+# sp1 = v.Scanpath(root + 'data_1.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800, 
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp2 = v.Scanpath(root + 'data_2.csv', 
-                sampling_frequency = 256,  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=True)
+# sp2 = v.Scanpath(root + 'data_2.csv', 
+#                 sampling_frequency = 256,  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=True)
 
-sp3 = v.Scanpath(root + 'data_3.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp3 = v.Scanpath(root + 'data_3.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp4 = v.Scanpath(root + 'data_4.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp4 = v.Scanpath(root + 'data_4.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp5 = v.Scanpath(root + 'data_5.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp5 = v.Scanpath(root + 'data_5.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-sp6 = v.Scanpath(root + 'data_6.csv', 
-                sampling_frequency = 256,                  
-                segmentation_method = 'I_HMM',
-                distance_type = 'angular',                        
-                display_segmentation = False,
-                size_plan_x = 1200,
-                size_plan_y = 800,
-                display_scanpath=True,
-                verbose=False)
+# sp6 = v.Scanpath(root + 'data_6.csv', 
+#                 sampling_frequency = 256,                  
+#                 segmentation_method = 'I_HMM',
+#                 distance_type = 'angular',                        
+#                 display_segmentation = False,
+#                 size_plan_x = 1200,
+#                 size_plan_y = 800,
+#                 display_scanpath=True,
+#                 verbose=False)
 
-seqs = [sp1, sp4, sp6] 
-aoi_seqs = v.AoI_sequences(
-    seqs,
-    display_scanpath=True,
-    AoI_identification_method="I_KM",
-    AoI_IKM_cluster_number=5,
-)
+# seqs = [sp1, sp4, sp5, sp6] 
+# aoi_seqs = v.AoI_sequences(
+#     seqs,
+#     display_scanpath=True,
+#     AoI_identification_method="I_KM",
+#     AoI_IKM_cluster_number=5,
+# )
 
 # for seq in aoi_seqs:
-#     print(seq.sequence
+#     print(repr(seq.sequence)
 #           )
-#     print(seq.durations
+#     print(repr(seq.durations)
+#           )
+#     print(repr(seq.centers)
 #           )
 #     print()
     
-#v.AoI_scarf_plot(aoi_seqs)
+# v.AoI_scarf_plot(aoi_seqs)
 
 # emine = v.AoI_eMine(aoi_seqs)
 # cdba_1  = v.AoI_CDBA(aoi_seqs,
@@ -1072,32 +1093,77 @@ aoi_seqs = v.AoI_sequences(
 #     aoi_seqs,
 #     emine_res=emine,
 #     sta_res=sta,
-#     cdba_res=cdba_1,
-#     cdba_res2=cdba_2,
+#     cdba_res=cdba_1, 
 #     AoI_scarf_plot_path='figures/',  # ou "path/to/output/"
 # )
 
-AoI1 = v.AoISequence(sp5,
-                      AoI_identification_method="I_KM",
-                      AoI_IKM_cluster_number=4,
-                      verbose=False,
-                      AoI_temporal_binning='collapse')
-print(AoI1.sequence,)
-n2=(v.AoI_NGram(AoI1,
-                  verbose=False,
-                  AoI_NGram_length=2))
-n3=(v.AoI_NGram(AoI1,
-                  verbose=False,
-                  AoI_NGram_length=3))
+# AoI1 = v.AoISequence(sp5,
+#                       AoI_identification_method="I_KM",
+#                       AoI_IKM_cluster_number=4,
+#                       verbose=False,
+#                       AoI_temporal_binning='collapse')
+# print(AoI1.sequence,)
+# n2=(v.AoI_NGram(AoI1,
+#                   verbose=False,
+#                   AoI_NGram_length=2))
+# n3=(v.AoI_NGram(AoI1,
+#                   verbose=False,
+#                   AoI_NGram_length=3))
 
 
 
-fig = plot_ref_seq_with_bi_tri_grams(
-    AoI1.sequence,
-    bigram_counts=n2['AoI_NGram'],
-    trigram_counts=n3['AoI_NGram'],
-    k=8, 
-    dest_='figures/'
-)
+# fig = plot_ref_seq_with_bi_tri_grams(
+#     AoI1.sequence,
+#     bigram_counts=n2['AoI_NGram'],
+#     trigram_counts=n3['AoI_NGram'],
+#     k=8, 
+#     dest_='figures/'
+# )
+
+centers = {
+  "A": np.array([720.0, 260.0]),
+  "B": np.array([360.0, 210.0]),
+  "C": np.array([980.0, 330.0]),
+  "D": np.array([760.0, 650.0]),
+  "E": np.array([420.0, 620.0]),
+}
+
+aoi1 = v.AoISequence(dict({'sequence': ['A','A','A','B','B','B','C','C','A','A','E','E','A','A','C','C','C',
+                                                           'B','B','A','A','A','D','D','E','B','B','C','A','A','A','C','C','D','E','A'] ,
+                                              'durations': np.array([
+                                                  0.14,0.20,0.17,0.12,0.31,0.25,0.35,0.21,0.18,0.50,
+                                                  0.13,0.21,0.19,0.13,0.16,0.21,0.93,0.14,0.18,0.73,
+                                                  0.21,0.14,0.12,0.30,0.22,0.16,0.20,0.18,0.11,0.25,
+                                                  0.18,0.12,0.21,0.18,0.13,0.15,0.22,0.35
+                                                      ]),
+                                              'centers': centers}))
+
+aoi2 = v.AoISequence(dict({'sequence': ['A','A','B','B','B','C','C','C','A','E','E','A','A','A','C','C',
+                                            'B','B','B','D','D','E','E','B','A','A','C','C','C','B','B',
+                                            'A','A','A','C','C','D','B','B','A','A'],
+                                              'durations': np.array([
+                                                  0.16,0.14,0.14,0.36,0.20,0.31,0.24,0.18,0.51,0.12,
+                                                  0.21,0.19,0.15,0.56,0.14,0.21,0.13,0.41,0.20,0.11,
+                                                  0.28,0.23,0.15,0.20,0.87,0.20,0.17,0.13,0.50,0.12,
+                                                  0.20,0.14,0.21,0.16,0.25,0.20,0.13,0.24,0.18,0.35,
+                                                  0.22,0.31
+                                                ]),
+                                              'centers': centers}))
+
+aoi_seqs = [aoi1,aoi2]
+
+
+emine = v.AoI_eMine(aoi_seqs)
+
+
+sta = v.AoI_trend_analysis(aoi_seqs,
+                            AoI_trend_analysis_tolerance_level=0.5)
+
+cdba_1  = v.AoI_CDBA(aoi_seqs)
+
+print(emine)
+print(sta)
+print(cdba_1)
+
 
 
