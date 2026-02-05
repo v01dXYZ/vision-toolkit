@@ -164,7 +164,7 @@ jobs:
           echo "## Image" >> $GITHUB_STEP_SUMMARY
           echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
-          cat report.md >> $GITHUB_STEP_SUMMARY
+          cat ./tests/results/${{ matrix.args.dataset }}/report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
 
       # Hack to display image in comment as artifact can't be used for such a thing
@@ -185,7 +185,7 @@ jobs:
             const body = 
             `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}
             ${url}
-            ${fs.readFileSync("report.md")}
+            ${fs.readFileSync("./tests/results/${{ matrix.args.dataset }}/report.md")}
 
 
             ![barplot](https://github.com/${{ github.repository }}/blob/${{ env.IMGSBRANCH }}/${{ env.IMGNAME }}?raw=true)
