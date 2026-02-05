@@ -1,3 +1,6 @@
+import argparse
+import pathlib
+
 import numpy as np
 import pandas as pd
 
@@ -14,7 +17,6 @@ PURSUIT_INTERVALS = "pursuit_intervals"
 
 GAZE_X = "gazeX"
 GAZE_Y = "gazeY"
-
 
 METHODS_CONFIG = {
     "BINARY": {
@@ -231,3 +233,45 @@ class VSTKReportForEachMethod(ReportForEachMethod):
         )
 
         return as_arff_data(gt_df), as_arff_data(predictions_df)
+
+
+class EntryPoint:
+    paths: list[pathlib.Path]
+    ReportForEachMethod: type
+    
+
+
+    @classmethod
+    def load_ground_truth_file(cls, fn):
+        pass
+
+    @classmethod
+    def main(cls, args):
+        cutoff = args.cutoff
+        report_name = args.report_name
+        directory = args.directory
+
+        # we sort it
+        paths = sorted(cls.paths)
+
+        paths_cutoff = [paths[i] for i in range(0, len(paths), len(paths) // cutoff)]
+        gt_dim_list = [
+            cls.load_ground_truth_file(p) for p in paths_cutoff
+        ]
+
+        report = cls.ReportForEachMethod.evaluate(gt_dim_list=gt_dim_list)
+
+        s = pd.Series({
+            method_name: r["all"]["F1"]
+            for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
+        })
+
+        if not directory.exists():
+            directory.mkdir(exist_ok=True,
+                            parents=True)
+
+        report_path = directory / report_name
+
+        s.to_json(report_path.with_suffix(".json"))
+        s.to_markdown(report_path.with_suffix(".md"))
+        s.plot.bar().figure.savefig(report_path.with_suffix(".png"))

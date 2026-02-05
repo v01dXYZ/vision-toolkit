@@ -34,29 +34,6 @@ LABELS_ORDINAL_TO_STR = dict(reversed(t) for t in LABELS_ORDINALS)
 EYE_MOVEMENT_TYPE = "EYE_MOVEMENT_TYPE"
 
 
-def get_ground_truth_df(fp):
-    with open(fp) as f:
-        arff_data = ArffHelper.load(f)
-
-    metadata = arff_data["metadata"]
-
-    width_px = metadata["width_px"]
-    height_px = metadata["height_px"]
-    width_mm = metadata["width_mm"]
-    height_mm = metadata["height_mm"]
-    distance_mm = metadata["distance_mm"]
-
-    df = pd.DataFrame(arff_data["data"])
-    return (
-        arff_data,
-#        df[["time", "x", "y", "handlabeller_final"]],
-        {
-            "width_px": width_px,
-            "height_px": height_px,
-            "width_mm": width_mm,
-            "height_mm": height_mm,
-        },
-    )
 
 # def convert_vstk_to_spt(
 #     coords,
@@ -93,32 +70,32 @@ def as_arff_data(x):
 SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
     
 
-def main(cutoff, report_name):
-    P = sorted((pathlib.Path(__file__).parent / "data" / "test").glob(
-        "**/*.arff"
-    ))
+# def main(cutoff, report_name):
+#     P = sorted((pathlib.Path(__file__).parent / "data" / "test").glob(
+#         "**/*.arff"
+#     ))
 
 
-    P_cutoff = [P[i] for i in range(0, len(P), len(P) // cutoff)]
-    print("P_cutoff", P_cutoff)
-    gt_dim_list = [
-        get_ground_truth_df(p) for p in P_cutoff
-    ]
+#     P_cutoff = [P[i] for i in range(0, len(P), len(P) // cutoff)]
+#     print("P_cutoff", P_cutoff)
+#     gt_dim_list = [
+#         get_ground_truth_df(p) for p in P_cutoff
+#     ]
 
-    report = Hollywood2ReportForEachMethod.evaluate(
-        gt_dim_list=gt_dim_list, # not great but KISS
-    )
+#     report = Hollywood2ReportForEachMethod.evaluate(
+#         gt_dim_list=gt_dim_list, # not great but KISS
+#     )
 
-    s = pd.Series({
-        method_name: r["all"]["F1"]
-        for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
-    })
+#     s = pd.Series({
+#         method_name: r["all"]["F1"]
+#         for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
+#     })
 
-    report_path = pathlib.Path(report_name)
+#     report_path = pathlib.Path(report_name)
 
-    s.to_json(report_path.with_suffix(".json"))
-    s.to_markdown(report_path.with_suffix(".md"))
-    s.plot.bar().figure.savefig(report_path.with_suffix(".png"))
+#     s.to_json(report_path.with_suffix(".json"))
+#     s.to_markdown(report_path.with_suffix(".md"))
+#     s.plot.bar().figure.savefig(report_path.with_suffix(".png"))
 
 
 
@@ -203,12 +180,43 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
             print(f"[{i: 2}] --- ")
             print(pd.Series(pred["data"][EYE_MOVEMENT_TYPE]).value_counts())
 
-if __name__ == "__main__":
-    arg_parser = argparse.ArgumentParser()
+# if __name__ == "__main__":
+#     arg_parser = argparse.ArgumentParser()
 
-    arg_parser.add_argument("cutoff", type=int)
-    arg_parser.add_argument("report_name", nargs="?", default="report")
+#     arg_parser.add_argument("cutoff", type=int)
+#     arg_parser.add_argument("report_name", nargs="?", default="report")
 
-    args = arg_parser.parse_args()
-    main(args.cutoff, args.report_name)
+#     args = arg_parser.parse_args()
+#     main(args.cutoff, args.report_name)
 
+
+class EntryPoint(vt.EntryPoint):
+    paths = (pathlib.Path(__file__).parent / "data" / "test").glob(
+         "**/*.arff"
+    )
+    ReportForEachMethod = Hollywood2ReportForEachMethod
+
+    @classmethod
+    def load_ground_truth_file(cls, fn):
+        with open(fn) as f:
+            arff_data = ArffHelper.load(f)
+
+        metadata = arff_data["metadata"]
+
+        width_px = metadata["width_px"]
+        height_px = metadata["height_px"]
+        width_mm = metadata["width_mm"]
+        height_mm = metadata["height_mm"]
+        distance_mm = metadata["distance_mm"]
+
+        df = pd.DataFrame(arff_data["data"])
+        return (
+            arff_data,
+    #        df[["time", "x", "y", "handlabeller_final"]],
+            {
+                "width_px": width_px,
+                "height_px": height_px,
+                "width_mm": width_mm,
+                "height_mm": height_mm,
+            },
+        )
