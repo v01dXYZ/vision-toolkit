@@ -130,7 +130,7 @@ jobs:
           $CONTAINERCLI run \
             -v .:/src \
             -t ${{ needs.build_container_image.outputs.imgtag }} \
-            "cd /src/tests; bash run_in_container.sh ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}; ls -l; ls -l /src/tests; ls -l /src/tests/results"
+            "cd /src/tests; bash run_in_container.sh ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}; ls -l; ls -l /src/tests; ls -l /src/tests/results; ls -l /src/tests/results/${{ matrix.args.dataset }}"
 
       - uses: actions/upload-artifact@v4
         with:
