@@ -105,7 +105,7 @@ jobs:
         args:
           - name: Fast
             dataset: hollywood2
-            cutoff: 5
+            cutoff: 3
             comment: true
           - name: Full
             dataset: hollywood2
