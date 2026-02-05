@@ -100,6 +100,10 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
 
 
 class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
+    SEGMENTATION_KWARGS = {
+        "sampling_frequency": 500,
+    }
+
     @classmethod
     def evaluate_predictions(cls, gt_list, pred_list):
         res_stats = {}
