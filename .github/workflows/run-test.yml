@@ -104,10 +104,15 @@ jobs:
       matrix:
         args:
           - name: Fast
+            dataset: hollywood2
             cutoff: 5
-          - name: Long
-            cutoff: 100
-    name: ${{ matrix.args.name }} Test Report
+          - name: Full
+            dataset: hollywood2
+            cutoff: 1000
+          - name: Full
+            dataset: zemblys
+            cutoff: 1000
+    name: ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report
     runs-on: ubuntu-latest
 
     steps:
@@ -124,17 +129,17 @@ jobs:
           $CONTAINERCLI run \
             -v .:/src \
             -t ${{ needs.build_container_image.outputs.imgtag }} \
-            "cd /src && bash tests/hollywood2/run_in_container.sh ${{ matrix.args.cutoff }}"
+            "bash /src/tests/run_in_container.sh ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-json-${{ matrix.args.name }}
+          name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
           path: report.json
 
       - uses: actions/upload-artifact@v4
         id: report-png
         with:
-          name: report-png-${{ matrix.args.name }}
+          name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
           path: report.png
 
       - name: Upload report.png
@@ -143,11 +148,11 @@ jobs:
           git switch -f $IMGSBRANCH
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
-          IMGNAME='report_hollywood2_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
+          IMGNAME='report_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
           echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
           mv report.png $IMGNAME
           git add $IMGNAME
-          git commit -m "Publish report hollywood2 ${{ github.run_id }}"
+          git commit -m "Publish report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
           git push origin $IMGSBRANCH
 
       - run: |

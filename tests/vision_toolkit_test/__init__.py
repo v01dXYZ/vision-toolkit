@@ -18,6 +18,8 @@ PURSUIT_INTERVALS = "pursuit_intervals"
 GAZE_X = "gazeX"
 GAZE_Y = "gazeY"
 
+EVENT_LABEL = "event_label"
+
 METHODS_CONFIG = {
     "BINARY": {
 
@@ -169,7 +171,7 @@ class ReportForEachMethod:
                     pred_list,
                 )
 
-        return normalize_report(report)
+        return normalize_report(report), cls.summarize_report_into_serie(report)
 
     @classmethod
     def debug(cls, nary, method_name, gt_list, pred_list): 
@@ -221,7 +223,7 @@ class VSTKReportForEachMethod(ReportForEachMethod):
         return (*gt, None)
 
     @classmethod
-    def build_predictions_from_results(cls, r, gt):
+    def build_predictions_from_results(cls, r, gt, gt_vstk):
         pred_np = cls.build_labels_ordinal_from_res(
             r,
             {
@@ -232,7 +234,12 @@ class VSTKReportForEachMethod(ReportForEachMethod):
             NOISE,
         )
 
-        return as_arff_data(gt_df), as_arff_data(predictions_df)
+        coords, *_ = gt_vstk
+        return (coords, pd.DataFrame({EVENT_LABEL: pred_np}))
+
+    @classmethod
+    def summarize_report_into_serie(cls, report):
+        pass
 
 
 class EntryPoint:
@@ -254,17 +261,17 @@ class EntryPoint:
         # we sort it
         paths = sorted(cls.paths)
 
-        paths_cutoff = [paths[i] for i in range(0, len(paths), len(paths) // cutoff)]
+        if len(paths) >= cutoff:
+            paths_cutoff = [paths[i] for i in range(0, len(paths), len(paths) // cutoff)]
+        else:
+            paths_cutoff = paths
+
         gt_dim_list = [
-            cls.load_ground_truth_file(p) for p in paths_cutoff
+            res for p in paths_cutoff
+            if (res := cls.load_ground_truth_file(p)) is not None
         ]
 
-        report = cls.ReportForEachMethod.evaluate(gt_dim_list=gt_dim_list)
-
-        s = pd.Series({
-            method_name: r["all"]["F1"]
-            for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
-        })
+        report, report_summary_serie = cls.ReportForEachMethod.evaluate(gt_dim_list=gt_dim_list)
 
         if not directory.exists():
             directory.mkdir(exist_ok=True,
@@ -272,6 +279,12 @@ class EntryPoint:
 
         report_path = directory / report_name
 
-        s.to_json(report_path.with_suffix(".json"))
-        s.to_markdown(report_path.with_suffix(".md"))
-        s.plot.bar().figure.savefig(report_path.with_suffix(".png"))
+        report_summary_serie.to_json(
+            report_path.with_suffix(".json"),
+        )
+        report_summary_serie.to_markdown(
+            report_path.with_suffix(".md"),
+        )
+        report_summary_serie.plot.bar().figure.savefig(
+            report_path.with_suffix(".png")
+        )
