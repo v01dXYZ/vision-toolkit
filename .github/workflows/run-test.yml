@@ -2,8 +2,6 @@ name: "Test suite reports"
 
 # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on:
-  push:
-    branches: "master"
   pull_request:
     types: [opened, reopened, synchronize]
 
@@ -130,7 +128,7 @@ jobs:
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
           $CONTAINERCLI run \
             -v .:/src \
-            -t ${{ needs.build_container_image.outputs.imgtag }} \
+            ${{ needs.build_container_image.outputs.imgtag }} \
             "cd /src/tests; bash run_in_container.sh ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
 
       - uses: actions/upload-artifact@v4
@@ -176,7 +174,7 @@ jobs:
           script: |
             const fs = require('node:fs');
 
-            const name = '${{ github.workflow	}}';
+            const name = '${{ github.workflow }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
@@ -201,7 +199,7 @@ jobs:
             const repo = '${{ github.event.repository.name }}';
             const issue_number = ${{ github.event.pull_request.number }};
 
-            for(let page = 0; page+=1;) {
+            for(let page = 0;; page+=1) {
                 const comments_resp = await github.rest.issues.listComments({
                   issue_number,
                   owner,
