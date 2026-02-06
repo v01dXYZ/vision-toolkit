@@ -19,6 +19,7 @@ permissions:
 # Limitations should be set in order to prevent this.
 jobs:
   coverage:
+    runs-on: ubuntu-latest
     needs: build_container_images
     steps:
     - name: Checkout PR branch
