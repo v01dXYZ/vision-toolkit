@@ -13,4 +13,4 @@ fi
 
 VISION_TOOLKIT_BUILD=$VISION_TOOLKIT_BUILD pip install "/src[test]" --no-deps
 
-cd /src/tests && python3 run.py $@
+cd /src/tests && $@
