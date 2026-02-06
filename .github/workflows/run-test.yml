@@ -20,7 +20,7 @@ permissions:
 jobs:
   coverage:
     runs-on: ubuntu-latest
-    needs: build_container_images
+    needs: build_container_image
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
