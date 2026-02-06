@@ -28,7 +28,7 @@ jobs:
         $CONTAINERCLI run \
           -v .:/src \
           ${{ needs.build_container_image.outputs.imgtag }} \
-          "cd /src/tests; bash run_in_container.sh coverage run run.py hollywood2 1; coverage report -m"
+          "cd /src/tests; bash run_in_container.sh coverage run --source /venv/lib/python3.13/site-packages/vision_toolkit run.py hollywood2 1; coverage report -m"
 
   basic_code_checker:
     name: Basic code checker (style + lint)
