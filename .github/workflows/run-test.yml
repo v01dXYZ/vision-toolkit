@@ -18,6 +18,17 @@ permissions:
 # BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
 # Limitations should be set in order to prevent this.
 jobs:
+  coverage:
+    needs: build_container_images
+    steps:
+    - name: Checkout PR branch
+      uses: actions/checkout@v3
+    - run: |
+        $CONTAINERCLI run \
+          -v .:/src \
+          ${{ needs.build_container_image.outputs.imgtag }} \
+          "cd /src/tests; bash run_in_container.sh coverage run run.py hollywood2 1; coverage report -m"
+
   basic_code_checker:
     name: Basic code checker (style + lint)
     runs-on: ubuntu-latest
@@ -129,7 +140,7 @@ jobs:
           $CONTAINERCLI run \
             -v .:/src \
             ${{ needs.build_container_image.outputs.imgtag }} \
-            "cd /src/tests; bash run_in_container.sh ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
+            "cd /src/tests; bash run_in_container.sh python run.py ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
 
       - uses: actions/upload-artifact@v4
         with:
