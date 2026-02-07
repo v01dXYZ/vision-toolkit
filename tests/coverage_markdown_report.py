@@ -1,9 +1,9 @@
 #!/bin/env python
 
+import sys
 import json
 import os
 import argparse
-from tabulate import tabulate
 
 COVERAGE_JSON = "coverage.json"
 BASE_URL = "https://github.com"
@@ -66,11 +66,17 @@ if __name__ == "__main__":
                 for interval in missing_intervals
             ])))
 
+    headers = ["File", "Missing Intervals"]
 
-    tbl_markdown = tabulate(
-        tbl_data,
-        headers=["File", "Missing Intervals"],
-        tablefmt="grid",
-    )
+    sys.stdout.write("|")
+    sys.stdout.write("|".join(headers))
+    sys.stdout.write("|\n")
 
-    print(tbl_markdown)
+    sys.stdout.write("|")
+    for _ in headers:
+        sys.stdout.write("---|")
+
+    for row in tbl_data:
+        sys.stdout.write("| ")
+        sys.stdout.write(" | ".join(row))
+        sys.stdout.write(" |\n")
