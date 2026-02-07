@@ -72,9 +72,10 @@ if __name__ == "__main__":
     sys.stdout.write("|".join(headers))
     sys.stdout.write("|\n")
 
-    sys.stdout.write("|")
+
     for _ in headers:
-        sys.stdout.write("---|")
+        sys.stdout.write("|---")
+    sys.stdout.write("|\n")
 
     for row in tbl_data:
         sys.stdout.write("| ")
