@@ -23,9 +23,6 @@ class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
 
     @classmethod
     def evaluate_predictions(cls, gt, pred):
-        (_, gt_labels_df, _) = gt
-        (_, pred_labels_df, _) = pred
-
         concat_gt_labels = pd.concat([e for _, e in gt])[vt.EVENT_LABEL]
         concat_pred_labels = pd.concat([e for _, e in pred])[vt.EVENT_LABEL]
 
