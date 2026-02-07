@@ -1,3 +1,4 @@
+#!/bin/env bash
 # /pkg contains the container package
 
 md5sum_pyx() {

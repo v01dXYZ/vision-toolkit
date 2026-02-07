@@ -19,7 +19,9 @@ COPY --from=builder /venv/ /venv/
 COPY --from=builder /pkg/ /pkg/
 
 RUN apt update \
-    && apt install -y git
+    && apt install -y \
+                      git \
+                      sqlite3
 
 WORKDIR /src
 
