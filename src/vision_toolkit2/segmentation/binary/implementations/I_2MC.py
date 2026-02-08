@@ -7,9 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.cluster.vq import kmeans2
 
-from vision_toolkit.utils.segmentation_utils import (centroids_from_ints,
-                                             interval_merging)
-from vision_toolkit.utils.velocity_distance_factory import absolute_angular_distance
+from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
+from vision_toolkit2.velocity_distance_factory import absolute_angular_distance
 
 
 def process_impl(

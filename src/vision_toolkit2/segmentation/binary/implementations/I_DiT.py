@@ -4,7 +4,7 @@ import time
 
 import numpy as np
 
-from vision_toolkit.utils.segmentation_utils import (
+from vision_toolkit2.segmentation.utils import (
     centroids_from_ints,
     dispersion_metric,
     interval_merging)
@@ -98,7 +98,7 @@ def process_impl(
     f_ints = interval_merging(
         wi_fix,
         min_int_size=np.ceil(config.min_fix_duration * s_f),
-        status=s["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
@@ -112,7 +112,7 @@ def process_impl(
     s_ints = interval_merging(
         wi_sac,
         min_int_size=np.ceil(config.min_sac_duration * s_f),
-        status=s["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
