@@ -1,0 +1,254 @@
+name: "Test suite reports"
+
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  CONTAINERCLI: docker # podman
+  PYPKGMGR: pip # "uv pip"
+  IMGSBRANCH: v01dxyz-imgs
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+# BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
+# Limitations should be set in order to prevent this.
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    needs: build_container_image
+    steps:
+    - name: Checkout PR branch
+      uses: actions/checkout@v3
+    - run: |
+        $CONTAINERCLI run \
+          -v .:/src \
+          ${{ needs.build_container_image.outputs.imgtag }} \
+          "cd /src/tests; ./run_in_container.sh ./coverage_in_container.sh; ./coverage_markdown_report.py --coverage-filepath /src/src/vision_toolkit/coverage.json -c ${{ github.event.pull_request.head.sha }} -r ${{ github.repository }} > coverage.md"
+        cat tests/coverage.md >> $GITHUB_STEP_SUMMARY
+
+  basic_code_checker:
+    name: Basic code checker (style + lint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+
+      - uses: astral-sh/ruff-action@v3
+
+  build_container_image:
+    name: Build container image
+    runs-on: ubuntu-latest
+    outputs:
+      imgtag: ${{ steps.build_container_image.outputs.imgtag }}
+    steps:
+      - name: Log into Github Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | $CONTAINERCLI login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            Containerfile
+            setup.py
+            setup.cfg
+            pyproject.toml
+          sparse-checkout-cone-mode: false
+          path: sparse
+
+      - name: Check container image exists
+        id: build_container_image
+        continue-on-error: true
+        run: |
+          cd sparse
+          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+          IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+          IMGTAG=$IMG:$HASH
+          echo "imgtag=$IMGTAG" >> $GITHUB_OUTPUT
+          echo "IMGTAG=$IMGTAG" >> $GITHUB_ENV
+
+          if $CONTAINERCLI manifest inspect $IMGTAG; then
+            echo "imgexists=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout PR branch
+        if: ${{ ! steps.build_container_image.outputs.imgexists }}
+        uses: actions/checkout@v3
+
+      - name: build it
+        if: ${{ ! steps.build_container_image.outputs.imgexists }}
+        run: |
+          $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
+          $CONTAINERCLI push $IMGTAG
+
+          # buggy, I need to work on this.
+          # while ! $CONTAINERCLI manifest inspect $IMGTAG; do
+
+          #   if [ -z $CONTAINERCLI_BUILD_PUSH_PID ]; then
+          #     (
+          #       $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
+          #       $CONTAINERCLI push $IMGTAG
+          #     ) &
+          #     CONTAINERCLI_BUILD_PUSH_PID=$!
+          #   fi
+
+          #   if ! kill -0 $CONTAINERCLI_BUILD_PUSH_PID; then
+          #     exit $(wait $CONTAINERCLI_BUILD_PUSH_PID)
+          #   fi
+
+          #   echo '[GA-STEP-SCRIPT] Waiting for registry to get image. Early stop if already there.'
+          #   sleep 1;
+          # done
+
+      - name: Show container-cli version/info
+        if: ${{ failure() }} # only show it for debugging purposes
+        run: $CONTAINERCLI version; $CONTAINERCLI info
+
+
+  test-report:
+    needs: build_container_image
+    strategy:
+      matrix:
+        args:
+          - name: Fast
+            dataset: hollywood2
+            cutoff: 3
+            comment: true
+          - name: Full
+            dataset: hollywood2
+            cutoff: 1000
+          - name: Full
+            dataset: zemblys
+            cutoff: 1000
+    name: ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        # with:
+        #   ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Log
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | $CONTAINERCLI login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Run tests
+        run: |
+          echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
+          $CONTAINERCLI run \
+            -v .:/src \
+            ${{ needs.build_container_image.outputs.imgtag }} \
+            "cd /src/tests; bash run_in_container.sh python run.py ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          path: ${{ env.RESULTS_DIR }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          path: ${{ env.RESULTS_DIR }}/report.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
+          path: ${{ env.RESULTS_DIR }}/report.png
+
+      - name: Upload report.png
+        run: |
+          git fetch --depth 1 origin $IMGSBRANCH
+          git switch -f $IMGSBRANCH
+          git config user.name "imgs-uploader"
+          git config user.email "nocontact@unreachable"
+          IMGNAME='report_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
+          echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
+          cp $RESULTS_DIR/report.png $IMGNAME
+          git add $IMGNAME
+          git commit -m "Publish report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
+          git push origin $IMGSBRANCH
+
+      - run: |
+          echo "## Image" >> $GITHUB_STEP_SUMMARY
+          echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
+          echo "## Table" >> $GITHUB_STEP_SUMMARY
+          cat ./tests/results/${{ matrix.args.dataset }}/report.md >> $GITHUB_STEP_SUMMARY
+          echo -n '\n' >> $GITHUB_STEP_SUMMARY
+
+      # Hack to display image in comment as artifact can't be used for such a thing
+      - name: Add report as comment on PR
+        uses: actions/github-script@v6
+        if: ${{ !cancelled() && matrix.args.comment }}
+        with:
+          script: |
+            const fs = require('node:fs');
+
+            const name = '${{ github.workflow }}';
+            const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const sha = '${{ github.event.pull_request.head.sha }}';
+
+            const MAGIC = '<!-- MAGIC github-action-bot ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
+
+            const success = '${{ job.status }}' === 'success';
+            const body = 
+            `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}
+            ${url}
+            ${fs.readFileSync("./${{ env.RESULTS_DIR }}/report.md")}
+
+
+            ![barplot](https://github.com/${{ github.repository }}/blob/${{ env.IMGSBRANCH }}/${{ env.IMGNAME }}?raw=true)
+            
+
+            commit: ${sha}
+
+            ${MAGIC}
+            `;
+
+            const owner = '${{ github.repository_owner }}';
+            const repo = '${{ github.event.repository.name }}';
+            const issue_number = ${{ github.event.pull_request.number }};
+
+            for(let page = 0;; page+=1) {
+                const comments_resp = await github.rest.issues.listComments({
+                  issue_number,
+                  owner,
+                  repo,
+                  page
+                });
+
+                const comments = comments_resp.data;
+
+                console.log("comments", comments);
+
+                if(comments.length == 0) {
+                  break;
+                }
+
+                for (const comment of comments) {
+                  if (!comment.body.includes(MAGIC)) {
+                    continue;
+                  }
+
+                  await github.rest.issues.deleteComment({
+                    owner,
+                    repo,
+                    comment_id: comment.id,
+                  });
+                }
+
+
+            }
+
+            await github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body: body
+            });
+
+      - name: Show report
+        run: cat ${{ env.RESULTS_DIR }}/report.md

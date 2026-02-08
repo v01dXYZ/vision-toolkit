@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 
-import holoviews as hv
+
 import numpy as np
 import pandas as pd
-import panel as pn
-import seaborn as sns
-from bokeh.sampledata.les_mis import data
-from holoviews import dim, opts
-
-hv.extension("bokeh")
-hv.output(size=300)
-
 
 def AoI_chord_diagram(
     hmm_model,
 ):
+    import holoviews as hv
+
+    import panel as pn
+    import seaborn as sns
+
+    from bokeh.sampledata.les_mis import data
+    from holoviews import dim, opts
+
+    hv.extension("bokeh")
+    hv.output(size=300)
+
     t_mat = hmm_model.transition_matrix
     label_list = [chr(i + 65) for i in range(t_mat.shape[0])]
 
