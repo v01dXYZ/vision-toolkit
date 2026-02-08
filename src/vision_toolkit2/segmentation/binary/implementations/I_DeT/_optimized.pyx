@@ -1,8 +1,8 @@
 # distutils: language = c++
- 
-import numpy as np  
 
-from vision_toolkit.utils.segmentation_utils import centroids_from_ints, interval_merging
+import numpy as np
+
+from vision_toolkit2.segmentation.utils import centroids_from_ints, interval_merging
 
 from libc cimport math
 

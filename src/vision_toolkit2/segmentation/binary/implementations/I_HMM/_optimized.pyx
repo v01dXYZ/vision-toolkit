@@ -2,8 +2,7 @@ from scipy.stats import norm
 from scipy.special import logsumexp
 import numpy as np
 
-from vision_toolkit.utils.segmentation_utils import interval_merging
-from vision_toolkit.utils.segmentation_utils import centroids_from_ints
+from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 
 
 def process_IHMM(data_set, config):

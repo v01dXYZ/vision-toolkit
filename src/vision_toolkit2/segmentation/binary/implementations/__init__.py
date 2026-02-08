@@ -1,6 +1,7 @@
 from . import (
     I_VT,
-    I_2MC
+    I_2MC,
+    I_DiT,
 )
 
 IMPLEMENTATIONS = {
