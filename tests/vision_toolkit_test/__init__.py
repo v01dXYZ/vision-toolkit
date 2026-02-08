@@ -4,7 +4,8 @@ import pathlib
 import numpy as np
 import pandas as pd
 
-import vision_toolkit as v
+import vision_toolkit2 as v
+from vision_toolkit2 import AugmentedSerie, Config, Serie, Smoothing, StackedConfig
 
 NOISE = 0
 FIX = 1
@@ -22,23 +23,24 @@ EVENT_LABEL = "event_label"
 
 METHODS_CONFIG = {
     "BINARY": {
-
         "I_VT": {},
-        "I_DeT": {},
-        "I_HMM": {},
         "I_2MC": {},
-        "I_DeT": {},
-        "I_DiT": {},
-        "I_HMM": {},
-        "I_KF": {},
-        "I_MST": {},
-        "I_VT": {},
+         "I_DiT": {},
+#        "I_DeT": {},
+#        "I_HMM": {},
+        # "I_DeT": {},
+
+        # "I_HMM": {},
+        # "I_KF": {},
+        # "I_MST": {},
+        # "I_VT": {},
     },
-    "TERNARY": {
-        "I_BDT": {},
-        "I_VDT": {},
-        "I_VMP": {},
-    },
+    # for now disabled
+    # "TERNARY": {
+    #     "I_BDT": {},
+    #     "I_VDT": {},
+    #     "I_VMP": {},
+    # },
 }
 
 
@@ -93,12 +95,33 @@ class ReportForEachMethod:
             **segmentation_kwargs,
         }
 
-        r = Segmentation(
+        gt_s = Serie.from_df(
             gt_coords,
-            **kwargs,
+            size_plan_x=dimensions["width_mm"],
+            size_plan_y=dimensions["height_mm"],
+            sampling_frequency = kwargs.get("sampling_frequency")
+        )
+        gt_smoothed = Smoothing.create_and_process(
+            gt_s,
+            Config(
+                smoothing="savgol",
+                savgol_window_length=3,
+                savgol_polyorder=2,
+                distance_type="euclidean",
+            ),
+        )
+        gt_augmented_smoothed = AugmentedSerie.augment_serie(gt_smoothed)
+
+        config = StackedConfig([
+            gt_augmented_smoothed.config,
+            Config(**kwargs),
+        ])
+        segmentation = Segmentation(
+            gt_augmented_smoothed,
+            config=config,
         )
 
-        r.process()
+        r = segmentation.process()
 
         return cls.build_predictions_from_results(r, gt, gt_vstk)
 
@@ -118,12 +141,12 @@ class ReportForEachMethod:
             raise ValueError()
 
         predictions = np.full(
-            r.config["nb_samples"],
+            r.config.nb_samples,
             default_ordinal,
             dtype=dtype,
         )
         for k, val in key_ordinal.items():
-            intervals = r.segmentation_results.get(k)
+            intervals = getattr(r, k, None)
 
             if intervals is None:
                 continue
