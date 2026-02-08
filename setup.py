@@ -2,7 +2,7 @@ import os
 import pathlib
 import numpy as np
 
-from setuptools import Extension, setup, find_packages
+from setuptools import Extension, setup, find_packages, find_namespace_packages
 from Cython.Build import cythonize
 
 SRC_DIR = pathlib.Path("src")
@@ -11,7 +11,7 @@ def get_cython_pkgs_and_ext_modules():
     ext_modules = []
     pkgs = []
 
-    for p in (SRC_DIR / "vision_toolkit").glob("**/*.pyx"):
+    for p in SRC_DIR.glob("**/*.pyx"):
         pkg_parts = p.with_suffix("").parts
         pkgs.append(".".join(pkg_parts[1:-1]))
         ext_modules.append(
@@ -38,7 +38,7 @@ c_kwargs = {
     "include_dirs": [np.get_include()],
 }
 py_kwargs = {
-    "packages": find_packages(where="src"),
+    "packages": find_namespace_packages(where="src"),
 }
 
 # The following is a hack to allow separately building and packaging

@@ -191,7 +191,8 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
     def summarize_report_into_serie(cls, report):
         return pd.Series({
             method_name: r["all"]["F1"]
-            for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
+            for d in report.values()
+            for method_name, r in d.items()
         })
 
 
