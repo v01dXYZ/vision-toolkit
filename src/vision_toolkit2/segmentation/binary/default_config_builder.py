@@ -3,20 +3,17 @@ from ..default_config_builder import DefaultConfigBuilder
 
 import numpy as np
 
-class BinaryDefaultConfigBuilder(DefaultConfigBuilder):
 
+class BinaryDefaultConfigBuilder(DefaultConfigBuilder):
     @classmethod
     def update(cls, input_, config):
         config = super().update(input_, config)
 
-        _, default_config_impl = IMPLEMENTATIONS[config.segmentation_method]        
-        vf_diag = np.linalg.norm(
-            np.array([config.size_plan_x, config.size_plan_y])
-        )
+        _, default_config_impl = IMPLEMENTATIONS[config.segmentation_method]
+        vf_diag = np.linalg.norm(np.array([config.size_plan_x, config.size_plan_y]))
         config += default_config_impl(config, vf_diag)
         return config
 
-        
     # @staticmethod
     # def for_I_VT(config, vf_diag):
     #     if config.distance_type == "euclidean":
@@ -86,4 +83,3 @@ class BinaryDefaultConfigBuilder(DefaultConfigBuilder):
 
     # def for_I_RF(config, vf_diag):
     #     pass
-        
