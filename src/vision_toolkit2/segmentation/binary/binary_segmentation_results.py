@@ -4,7 +4,6 @@ from vision_toolkit2.oculomotor_series import Serie
 from dataclasses import dataclass
 
 import numpy as np
-import numpy.typing as npt
 
 
 @dataclass

@@ -1,14 +1,10 @@
-from vision_toolkit2.config import Config, StackedConfig
-from vision_toolkit2.oculomotor_series import Serie
+from vision_toolkit2.config import Config
 
-from dataclasses import dataclass
 
-import numpy as np
 
 from vision_toolkit2.velocity_distance_factory import (
     absolute_angular_distance, absolute_euclidian_distance)
 
-from .binary_segmentation_results import BinarySegmentationResults
 from .implementations import IMPLEMENTATIONS
 from .default_config_builder import BinaryDefaultConfigBuilder
 from vision_toolkit2.oculomotor_series import AugmentedSerie

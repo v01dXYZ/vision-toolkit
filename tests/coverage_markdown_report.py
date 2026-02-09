@@ -2,7 +2,6 @@
 
 import sys
 import json
-import os
 import argparse
 
 COVERAGE_JSON = "coverage.json"
