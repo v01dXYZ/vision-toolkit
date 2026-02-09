@@ -114,16 +114,7 @@ def dispersion_metric(x_coords, y_coords):
     Returns
     -------
     float
-        Mean distance from centroid
+        l1-spread of data points
     """
-    if len(x_coords) < 2:
-        return 0.0
 
-    centroid_x = np.mean(x_coords)
-    centroid_y = np.mean(y_coords)
-
-    distances = np.sqrt(
-        (x_coords - centroid_x) ** 2 + (y_coords - centroid_y) ** 2
-    )
-
-    return np.mean(distances)
+    return x_coords.max() - x_coords.min() + y_coords.max() - y_coords.min()
