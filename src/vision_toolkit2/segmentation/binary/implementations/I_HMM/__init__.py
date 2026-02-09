@@ -38,7 +38,7 @@ def process_impl(s, config):
     x_a = s.x
     y_a = s.y
 
-    i_sac = (~ i_fix)
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -83,7 +83,7 @@ def process_impl(s, config):
 
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -100,7 +100,9 @@ def process_impl(s, config):
             )
         )
 
-    assert len(f_ints) == len(ctrds), "Interval set and centroid set have different lengths"
+    assert len(f_ints) == len(ctrds), (
+        "Interval set and centroid set have different lengths"
+    )
 
     if config.verbose:
         print("\n...HMM Identification done\n")

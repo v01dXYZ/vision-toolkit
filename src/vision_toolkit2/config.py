@@ -16,24 +16,28 @@ def asdict(dc_instance):
 
 def prefix(prefix="", class_name=False, lower=True):
     def f(cls):
-
         return dataclasses.make_dataclass(
             cls.__name__,
-            [ (
-
-(((cls.__name__.lower() if lower else cls.__name__) + "_") if class_name and not a.startswith("_") else prefix)
-
-+ a.lstrip("_"), t, dataclasses.field(default=None)) 
-              for c in (cls, *cls.__bases__)
-              if c is not object
-              for a, t in c.__annotations__.items()
-
-             ],
-#            bases=cls.__bases__,
-            
+            [
+                (
+                    (
+                        ((cls.__name__.lower() if lower else cls.__name__) + "_")
+                        if class_name and not a.startswith("_")
+                        else prefix
+                    )
+                    + a.lstrip("_"),
+                    t,
+                    dataclasses.field(default=None),
+                )
+                for c in (cls, *cls.__bases__)
+                if c is not object
+                for a, t in c.__annotations__.items()
+            ],
+            #            bases=cls.__bases__,
         )
 
     return f
+
 
 @prefix(class_name=True, lower=False)
 class HMM:
@@ -42,36 +46,42 @@ class HMM:
     init_variance: float
     nb_iters: int
 
+
 @prefix(class_name=True, lower=False)
 class I2MC:
-    merging_distance_threshold: float # [0, 1]?
-    merging_duration_threshold: float # [0, 1]?
-    moving_threshold: float # [0, 1]?
+    merging_distance_threshold: float  # [0, 1]?
+    merging_duration_threshold: float  # [0, 1]?
+    moving_threshold: float  # [0, 1]?
     window_duration: float
+
 
 @prefix(class_name=True, lower=False)
 class CDBA:
     initial_random_state: int
-    initialization_length: str # min | max
+    initialization_length: str  # min | max
     maximum_iterations: int
+
 
 @prefix(class_name=True, lower=False)
 class IAP:
-    centers    : str # mean | raw_IAP
+    centers: str  # mean | raw_IAP
+
 
 @prefix(class_name=True, lower=False)
 class IDP:
-    centers: str # mean | raw_IDP
+    centers: str  # mean | raw_IDP
     gaussian_kernel_sd: float
+
 
 @prefix(class_name=True, lower=False)
 class IDT:
     density_threshold: float
     min_samples: int
 
+
 @prefix(class_name=True, lower=False)
 class IKM:
-    cluster_number: str # search
+    cluster_number: str  # search
     min_clusters: int
     max_clusters: int
 
@@ -80,31 +90,37 @@ class IKM:
 class IMS:
     bandwidth: float
 
+
 @prefix(class_name=True, lower=False)
 class IDeT:
     density_threshold: float
     duration_threshold: float
     min_pts: int
 
+
 @prefix(class_name=False)
 class String_Distance:
     deletion_cost: float
     insertion_cost: float
-    normalization: str # min | max
+    normalization: str  # min | max
+
 
 @prefix(class_name=True)
 class Levenshtein_Distance(String_Distance):
     substitution_cost: float
 
+
 @prefix(class_name=True)
 class Generalized_Edit_Distance(String_Distance):
     pass
+
 
 @prefix(class_name=True)
 class Needleman_Wunsch_Distance:
     concordance_bonus: float
     gap_cost: 0.25
-    normalization: str # min | max
+    normalization: str  # min | max
+
 
 @prefix(class_name=True)
 class Smith_Waterman:
@@ -113,36 +129,38 @@ class Smith_Waterman:
     similarity_threshold: float
     similarity_weight: float
 
+
 @prefix()
 class Temporal_Binning:
     temporal_binning: bool
     temporal_binning_length: float
 
+
 @prefix(class_name=True, lower=False)
 class AoI(
-        CDBA,
-        IAP,
-        IDP,
-        IDT,
-        IKM,
-        IMS,
-        Levenshtein_Distance,
-        Generalized_Edit_Distance,
-        Needleman_Wunsch_Distance,
-        Smith_Waterman,
-        Temporal_Binning,
+    CDBA,
+    IAP,
+    IDP,
+    IDT,
+    IKM,
+    IMS,
+    Levenshtein_Distance,
+    Generalized_Edit_Distance,
+    Needleman_Wunsch_Distance,
+    Smith_Waterman,
+    Temporal_Binning,
 ):
     SPAM_support: float
-    coordinates: None # array[2, 2]
+    coordinates: None  # array[2, 2]
 
     identification_method: None
-    longest_common_subsequence_normalization: str # min | max
+    longest_common_subsequence_normalization: str  # min | max
 
     predefined_all: bool
-    predefined_coordinates: None # list[array[2, 2]]
-
+    predefined_coordinates: None  # list[array[2, 2]]
 
     trend_analysis_tolerance_level: None
+
 
 @prefix(class_name=True, lower=False)
 class IBDT:
@@ -153,6 +171,7 @@ class IBDT:
     saccade_sd: float
     saccade_threshold: float
 
+
 @prefix(class_name=True, lower=False)
 class ICNN:
     batch_size: int
@@ -160,25 +179,29 @@ class ICNN:
     num_epochs: int
     temporal_window_size: int
 
+
 @prefix(class_name=True, lower=False)
 class I_DiT:
     dispersion_threshold: float
     window_duration: float
 
+
 @prefix(class_name=True, lower=False)
 class IFC:
     bcea_prob: float
-    classifier: str # to specify more closely
+    classifier: str  # to specify more closely
     i2mc: bool
     i2mc_moving_threshold: float
     i2mc_window_duration: float
+
 
 @prefix(class_name=True, lower=False)
 class IHOV:
     angular_bin_nbr: int
     averaging_threshold: float
-    classifier: str # to specify more closely
+    classifier: str  # to specify more closely
     duration_threshold: float
+
 
 @prefix(class_name=True, lower=False)
 class IKF:
@@ -188,6 +211,7 @@ class IKF:
     sigma_1: float
     sigma_2: float
 
+
 @prefix(class_name=True, lower=False)
 class IMST:
     distance_threshold: float
@@ -195,11 +219,13 @@ class IMST:
     step_samples: int | None
     min_cluster_size: int | None
 
+
 @prefix(class_name=True, lower=False)
 class IVDT:
     dispersion_threshold: float
     saccade_threshold: float
     window_duration: float
+
 
 @prefix(class_name=True, lower=False)
 class IVMP:
@@ -208,15 +234,18 @@ class IVMP:
     saccade_threshold: float
     window_duration: float
 
+
 @prefix(class_name=True, lower=False)
 class IVT:
     # Paper link: Part2 l.189
     velocity_threshold: float
 
+
 @prefix(class_name=True, lower=False)
 class IVVT:
     pursuit_threshold: float
     saccade_threshold: float
+
 
 @prefix(class_name=True, lower=False)
 class TDE_distance:
@@ -224,9 +253,10 @@ class TDE_distance:
     scaling: None
     subsequence_length: None
 
+
 @prefix(class_name=True)
 class Display:
-    _display: None # means display itself
+    _display: None  # means display itself
 
     AoI: bool
     AoI_path: None | str
@@ -237,12 +267,14 @@ class Display:
     segmentation: bool
     segmentation_path: None | str
 
+
 @prefix(class_name=True)
 class Multimatch_Simplification:
     amplitude_threshold: float
     angular_threshold: float
     duration_threshold: float
     iterations: int
+
 
 @prefix(class_name=True)
 class Persistence:
@@ -259,10 +291,10 @@ class Scanmatch_Score:
 
 @prefix(class_name=True)
 class Scanpath(
-        Levenshtein_Distance,
-        Needleman_Wunsch_Distance,
-        Generalized_Edit_Distance,
-        Temporal_Binning,
+    Levenshtein_Distance,
+    Needleman_Wunsch_Distance,
+    Generalized_Edit_Distance,
+    Temporal_Binning,
 ):
     CRQA_distance_threshold: float
     CRQA_minimum_length: float
@@ -272,15 +304,18 @@ class Scanpath(
     spatial_binning_nb_pixels_x: int
     spatial_binning_nb_pixels_y: int
 
+
 @prefix()
 class Smoothing:
-    smoothing: str # moving_average | speed_moving_average | savgol
+    smoothing: str  # moving_average | speed_moving_average | savgol
+
 
 @prefix(class_name=True)
 class Savgol:
     polyorder: int
     window_length: int
-    
+
+
 @prefix(class_name=True)
 class Pursuit:
     end_idx: None | int
@@ -291,37 +326,38 @@ class Pursuit:
 
     start_idx: int
 
+
 @prefix()
 class Common(
-        HMM,
-        I2MC,
-        AoI,
-        IBDT,
-        ICNN,
-        I_DiT,
-        IFC,
-        IHOV,
-        IKF,
-        IMST,
-        IVDT,
-        IVMP,
-        IVT,
-        IVVT,
-        IDeT,
-        TDE_distance,
-        Display,
-        Multimatch_Simplification,
-        Persistence,
-        Scanmatch_Score,
-        Scanpath,
-        Smoothing,
-        Savgol,
-        Pursuit,
+    HMM,
+    I2MC,
+    AoI,
+    IBDT,
+    ICNN,
+    I_DiT,
+    IFC,
+    IHOV,
+    IKF,
+    IMST,
+    IVDT,
+    IVMP,
+    IVT,
+    IVVT,
+    IDeT,
+    TDE_distance,
+    Display,
+    Multimatch_Simplification,
+    Persistence,
+    Scanmatch_Score,
+    Scanpath,
+    Smoothing,
+    Savgol,
+    Pursuit,
 ):
     curve_nb_points: int
 
     distance_projection: int | None
-    distance_type: str # euclidean | angular
+    distance_type: str  # euclidean | angular
 
     mannan_distance_nb_random_scanpaths: int
 
@@ -330,56 +366,50 @@ class Common(
     min_int_size: int
     min_sac_duration: float
 
-# from reference_image_mapper, so ??
-#    model: None
+    # from reference_image_mapper, so ??
+    #    model: None
 
     moving_average_window: int
-
 
     nb_samples: int
     nb_samples_pursuit: int
 
-# commented out in the code
-#    normalized_scanpath_saliency_delta: None
+    # commented out in the code
+    #    normalized_scanpath_saliency_delta: None
 
-# from reference_image_mapper, so ??
-#    processing: None
-
+    # from reference_image_mapper, so ??
+    #    processing: None
 
     sampling_frequency: int
 
-
     screen_diagonal: float
 
-# do it later
+    # do it later
     segmentation_method: None
 
     size_plan_x: float
     size_plan_y: float
 
-
-
-    status_threshold: float # (between 0 and 1?)
+    status_threshold: float  # (between 0 and 1?)
     subsmatch_ngram_length: int
-    task: str # binary | ternary
+    task: str  # binary | ternary
 
     verbose: bool
+
 
 class ConfigMixin:
     def update(self, **kwargs):
         # UGLY BUT WORKS
         return type(self)(
-            **( asdict(self) | kwargs),
+            **(asdict(self) | kwargs),
         )
 
     def merge(self, other):
-        return type(self)(
-            **(asdict(self) | asdict(other))
-        )
+        return type(self)(**(asdict(self) | asdict(other)))
 
     def print(self):
         print("Config used")
-        print("-"*15)
+        print("-" * 15)
 
         for k, v in asdict(self).items():
             print(f"# {k}: {v}")
@@ -389,7 +419,6 @@ class ConfigMixin:
 
         s_v = []
         for k in Common.__dataclass_fields__:
-
             v = getattr(self, k)
 
             if v is None:
@@ -398,19 +427,19 @@ class ConfigMixin:
             s_v.append(f"{k}={v}")
 
         return f"{prologue}{','.join(s_v)})"
-    
+
+
 class Config(ConfigMixin, Common):
     pass
+
 
 class StackedConfig(ConfigMixin):
     # Quickly implemented class for stacking config which is useful to
     # build bit by bit a config
     def __init__(self, config=None):
-
         if config is None:
             self.stack = []
             return
-
 
         self.stack = config if isinstance(config, list) else [config]
 
@@ -422,9 +451,8 @@ class StackedConfig(ConfigMixin):
     def __getattr__(self, attr_name: str):
         if attr_name not in Config.__dataclass_fields__:
             raise AttributeError
-        
-        for c in reversed(self.stack):
 
+        for c in reversed(self.stack):
             attr = getattr(c, attr_name, None)
 
             if attr is not None:

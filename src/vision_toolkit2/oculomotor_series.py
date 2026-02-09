@@ -5,8 +5,11 @@ import numpy as np
 from .config import Config
 
 from .velocity_distance_factory import (
-    process_angular_absolute_speeds, process_angular_coord,
-    process_euclidian_absolute_speeds, process_unitary_gaze_vectors)
+    process_angular_absolute_speeds,
+    process_angular_coord,
+    process_euclidian_absolute_speeds,
+    process_unitary_gaze_vectors,
+)
 
 
 EPSILON = 1e-3
@@ -20,6 +23,7 @@ DEFAULT_DISTANCE_PROJECTION = 1_000
 
 #     nb_samples: int
 
+
 class Serie:
     x: np.array
     y: np.array
@@ -28,15 +32,13 @@ class Serie:
 
     config: Config
 
-
-
     def update_config(self, config):
         return type(self)(
-            x = self.x,
-            y = self.y,
-            z = self.z,
-            status = self.status,
-            config = config,
+            x=self.x,
+            y=self.y,
+            z=self.z,
+            status=self.status,
+            config=config,
         )
 
     def __init__(self, x, y, z, status, config):
@@ -53,13 +55,12 @@ class Serie:
 
         self.config = config
 
-
     @classmethod
     def read_csv(
-            cls,
-            csv_path,
-            *args,
-            **kwargs,
+        cls,
+        csv_path,
+        *args,
+        **kwargs,
     ):
         df = pd.read_csv(csv_path)
 
@@ -68,19 +69,18 @@ class Serie:
             *args,
             **kwargs,
         )
-            
-            
+
     @classmethod
     def from_df(
-            cls,
-            df,
-            size_plan_x,
-            size_plan_y,
-            distance_projection = None,
-            sampling_frequency = None,
+        cls,
+        df,
+        size_plan_x,
+        size_plan_y,
+        distance_projection=None,
+        sampling_frequency=None,
     ):
         distance_projection = distance_projection or 1000
-        
+
         # Populate data (add columns if missing)
         x = df["gazeX"].values
         y = df["gazeY"].values
@@ -97,21 +97,21 @@ class Serie:
             size_plan_x = np.max(x) + EPSILON
         if size_plan_y is None:
             size_plan_y = np.max(y) + EPSILON
-        
+
         config = Config(
-            distance_projection = distance_projection,
-            size_plan_x = size_plan_x,
-            size_plan_y = size_plan_y,
-            nb_samples = len(x),
-            sampling_frequency = sampling_frequency,
+            distance_projection=distance_projection,
+            size_plan_x=size_plan_x,
+            size_plan_y=size_plan_y,
+            nb_samples=len(x),
+            sampling_frequency=sampling_frequency,
         )
 
         return cls(
-            x = x,
-            y = y,
-            z = z,
-            status = status,
-            config = config,
+            x=x,
+            y=y,
+            z=z,
+            status=status,
+            config=config,
         )
 
     ###############################
@@ -122,7 +122,7 @@ class Serie:
             "x_array": self.x,
             "y_array": self.y,
             "z_array": self.z,
-            "status": self.status
+            "status": self.status,
         }
 
 
@@ -135,22 +135,21 @@ class AugmentedSerie(Serie):
 
     @classmethod
     def augment_serie_with_data(
-            cls,
-            serie,
-            *,
-            absolute_speed,
-            **kwargs,
+        cls,
+        serie,
+        *,
+        absolute_speed,
+        **kwargs,
     ):
         return cls(
-            x = serie.x,
-            y = serie.y,
-            z = serie.z,
-            config = serie.config,
-            status = serie.status,
-            absolute_speed = absolute_speed, 
+            x=serie.x,
+            y=serie.y,
+            z=serie.z,
+            config=serie.config,
+            status=serie.status,
+            absolute_speed=absolute_speed,
             **kwargs,
         )
-
 
     @classmethod
     def augment_serie(cls, serie):
@@ -173,11 +172,11 @@ class AugmentedSerie(Serie):
         # Add it later
         # smoothing = smg.Smoothing(data_set, config)
         # data_set = smoothing.process()
- 
+
         if serie.config.distance_type == "euclidean":
             return EuclideanAugmentedSerie.augment_serie_with_data(
                 serie,
-                absolute_speed = process_euclidian_absolute_speeds(
+                absolute_speed=process_euclidian_absolute_speeds(
                     serie,
                     serie.config,
                 ),
@@ -185,29 +184,29 @@ class AugmentedSerie(Serie):
         elif serie.config.distance_type == "angular":
             return AngularAugmentedSerie.augment_serie_with_data(
                 serie,
-                absolute_speed = process_angular_absolute_speeds(
+                absolute_speed=process_angular_absolute_speeds(
                     serie,
                     serie.config,
                 ),
-                theta_coord = process_angular_coord(
+                theta_coord=process_angular_coord(
                     serie,
                     serie.config,
                 ),
-                unitary_gaze_vectors =  process_unitary_gaze_vectors(
-                    serie, 
+                unitary_gaze_vectors=process_unitary_gaze_vectors(
+                    serie,
                     serie.config,
                 ),
             )
 
         assert False
 
+
 class EuclideanAugmentedSerie(AugmentedSerie):
     pass
 
-class AngularAugmentedSerie(AugmentedSerie):
 
-    def __init__(self, unitary_gaze_vectors, theta_coord,  *args, **kwargs):
+class AngularAugmentedSerie(AugmentedSerie):
+    def __init__(self, unitary_gaze_vectors, theta_coord, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.unitary_gaze_vectors: np.array
         self.theta_coord: np.array
-

@@ -5,7 +5,9 @@ from .smoothing import Smoothing
 
 __all__ = [
     BinarySegmentation,
-    Config, StackedConfig,
-    AugmentedSerie, Serie,
+    Config,
+    StackedConfig,
+    AugmentedSerie,
+    Serie,
     Smoothing,
 ]

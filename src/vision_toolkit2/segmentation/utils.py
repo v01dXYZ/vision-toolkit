@@ -42,7 +42,7 @@ def interval_merging(
         return np.zeros((0, 2), dtype=int)
 
     is_break = (np.diff(x) >= 2).flatten()
-    idx_break, = is_break.nonzero()
+    (idx_break,) = is_break.nonzero()
 
     idx_intervals = np.zeros(
         (len(idx_break) + 1, 2),

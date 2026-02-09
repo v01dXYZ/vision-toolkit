@@ -27,7 +27,9 @@ def process_impl(s, config):
         DESCRIPTION.
 
     """
-    assert config.distance_type == "euclidean", "'distance_type' must be set to 'euclidean'"
+    assert config.distance_type == "euclidean", (
+        "'distance_type' must be set to 'euclidean'"
+    )
 
     if config.verbose:
         print("Processing MST Identification...")
@@ -112,7 +114,7 @@ def process_impl(s, config):
     if config.verbose:
         print("Done")
 
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -166,7 +168,7 @@ def process_impl(s, config):
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
     # Recompute saccadic intervals
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -183,7 +185,9 @@ def process_impl(s, config):
             )
         )
 
-    assert len(f_ints) == len(ctrds), "Interval set and centroid set have different lengths"
+    assert len(f_ints) == len(ctrds), (
+        "Interval set and centroid set have different lengths"
+    )
 
     if config.verbose:
         print("\n...MST Identification done\n")

@@ -8,24 +8,25 @@ from ..binary_segmentation_results import BinarySegmentationResults
 
 
 def process_impl(s, config):
-    idx_velocity_lower_than_threshold, = np.where(
+    (idx_velocity_lower_than_threshold,) = np.where(
         s.absolute_speed <= config.IVT_velocity_threshold
     )
 
     is_fix = np.full(config.nb_samples, False)
 
     is_fix[idx_velocity_lower_than_threshold] = True
-    is_fix[(idx_velocity_lower_than_threshold+1).clip(max=config.nb_samples-1)] = True
+    is_fix[(idx_velocity_lower_than_threshold + 1).clip(max=config.nb_samples - 1)] = (
+        True
+    )
 
     is_sac = ~is_fix
-    idx_fix, = is_fix.nonzero()
-    idx_sac, = (~is_fix).nonzero()
+    (idx_fix,) = is_fix.nonzero()
+    (idx_sac,) = (~is_fix).nonzero()
 
     s_ints = interval_merging(
         idx_sac,
         min_int_size=math.ceil(
-            config.min_sac_duration *
-            config.sampling_frequency,
+            config.min_sac_duration * config.sampling_frequency,
         ),
     )
 
@@ -34,7 +35,7 @@ def process_impl(s, config):
     for s_start, s_end in s_ints:
         is_fix[s_start : s_end + 1] = False
 
-    idx_fix, = is_fix.nonzero()
+    (idx_fix,) = is_fix.nonzero()
 
     fix_dur_t = math.ceil(config.min_fix_duration * config.sampling_frequency)
 
@@ -57,7 +58,7 @@ def process_impl(s, config):
 
     is_sac = ~is_fix
 
-    idx_sac, = is_sac.nonzero()
+    (idx_sac,) = is_sac.nonzero()
 
     s_ints = interval_merging(
         idx_sac,

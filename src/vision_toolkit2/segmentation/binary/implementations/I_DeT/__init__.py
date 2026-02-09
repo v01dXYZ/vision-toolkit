@@ -27,11 +27,9 @@ def process_impl(s, config):
     euclidean = config.distance_type == "euclidean"
 
     if euclidean:
-        g_npts = np.concatenate((
-            s.x.reshape(1, n_s),
-            s.y.reshape(1, n_s),
-            s.z.reshape(1, n_s)
-        ), axis=0)
+        g_npts = np.concatenate(
+            (s.x.reshape(1, n_s), s.y.reshape(1, n_s), s.z.reshape(1, n_s)), axis=0
+        )
     else:
         g_npts = s.unitary_gaze_vectors
 
@@ -56,7 +54,9 @@ def process_impl(s, config):
 
             if len(neigh) + 1 >= min_pts:
                 avlb[i] = False
-                l_C_clus, avlb = expand_cluster(g_npts, euclidean, n_s, i, neigh, d_t, win_w, min_pts, avlb)
+                l_C_clus, avlb = expand_cluster(
+                    g_npts, euclidean, n_s, i, neigh, d_t, win_w, min_pts, avlb
+                )
 
                 if len(l_C_clus) >= min_pts:
                     C_clus.append(l_C_clus)
@@ -71,7 +71,7 @@ def process_impl(s, config):
     x_a = s.x
     y_a = s.y
 
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -80,13 +80,17 @@ def process_impl(s, config):
     )
 
     if config.verbose:
-        print('   Saccadic intervals identified with minimum duration: {s_du} sec'.format(s_du=config.min_sac_duration))
+        print(
+            "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
+                s_du=config.min_sac_duration
+            )
+        )
 
     # i_sac events not retained as intervals are relabeled as fix events
     i_fix = np.array([True] * config.nb_samples)
 
     for s_int in s_ints:
-        i_fix[s_int[0]: s_int[1] + 1] = False
+        i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
     fix_dur_t = max(1, int(np.ceil(config.min_fix_duration * s_f)))
@@ -97,10 +101,14 @@ def process_impl(s, config):
 
         gap = s_int[0] - o_s_int[1] - 1
         if 0 <= gap < fix_dur_t:
-            i_fix[o_s_int[1] + 1: s_int[0]] = False
+            i_fix[o_s_int[1] + 1 : s_int[0]] = False
 
     if config.verbose:
-        print('   Close saccadic intervals merged with duration threshold: {f_du} sec'.format(f_du=config.min_fix_duration))
+        print(
+            "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
+                f_du=config.min_fix_duration
+            )
+        )
 
     # Recompute fixation intervals
     wi_fix = np.where(i_fix)[0]
@@ -117,7 +125,7 @@ def process_impl(s, config):
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
     # Recompute saccadic intervals
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -128,18 +136,24 @@ def process_impl(s, config):
     )
 
     if config.verbose:
-        print('   Fixations ans saccades identified using availability status threshold: {s_th}'.format(s_th=config.status_threshold))
+        print(
+            "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
+                s_th=config.status_threshold
+            )
+        )
 
-    assert len(f_ints) == len(ctrds), "Interval set and centroid set have different lengths"
+    assert len(f_ints) == len(ctrds), (
+        "Interval set and centroid set have different lengths"
+    )
 
     # Keep track of index that were effectively labeled
     i_lab = np.array([False] * config.nb_samples)
 
     for f_int in f_ints:
-        i_lab[f_int[0]: f_int[1] + 1] = True
+        i_lab[f_int[0] : f_int[1] + 1] = True
 
     for s_int in s_ints:
-        i_lab[s_int[0]: s_int[1] + 1] = True
+        i_lab[s_int[0] : s_int[1] + 1] = True
 
     if config.verbose:
         print("\n...DeT Identification done\n")

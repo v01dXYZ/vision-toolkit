@@ -11,9 +11,9 @@ from ..binary_segmentation_results import BinarySegmentationResults
 
 
 def process_impl(s, config):
-    assert (
-        config.distance_type == "euclidean"
-    ), "'Distance type' must be set to 'euclidean"
+    assert config.distance_type == "euclidean", (
+        "'Distance type' must be set to 'euclidean"
+    )
 
     if config.verbose:
         print("Processing KF Identification...")
@@ -32,9 +32,7 @@ def process_impl(s, config):
 
     sp = process_speed_components(s, config)[0:2, :]
 
-    pred = process_Kalman_filter(
-        pos, sp, d_t, config.IKF_sigma_1, config.IKF_sigma_2
-    )
+    pred = process_Kalman_filter(pos, sp, d_t, config.IKF_sigma_1, config.IKF_sigma_2)
 
     p_sp = np.linalg.norm(
         np.concatenate(
@@ -54,7 +52,7 @@ def process_impl(s, config):
     i_fix = np.array([False] * config.nb_samples)
     i_fix[wi_fix] = True
 
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -101,7 +99,7 @@ def process_impl(s, config):
 
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
-    i_sac = ~ i_fix
+    i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
@@ -118,9 +116,9 @@ def process_impl(s, config):
             )
         )
 
-    assert len(f_ints) == len(
-        ctrds
-    ), "Interval set and centroid set have different lengths"
+    assert len(f_ints) == len(ctrds), (
+        "Interval set and centroid set have different lengths"
+    )
 
     if config.verbose:
         print("\n...KF Identification done\n")
