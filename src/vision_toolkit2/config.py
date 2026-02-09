@@ -192,6 +192,8 @@ class IKF:
 class IMST:
     distance_threshold: float
     window_duration: float
+    step_samples: int | None
+    min_cluster_size: int | None
 
 @prefix(class_name=True, lower=False)
 class IVDT:
