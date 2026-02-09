@@ -6,6 +6,7 @@ import pandas as pd
 
 import vision_toolkit2 as v
 from vision_toolkit2 import AugmentedSerie, Config, Serie, Smoothing, StackedConfig
+from vision_toolkit2.segmentation.binary.implementations import IMPLEMENTATIONS
 
 NOISE = 0
 FIX = 1
@@ -22,25 +23,7 @@ GAZE_Y = "gazeY"
 EVENT_LABEL = "event_label"
 
 METHODS_CONFIG = {
-    "BINARY": {
-        "I_VT": {},
-        "I_2MC": {},
-         "I_DiT": {},
-#        "I_DeT": {},
-#        "I_HMM": {},
-        # "I_DeT": {},
-
-        # "I_HMM": {},
-        # "I_KF": {},
-        # "I_MST": {},
-        # "I_VT": {},
-    },
-    # for now disabled
-    # "TERNARY": {
-    #     "I_BDT": {},
-    #     "I_VDT": {},
-    #     "I_VMP": {},
-    # },
+    "BINARY": {method: {} for method in IMPLEMENTATIONS},
 }
 
 

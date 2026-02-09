@@ -38,6 +38,9 @@ def interval_merging(
     array
         Valid intervals
     """
+    if len(x) == 0:
+        return np.zeros((0, 2), dtype=int)
+
     is_break = (np.diff(x) >= 2).flatten()
     idx_break, = is_break.nonzero()
 

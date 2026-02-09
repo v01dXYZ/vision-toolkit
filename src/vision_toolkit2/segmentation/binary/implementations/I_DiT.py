@@ -8,6 +8,8 @@ from vision_toolkit2.segmentation.utils import (
     centroids_from_ints,
     dispersion_metric,
     interval_merging)
+from vision_toolkit2.config import Config
+from ..binary_segmentation_results import BinarySegmentationResults
 
 
 def process_impl(
@@ -30,8 +32,8 @@ def process_impl(
     n_s = config.nb_samples
     s_f = config.sampling_frequency
 
-    t_du = int(np.ceil(config.IDiT_window_duration * s_f))
-    t_di = config.IDiT_dispersion_threshold
+    t_du = int(np.ceil(config.I_DiT_window_duration * s_f))
+    t_di = config.I_DiT_dispersion_threshold
 
     i_fix = np.array([False] * config.nb_samples)
 
@@ -154,11 +156,11 @@ def default_config_impl(config, vf_diag):
         di_t = 0.01 * vf_diag
 
         return Config(
-            IDiT_window_duration = 0.040,
-            IDiT_dispersion_threshold = di_t,
+            I_DiT_window_duration=0.040,
+            I_DiT_dispersion_threshold=di_t,
         )
     elif config.distance_type == "angular":
         return Config(
-            IDiT_window_duration =  0.040,
-            IDiT_dispersion_threshold = 0.3,
+            I_DiT_window_duration=0.040,
+            I_DiT_dispersion_threshold=0.3,
         )

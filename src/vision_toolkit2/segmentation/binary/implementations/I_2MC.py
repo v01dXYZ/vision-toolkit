@@ -9,6 +9,8 @@ from scipy.cluster.vq import kmeans2
 
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from vision_toolkit2.velocity_distance_factory import absolute_angular_distance
+from vision_toolkit2.config import Config
+from ..binary_segmentation_results import BinarySegmentationResults
 
 
 def process_impl(
@@ -193,7 +195,7 @@ def process_impl(
     f_ints = interval_merging(
         wi_fix,
         min_int_size=np.ceil(config.min_fix_duration * s_f),
-        status=s["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
@@ -246,11 +248,17 @@ def process_impl(
 
 def default_config_impl(config, vf_diag):
     if config.distance_type == "euclidean":
-        v_t = vf_diag * 0.2
+        di_t = 0.025 * vf_diag
         return Config(
-            IVT_velocity_threshold = v_t,
+            I2MC_window_duration=0.300,
+            I2MC_moving_threshold=0.020,
+            I2MC_merging_duration_threshold=0.020,
+            I2MC_merging_distance_threshold=di_t,
         )
     elif config.distance_type == "angular":
         return Config(
-            IVT_velocity_threshold = 50,
+            I2MC_window_duration=0.300,
+            I2MC_moving_threshold=0.020,
+            I2MC_merging_duration_threshold=0.020,
+            I2MC_merging_distance_threshold=0.5,
         )

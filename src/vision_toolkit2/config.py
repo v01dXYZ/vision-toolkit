@@ -84,6 +84,7 @@ class IMS:
 class IDeT:
     density_threshold: float
     duration_threshold: float
+    min_pts: int
 
 @prefix(class_name=False)
 class String_Distance:

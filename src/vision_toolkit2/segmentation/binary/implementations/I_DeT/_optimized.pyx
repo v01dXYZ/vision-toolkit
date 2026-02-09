@@ -2,8 +2,6 @@
 
 import numpy as np
 
-from vision_toolkit2.segmentation.utils import centroids_from_ints, interval_merging
-
 from libc cimport math
 
 from libcpp cimport bool
@@ -29,10 +27,10 @@ cdef map[int, int] dict_to_cmap(dict p_dict):
     return c_map
 
      
-cdef expand_cluster (double[:,:] g_npts, bool euclidean, 
-                     int n_s, int idx, 
-                     list neigh, double d_t, 
-                     int n_w, dict avlb):
+def expand_cluster(double[:,:] g_npts, bool euclidean,
+                     int n_s, int idx,
+                     list neigh, double d_t,
+                     int win_w, int min_pts, dict avlb):
      
     cdef list l_C_clus = [idx]
     cdef list n_neigh = []
@@ -46,9 +44,9 @@ cdef expand_cluster (double[:,:] g_npts, bool euclidean,
                 
         n_neigh = vareps_neighborhood (g_npts, euclidean,
                                        n_s, neigh_idx, 
-                                       d_t, n_w)    
+                                       d_t, win_w)    
         
-        if len(n_neigh) > n_w:
+        if len(n_neigh) > win_w:
              
             for key in n_neigh :
                 
@@ -58,10 +56,10 @@ cdef expand_cluster (double[:,:] g_npts, bool euclidean,
     return l_C_clus, avlb
 
 
-cdef list vareps_neighborhood (double[:,:] g_npts, 
+def vareps_neighborhood(double[:,:] g_npts, 
                                bool euclidean, 
                                int n_s, int idx, 
-                               double d_t, int n_w):
+                               double d_t, int win_w):
  
     cdef list neigh = []
     cdef double[:] ref_g_npts = g_npts[:,idx]
@@ -85,7 +83,7 @@ cdef list vareps_neighborhood (double[:,:] g_npts,
         
         with nogil:
             
-            while r+1 < min(n_s, idx+n_w+1):  
+            while r+1 < min(n_s, idx+win_w+1):  
                 if d_r < d_t: 
                     
                     r = r+1  
@@ -99,7 +97,7 @@ cdef list vareps_neighborhood (double[:,:] g_npts,
         
         with nogil:
              
-            while r+1 < min(n_s, idx+n_w+1):   
+            while r+1 < min(n_s, idx+win_w+1):   
                 if d_r < d_t: 
             
                     r = r+1   
@@ -121,7 +119,7 @@ cdef list vareps_neighborhood (double[:,:] g_npts,
         
         with nogil:
             
-            while l > max(0, idx-n_w-1):
+            while l > max(0, idx-win_w-1):
                 
                 if d_l < d_t: 
          
@@ -136,7 +134,7 @@ cdef list vareps_neighborhood (double[:,:] g_npts,
         
         with nogil:
             
-            while l > max(0, idx-n_w-1):
+            while l > max(0, idx-win_w-1):
                 
                 if d_l < d_t: 
          
