@@ -1,5 +1,21 @@
 from vision_toolkit2.config import Config, StackedConfig
+from vision_toolkit2.oculomotor_series import AugmentedSerie
+from vision_toolkit2.velocity_distance_factory import (
+    absolute_angular_distance,
+    absolute_euclidian_distance,
+)
 
+from .default_config_builder import DefaultConfigBuilder
+from  .binary import implementations as binary_implementations
+from .ternary import implementations as ternary_implementations
+
+import numpy as np
+
+
+IMPLEMENTATIONS = {
+    **binary_implementations.IMPLEMENTATIONS,
+    **ternary_implementations.IMPLEMENTATIONS,
+}
 
 class DefaultConfigBuilder:
     DEFAULT_CONFIG = Config(
@@ -38,3 +54,28 @@ class DefaultConfigBuilder:
                 savgol_polyorder=3,
             )
         return Config()
+
+class Segmentation:
+    DISTANCES = {
+        "euclidean": absolute_euclidian_distance,
+        "angular": absolute_angular_distance,
+    }
+
+
+    def __init__(
+        self,
+        input_: AugmentedSerie,
+        config: Config,
+    ):
+        self.input_ = input_
+        self.config = DefaultConfigBuilder.update(input_, config)
+        self.config += config
+
+    def process(self):
+        process_impl, _ = IMPLEMENTATIONS[self.config.segmentation_method]
+
+        results = process_impl(self.input_, self.config)
+
+        self.config.print()
+
+        return results
