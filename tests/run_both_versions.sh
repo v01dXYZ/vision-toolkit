@@ -10,4 +10,6 @@ done
 wait $pids_to_wait
 echo "PWD:" $PWD
 ls -la
+echo results
+find results
 git diff --no-index ./results/$test_name/v{1,2}/report.md
