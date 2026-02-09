@@ -8,5 +8,6 @@ for version in 1 2; do
 done
     
 wait $pids_to_wait
-
-git diff --no-index results/$test_name/v{1,2}/report.md
+echo "PWD:" $PWD
+ls -la
+git diff --no-index ./results/$test_name/v{1,2}/report.md

@@ -10,6 +10,7 @@ from .velocity_distance_factory import (
     process_euclidian_absolute_speeds, process_unitary_gaze_vectors)
 
 
+EPSILON = 1e-3
 
 # @dataclass
 # class OcculomotorConfig:
