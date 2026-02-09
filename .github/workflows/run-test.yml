@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_container_image
     steps:
-    - docker run ${{ needs.build_container_image.outputs.imgtag }} "cd /src/tests; ./run_in_container.sh ./run_both_versions.py"
+    - run: docker run ${{ needs.build_container_image.outputs.imgtag }} "cd /src/tests; ./run_in_container.sh ./run_both_versions.py"
   coverage:
     runs-on: ubuntu-latest
     needs: build_container_image
