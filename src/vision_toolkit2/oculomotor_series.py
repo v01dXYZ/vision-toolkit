@@ -37,10 +37,12 @@ class Serie:
         )
 
     def __init__(self, x, y, z, status, config):
-        self.x = x
-        self.y = y
-        if z is None:
-            z = np.full_like(x, distance_projection)
+        self.x = x.astype("float64")
+        self.y = y.astype("float64")
+        if z is not None:
+            z = z.astype("float64")
+        else:
+            z = np.full_like(x, distance_projection, dtype="float64")
         self.z = z
 
         self.status = status
