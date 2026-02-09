@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
+
 import time
 
-import networkx as nx
 import numpy as np
+import networkx as nx
 from networkx.algorithms import tree
 from scipy.spatial.distance import cdist
 
-from vision_toolkit.utils.segmentation_utils import (
-    centroids_from_ints,
-    interval_merging)
+from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
+from vision_toolkit2.config import Config
+from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(data_set, config):
+def process_impl(s, config):
     assert (
         config.distance_type == "euclidean"
     ), "'Distance type' must be set to 'euclidean"
@@ -20,8 +21,8 @@ def process_impl(data_set, config):
         print("Processing MST Identification...")
         start_time = time.time()
 
-    x_a = data_set["x_array"]
-    y_a = data_set["y_array"]
+    x_a = s.x
+    y_a = s.y
 
     n_s = config.nb_samples
     s_f = config.sampling_frequency
@@ -30,7 +31,6 @@ def process_impl(data_set, config):
 
     vareps = config.IMST_distance_threshold
 
-    t_du = config.IMST_window_duration
     t_du = int(np.ceil(config.IMST_window_duration * s_f))
 
     i_fix = np.array([False] * n_s)
@@ -41,7 +41,6 @@ def process_impl(data_set, config):
 
         w_gp = g_p[i:j]
 
-        # Compute distance matrix between points of the considered data window
         d_m = cdist(w_gp, w_gp, metric="euclidean")
 
         g = nx.from_numpy_array(d_m, create_using=nx.MultiGraph())
@@ -49,14 +48,12 @@ def process_impl(data_set, config):
 
         edgelist = mst.edges(data=True)
 
-        # Classify
         for edge in edgelist:
             w_ = edge[2]["weight"]
 
             i_mst = edge[0]
             j_mst = edge[1]
 
-            # Fixation/Saccade distinction
             if w_ < vareps:
                 i_fix[i + i_mst] = True
                 i_fix[i + j_mst] = True
@@ -83,13 +80,11 @@ def process_impl(data_set, config):
             )
         )
 
-    # i_sac events not retained as intervals are relabeled as fix events
     i_fix = np.array([True] * config.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
-    # second pass to merge saccade separated by short fixations
     fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
 
     for i in range(1, len(s_ints)):
@@ -106,27 +101,24 @@ def process_impl(data_set, config):
             )
         )
 
-    # Recompute fixation intervals
     wi_fix = np.where(i_fix == True)[0]
 
     f_ints = interval_merging(
         wi_fix,
         min_int_size=np.ceil(config.min_fix_duration * s_f),
-        status=data_set["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
-    # Compute fixation centroids
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
-    # Recompute saccadic intervals
     i_sac = i_fix == False
     wi_sac = np.where(i_sac == True)[0]
 
     s_ints = interval_merging(
         wi_sac,
         min_int_size=np.ceil(config.min_sac_duration * s_f),
-        status=data_set["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
@@ -145,7 +137,6 @@ def process_impl(data_set, config):
         print("\n...MST Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    # Keep track of index that were effectively labeled
     i_lab = np.array([False] * config.nb_samples)
 
     for f_int in f_ints:
@@ -155,10 +146,17 @@ def process_impl(data_set, config):
         i_lab[s_int[0] : s_int[1] + 1] = True
 
     return BinarySegmentationResults(
-        is_labeled= i_lab,
-        fixation_intervals= f_ints,
-        saccade_intervals= s_ints,
-        fixation_centroids= ctrds,
-        input = s,
-        config = config,
+        is_labeled=i_lab,
+        fixation_intervals=f_ints,
+        saccade_intervals=s_ints,
+        fixation_centroids=ctrds,
+        input=s,
+        config=config,
+    )
+
+
+def default_config_impl(config, vf_diag):
+    return Config(
+        IMST_distance_threshold=0.5,
+        IMST_window_duration=0.040,
     )

@@ -4,13 +4,13 @@ import time
 
 import numpy as np
 
-from vision_toolkit.utils.segmentation_utils import (
-    centroids_from_ints,
-    interval_merging)
-from vision_toolkit.utils.velocity_distance_factory import process_speed_components
+from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
+from vision_toolkit2.velocity_distance_factory import process_speed_components
+from vision_toolkit2.config import Config
+from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(data_set, config):
+def process_impl(s, config):
     assert (
         config.distance_type == "euclidean"
     ), "'Distance type' must be set to 'euclidean"
@@ -25,19 +25,17 @@ def process_impl(data_set, config):
     d_t = 1 / s_f
     c_wn = config.IKF_chi2_window
 
-    x_a = data_set["x_array"]
-    y_a = data_set["y_array"]
+    x_a = s.x
+    y_a = s.y
 
     pos = np.concatenate((x_a.reshape(1, n_s), y_a.reshape(1, n_s)), axis=0)
 
-    sp = process_speed_components(data_set, config)[0:2, :]
+    sp = process_speed_components(s, config)[0:2, :]
 
-    # predict velocities and positions from Kalman filter
     pred = process_Kalman_filter(
         pos, sp, d_t, config.IKF_sigma_1, config.IKF_sigma_2
     )
 
-    # compute norms of predicted and true speed vectors
     p_sp = np.linalg.norm(
         np.concatenate(
             (pred["x"][1, :].reshape(1, n_s), pred["y"][1, :].reshape(1, n_s)), axis=0
@@ -47,12 +45,10 @@ def process_impl(data_set, config):
 
     t_sp = np.linalg.norm(sp, axis=0)
 
-    # compute chi2 statistics over sampling intervals of size c_wn
     chi2_a = compute_chi2(p_sp, t_sp, c_wn)
 
     wi_fix = np.where(chi2_a[:-1] <= config.IKF_chi2_threshold)[0]
 
-    # Add index + 1 to fixation since velocities are computed from two data points
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
     i_fix = np.array([False] * config.nb_samples)
@@ -73,13 +69,11 @@ def process_impl(data_set, config):
             )
         )
 
-    # i_sac events not retained as intervals are relabeled as fix events
     i_fix = np.array([True] * config.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
-    # second pass to merge saccade separated by short fixations
     fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
 
     for i in range(1, len(s_ints)):
@@ -96,27 +90,24 @@ def process_impl(data_set, config):
             )
         )
 
-    # Recompute fixation intervals
     wi_fix = np.where(i_fix == True)[0]
 
     f_ints = interval_merging(
         wi_fix,
         min_int_size=np.ceil(config.min_fix_duration * s_f),
-        status=data_set["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
-    # Compute fixation centroids
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
-    # Recompute saccadic intervals
     i_sac = i_fix == False
     wi_sac = np.where(i_sac == True)[0]
 
     s_ints = interval_merging(
         wi_sac,
         min_int_size=np.ceil(config.min_sac_duration * s_f),
-        status=data_set["status"],
+        status=s.status,
         proportion=config.status_threshold,
     )
 
@@ -135,7 +126,6 @@ def process_impl(data_set, config):
         print("\n...KF Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    # Keep track of index that were effectively labeled
     i_lab = np.array([False] * config.nb_samples)
 
     for f_int in f_ints:
@@ -145,12 +135,12 @@ def process_impl(data_set, config):
         i_lab[s_int[0] : s_int[1] + 1] = True
 
     return BinarySegmentationResults(
-        is_labeled= i_lab,
-        fixation_intervals= f_ints,
-        saccade_intervals= s_ints,
-        fixation_centroids= ctrds,
-        input = s,
-        config = config,
+        is_labeled=i_lab,
+        fixation_intervals=f_ints,
+        saccade_intervals=s_ints,
+        fixation_centroids=ctrds,
+        input=s,
+        config=config,
     )
 
 
@@ -176,7 +166,6 @@ def process_Kalman_filter(pos, sp, d_t, sigma_1, sigma_2):
     results = dict({})
 
     for k, _dir in enumerate(["x", "y"]):
-        # initialize state vectors and measurement vectors
         u_v = np.zeros((2, n_s))
         u_v_pl = np.zeros((2, n_s))
 
@@ -184,22 +173,18 @@ def process_Kalman_filter(pos, sp, d_t, sigma_1, sigma_2):
 
         pos_v = pos[k, :]
 
-        # Initialize parameters
         a_m = np.array([[1, d_t], [0, 1]])
         h_m = np.array([[1, 0]])
 
         sigma_m_1 = np.diag(np.array([sigma_1] * 2) ** 2)
         sigma_m_2 = sigma_2**2
 
-        # initialize null error covariance matrix
         p_m_pl = np.zeros((2, 2))
 
         for i in range(1, n_s):
-            # prediction step
             u_v[:, i] = a_m @ u_v_pl[:, i - 1]
             p_m = a_m @ p_m_pl @ a_m.T + sigma_m_1
 
-            # update step
             k_m = p_m @ h_m.T * (h_m @ p_m @ h_m.T + sigma_m_2) ** (-1)
             u_v_pl[:, i] = (
                 u_v[:, i].reshape(2, 1)
@@ -210,3 +195,12 @@ def process_Kalman_filter(pos, sp, d_t, sigma_1, sigma_2):
         results.update({_dir: u_v})
 
     return results
+
+
+def default_config_impl(config, vf_diag):
+    return Config(
+        IKF_chi2_threshold=0.5,
+        IKF_chi2_window=10,
+        IKF_sigma_1=0.5,
+        IKF_sigma_2=0.5,
+    )
