@@ -4,7 +4,8 @@ import pathlib
 import numpy as np
 import pandas as pd
 
-import vision_toolkit2 as v
+import vision_toolkit as v1
+import vision_toolkit2 as v2
 from vision_toolkit2 import AugmentedSerie, Config, Serie, Smoothing, StackedConfig
 from vision_toolkit2.segmentation.binary.implementations import IMPLEMENTATIONS
 
@@ -41,10 +42,88 @@ def normalize_report(d):
         for k, v in d.items()
     }
 
+class V2Gateway:
+    @classmethod
+    def get_segmentation_cls(cls, nary):
+        if nary == "BINARY":
+            Segmentation = v2.BinarySegmentation
+        elif nary == "TERNARY":
+            Segmentation = v2.TernarySegmentation
+        else:
+            raise RuntimeError()
+
+        return Segmentation
+
+    @classmethod
+    def run_segmentation_on_serie(cls, Segmentation, serie, config_dict):
+        config = StackedConfig([
+            serie.config,
+            Config(**config_dict),
+        ])
+
+        segmentation = Segmentation(
+            serie,
+            config=config,
+        )
+
+        r = segmentation.process()
+
+        return r
+
+    @classmethod
+    def create_serie(cls, gt_coords, dimensions, config_dict):
+        gt_s = Serie.from_df(
+            gt_coords,
+            size_plan_x=dimensions["width_mm"],
+            size_plan_y=dimensions["height_mm"],
+            sampling_frequency = config_dict.get("sampling_frequency")
+        )       
+
+
+        gt_smoothed = Smoothing.create_and_process(
+            gt_s,
+            Config(
+                smoothing="savgol",
+                savgol_window_length=31,
+                savgol_polyorder=3,
+                distance_type="euclidean",
+            ),
+        )
+        gt_augmented_smoothed = AugmentedSerie.augment_serie(gt_smoothed)
+
+        return gt_augmented_smoothed
+
+
+class V1Gateway:
+    @classmethod
+    def get_segmentation_cls(cls, nary):
+        if nary == "BINARY":
+            Segmentation = v1.BinarySegmentation
+        elif nary == "TERNARY":
+            Segmentation = v1.TernarySegmentation
+        else:
+            raise RuntimeError()
+
+        return Segmentation
+
+    @classmethod
+    def run_segmentation_on_serie(cls, Segmentation, serie, config_dict):
+        segmentation = Segmentation(
+            serie,
+            **config_dict,
+        )
+
+        return segmentation.segmentation_results
+
+    @classmethod
+    def create_serie(cls, gt_coords, dimensions, config_dict):
+        return gt_coords
+
 class ReportForEachMethod:
     @classmethod
     def run_segmentation(
             cls,
+            version,
             gt,
             gt_vstk,
             dimensions,
@@ -57,14 +136,8 @@ class ReportForEachMethod:
         if gt_coords[GAZE_X].isna().sum() >= 1:
             return None
 
-        if nary == "BINARY":
-            Segmentation = v.BinarySegmentation
-        elif nary == "TERNARY":
-            Segmentation = v.TernarySegmentation
-        else:
-            raise RuntimeError()
 
-        kwargs = {
+        config_dict = {
             "segmentation_method": method,
             "distance_type": "euclidean",
             "display_segmentation": True,
@@ -78,38 +151,17 @@ class ReportForEachMethod:
             **segmentation_kwargs,
         }
 
-        gt_s = Serie.from_df(
-            gt_coords,
-            size_plan_x=dimensions["width_mm"],
-            size_plan_y=dimensions["height_mm"],
-            sampling_frequency = kwargs.get("sampling_frequency")
-        )
-        gt_smoothed = Smoothing.create_and_process(
-            gt_s,
-            Config(
-                smoothing="savgol",
-                savgol_window_length=3,
-                savgol_polyorder=2,
-                distance_type="euclidean",
-            ),
-        )
-        gt_augmented_smoothed = AugmentedSerie.augment_serie(gt_smoothed)
+        VersionGateway = V2Gateway if version == 2 else V1Gateway
 
-        config = StackedConfig([
-            gt_augmented_smoothed.config,
-            Config(**kwargs),
-        ])
-        segmentation = Segmentation(
-            gt_augmented_smoothed,
-            config=config,
-        )
+        serie = VersionGateway.create_serie(gt_coords, dimensions, config_dict)
+        Segmentation = VersionGateway.get_segmentation_cls(nary)
+        results = VersionGateway.run_segmentation_on_serie(Segmentation, serie, config_dict)
 
-        r = segmentation.process()
-
-        return cls.build_predictions_from_results(r, gt, gt_vstk)
+        return cls.build_predictions_from_results(results, gt, gt_vstk)
 
     def build_labels_ordinal_from_res(
             r,
+            nb_samples,
             key_ordinal,
             default_ordinal,
     ):
@@ -124,12 +176,13 @@ class ReportForEachMethod:
             raise ValueError()
 
         predictions = np.full(
-            r.config.nb_samples,
+            nb_samples,
             default_ordinal,
             dtype=dtype,
         )
         for k, val in key_ordinal.items():
-            intervals = getattr(r, k, None)
+            # hacky but works for now
+            intervals = r.get(k) if isinstance(r, dict) else getattr(r, k, None)
 
             if intervals is None:
                 continue
@@ -141,7 +194,7 @@ class ReportForEachMethod:
     
 
     @classmethod
-    def evaluate(cls, gt_dim_list):
+    def evaluate(cls, version, gt_dim_list):
         # first we convert to VSTK ground truth
         gt_dim_list = [
             (gt, dim, gt_vstk)
@@ -159,6 +212,7 @@ class ReportForEachMethod:
 
                 for gt, dimensions, gt_vstk in gt_dim_list:
                     pred = cls.run_segmentation(
+                        version,
                         gt,
                         gt_vstk,
                         dimensions,
@@ -205,7 +259,7 @@ class ReportForEachMethod:
         pass
 
     @classmethod
-    def build_predictions_from_results(cls, r, gt, gt_vstk):
+    def build_predictions_from_results(cls, gt, gt_vstk):
         """
         Using both ground truth and result (test format), build predictions data as test format
         """
@@ -229,9 +283,12 @@ class VSTKReportForEachMethod(ReportForEachMethod):
         return (*gt, None)
 
     @classmethod
-    def build_predictions_from_results(cls, r, gt, gt_vstk):
+    def build_predictions_from_results(cls, results, gt, gt_vstk):
+        coords, *_ = gt_vstk
+
         pred_np = cls.build_labels_ordinal_from_res(
-            r,
+            results,
+            coords.shape[0],
             {
                 "fixation_intervals": FIX,
                 "saccade_intervals": SACCADE,
@@ -240,7 +297,6 @@ class VSTKReportForEachMethod(ReportForEachMethod):
             NOISE,
         )
 
-        coords, *_ = gt_vstk
         return (coords, pd.DataFrame({EVENT_LABEL: pred_np}))
 
     @classmethod
@@ -263,6 +319,7 @@ class EntryPoint:
         cutoff = args.cutoff
         report_name = args.report_name
         directory = args.directory
+        version = args.version
 
         # we sort it
         paths = sorted(cls.paths)
@@ -277,7 +334,7 @@ class EntryPoint:
             if (res := cls.load_ground_truth_file(p)) is not None
         ]
 
-        report, report_summary_serie = cls.ReportForEachMethod.evaluate(gt_dim_list=gt_dim_list)
+        report, report_summary_serie = cls.ReportForEachMethod.evaluate(version, gt_dim_list=gt_dim_list)
 
         if not directory.exists():
             directory.mkdir(exist_ok=True,

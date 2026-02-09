@@ -150,9 +150,11 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
         return coords[[vt.GAZE_X, vt.GAZE_Y]].interpolate(), labels, gt_data["time"]
         
     @classmethod
-    def build_predictions_from_results(cls, r, gt, gt_vstk):
+    def build_predictions_from_results(cls, results, gt, gt_vstk):
+        (coords, *_) = gt_vstk
         predictions = cls.build_labels_ordinal_from_res(
-            r,
+            results,
+            coords.shape[0],
             {
                 vt.FIXATION_INTERVALS: FIX_STR,
                 vt.SACCADE_INTERVALS: SACCADE_STR,
