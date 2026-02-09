@@ -151,6 +151,7 @@ jobs:
       - name: Run tests
         run: |
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
+          echo REPORT_SUFFIX=v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }} >> $GITHUB_ENV
           $CONTAINERCLI run \
             -v .:/src \
             ${{ needs.build_container_image.outputs.imgtag }} \
@@ -158,17 +159,17 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          name: report-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-json-v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          name: report-json-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.json
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-png-v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset }}-${{ matrix.args.name }}
+          name: report-png-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.png
 
       - name: Upload report.png
@@ -177,7 +178,7 @@ jobs:
           git switch -f $IMGSBRANCH
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
-          IMGNAME='report_v$VISION_TOOLKIT_VERSION_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
+          IMGNAME="report_v$VISION_TOOLKIT_VERSION_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png"
           echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
           cp $RESULTS_DIR/report.png $IMGNAME
           git add $IMGNAME
@@ -188,7 +189,7 @@ jobs:
           echo "## Image" >> $GITHUB_STEP_SUMMARY
           echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
-          cat ./tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION/report.md >> $GITHUB_STEP_SUMMARY
+          cat $RESULTS_DIR/report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
 
       # Hack to display image in comment as artifact can't be used for such a thing
