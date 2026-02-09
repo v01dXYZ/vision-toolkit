@@ -9,6 +9,7 @@ env:
   CONTAINERCLI: docker # podman
   PYPKGMGR: pip # "uv pip"
   IMGSBRANCH: v01dxyz-imgs
+  VISION_TOOLKIT_VERSION: 2
 
 permissions:
   contents: write
@@ -18,6 +19,11 @@ permissions:
 # BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
 # Limitations should be set in order to prevent this.
 jobs:
+  run_both_versions:
+    runs-on: ubuntu-latest
+    needs: build_container_image
+    steps:
+    - docker run ${{ needs.build_container_image.outputs.imgtag }} "cd /src/tests; ./run_in_container.sh ./run_both_versions.py"
   coverage:
     runs-on: ubuntu-latest
     needs: build_container_image
@@ -138,25 +144,25 @@ jobs:
 
       - name: Run tests
         run: |
-          echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
+          echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
           $CONTAINERCLI run \
             -v .:/src \
             ${{ needs.build_container_image.outputs.imgtag }} \
-            "cd /src/tests; bash run_in_container.sh python run.py ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
+            "cd /src/tests; bash run_in_container.sh python run.py $VISION_TOOLKIT_VERSION {{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          name: report-v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }}
           path: ${{ env.RESULTS_DIR }}
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          name: report-json-v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }}
           path: ${{ env.RESULTS_DIR }}/report.json
 
       - uses: actions/upload-artifact@v4
         with:
-          name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
+          name: report-png-v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset }}-${{ matrix.args.name }}
           path: ${{ env.RESULTS_DIR }}/report.png
 
       - name: Upload report.png
@@ -165,18 +171,18 @@ jobs:
           git switch -f $IMGSBRANCH
           git config user.name "imgs-uploader"
           git config user.email "nocontact@unreachable"
-          IMGNAME='report_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
+          IMGNAME='report_v$VISION_TOOLKIT_VERSION_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
           echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
           cp $RESULTS_DIR/report.png $IMGNAME
           git add $IMGNAME
-          git commit -m "Publish report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
+          git commit -m "Publish v$VISION_TOOLKIT_VERSION report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
           git push origin $IMGSBRANCH
 
       - run: |
           echo "## Image" >> $GITHUB_STEP_SUMMARY
           echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
-          cat ./tests/results/${{ matrix.args.dataset }}/report.md >> $GITHUB_STEP_SUMMARY
+          cat ./tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION/report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
 
       # Hack to display image in comment as artifact can't be used for such a thing
@@ -191,7 +197,7 @@ jobs:
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
-            const MAGIC = '<!-- MAGIC github-action-bot ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
+            const MAGIC = '<!-- MAGIC github-action-bot v${{ env.VISION_TOOLKIT_VERSION }} ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
 
             const success = '${{ job.status }}' === 'success';
             const body = 
