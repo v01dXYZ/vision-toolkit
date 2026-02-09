@@ -35,7 +35,8 @@ class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
     def summarize_report_into_serie(cls, report):
         return pd.Series({
             method_name: r
-            for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
+            for d in report.values()
+            for method_name, r in d.items()
         })
 
 class EntryPoint(vt.EntryPoint):
