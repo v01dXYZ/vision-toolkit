@@ -1,3 +1,4 @@
+#!/bin/env python
 import argparse
 import importlib
 import pathlib
@@ -6,7 +7,7 @@ def get_cli_args():
     arg_parser = argparse.ArgumentParser()
 
     arg_parser.add_argument("version", type=int, choices=[1, 2])
-    arg_parser.add_argument("test_name")
+    arg_parser.add_argument("test_name", choices=["hollywood2", "zemblys"])
     arg_parser.add_argument("cutoff", type=int)
     arg_parser.add_argument("report_name", nargs="?", default="report")
 
