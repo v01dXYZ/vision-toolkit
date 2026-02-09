@@ -44,10 +44,10 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-
+      - run: echo ${{ env.VISION_TOOLKIT_VERSION }}
       - uses: astral-sh/ruff-action@v3
         with:
-          src: ./src/vision_toolkit${{ env.VISION_TOOLKIT_VERSION == 2 && "2" || "" }}
+          src: ./src/vision_toolkit${{ env.VISION_TOOLKIT_VERSION == 2 && '2' || '' }}
 
   build_container_image:
     name: Build container image
