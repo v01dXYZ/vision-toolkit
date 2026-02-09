@@ -68,8 +68,9 @@ def process_impl(s, config):
 
     i_lab = np.full(config.nb_samples, False)
 
-    for start, end in [*f_ints, *s_ints]:
-        i_lab[start : end + 1] = True
+    for ints in (f_ints, s_ints):
+        for start, end in ints:
+            i_lab[start : end + 1] = True
 
     return BinarySegmentationResults(
         is_labeled=i_lab,
