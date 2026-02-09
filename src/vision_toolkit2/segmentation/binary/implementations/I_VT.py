@@ -68,7 +68,7 @@ def process_impl(s, config):
 
     i_lab = np.full(config.nb_samples, False)
 
-    for start, end in f_ints + s_int:
+    for start, end in f_ints + s_ints:
         i_lab[start : end + 1] = True
 
     return BinarySegmentationResults(
