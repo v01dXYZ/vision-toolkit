@@ -51,7 +51,7 @@ def process_impl(s, config):
     avlb = {i: int(1) for i in range(0, n_s)}
 
     for i in range(n_s):
-        if avlb[i] == True:
+        if avlb[i]:
             neigh = vareps_neighborhood(g_npts, euclidean, n_s, i, d_t, win_w)
 
             if len(neigh) + 1 >= min_pts:
@@ -71,8 +71,8 @@ def process_impl(s, config):
     x_a = s.x
     y_a = s.y
 
-    i_sac = i_fix == False
-    wi_sac = np.where(i_sac == True)[0]
+    i_sac = ~ i_fix
+    wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
         wi_sac,
@@ -103,7 +103,7 @@ def process_impl(s, config):
         print('   Close saccadic intervals merged with duration threshold: {f_du} sec'.format(f_du=config.min_fix_duration))
 
     # Recompute fixation intervals
-    wi_fix = np.where(i_fix == True)[0]
+    wi_fix = np.where(i_fix)[0]
 
     f_ints = interval_merging(
         wi_fix,
@@ -117,8 +117,8 @@ def process_impl(s, config):
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
     # Recompute saccadic intervals
-    i_sac = i_fix == False
-    wi_sac = np.where(i_sac == True)[0]
+    i_sac = ~ i_fix
+    wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
         wi_sac,

@@ -112,8 +112,8 @@ def process_impl(s, config):
     if config.verbose:
         print("Done")
 
-    i_sac = i_fix == False
-    wi_sac = np.where(i_sac == True)[0]
+    i_sac = ~ i_fix
+    wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
         wi_sac,
@@ -152,7 +152,7 @@ def process_impl(s, config):
         )
 
     # Recompute fixation intervals
-    wi_fix = np.where(i_fix == True)[0]
+    wi_fix = np.where(i_fix)[0]
 
     f_ints = interval_merging(
         wi_fix,
@@ -166,8 +166,8 @@ def process_impl(s, config):
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
     # Recompute saccadic intervals
-    i_sac = i_fix == False
-    wi_sac = np.where(i_sac == True)[0]
+    i_sac = ~ i_fix
+    wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
         wi_sac,
