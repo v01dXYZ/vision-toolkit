@@ -198,9 +198,14 @@ def process_Kalman_filter(pos, sp, d_t, sigma_1, sigma_2):
 
 
 def default_config_impl(config, vf_diag):
+    si_1 = (4 * vf_diag) ** 2
+    si_2 = (5 * vf_diag) ** 2
+    c_t = (1 * vf_diag) ** 2
+
     return Config(
-        IKF_chi2_threshold=0.5,
+        IKF_chi2_threshold=c_t,
         IKF_chi2_window=10,
-        IKF_sigma_1=0.5,
-        IKF_sigma_2=0.5,
+        IKF_chi2_sigma=1.0,
+        IKF_sigma_1=si_1,
+        IKF_sigma_2=si_2,
     )

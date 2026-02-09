@@ -184,6 +184,7 @@ class IHOV:
 class IKF:
     chi2_threshold: float
     chi2_window: float
+    chi2_sigma: float
     sigma_1: float
     sigma_2: float
 
