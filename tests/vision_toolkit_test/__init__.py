@@ -7,8 +7,8 @@ import pandas as pd
 import vision_toolkit as v1
 import vision_toolkit2 as v2
 from vision_toolkit2 import AugmentedSerie, Config, Serie, Smoothing, StackedConfig
-from vision_toolkit2.segmentation.binary.implementations import IMPLEMENTATIONS
-
+from vision_toolkit2.segmentation.binary.implementations import IMPLEMENTATIONS as BINARY_IMPLEMENTATIONS
+from vision_toolkit2.segmentation.ternary.implementations import IMPLEMENTATIONS as TERNARY_IMPLEMENTATIONS
 NOISE = 0
 FIX = 1
 SACCADE = 2
@@ -24,7 +24,8 @@ GAZE_Y = "gazeY"
 EVENT_LABEL = "event_label"
 
 METHODS_CONFIG = {
-    "BINARY": {method: {} for method in IMPLEMENTATIONS},
+    "BINARY": {method: {} for method in BINARY_IMPLEMENTATIONS},
+    "TERNARY": {method: {} for method in TERNARY_IMPLEMENTATIONS},
 }
 
 
@@ -45,14 +46,7 @@ def normalize_report(d):
 class V2Gateway:
     @classmethod
     def get_segmentation_cls(cls, nary):
-        if nary == "BINARY":
-            Segmentation = v2.BinarySegmentation
-        elif nary == "TERNARY":
-            Segmentation = v2.TernarySegmentation
-        else:
-            raise RuntimeError()
-
-        return Segmentation
+        return v2.Segmentation
 
     @classmethod
     def run_segmentation_on_serie(cls, Segmentation, serie, config_dict):

@@ -180,8 +180,8 @@ jobs:
           git config user.email "nocontact@unreachable"
           IMGNAME="report_v$VISION_TOOLKIT_VERSION_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png"
           echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
-          cp $RESULTS_DIR/report.png $IMGNAME
-          git add $IMGNAME
+          cp -v $RESULTS_DIR/report.png $IMGNAME
+          git add -v $IMGNAME
           git commit -m "Publish v$VISION_TOOLKIT_VERSION report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
           git push origin $IMGSBRANCH
 

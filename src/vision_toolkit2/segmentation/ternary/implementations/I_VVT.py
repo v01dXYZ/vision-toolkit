@@ -5,9 +5,10 @@ import time
 import numpy as np
 
 from vision_toolkit.utils.segmentation_utils import interval_merging
+from vision_toolkit2.config import Config
 
 from ..ternary_segmentation_results import TernarySegmentationResults
-from .common import build_results_from_indicators
+
 
 def process_impl(s, config):
     """
@@ -22,28 +23,47 @@ def process_impl(s, config):
         print("Processing VVT Identification...")
         start_time = time.time()
 
-    # Eye movement parameters
     a_sp = s.absolute_speed
 
-    # Algorithm parameters
     T_s = config.IVVT_saccade_threshold
     T_p = config.IVVT_pursuit_threshold
 
-    # Saccades are found like in the I-VT algorithm
-    i_sac = np.where(a_sp > T_s, 1, 0)
+    valid = np.isfinite(a_sp)
 
-    # An additional threshold is used for pursuits
-    i_purs = np.where((a_sp > T_p) & (a_sp <= T_s), 1, 0)
-    
-    # The remaining points are fixations
-    i_fix = np.where(a_sp <= T_p, 1, 0)
-    print(a_sp)
+    is_saccade = (~valid) | (a_sp > T_s)
+    is_pursuit = valid & (a_sp > T_p) & (a_sp <= T_s)
+    is_fixation = valid & (a_sp <= T_p)
+
+    saccade_intervals = interval_merging(np.where(is_saccade)[0])
+    pursuit_intervals = interval_merging(np.where(is_pursuit)[0])
+    fixation_intervals = interval_merging(np.where(is_fixation)[0])
+
     if config.verbose:
         print("\n...VVT Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    return build_results_from_indicators(
-        i_fix,
-        i_sac,
-        i_purs,
+    return TernarySegmentationResults(
+        is_fixation=is_fixation,
+        fixation_intervals=fixation_intervals,
+        is_saccade=is_saccade,
+        saccade_intervals=saccade_intervals,
+        is_pursuit=is_pursuit,
+        pursuit_intervals=pursuit_intervals,
+        input=s,
+        config=config,
     )
+
+
+def default_config_impl(config, vf_diag):
+    if config.distance_type == "euclidean":
+        s_t = vf_diag * 0.5
+        p_t = vf_diag * 0.15
+        return Config(
+            IVVT_saccade_threshold=s_t,
+            IVVT_pursuit_threshold=p_t,
+        )
+    elif config.distance_type == "angular":
+        return Config(
+            IVVT_saccade_threshold=10,
+            IVVT_pursuit_threshold=1,
+        )
