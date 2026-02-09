@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import time
-from collections import Counter
 
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.cluster.vq import kmeans2
 
@@ -148,11 +146,11 @@ def process_impl(
             if dist_ < t_me_di:
                 i_fix[f_int_p[1] : f_int[0]] = True
 
-    wi_fix = np.where(i_fix == True)[0]
+    wi_fix = np.where(i_fix)[0]
     i_fix = i_fix == 1.0
 
-    i_sac = i_fix == False
-    wi_sac = np.where(i_sac == True)[0]
+    i_sac = ~ i_fix
+    wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
         wi_sac,
@@ -190,7 +188,7 @@ def process_impl(
         )
 
     # Recompute fixation intervals
-    wi_fix = np.where(i_fix == True)[0]
+    wi_fix = np.where(i_fix)[0]
 
     f_ints = interval_merging(
         wi_fix,
@@ -203,8 +201,8 @@ def process_impl(
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
     # Recompute saccadic intervals
-    i_sac = i_fix == False
-    wi_sac = np.where(i_sac == True)[0]
+    i_sac = ~ i_fix
+    wi_sac = np.where(i_sac)[0]
 
     s_ints = interval_merging(
         wi_sac,

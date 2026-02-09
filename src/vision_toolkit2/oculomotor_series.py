@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-from dataclasses import dataclass
 
 from .config import Config
 
@@ -11,6 +10,7 @@ from .velocity_distance_factory import (
 
 
 EPSILON = 1e-3
+DEFAULT_DISTANCE_PROJECTION = 1_000
 
 # @dataclass
 # class OcculomotorConfig:
@@ -28,6 +28,8 @@ class Serie:
 
     config: Config
 
+
+
     def update_config(self, config):
         return type(self)(
             x = self.x,
@@ -43,6 +45,7 @@ class Serie:
         if z is not None:
             z = z.astype("float64")
         else:
+            distance_projection = config.distance_project or DEFAULT_DISTANCE_PROJECTION
             z = np.full_like(x, distance_projection, dtype="float64")
         self.z = z
 

@@ -225,9 +225,7 @@ class EntryPoint(vt.EntryPoint):
         height_px = metadata["height_px"]
         width_mm = metadata["width_mm"]
         height_mm = metadata["height_mm"]
-        distance_mm = metadata["distance_mm"]
 
-        df = pd.DataFrame(arff_data["data"])
         return (
             arff_data,
     #        df[["time", "x", "y", "handlabeller_final"]],
