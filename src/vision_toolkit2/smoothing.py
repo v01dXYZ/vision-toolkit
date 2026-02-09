@@ -2,6 +2,7 @@ from vision_toolkit2 import StackedConfig
 
 from scipy.signal import savgol_filter
 
+
 class Smoothing:
     def __init__(self, dataset, config):
         self.dataset = dataset
@@ -11,10 +12,12 @@ class Smoothing:
         dataset_with_old_config = self.process_dataset()
 
         return dataset_with_old_config.update_config(
-            StackedConfig([
-                dataset_with_old_config.config, 
-                self.config,
-            ])
+            StackedConfig(
+                [
+                    dataset_with_old_config.config,
+                    self.config,
+                ]
+            )
         )
 
     @classmethod
@@ -33,8 +36,10 @@ class Smoothing:
     def create_and_process(cls, dataset, config):
         return cls.create(dataset, config).process()
 
+
 class NoSmoothing(Smoothing):
     pass
+
 
 class MovingAverage(Smoothing):
     def process_dataset(self):
@@ -53,6 +58,7 @@ class MovingAverage(Smoothing):
             setattr(self.dataset, _dir, smoothed_array)
 
         return self.dataset
+
 
 class SpeedMovingAverage(Smoothing):
     def process_dataset(self):
@@ -76,6 +82,7 @@ class SpeedMovingAverage(Smoothing):
             setattr(self.dataset, _dir, smoothed_array)
 
         return self.dataset
+
 
 class SavgolFiltering(Smoothing):
     def process_dataset(self):
