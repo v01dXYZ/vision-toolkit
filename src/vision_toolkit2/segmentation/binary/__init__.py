@@ -1,1 +1,2 @@
 from .binary_segmentation import BinarySegmentation
+from .binary_segmentation_results import BinarySegmentationResults
