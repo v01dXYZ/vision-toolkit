@@ -5,7 +5,6 @@ from vision_toolkit2.velocity_distance_factory import (
     absolute_euclidian_distance,
 )
 
-from .default_config_builder import DefaultConfigBuilder
 from  .binary import implementations as binary_implementations
 from .ternary import implementations as ternary_implementations
 
