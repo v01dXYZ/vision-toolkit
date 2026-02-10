@@ -204,7 +204,7 @@ jobs:
           script: |
             const fs = require('node:fs');
 
-            const name = '${{ github.workflow }}';
+            const name = '${{ matrix.name }} ${{ matrix.dataset }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
