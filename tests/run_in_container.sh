@@ -7,7 +7,7 @@ md5sum_pyx() {
 
 VISION_TOOLKIT_BUILD="py"
 
-vision_toolkit_srcdir=$(dirname $0)/..
+vision_toolkit_srcdir="$(realpath $(dirname $0)/..)"
 
 if [[ $(md5sum_pyx /pkg/src) != $(md5sum_pyx $vision_toolkit_srcdir/src) ]]; then
     VISION_TOOLKIT_BUILD="all"
