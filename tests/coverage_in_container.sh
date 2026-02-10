@@ -15,10 +15,10 @@ fi
 
 vision_toolkit_srcdir="$(dirname $0)/../"
 # do not forget trailing slash
-vision_toolkit_moddir=$vision_toolkit_srcdir/src/$vision_toolkit_modname/
-
-site_pkg_dir=/venv/lib/python3.13/site-packages
 vision_toolkit_modname=vision_toolkit$vision_toolkit_version_suffix
+vision_toolkit_moddir=$vision_toolkit_srcdir/src/$vision_toolkit_modname/
+site_pkg_dir=/venv/lib/python3.13/site-packages
+
 coverage_run="coverage run --source $site_pkg_dir/$vision_toolkit_modname"
 
 datasets="hollywood2 zemblys"
