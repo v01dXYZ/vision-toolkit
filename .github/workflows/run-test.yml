@@ -37,6 +37,8 @@ jobs:
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
+      with:
+        path: /src
     - run: |
           pwd
           cd /src/tests;
