@@ -11,7 +11,6 @@ def build_results_from_indicators(
     is_pursuit,
     config=None,
 ):
-
     def interval_merging_from_indicator(i):
         idx = np.where(i)[0]
 
