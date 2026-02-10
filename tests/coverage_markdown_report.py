@@ -3,6 +3,7 @@
 import sys
 import json
 import argparse
+import os
 
 VISION_TOOLKIT_VERSION = os.getenv("VISION_TOOLKIT_VERSION")
 
