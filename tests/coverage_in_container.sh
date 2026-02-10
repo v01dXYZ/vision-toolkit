@@ -12,6 +12,11 @@ else
     vision_toolkit_version_suffix=$VISION_TOOLKIT_VERSION
 fi
 
+
+vision_toolkit_srcdir="$(dirname $0)/../"
+# do not forget trailing slash
+vision_toolkit_moddir=$vision_toolkit_srcdir/src/$vision_toolkit_modname/
+
 site_pkg_dir=/venv/lib/python3.13/site-packages
 vision_toolkit_modname=vision_toolkit$vision_toolkit_version_suffix
 coverage_run="coverage run --source $site_pkg_dir/$vision_toolkit_modname"
@@ -27,16 +32,13 @@ done
 
 cd /src/tests
 
-# do not forget trailing slash
-vision_toolkit_srcdir="/src/src/$vision_toolkit_modname/"
-
 for coverage_datafile in $coverage_datafiles; do
     cp $coverage_datafile{,.rename}
     sqlite3 $coverage_datafile.rename \
-        "UPDATE file SET path =  '$vision_toolkit_srcdir' || SUBSTR(path, INSTR(path, '$vision_toolkit_modname') + LENGTH('$vision_toolkit_modname') + 1)"
+        "UPDATE file SET path =  '$vision_toolkit_moddir' || SUBSTR(path, INSTR(path, '$vision_toolkit_modname') + LENGTH('$vision_toolkit_modname') + 1)"
 done
 
-cd $vision_toolkit_srcdir
+cd $vision_toolkit_moddir
 
 for coverage_datafile in $coverage_datafiles; do
     ln -s /src/tests/$coverage_datafile.rename .
