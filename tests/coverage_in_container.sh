@@ -23,7 +23,7 @@ coverage_run="coverage run --source $site_pkg_dir/$vision_toolkit_modname"
 
 datasets="hollywood2 zemblys"
 
-cd $vision_toolkit_srcdir
+cd $vision_toolkit_srcdir/tests
 
 for dataset in $datasets; do
     coverage_datafile=coverage_$dataset.sqlite
