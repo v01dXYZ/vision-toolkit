@@ -15,6 +15,7 @@ datasets="hollywood2 zemblys"
 for dataset in $datasets; do
     coverage_datafile=coverage_$dataset.sqlite
     coverage_datafiles="$coverage_datafile $coverage_datafiles"
+    echo $coverage_run --data-file=$coverage_datafile run.py $VISION_TOOLKIT_VERSION $dataset 1
     $coverage_run --data-file=$coverage_datafile run.py $VISION_TOOLKIT_VERSION $dataset 1
 done
 
