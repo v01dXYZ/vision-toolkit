@@ -13,7 +13,7 @@ else
 fi
 
 
-vision_toolkit_srcdir="$(dirname $0)/../"
+vision_toolkit_srcdir="$(realpath $(dirname $0)/..)"
 # do not forget trailing slash
 vision_toolkit_modname=vision_toolkit$vision_toolkit_version_suffix
 vision_toolkit_moddir=$vision_toolkit_srcdir/src/$vision_toolkit_modname/
