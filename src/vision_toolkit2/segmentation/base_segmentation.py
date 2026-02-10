@@ -9,6 +9,8 @@ from .default_config_builder import DefaultConfigBuilder
 from  .binary import implementations as binary_implementations
 from .ternary import implementations as ternary_implementations
 
+from .ternary.ternary_segmentation_results import TernarySegmentationResults
+
 import numpy as np
 
 
@@ -24,6 +26,8 @@ class DefaultConfigBuilder:
         min_fix_duration=7e-2,
         max_fix_duration=2.0,
         min_sac_duration=1.5e-2,
+        min_pursuit_duration=1e-1,
+        max_pursuit_duration=2.0,
         status_threshold=0.5,
         display_segmentation=False,
         display_results=True,
@@ -75,6 +79,19 @@ class Segmentation:
         process_impl, _ = IMPLEMENTATIONS[self.config.segmentation_method]
 
         results = process_impl(self.input_, self.config)
+
+        if isinstance(results, TernarySegmentationResults):
+            conf = self.config
+            results = results.filter_events_by_duration(
+                fixation_duration_range=(
+                    conf.min_fix_duration, 
+                    conf.max_fix_duration,
+                ),
+                pursuit_duration_range=(
+                    conf.min_pursuit_duration,
+                    conf.max_pursuit_duration,
+                ),
+            )
 
         self.config.print()
 
