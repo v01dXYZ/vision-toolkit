@@ -23,29 +23,27 @@ coverage_run="coverage run --source $site_pkg_dir/$vision_toolkit_modname"
 
 datasets="hollywood2 zemblys"
 
+cd $vision_toolkit_srcdir
+
 for dataset in $datasets; do
     coverage_datafile=coverage_$dataset.sqlite
     coverage_datafiles="$coverage_datafile $coverage_datafiles"
-    echo $coverage_run --data-file=$coverage_datafile run.py $VISION_TOOLKIT_VERSION $dataset 1
-    $coverage_run --data-file=$coverage_datafile run.py $VISION_TOOLKIT_VERSION $dataset 1
+    $coverage_run --data-file=$coverage_datafile $vision_toolkit_srcdir/tests/run.py $VISION_TOOLKIT_VERSION $dataset 1
 done
 
-cd /src/tests
-
 for coverage_datafile in $coverage_datafiles; do
-    cp $coverage_datafile{,.rename}
-    sqlite3 $coverage_datafile.rename \
+    sqlite3 $coverage_datafile \
         "UPDATE file SET path =  '$vision_toolkit_moddir' || SUBSTR(path, INSTR(path, '$vision_toolkit_modname') + LENGTH('$vision_toolkit_modname') + 1)"
 done
 
 cd $vision_toolkit_moddir
 
 for coverage_datafile in $coverage_datafiles; do
-    ln -s /src/tests/$coverage_datafile.rename .
+    ln -s $vision_toolkit_srcdir/tests/$coverage_datafile .
 done
 
 coverage combine coverage_*.sqlite*
 coverage report -m
 coverage json
 
-cp coverage.json /src/tests
+cp coverage.json $vision_toolkit_srcdir/tests
