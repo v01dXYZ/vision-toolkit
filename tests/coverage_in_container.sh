@@ -1,34 +1,35 @@
 #!/bin/env bash
 
 if [[ VISION_TOOLKIT_VERSION == "1" ]]; then
-    VISION_TOOLKIT_VERSION_SUFFIX=""
+    vision_toolkit_version_suffix=""
 else
-    VISION_TOOLKIT_VERSION_SUFFIX=$VISION_TOOLKIT_VERSION
+    vision_toolkit_version_suffix=$VISION_TOOLKIT_VERSION
 fi
 
-SITE_PKG_DIR=/venv/lib/python3.13/site-packages
-VISION_TOOLKIT_MODNAME=vision_toolkit$VISION_TOOLKIT_VERSION_SUFFIX
-coverage_run="coverage run --source $SITE_PKG_DIR/$VISION_TOOLKIT_MODNAME"
+site_pkg_dir=/venv/lib/python3.13/site-packages
+vision_toolkit_modname=vision_toolkit$vision_toolkit_version_suffix
+coverage_run="coverage run --source $site_pkg_dir/$vision_toolkit_modname"
 
-$coverage_run --data-file=coverage_hollywood2.sqlite run.py hollywood2 1
-$coverage_run --data-file=coverage_zemblys.sqlite run.py zemblys 1
+datasets="hollywood2 zemblys"
 
-pkgname="vision_toolkit"
-
-coverage_datafiles="coverage_hollywood2.sqlite coverage_zemblys.sqlite"
+for dataset in $datasets; do
+    coverage_datafile=coverage_$dataset.sqlite
+    coverage_datafiles="$coverage_datafile $coverage_datafiles"
+    $coverage_run --data-file=$coverage_datafile run.py $VISION_TOOLKIT_VERSION $dataset 1
+done
 
 cd /src/tests
 
 # do not forget trailing slash
-VISION_TOOLKIT_SRCDIR="/src/src/$VISION_TOOLKIT_MODNAME/"
+vision_toolkit_srcdir="/src/src/$vision_toolkit_modname/"
 
 for coverage_datafile in $coverage_datafiles; do
     cp  $coverage_datafile{,.rename}
     sqlite3 $coverage_datafile.rename \
-        "UPDATE file SET path =  '$VISION_TOOLKIT_SRCDIR' || SUBSTR(path, INSTR(path, '$pkgname') + LENGTH('$pkgname') + 1)"
+        "UPDATE file SET path =  '$vision_toolkit_srcdir' || SUBSTR(path, INSTR(path, '$vision_toolkit_modname') + LENGTH('$vision_toolkit_modname') + 1)"
 done
 
-cd $VISION_TOOLKIT_SRCDIR
+cd $vision_toolkit_srcdir
 
 for coverage_datafile in $coverage_datafiles; do
     ln -s /src/tests/$coverage_datafile.rename .
