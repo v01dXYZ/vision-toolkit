@@ -9,7 +9,7 @@ env:
   CONTAINERCLI: docker # podman
   PYPKGMGR: pip # "uv pip"
   IMGSBRANCH: v01dxyz-imgs
-  VISION_TOOLKIT_VERSION: 2
+  VISION_TOOLKIT_VERSION: "should_fail"
 
 permissions:
   contents: write
