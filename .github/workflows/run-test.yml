@@ -172,6 +172,7 @@ jobs:
 
       - name: Upload report.png
         run: |
+          git config --global --add safe.directory .
           git fetch --depth 1 origin $IMGSBRANCH
           git switch -f $IMGSBRANCH
           git config user.name "imgs-uploader"
