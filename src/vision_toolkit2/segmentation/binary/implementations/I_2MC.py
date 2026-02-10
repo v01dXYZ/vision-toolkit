@@ -69,11 +69,12 @@ def process_impl(
         trs_1 = np.where(np.diff(lbl_1) != 0)[0] + 1
 
         # Compute weigths
-        w_1 = np.zeros(n_wc)
-        w_1[trs_1] = 1 / len(trs_1)
+        if len(trs_1) > 0:
+            w_1 = np.zeros(n_wc)
+            w_1[trs_1] = 1 / len(trs_1)
 
-        # Add weigths
-        f_w[w_c] += w_1
+            # Add weigths
+            f_w[w_c] += w_1
 
         # Under-sample: 1 for 2
         X_2 = np.concatenate(
@@ -84,11 +85,12 @@ def process_impl(
         trs_2 = np.where(np.diff(lbl_2) != 0)[0] + 1
 
         # Compute weigths
-        w_2 = np.zeros(n_wc_2)
-        w_2[trs_2] = 1 / len(trs_2)
+        if len(trs_2) > 0:
+            w_2 = np.zeros(n_wc_2)
+            w_2[trs_2] = 1 / len(trs_2)
 
-        # Repeat results since sequence was under-sampled and add weigth
-        f_w[w_c] += np.repeat(w_2, 2)[:n_wc]
+            # Repeat results since sequence was under-sampled and add weigth
+            f_w[w_c] += np.repeat(w_2, 2)[:n_wc]
 
         # Under-sample: 1 for 4
         X_4 = np.concatenate(
@@ -100,11 +102,12 @@ def process_impl(
         trs_4 = np.where(np.diff(lbl_4) != 0)[0] + 1
 
         # Compute weigths
-        w_4 = np.zeros(n_wc_4)
-        w_4[trs_4] = 1 / len(trs_4)
+        if len(trs_4) > 0:
+            w_4 = np.zeros(n_wc_4)
+            w_4[trs_4] = 1 / len(trs_4)
 
-        # Repeat results since sequence was under-sampled and add weigth
-        f_w[w_c] += np.repeat(w_4, 4)[:n_wc]
+            # Repeat results since sequence was under-sampled and add weigth
+            f_w[w_c] += np.repeat(w_4, 4)[:n_wc]
 
         # Normalization factor to get the average
         norm_[w_c] += np.ones(n_wc)
