@@ -33,10 +33,8 @@ jobs:
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - run: |
-        echo $GITHUB_ENV
-        cat $GITHUB_ENV
         $CONTAINERCLI run \
-          -v .:/src \
+          -v .:/src --env-host \
           ${{ needs.build_container_image.outputs.imgtag }} \
           "cd /src/tests; ./run_in_container.sh ./coverage_in_container.sh; ./coverage_markdown_report.py --coverage-filepath coverage.json -c ${{ github.event.pull_request.head.sha }} -r ${{ github.repository }} > coverage.md"
         cat tests/coverage.md >> $GITHUB_STEP_SUMMARY
