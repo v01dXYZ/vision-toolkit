@@ -31,9 +31,9 @@ jobs:
     needs: build_container_image
     container: &container
       image: ${{ needs.build_container_image.outputs.imgtag }}
-      # credentials:
-      #   username: ${{ github.actor }}
-      #   password: ${{ secrets.github_token }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
@@ -128,6 +128,7 @@ jobs:
 
   test-report:
     needs: build_container_image
+    container: *container
     strategy:
       matrix:
         args:
