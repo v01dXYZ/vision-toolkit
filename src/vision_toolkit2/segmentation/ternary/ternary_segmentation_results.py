@@ -21,9 +21,9 @@ class TernarySegmentationResults:
     config: Config
 
     def filter_events_by_duration(
-            self,
-            fixation_duration_range,
-            pursuit_duration_range,
+        self,
+        fixation_duration_range,
+        pursuit_duration_range,
     ):
         return self._filter_events_by_duration(
             self.config.nb_samples,
@@ -35,18 +35,18 @@ class TernarySegmentationResults:
         )
 
     def _filter_events_by_duration(
-            self,               # only used at the end to copy input/config
-            nb_samples,
-            sampling_frequency,
-            fixation_intervals,
-            pursuit_intervals,
-            fixation_duration_range,
-            pursuit_duration_range,
+        self,  # only used at the end to copy input/config
+        nb_samples,
+        sampling_frequency,
+        fixation_intervals,
+        pursuit_intervals,
+        fixation_duration_range,
+        pursuit_duration_range,
     ):
         min_fix_duration, max_fix_duration = fixation_duration_range
         min_pursuit_duration, max_pursuit_duration = pursuit_duration_range
 
-        def _dur_samples(intv): 
+        def _dur_samples(intv):
             return intv[1] - intv[0] + 1
 
         def _keep_by_duration(intervals, min_s, max_s, fs):
@@ -69,22 +69,26 @@ class TernarySegmentationResults:
         fix_ints = fixation_intervals
         purs_ints = pursuit_intervals
 
-        fix_kept, fix_bad = _keep_by_duration(fix_ints, min_fix_duration, max_fix_duration, fs)
-        purs_kept, purs_bad = _keep_by_duration(purs_ints, min_pursuit_duration, max_pursuit_duration, fs)
+        fix_kept, fix_bad = _keep_by_duration(
+            fix_ints, min_fix_duration, max_fix_duration, fs
+        )
+        purs_kept, purs_bad = _keep_by_duration(
+            purs_ints, min_pursuit_duration, max_pursuit_duration, fs
+        )
 
         is_sac = np.ones(nb_samples, dtype=bool)
         is_fix = np.zeros(nb_samples, dtype=bool)
         is_purs = np.zeros(nb_samples, dtype=bool)
 
         for a, b in fix_kept:
-            is_fix[a:b+1] = True
-            is_sac[a:b+1] = False
+            is_fix[a : b + 1] = True
+            is_sac[a : b + 1] = False
 
         for a, b in purs_kept:
-            is_purs[a:b+1] = True
-            is_sac[a:b+1] = False
+            is_purs[a : b + 1] = True
+            is_sac[a : b + 1] = False
 
-        # enforce exclusivity 
+        # enforce exclusivity
         is_purs[is_fix] = False
 
         fix_out = interval_merging(np.where(is_fix)[0])
@@ -101,4 +105,3 @@ class TernarySegmentationResults:
             input=self.input,
             config=self.config,
         )
-            

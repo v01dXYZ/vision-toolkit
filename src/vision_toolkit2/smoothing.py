@@ -3,6 +3,7 @@ import copy
 from vision_toolkit2 import StackedConfig
 
 from scipy.signal import savgol_filter
+import numpy as np
 
 
 class Smoothing:

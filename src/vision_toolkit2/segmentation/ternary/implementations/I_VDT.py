@@ -20,7 +20,6 @@ def process_impl(s, config):
         - n_w = temporal window size.
         – T_d = dispersion threshold.
     """
-
     if config.verbose:
         print("Processing VDT Identification...")
         start_time = time.time()
@@ -51,8 +50,8 @@ def process_impl(s, config):
     for _int in _ints:
         a, b = _int[0], _int[1]
         if (b - a + 1) <= t_du:
-            i_purs[a:b+1] = 1
-            i_sac[a:b+1] = 0
+            i_purs[a : b + 1] = 1
+            i_sac[a : b + 1] = 0
             continue
 
         i = a
@@ -66,16 +65,16 @@ def process_impl(s, config):
                     j += 1
                     d = dispersion_metric(x_a[i:j], y_a[i:j])
 
-                i_fix[i:j-1] = 1
-                i_sac[i:j-1] = 0
+                i_fix[i : j - 1] = 1
+                i_sac[i : j - 1] = 0
                 i = j
             else:
                 i_purs[i] = 1
                 i_sac[i] = 0
                 i += 1
 
-        i_purs[i:b+1] = 1
-        i_sac[i:b+1] = 0
+        i_purs[i : b + 1] = 1
+        i_sac[i : b + 1] = 0
 
     saccade_intervals = interval_merging(np.where(i_sac == 1)[0])
     pursuit_intervals = interval_merging(np.where(i_purs == 1)[0])

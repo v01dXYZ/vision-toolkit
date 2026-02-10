@@ -5,7 +5,7 @@ from vision_toolkit2.velocity_distance_factory import (
     absolute_euclidian_distance,
 )
 
-from  .binary import implementations as binary_implementations
+from .binary import implementations as binary_implementations
 from .ternary import implementations as ternary_implementations
 
 from .ternary.ternary_segmentation_results import TernarySegmentationResults
@@ -17,6 +17,7 @@ IMPLEMENTATIONS = {
     **binary_implementations.IMPLEMENTATIONS,
     **ternary_implementations.IMPLEMENTATIONS,
 }
+
 
 class DefaultConfigBuilder:
     DEFAULT_CONFIG = Config(
@@ -58,12 +59,12 @@ class DefaultConfigBuilder:
             )
         return Config()
 
+
 class Segmentation:
     DISTANCES = {
         "euclidean": absolute_euclidian_distance,
         "angular": absolute_angular_distance,
     }
-
 
     def __init__(
         self,
@@ -83,7 +84,7 @@ class Segmentation:
             conf = self.config
             results = results.filter_events_by_duration(
                 fixation_duration_range=(
-                    conf.min_fix_duration, 
+                    conf.min_fix_duration,
                     conf.max_fix_duration,
                 ),
                 pursuit_duration_range=(
