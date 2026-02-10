@@ -27,4 +27,9 @@ if __name__ == "__main__":
 
     test_mod = importlib.import_module(f"{args.test_name}")
 
-    test_mod.EntryPoint.main(args)
+    test_mod.EntryPoint.main(
+        cutoff=args.cutoff,
+        report_name=args.report_name,
+        directory=args.directory,
+        version=args.version,
+    )

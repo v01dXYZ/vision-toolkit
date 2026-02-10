@@ -309,12 +309,13 @@ class EntryPoint:
         pass
 
     @classmethod
-    def main(cls, args):
-        cutoff = args.cutoff
-        report_name = args.report_name
-        directory = args.directory
-        version = args.version
-
+    def main(cls,
+             *,
+             cutoff,
+             report_name,
+             directory,
+             version,
+    ):
         # we sort it
         paths = sorted(cls.paths)
 
