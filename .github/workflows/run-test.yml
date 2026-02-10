@@ -204,7 +204,7 @@ jobs:
           script: |
             const fs = require('node:fs');
 
-            const name = '${{ matrix.name }} ${{ matrix.dataset }}';
+            const name = '${{ matrix.args.name }} ${{ matrix.args.dataset }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
