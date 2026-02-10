@@ -43,8 +43,7 @@ jobs:
           ./coverage_markdown_report.py \
               --coverage-filepath coverage.json \
               -c ${{ github.event.pull_request.head.sha }} \
-              -r ${{ github.repository }} > coverage.md
-          cat tests/coverage.md >> $GITHUB_STEP_SUMMARY
+              -r ${{ github.repository }} >> $GITHUB_STEP_SUMMARY
 
   basic_code_checker:
     name: Basic code checker (style + lint)
@@ -148,20 +147,13 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-        # with:
-        #   ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Log
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | $CONTAINERCLI login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Run tests
         run: |
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
           echo REPORT_SUFFIX=v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }} >> $GITHUB_ENV
-          $CONTAINERCLI run \
-            -v .:/src \
-            ${{ needs.build_container_image.outputs.imgtag }} \
-            "cd /src/tests; bash run_in_container.sh python run.py $VISION_TOOLKIT_VERSION ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
+            cd tests
+            ./run_in_container.sh ./run.py $VISION_TOOLKIT_VERSION ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}
 
       - uses: actions/upload-artifact@v4
         with:
