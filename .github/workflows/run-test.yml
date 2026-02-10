@@ -10,6 +10,7 @@ env:
   PYPKGMGR: pip # "uv pip"
   IMGSBRANCH: v01dxyz-imgs
   VISION_TOOLKIT_VERSION: 2
+  VISION_TOOLKIT_VERSION_SUFFIX: ${{ env.VISION_TOOLKIT_VERSION == 2 && '2' || '' }}
 
 permissions:
   contents: write
@@ -33,6 +34,7 @@ jobs:
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - run: |
+        echo $VISION_TOOLKIT_VERSION_SUFFIX
         $CONTAINERCLI run \
           -v .:/src \
           ${{ needs.build_container_image.outputs.imgtag }} \
