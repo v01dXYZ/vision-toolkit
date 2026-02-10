@@ -1,6 +1,12 @@
 #!/bin/env bash
+set -e
 
-if [[ VISION_TOOLKIT_VERSION == "1" ]]; then
+if [ -z $VISION_TOOLKIT_VERSION ]; then
+    echo "ERROR: env variable VISION_TOOLKIT_VERSION not defined."
+    exit -1
+fi
+
+if [[ $VISION_TOOLKIT_VERSION == "1" ]]; then
     vision_toolkit_version_suffix=""
 else
     vision_toolkit_version_suffix=$VISION_TOOLKIT_VERSION
@@ -25,7 +31,7 @@ cd /src/tests
 vision_toolkit_srcdir="/src/src/$vision_toolkit_modname/"
 
 for coverage_datafile in $coverage_datafiles; do
-    cp  $coverage_datafile{,.rename}
+    cp $coverage_datafile{,.rename}
     sqlite3 $coverage_datafile.rename \
         "UPDATE file SET path =  '$vision_toolkit_srcdir' || SUBSTR(path, INSTR(path, '$vision_toolkit_modname') + LENGTH('$vision_toolkit_modname') + 1)"
 done
