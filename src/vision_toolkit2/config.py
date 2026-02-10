@@ -363,6 +363,9 @@ class Common(
 
     max_fix_duration: float
     min_fix_duration: float
+    max_pursuit_duration: float
+    min_pursuit_duration: float
+
     min_int_size: int
     min_sac_duration: float
 
