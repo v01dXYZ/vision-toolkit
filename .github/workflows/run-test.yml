@@ -33,6 +33,8 @@ jobs:
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - run: |
+        echo $GITHUB_ENV
+        cat $GITHUB_ENV
         $CONTAINERCLI run \
           -v .:/src \
           ${{ needs.build_container_image.outputs.imgtag }} \
