@@ -47,9 +47,7 @@ jobs:
         uses: actions/checkout@v3
       - uses: astral-sh/ruff-action@v3
         with:
-          args: |
-            --exclude ./src/vision_toolkit2/segmentation/ternary
-            --exclude ./src/vision_toolkit2/segmentation/dual
+          args: --exclude ./src/vision_toolkit2/segmentation/dual
           src: ./src/vision_toolkit${{ env.VISION_TOOLKIT_VERSION == 2 && '2' || '' }}
 
   build_container_image:
