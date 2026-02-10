@@ -47,7 +47,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: |
-        cd /src/tests
+        cd tests
         ./run_in_container.sh ./run_both_versions.sh
 
   basic_code_checker:
