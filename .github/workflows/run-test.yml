@@ -88,7 +88,7 @@ jobs:
         continue-on-error: true
         run: |
           cd sparse
-          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+          HASH=$(cat Containerfile setup.py pyproject.toml | md5sum | cut -d' ' -f1)
           IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
           IMGTAG=$IMG:$HASH
           echo "imgtag=$IMGTAG" >> $GITHUB_OUTPUT
@@ -126,6 +126,11 @@ jobs:
           #   echo '[GA-STEP-SCRIPT] Waiting for registry to get image. Early stop if already there.'
           #   sleep 1;
           # done
+
+      - name: check it
+        run:
+          $CONTAINERCLI run $IMGTAG python -c \
+          'import setuptools, importlib; [importlib.import_module(m) for m in setuptools.find_packages("src")];'
 
       - name: Show container-cli version/info
         if: ${{ failure() }} # only show it for debugging purposes
