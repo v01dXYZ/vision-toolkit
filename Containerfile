@@ -1,27 +1,20 @@
-FROM python:3.13-slim AS builder
+FROM python:3.13-slim
 
-RUN apt update && apt install -y git g++
+ENV VISION_TOOLKIT_CYTHON_CACHE=1
+ENV CC="ccache gcc"
+ENV CXX="ccache g++"
 
-COPY ./setup.py ./setup.cfg ./pyproject.toml /pkg/
-COPY ./src/ /pkg/src/
+RUN apt update && apt install -y git g++ ccache sqlite3
+
+COPY ./setup.py ./pyproject.toml /src
+COPY ./src/ /src/src/
 
 ARG PYPKGMGR=pip
 
 RUN python -m venv /venv/ \
     && . /venv/bin/activate \
     && pip install --upgrade $(echo $PYPKGMGR | cut -d' ' -f1) \
-    && VISION_TOOLKIT_BUILD=py $PYPKGMGR install /pkg/.[test] \
-    && VISION_TOOLKIT_BUILD=c $PYPKGMGR install --no-deps /pkg/.[test]
-
-FROM python:3.13-slim
-
-COPY --from=builder /venv/ /venv/
-COPY --from=builder /pkg/ /pkg/
-
-RUN apt update \
-    && apt install -y \
-                      git \
-                      sqlite3
+    &&  $PYPKGMGR install /src/.[test]
 
 WORKDIR /src
 

@@ -5,49 +5,24 @@ import numpy as np
 from setuptools import Extension, setup, find_packages, find_namespace_packages
 from Cython.Build import cythonize
 
-VISION_TOOLKIT_BUILD = os.getenv("VISION_TOOLKIT_BUILD", "all").lower()
 
-COVERAGE_KWS = ("cov", "coverage")
+def parse_boolean_env_var(key):
+    value = os.getenv(key, "").lower()
+    if value in ("1", "true"):
+        return True
+    elif value in ("0", "false"):
+        return False
 
-IS_COVERAGE = (VISION_TOOLKIT_BUILD in COVERAGE_KWS) or None
+    return None
 
-for cov_kw in COVERAGE_KWS:
-    for sep in SEP_LIST:
-        suffix = f"{sep}{cov_kw}"
-        prefix = f"{cov_kw}{sep}"
-
-        if VISION_TOOLKIT_BUILD.startswith(prefix):
-            IS_COVERAGE = True
-            VISION_TOOLKIT_BUILD = VISION_TOOLKIT_BUILD.removeprefix(prefix)
-            break
-
-        if VISION_TOOLKIT_BUILD.endswith(suffix):
-            IS_COVERAGE = True
-            VISION_TOOLKIT_BUILD = VISION_TOOLKIT_BUILD.removesuffix(suffix)
-            break
-
-VISION_TOOLKIT_COVERAGE = os.getenv("VISION_TOOLKIT_COVERAGE", "").lower()
-
-DISAGREE_BUILD_COVERAGE_MSG = "VISION_TOOLKIT_BUILD and VISION_TOOLKIT_COVERAGE disagree"
-
-if VISION_TOOLKIT_COVERAGE.lower() in ("1", "true"):
-    if IS_COVERAGE is False:
-        raise ValueError(DISAGREE_BUILD_COVERAGE_MSG)
-
-    IS_COVERAGE = True
-elif VISION_TOOLKIT_COVERAGE.lower() in ("0", "false"):
-    if IS_COVERAGE is True:
-        raise ValueError(DISAGREE_BUILD_COVERAGE_MSG)
-
-    IS_COVERAGE = False
+VISION_TOOLKIT_COVERAGE = parse_boolean_env_var("VISION_TOOLKIT_COVERAGE")
+VISION_TOOLKIT_CYTHON_CACHE = parse_boolean_env_var("VISION_TOOLKIT_CYTHON_CACHE")
 
 SRC_DIR = pathlib.Path("src")
-
 
 def get_cython_pkgs_and_ext_modules():
     ext_modules = []
     pkgs = []
-
 
     define_macros = [
         ("CYTHON_TRACE_NOGIL", "1"),
@@ -58,7 +33,7 @@ def get_cython_pkgs_and_ext_modules():
         # Since Cython default to sys.monitoring with 3.13+,
         # we explicitly have to set it to use the old sys.settrace.
         ("CYTHON_USE_SYS_MONITORING", "0"),
-    ] if IS_COVERAGE else []
+    ] if VISION_TOOLKIT_COVERAGE else []
 
     for p in SRC_DIR.glob("**/*.pyx"):
         pkg_parts = p.with_suffix("").parts
@@ -73,37 +48,14 @@ def get_cython_pkgs_and_ext_modules():
 
     return pkgs, ext_modules
 
-cython_pkgs, cython_ext_modules = get_cython_pkgs_and_ext_modules()
+_, cython_ext_modules = get_cython_pkgs_and_ext_modules()
 
-kwargs = {
-    "version": "0.1",
-    "package_dir": {"": "src"},
-}
-cython_compiler_directives = {"linetrace": True} if IS_COVERAGE else {}
-
-c_kwargs = {
-    "packages": cython_pkgs,
-    "ext_modules": cythonize(
-        cython_ext_modules,
-        language_level="3",
-        compiler_directives=cython_compiler_directives,
+setup(
+    ext_modules= cythonize(
+        Extension("*", ["src/**/*.pyx"], define_macros=[]),
+        language_level=3,
+        compiler_directives={"linetrace": True} if VISION_TOOLKIT_COVERAGE else {},
+        cache=VISION_TOOLKIT_CYTHON_CACHE,
     ),
-    "include_dirs": [np.get_include()],
-}
-py_kwargs = {
-    "packages": find_namespace_packages(where="src"),
-}
-
-# The following is a hack to allow separately building and packaging
-# the Cython package and the Python package.
-# It is meant to reduce CI time.
-if VISION_TOOLKIT_BUILD == "c":
-    kwargs.update(c_kwargs)
-    kwargs["name"] = "vision_toolkit_c"
-else:
-    if VISION_TOOLKIT_BUILD != "py":
-        kwargs.update(c_kwargs)
-    kwargs.update(py_kwargs)
-    kwargs["name"] = "vision_toolkit"
-
-setup(**kwargs)
+    include_dirs= [np.get_include()],
+)
