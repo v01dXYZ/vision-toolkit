@@ -117,8 +117,8 @@ def vareps_neighborhood(double[:,:] g_npts,
                 if d_r < d_t:
 
                     r = r+1
-                    n_2 = math.sqrt(g_npts[0,r]**
-                                    + g_npts[1,r]**
+                    n_2 = math.sqrt(g_npts[0,r]**2
+                                    + g_npts[1,r]**2
                                     + g_npts[2,r]**2)
 
                     den = n_1 * n_2
@@ -162,8 +162,8 @@ def vareps_neighborhood(double[:,:] g_npts,
                 if d_l < d_t:
 
                     l -= 1
-                    n_2 = math.sqrt(g_npts[0,l]**
-                                    + g_npts[1,l]**
+                    n_2 = math.sqrt(g_npts[0,l]**2
+                                    + g_npts[1,l]**2
                                     + g_npts[2,l]**2)
 
                     den = n_1 * n_2
