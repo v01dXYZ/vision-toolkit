@@ -6,7 +6,7 @@ ENV CXX="ccache g++"
 
 RUN apt update && apt install -y git g++ ccache sqlite3
 
-COPY ./setup.py ./pyproject.toml /src
+COPY ./setup.py ./pyproject.toml /src/
 COPY ./src/ /src/src/
 
 ARG PYPKGMGR=pip
