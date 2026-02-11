@@ -3,7 +3,7 @@
 test_name="hollywood2"
 
 for version in 1 2; do
-    ./run.py $version $test_name 3 &
+    $(dirname $0)/run.py $version $test_name 3 &
 done
     
 wait
