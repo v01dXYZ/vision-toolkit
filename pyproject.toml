@@ -7,3 +7,6 @@ requires = [
     "oldest-supported-numpy",  # https://github.com/scipy/oldest-supported-numpy
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.coverage.run]
+plugins = [ "Cython.Coverage" ]
