@@ -28,6 +28,8 @@ METHODS_CONFIG = {
     "TERNARY": {method: {} for method in TERNARY_IMPLEMENTATIONS},
 }
 
+SKIP_IF_ANGULAR = {"I_KF", "I_MST"}
+
 
 def normalize_report(d):
     """
@@ -209,6 +211,14 @@ class ReportForEachMethod:
                     **method_config,
                     **config,
                 }
+                if (
+                        updated_config.get("distance_type") == "angular"
+                        and method_name in SKIP_IF_ANGULAR
+                ):
+                    # please replace it by logging later
+                    print(f"Skip {method_name} as do not support angular")
+                    continue
+
                 for gt, dimensions, gt_vstk in gt_dim_list:
                     pred = cls.run_segmentation(
                         version,
@@ -341,6 +351,9 @@ class EntryPoint:
             gt_dim_list=gt_dim_list,
             config=config,
         )
+
+        if not any(d for d in report.values()):
+            raise RuntimeError("Report is empty. Maybe implementations were skipped because of unsupported distance_type.")
 
         if not directory.exists():
             directory.mkdir(exist_ok=True,
