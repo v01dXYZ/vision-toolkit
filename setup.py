@@ -7,28 +7,42 @@ from Cython.Build import cythonize
 
 VISION_TOOLKIT_BUILD = os.getenv("VISION_TOOLKIT_BUILD", "all").lower()
 
-SEP_LIST = ("-", "/", ".")
 COVERAGE_KWS = ("cov", "coverage")
 
-IS_COVERAGE = VISION_TOOLKIT_BUILD in COVERAGE_KWS
+IS_COVERAGE = (VISION_TOOLKIT_BUILD in COVERAGE_KWS) or None
 
-if not IS_COVERAGE:
-    for cov_kw in COVERAGE_KWS:
-        for sep in SEP_LIST:
-            suffix = f"{sep}{cov_kw}"
-            prefix = f"{cov_kw}{sep}"
+for cov_kw in COVERAGE_KWS:
+    for sep in SEP_LIST:
+        suffix = f"{sep}{cov_kw}"
+        prefix = f"{cov_kw}{sep}"
 
-            if VISION_TOOLKIT_BUILD.startswith(prefix):
-                IS_COVERAGE = True
-                VISION_TOOLKIT_BUILD = VISION_TOOLKIT_BUILD.removeprefix(prefix)
-                break
+        if VISION_TOOLKIT_BUILD.startswith(prefix):
+            IS_COVERAGE = True
+            VISION_TOOLKIT_BUILD = VISION_TOOLKIT_BUILD.removeprefix(prefix)
+            break
 
-            if VISION_TOOLKIT_BUILD.endswith(suffix):
-                IS_COVERAGE = True
-                VISION_TOOLKIT_BUILD = VISION_TOOLKIT_BUILD.removesuffix(suffix)
-                break
+        if VISION_TOOLKIT_BUILD.endswith(suffix):
+            IS_COVERAGE = True
+            VISION_TOOLKIT_BUILD = VISION_TOOLKIT_BUILD.removesuffix(suffix)
+            break
+
+VISION_TOOLKIT_COVERAGE = os.getenv("VISION_TOOLKIT_COVERAGE", "").lower()
+
+DISAGREE_BUILD_COVERAGE_MSG = "VISION_TOOLKIT_BUILD and VISION_TOOLKIT_COVERAGE disagree"
+
+if VISION_TOOLKIT_COVERAGE.lower() in ("1", "true"):
+    if IS_COVERAGE is False:
+        raise ValueError(DISAGREE_BUILD_COVERAGE_MSG)
+
+    IS_COVERAGE = True
+elif VISION_TOOLKIT_COVERAGE.lower() in ("0", "false"):
+    if IS_COVERAGE is True:
+        raise ValueError(DISAGREE_BUILD_COVERAGE_MSG)
+
+    IS_COVERAGE = False
 
 SRC_DIR = pathlib.Path("src")
+
 
 def get_cython_pkgs_and_ext_modules():
     ext_modules = []
