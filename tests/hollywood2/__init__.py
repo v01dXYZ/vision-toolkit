@@ -100,7 +100,7 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
 
 
 class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
-    SEGMENTATION_KWARGS = {
+    CONFIG = {
         "sampling_frequency": 500,
     }
 

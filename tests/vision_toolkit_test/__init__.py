@@ -49,10 +49,10 @@ class V2Gateway:
         return v2.Segmentation
 
     @classmethod
-    def run_segmentation_on_serie(cls, Segmentation, serie, config_dict):
+    def run_segmentation_on_serie(cls, Segmentation, serie, config):
         config = StackedConfig([
             serie.config,
-            Config(**config_dict),
+            Config(**config),
         ])
 
         segmentation = Segmentation(
@@ -65,23 +65,24 @@ class V2Gateway:
         return r
 
     @classmethod
-    def create_serie(cls, gt_coords, dimensions, config_dict):
+    def create_serie(cls, gt_coords, dimensions, config):
         gt_s = Serie.from_df(
             gt_coords,
             size_plan_x=dimensions["width_mm"],
             size_plan_y=dimensions["height_mm"],
-            sampling_frequency = config_dict.get("sampling_frequency")
+            sampling_frequency = config.get("sampling_frequency")
         )       
 
-
+        config = {
+            "smoothing": "savgol",
+            "savgol_window_length": 31,
+            "savgol_polyorder": 3,
+            "distance_type": "euclidean",
+            **config,
+        }
         gt_smoothed = Smoothing.create_and_process(
             gt_s,
-            Config(
-                smoothing="savgol",
-                savgol_window_length=31,
-                savgol_polyorder=3,
-                distance_type="euclidean",
-            ),
+            Config(**config),
         )
         gt_augmented_smoothed = AugmentedSerie.augment_serie(gt_smoothed)
 
@@ -101,16 +102,16 @@ class V1Gateway:
         return Segmentation
 
     @classmethod
-    def run_segmentation_on_serie(cls, Segmentation, serie, config_dict):
+    def run_segmentation_on_serie(cls, Segmentation, serie, config):
         segmentation = Segmentation(
             serie,
-            **config_dict,
+            **config,
         )
 
         return segmentation.segmentation_results
 
     @classmethod
-    def create_serie(cls, gt_coords, dimensions, config_dict):
+    def create_serie(cls, gt_coords, dimensions, config):
         return gt_coords
 
 class ReportForEachMethod:
@@ -123,15 +124,14 @@ class ReportForEachMethod:
             dimensions,
             nary,
             method,
-            segmentation_kwargs={},
+            config={},
     ):
         gt_coords, gt_labels, gt_time = gt_vstk
 
         if gt_coords[GAZE_X].isna().sum() >= 1:
             return None
 
-
-        config_dict = {
+        config = {
             "segmentation_method": method,
             "distance_type": "euclidean",
             "display_segmentation": True,
@@ -141,15 +141,15 @@ class ReportForEachMethod:
             "savgol_window_length": 31,
             "savgol_polyorder": 3,
             "verbose": False,
-            **cls.SEGMENTATION_KWARGS,
-            **segmentation_kwargs,
+            **cls.CONFIG,
+            **config,
         }
 
         VersionGateway = V2Gateway if version == 2 else V1Gateway
 
-        serie = VersionGateway.create_serie(gt_coords, dimensions, config_dict)
+        serie = VersionGateway.create_serie(gt_coords, dimensions, config)
         Segmentation = VersionGateway.get_segmentation_cls(nary)
-        results = VersionGateway.run_segmentation_on_serie(Segmentation, serie, config_dict)
+        results = VersionGateway.run_segmentation_on_serie(Segmentation, serie, config)
 
         return cls.build_predictions_from_results(results, gt, gt_vstk)
 
@@ -188,7 +188,7 @@ class ReportForEachMethod:
     
 
     @classmethod
-    def evaluate(cls, version, gt_dim_list):
+    def evaluate(cls, version, gt_dim_list, config):
         # first we convert to VSTK ground truth
         gt_dim_list = [
             (gt, dim, gt_vstk)
@@ -200,10 +200,15 @@ class ReportForEachMethod:
 
         for nary, methods in METHODS_CONFIG.items():
             report[nary] = {}
-            for method_name, config in methods.items():
+            for method_name, method_config in methods.items():
                 gt_list = []
                 pred_list = []
 
+                # TO TIRED ME: do not rename it config! (unless you want it to accumulate)
+                updated_config = {
+                    **method_config,
+                    **config,
+                }
                 for gt, dimensions, gt_vstk in gt_dim_list:
                     pred = cls.run_segmentation(
                         version,
@@ -212,6 +217,7 @@ class ReportForEachMethod:
                         dimensions,
                         nary,
                         method_name,
+                        updated_config,
                     )
                     if pred is None:
                         continue
@@ -315,6 +321,7 @@ class EntryPoint:
              report_name,
              directory,
              version,
+             config,
     ):
         # we sort it
         paths = sorted(cls.paths)
@@ -329,7 +336,11 @@ class EntryPoint:
             if (res := cls.load_ground_truth_file(p)) is not None
         ]
 
-        report, report_summary_serie = cls.ReportForEachMethod.evaluate(version, gt_dim_list=gt_dim_list)
+        report, report_summary_serie = cls.ReportForEachMethod.evaluate(
+            version,
+            gt_dim_list=gt_dim_list,
+            config=config,
+        )
 
         if not directory.exists():
             directory.mkdir(exist_ok=True,

@@ -17,7 +17,7 @@ SCREEN_HEIGHT = 301.0
 FAULTY_PARTICIPANT_ID = 5
 
 class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
-    SEGMENTATION_KWARGS = {
+    CONFIG = {
         "sampling_frequency": 1000,
     }
 
