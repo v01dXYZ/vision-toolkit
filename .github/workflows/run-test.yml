@@ -33,7 +33,7 @@ jobs:
       uses: actions/checkout@v3
     - run: ./tests/run_in_container.sh
       env:
-        VISION_TOOLKIT_COVERAGE=1
+        VISION_TOOLKIT_COVERAGE: 1
     - run: |
         cd tests
         ./coverage_in_container.sh
