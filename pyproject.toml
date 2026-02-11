@@ -1,10 +1,9 @@
 [build-system]
-# Minimum requirements for the build system to execute.
 requires = [
-    "setuptools>=42",  # https://github.com/deepcharles/ruptures/pull/100#discussion_r553700339
+    "setuptools>=42",
     "wheel",
     "Cython>=0.28.5",
-    "oldest-supported-numpy",  # https://github.com/scipy/oldest-supported-numpy
+    "oldest-supported-numpy",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -51,6 +50,7 @@ test = [
     "sp-tool @ git+https://github.com/v01dxyz/sp_tool",
     "tabulate",
     "coverage",
+    "Cython",
 ]
 docs = [
     "jupyter",
@@ -76,3 +76,7 @@ include-package-data = true
 
 [tool.coverage.run]
 plugins = ["Cython.Coverage"]
+
+[tool.setuptools.package-data]
+vision_toolkit = ["*.pyx", "*.pxd"]
+vision_toolkit2 = ["*.pyx", "*.pxd"]
