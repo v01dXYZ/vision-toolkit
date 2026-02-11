@@ -71,7 +71,11 @@ def process_angular_coord(data_set, config):
     return theta_coord
 
 
-def process_angular_absolute_speeds(data_set, config):
+def process_angular_absolute_speeds(
+        data_set,
+        config,
+        unitary_gaze_vectors=None,
+):
     """
 
     Parameters
@@ -87,7 +91,10 @@ def process_angular_absolute_speeds(data_set, config):
         DESCRIPTION.
 
     """
-    unitary_gaze_vectors = data_set.unitary_gaze_vectors
+    unitary_gaze_vectors = (
+        unitary_gaze_vectors if unitary_gaze_vectors is not None
+        else data_set.unitary_gaze_vectors
+    )
 
     dot_ = np.array(
         [

@@ -182,23 +182,27 @@ class AugmentedSerie(Serie):
                 ),
             )
         elif serie.config.distance_type == "angular":
+            unitary_gaze_vectors = process_unitary_gaze_vectors(
+                serie,
+                serie.config,
+            )
             return AngularAugmentedSerie.augment_serie_with_data(
                 serie,
                 absolute_speed=process_angular_absolute_speeds(
                     serie,
                     serie.config,
+                    unitary_gaze_vectors=unitary_gaze_vectors,
                 ),
                 theta_coord=process_angular_coord(
                     serie,
                     serie.config,
                 ),
-                unitary_gaze_vectors=process_unitary_gaze_vectors(
-                    serie,
-                    serie.config,
-                ),
+                unitary_gaze_vectors=unitary_gaze_vectors,
             )
 
-        assert False
+        raise ValueError(
+            f"distance_type {serie.config.distance_type!r} should be either euclidean or angular"
+        )
 
 
 class EuclideanAugmentedSerie(AugmentedSerie):
@@ -208,5 +212,5 @@ class EuclideanAugmentedSerie(AugmentedSerie):
 class AngularAugmentedSerie(AugmentedSerie):
     def __init__(self, unitary_gaze_vectors, theta_coord, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.unitary_gaze_vectors: np.array
-        self.theta_coord: np.array
+        self.unitary_gaze_vectors = unitary_gaze_vectors
+        self.theta_coord = theta_coord
