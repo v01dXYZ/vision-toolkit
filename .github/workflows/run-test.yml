@@ -130,7 +130,7 @@ jobs:
       - name: check it
         run:
           $CONTAINERCLI run $IMGTAG python -c \
-          'import setuptools, importlib; [importlib.import_module(m) for m in setuptools.find_packages("src")];'
+          'import setuptools, importlib; print([importlib.import_module(m) for m in setuptools.find_packages("src")]);'
 
       - name: Show container-cli version/info
         if: ${{ failure() }} # only show it for debugging purposes
