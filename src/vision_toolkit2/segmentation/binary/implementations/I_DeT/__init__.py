@@ -6,10 +6,7 @@ import numpy as np
 from vision_toolkit2.config import Config
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from ...binary_segmentation_results import BinarySegmentationResults
-from . import _optimized
-
-vareps_neighborhood = _optimized.vareps_neighborhood
-expand_cluster = _optimized.expand_cluster
+from ._optimized import vareps_neighborhood, expand_cluster
 
 
 def process_impl(s, config):
