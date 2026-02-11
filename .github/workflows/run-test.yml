@@ -31,10 +31,13 @@ jobs:
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
+    - run: ./tests/run_in_container.sh
+      env:
+        VISION_TOOLKIT_COVERAGE=1
     - run: |
         cd tests
-          ./run_in_container.sh ./coverage_in_container.sh
-          ./coverage_markdown_report.py \
+        ./coverage_in_container.sh
+        ./coverage_markdown_report.py \
               --coverage-filepath coverage.json \
               -c ${{ github.event.pull_request.head.sha }} \
               -r ${{ github.repository }} >> $GITHUB_STEP_SUMMARY
@@ -46,9 +49,8 @@ jobs:
     needs: build_container_image
     steps:
     - uses: actions/checkout@v3
-    - run: |
-        cd tests
-        ./run_in_container.sh ./run_both_versions.sh
+    - run: ./tests/run_in_container.sh
+    - run: ./tests/run_both_versions.sh
 
   basic_code_checker:
     name: Basic code checker (style + lint)
@@ -152,13 +154,13 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-
+      - run: tests/run_in_container.sh
       - name: Run tests
         run: |
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
           echo REPORT_SUFFIX=v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }} >> $GITHUB_ENV
             cd tests
-            ./run_in_container.sh ./run.py $VISION_TOOLKIT_VERSION ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}
+            ./run.py $VISION_TOOLKIT_VERSION ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}
 
       - uses: actions/upload-artifact@v4
         with:
