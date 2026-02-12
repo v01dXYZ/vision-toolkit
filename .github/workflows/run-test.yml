@@ -102,7 +102,7 @@ jobs:
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         uses: actions/checkout@v3
 
-      - name: build it
+      - name: Build Container and Check Package Loading
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         run: |
           $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
@@ -127,9 +127,6 @@ jobs:
           #   sleep 1;
           # done
 
-      - name: check it
-        if: success()
-        run:
           $CONTAINERCLI run $IMGTAG "python -c 'import setuptools, importlib; print([importlib.import_module(m) for m in setuptools.find_packages(\"src\") if m.startswith(\"vision\")]);'"
 
       - name: Show container-cli version/info
