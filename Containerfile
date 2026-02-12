@@ -4,6 +4,9 @@ ENV VISION_TOOLKIT_CYTHON_CACHE=1
 ENV CC="ccache gcc"
 ENV CXX="ccache g++"
 
+ENV CYTHON_CACHE_DIR=/cache/cython
+ENV CCACHE_DIR=/cache/ccache
+
 RUN apt update && apt install -y git g++ ccache sqlite3
 
 COPY ./setup.py ./pyproject.toml /src/
