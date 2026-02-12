@@ -14,7 +14,7 @@ ARG PYPKGMGR=pip
 RUN python -m venv /venv/ \
     && . /venv/bin/activate \
     && pip install --upgrade $(echo $PYPKGMGR | cut -d' ' -f1) \
-    &&  $PYPKGMGR install /src/.[test]
+    && $PYPKGMGR install /src/.[test]
 
 WORKDIR /src
 
