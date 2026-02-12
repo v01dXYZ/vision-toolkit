@@ -28,6 +28,7 @@ permissions:
 jobs:
 
   coverage:
+    name: Coverage
     runs-on: ubuntu-latest
     needs: build_container_image
     container: &container
@@ -54,19 +55,22 @@ jobs:
     container: *container
     needs: build_container_image
     steps:
-    - uses: actions/checkout@v3
-    - run: pip install .[test]
-    - run: ./tests/run_both_versions.sh
+    - name: Checkout PR branch
+      uses: actions/checkout@v3
+    - name: Install package
+      run: pip install .[test]
+    - name: Run both versions and diff reports
+      run: ./tests/run_both_versions.sh
 
   basic_code_checker:
-    name: Basic code checker (style + lint)
+    name: Linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-      - uses: astral-sh/ruff-action@v3
+      - name: ruff check
+        uses: astral-sh/ruff-action@v3
         with:
-          args: --exclude ./src/vision_toolkit2/segmentation/dual
           src: ./src/vision_toolkit${{ env.VISION_TOOLKIT_VERSION == 2 && '2' || '' }}
 
   build_container_image:
@@ -89,7 +93,7 @@ jobs:
           sparse-checkout-cone-mode: false
           path: sparse
 
-      - name: Check container image exists
+      - name: Check if container image exists
         id: build_container_image
         continue-on-error: true
         run: |
@@ -108,7 +112,7 @@ jobs:
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         uses: actions/checkout@v3
 
-      - name: Build Container and Check Package Loading
+      - name: Build container and check package loading
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         run: |
           $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
@@ -162,7 +166,8 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-      - run: pip install .[test]
+      - name: Install package
+        run: pip install .[test]
       - name: Run tests
         run: |
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
@@ -170,22 +175,26 @@ jobs:
             cd tests
             ./run.py $VISION_TOOLKIT_VERSION ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload all reports as directory
+        uses: actions/upload-artifact@v4
         with:
           name: report-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload json report
+        uses: actions/upload-artifact@v4
         with:
           name: report-json-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.json
 
-      - uses: actions/upload-artifact@v4
+      - Upload image report
+        uses: actions/upload-artifact@v4
         with:
           name: report-png-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.png
 
-      - name: Upload report.png
+      # Hack to display image in comment as artifact can't be used for such a thing
+      - name: Push image into repo branch ${{ env.IMGSBRANCH }}
         run: |
           git config --global --add safe.directory .
           git fetch --depth 1 origin $IMGSBRANCH
@@ -199,14 +208,14 @@ jobs:
           git commit -m "Publish v$VISION_TOOLKIT_VERSION report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
           git push origin $IMGSBRANCH
 
-      - run: |
+      - name: Step summary
+        run: |
           echo "## Image" >> $GITHUB_STEP_SUMMARY
           echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
           cat $RESULTS_DIR/report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
 
-      # Hack to display image in comment as artifact can't be used for such a thing
       - name: Add report as comment on PR
         uses: actions/github-script@v6
         if: ${{ !cancelled() && matrix.args.comment }}
