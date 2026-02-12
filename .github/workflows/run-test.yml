@@ -32,10 +32,9 @@ jobs:
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
-    - run: ./tests/run_in_container.sh
-      env:
+    - env:
         VISION_TOOLKIT_COVERAGE: 1
-    - run: |
+      run: |
         pip install -e .[test]
         ./tests/coverage_in_container.sh
         ./tests/coverage_markdown_report.py \
