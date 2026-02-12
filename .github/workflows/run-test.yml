@@ -5,6 +5,12 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+# Github-Action assumes containers don't provide bash, so default to sh
+# But to set up venv, the build container set BASH_ENV to activate it.
+default:
+  run:
+    shell: bash
+
 env:
   CONTAINERCLI: docker # podman
   PYPKGMGR: pip # "uv pip"
