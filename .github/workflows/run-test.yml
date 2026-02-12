@@ -48,6 +48,8 @@ jobs:
         echo ~
         echo ------------------
         ls ~
+        echo ------------------
+        env
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - name: Install package
