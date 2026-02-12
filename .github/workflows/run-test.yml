@@ -115,7 +115,10 @@ jobs:
       - name: Build container and check package loading
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         run: |
-          $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
+          $CONTAINERCLI build \
+              --build-arg PYPKGMGR="$PYPKGMGR" \
+              -f Containerfile . \
+              -t $IMGTAG
           $CONTAINERCLI push $IMGTAG
 
           # buggy, I need to work on this.
