@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-# Github-Action assumes containers don't provide bash, so default to sh
-# But to set up venv, the build container set BASH_ENV to activate it.
+# Github-Action assumes containers don't provide bash, so it uses sh.
+# But to set up the python venv, our container image uses BASH_ENV to activate it at shell init.
 defaults:
   run:
     shell: bash
@@ -55,7 +55,7 @@ jobs:
     needs: build_container_image
     steps:
     - uses: actions/checkout@v3
-    - run: ./tests/run_in_container.sh
+    - run: pip install .[test]
     - run: ./tests/run_both_versions.sh
 
   basic_code_checker:
@@ -162,11 +162,7 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-      - run: tests/run_in_container.sh
-      - run: find /venv/ -name "vision*"
-      - run: env
-      - run: python -c "import sys; print(sys.path)"
-      - run: python -c "import vision_toolkit2"
+      - run: pip install .[test]
       - name: Run tests
         run: |
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
