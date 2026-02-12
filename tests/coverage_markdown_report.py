@@ -21,7 +21,7 @@ def create_link(
         path,
         interval,
 ):
-    return f"[{interval[0]}-{interval[1]}]({BASE_URL}/{repo}/blob/{commit_sha}/src/vision_toolkit{VISION_TOOLKIT_VERSION_SUFFIX}/{path}#L{interval[0]}-L{interval[1]})"
+    return f"[{interval[0]}-{interval[1]}]({BASE_URL}/{repo}/blob/{commit_sha}/{path}#L{interval[0]}-L{interval[1]})"
 
 def get_intervals(lines):
 
