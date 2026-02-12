@@ -157,6 +157,8 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@v3
       - run: tests/run_in_container.sh
+      - run: find /venv/ -name "vision*"
+      - run: python -c "import vision_toolkit2"
       - name: Run tests
         run: |
           echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
