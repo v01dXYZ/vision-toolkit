@@ -40,9 +40,14 @@ jobs:
     - name: debug
       run: |
         whoami
+	echo ------------------
         ls /
+	echo ------------------
         ls /home
+	echo ------------------
         echo ~
+	echo ------------------
+	ls ~
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - name: Install package
