@@ -68,15 +68,9 @@ docs = [
 [project.urls]
 Homepage = "https://github.com/v01dxyz/vision_toolkit"
 
-[tool.setuptools]
-packages = ["vision_toolkit", "vision_toolkit2"]
-package-dir = {"" = "src"}
-zip-safe = true
-include-package-data = true
+# uv build needs to have the Cython files included
+[tool.setuptools.package-data]
+"*" = ["*.pyx", "*.pxd"]
 
 [tool.coverage.run]
 plugins = ["Cython.Coverage"]
-
-[tool.setuptools.package-data]
-vision_toolkit = ["*.pyx", "*.pxd"]
-vision_toolkit2 = ["*.pyx", "*.pxd"]
