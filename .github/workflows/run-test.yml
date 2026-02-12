@@ -190,7 +190,7 @@ jobs:
           name: report-json-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.json
 
-      - Upload image report
+      - name: Upload image report
         uses: actions/upload-artifact@v4
         with:
           name: report-png-${{ env.REPORT_SUFFIX }}
