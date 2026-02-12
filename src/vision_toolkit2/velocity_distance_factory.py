@@ -72,9 +72,9 @@ def process_angular_coord(data_set, config):
 
 
 def process_angular_absolute_speeds(
-        data_set,
-        config,
-        unitary_gaze_vectors=None,
+    data_set,
+    config,
+    unitary_gaze_vectors=None,
 ):
     """
 
@@ -92,7 +92,8 @@ def process_angular_absolute_speeds(
 
     """
     unitary_gaze_vectors = (
-        unitary_gaze_vectors if unitary_gaze_vectors is not None
+        unitary_gaze_vectors
+        if unitary_gaze_vectors is not None
         else data_set.unitary_gaze_vectors
     )
 
