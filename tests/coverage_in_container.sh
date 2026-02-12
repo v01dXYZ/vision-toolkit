@@ -24,45 +24,33 @@ else
     exit -1
 fi
 
+if [[ ! -d src ]]; then
+    # Cython always put into the c/cpp file a relative path. So the plugin will use this path as well.
+    # It means there is no other way to run coverage but in the source directory.
+    echo "ERROR: This script should be ran at the source directory (Cython internally uses relative paths)"
+    exit -1
+fi
 
-vision_toolkit_srcdir="$(realpath $(dirname $0)/..)"
 
 vision_toolkit_modname=vision_toolkit$vision_toolkit_version_suffix
-# do not forget trailing slash
-vision_toolkit_moddir=$vision_toolkit_srcdir/src/$vision_toolkit_modname/
-source_moddir=$(python -c "import importlib.util; print(importlib.util.find_spec('$vision_toolkit_modname').submodule_search_locations[0])")
 
-# coverage_run="coverage run --source $source_moddir"
-coverage_run="coverage run --source $vision_toolkit_modname --rcfile $vision_toolkit_srcdir/pyproject.toml"
+coverage_run="coverage run --source $vision_toolkit_modname"
 
 datasets="hollywood2 zemblys"
 distance_types="euclidean angular"
-
-# cd $vision_toolkit_srcdir/tests
 
 for dataset in $datasets; do
     for distance_type in $distance_types; do
 	coverage_datafile=coverage_${dataset}_${distance_type}.sqlite2
 	coverage_datafiles="$coverage_datafile $coverage_datafiles"
 	$coverage_run --data-file=$coverage_datafile \
-		      $vision_toolkit_srcdir/tests/run.py \
+		      ./tests/run.py \
 		      $VISION_TOOLKIT_VERSION \
 		      $dataset \
 		      2 \
 		      -c distance_type=$distance_type
     done
 done
-
-for coverage_datafile in $coverage_datafiles; do
-    sqlite3 $coverage_datafile \
-        "UPDATE file SET path =  '$vision_toolkit_moddir' || SUBSTR(path, INSTR(path, '$vision_toolkit_modname') + LENGTH('$vision_toolkit_modname') + 1)"
-done
-
-# cd $vision_toolkit_moddir
-#
-# for coverage_datafile in $coverage_datafiles; do
-#     ln -s $vision_toolkit_srcdir/tests/$coverage_datafile .
-# done
 
 coverage combine $coverage_datafiles
 coverage report -m
