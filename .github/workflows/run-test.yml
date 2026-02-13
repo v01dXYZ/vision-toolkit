@@ -30,6 +30,8 @@ jobs:
 
   coverage:
     name: Coverage
+    env:
+      VISION_TOOLKIT_COVERAGE: 1 # We define it at job level in case we move things aroung
     runs-on: ubuntu-latest
     needs: build_container_image
     container: &container
@@ -42,10 +44,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Install package
       run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test]
-    - env:
-        VISION_TOOLKIT_COVERAGE: 1
-      run: |
-        env; echo --------
+    - run: |
         ./tests/coverage_in_container.sh
         ./tests/coverage_markdown_report.py \
               --coverage-filepath coverage.json \
