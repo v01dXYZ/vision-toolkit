@@ -119,7 +119,7 @@ jobs:
         run: |
           $CONTAINERCLI build \
               --build-arg PYPKGMGR="$PYPKGMGR" \
-	      --build-arg PYPKGMGR_INSTALL_OPTS="$PYPKGMGR_INSTALL_OPTS" \
+              --build-arg PYPKGMGR_INSTALL_OPTS="$PYPKGMGR_INSTALL_OPTS" \
               -f Containerfile . \
               -t $IMGTAG
           $CONTAINERCLI push $IMGTAG
