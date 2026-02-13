@@ -37,19 +37,6 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
     steps:
-    - name: debug
-      run: |
-        whoami
-        echo ------------------
-        ls /
-        echo ------------------
-        ls /home
-        echo ------------------
-        echo ~
-        echo ------------------
-        ls ~
-        echo ------------------
-        env
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - name: Install package
