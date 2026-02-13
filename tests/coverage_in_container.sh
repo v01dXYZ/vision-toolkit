@@ -53,5 +53,3 @@ for dataset in $datasets; do
 done
 
 coverage combine $coverage_datafiles
-coverage report -m
-coverage json

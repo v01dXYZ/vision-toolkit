@@ -43,9 +43,11 @@ jobs:
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - name: Install package
-      run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test]
+      run: env; $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test]
+    - run: ./tests/coverage_in_container.sh
+    - run: coverage report -m
+    - run: coverage json
     - run: |
-        ./tests/coverage_in_container.sh
         ./tests/coverage_markdown_report.py \
               --coverage-filepath coverage.json \
               -c ${{ github.event.pull_request.head.sha }} \
