@@ -4,6 +4,7 @@ ENV VISION_TOOLKIT_CYTHON_CACHE=1
 ENV CC="ccache gcc"
 ENV CXX="ccache g++"
 
+ENV XDG_CACHE_HOME=/cache
 ENV CYTHON_CACHE_DIR=/cache/cython
 ENV CCACHE_DIR=/cache/ccache
 
