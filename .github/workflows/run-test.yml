@@ -42,14 +42,15 @@ jobs:
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
-    - name: Clear cache
-      run: rm -r /cache/ccache
+    - name: Remove Cython cache to workaround cache bug (cython/cython#7532)
+      run:
+        # Cython ignores cythonize.compiler_directives when computing the cache key
+        # It wrongly outputs the cached source code without instrumentation.
+        # We clear the Cython cache as a workaround.
+        # An issue has been opened to fix it: https://github.com/cython/cython/issues/7532
+        rm -r /cache/cython
     - name: Install package
-      run: CCACHE_LOGFILE=/ccache.log $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test] --debug
-    - name: Upload ccache.log
-      uses: actions/upload-artifact@v4
-      with:
-        path: /ccache.log
+      run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test] --debug
     - run: ./tests/coverage_in_container.sh
     - run: coverage report -m
     - run: coverage json
