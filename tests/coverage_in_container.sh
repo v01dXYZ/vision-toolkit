@@ -48,8 +48,10 @@ for dataset in $datasets; do
 		      $VISION_TOOLKIT_VERSION \
 		      $dataset \
 		      2 \
-		      -c distance_type=$distance_type
+		      -c distance_type=$distance_type &
     done
 done
+
+wait
 
 coverage combine $coverage_datafiles
