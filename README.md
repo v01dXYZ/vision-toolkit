@@ -30,6 +30,15 @@ Below a video showing the gaze of multiple viewers watching a movie scene:
     -  dynamic frame (the head moves, e.g. glasses or VR sets)
 * using data from multiple viewers to analyse the same scene or event
 
+## Papers
+
+In order to have a broad picture of what this package is meant to implement, you can document yourself wih this 4-part paper
+
+1. [Neurophysiological Foundations and experimental paradigms in Eye-Tracking Research](./assets/Vision_Part_1_Frontiers_in_Physiology_Revised.pdf)
+2. [Features and Metrics for assessing Oculomotor Signal](./assets/Vision_Part_2_Frontiers_in_Physiology_Revised.pdf)
+3. [Scanpaths and Derived Representations for Gaze Behavior Characterization](./assets/Vision_Part_3_Frontiers_in_Physiology_Revised.pdf)
+4. [Area of Interest and Associated Algorithms](./assets/Vision_Part_4_Frontiers_in_Physiology_Revised.pdf)
+
 ## Credits
 
 This work was done by Quentin Laborde as an extension to his PhD and
