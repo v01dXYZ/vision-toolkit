@@ -22,7 +22,8 @@ RUN python -m venv /venv/ \
     && pip install --upgrade $(echo $PYPKGMGR | cut -d' ' -f1) \
     && cd /src \
     && $PYPKGMGR install setuptools numpy Cython pybind11 \
-    && $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS .[test]
+    && $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS .[test] \
+    && rm -r build
 # normally $PYPKGMGR_INSTALL_OPTS contains --no-build-isolation
 # no-build-isolation is important to let ccache not have different include directories
 # without build isolation, ccache needs to run preprocessor (it is not a lot slower though)
