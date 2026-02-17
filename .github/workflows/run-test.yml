@@ -42,8 +42,14 @@ jobs:
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
+    - name: Clear cache
+      run: ccache -C
     - name: Install package
-      run: ccache -C; $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test]
+      run: CCACHE_LOGFILE=/ccache.log $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test] --debug
+    - name: Upload ccache.log
+      uses: actions/upload-artifact@v4
+      with:
+        path: /ccache.log
     - run: ./tests/coverage_in_container.sh
     - run: coverage report -m
     - run: coverage json
