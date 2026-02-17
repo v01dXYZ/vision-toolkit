@@ -50,7 +50,7 @@ jobs:
         # An issue has been opened to fix it: https://github.com/cython/cython/issues/7532
         rm -r /cache/cython
     - name: Install package
-      run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test] --debug
+      run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test]
     - run: ./tests/coverage_in_container.sh
     - name: Show coverage repport
       run: coverage report -m
