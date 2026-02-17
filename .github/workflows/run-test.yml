@@ -43,7 +43,7 @@ jobs:
     - name: Checkout PR branch
       uses: actions/checkout@v3
     - name: Clear cache
-      run: ccache -C
+      run: rm -r /cache
     - name: Install package
       run: CCACHE_LOGFILE=/ccache.log $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test] --debug
     - name: Upload ccache.log
