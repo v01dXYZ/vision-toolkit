@@ -59,6 +59,8 @@ jobs:
       - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
         with:
           script: |
+            const path = require("node:path");
+
             const {DefaultArtifactClient} = await import("@actions/artifact");
 
             const artifactClient = new DefaultArtifactClient();  // Initialise the Artifact client
