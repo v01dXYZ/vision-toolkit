@@ -68,7 +68,11 @@ jobs:
             for (const filename of await (await glob.create("*.whl")).glob()) {
                  console.log("we have:", filename);
                  await artifactClient
-                       .uploadArtifact(path.basename(filename), filename);
+                       .uploadArtifact(
+                           path.basename(filename),
+                           filename,
+                           ".",
+                        );
             }
 
       # - uses: actions/checkout@v5
