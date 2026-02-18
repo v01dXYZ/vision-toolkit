@@ -61,18 +61,25 @@ jobs:
           script: |
             const path = require("node:path");
 
-            const {DefaultArtifactClient} = await import("@actions/artifact");
+            const owner = '${{ github.repository_owner }}';
+            const repo = '${{ github.event.repository.name }}';
 
-            const artifactClient = new DefaultArtifactClient();  // Initialise the Artifact client
+            const release = github.rest.repos.createRelease({
+              owner,
+              repo,
+              tag_name: "0.0.0",
+              draft: True,
+            })
 
             for (const filename of await (await glob.create("*.whl")).glob()) {
                  console.log("we have:", filename);
-                 await artifactClient
-                       .uploadArtifact(
-                           path.basename(filename),
-                           [filename],
-                           ".",
-                        );
+
+                github.rest.repos.uploadReleaseAsset(
+                  owner,
+                  repo,
+                  release_id: release.id,
+                  path.basename(filename)
+                );
             }
 
       # - uses: actions/checkout@v5
