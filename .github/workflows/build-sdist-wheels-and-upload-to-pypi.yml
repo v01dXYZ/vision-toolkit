@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: '24.x'
       - run: npm install @actions/artifact
-      - run: node -e "const {DefaultArtifactClient} = await import('@actions/artifact')"
+      - run: node -e "const {DefaultArtifactClient} = await import('@actions/artifact_not_exist')"
       - run: cat /home/runner/work/vision-toolkit/vision-toolkit/node_modules/@actions/artifact/package.json
       - uses: actions/github-script@v6
         with:
