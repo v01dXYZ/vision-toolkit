@@ -64,7 +64,7 @@ jobs:
             for (const filename of glob.create("*.whl").glob()) {
                  await artifactClient.uploadArtifact(filename, filename);
             }
-          }
+
       - uses: actions/checkout@v5
 
       # Used to host cibuildwheel
