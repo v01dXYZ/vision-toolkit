@@ -63,9 +63,10 @@ jobs:
 
             const artifactClient = new DefaultArtifactClient();  // Initialise the Artifact client
 
-            for (const filename of await (await glob.create("*")).glob()) {
+            for (const filename of await (await glob.create("*.whl")).glob()) {
                  console.log("we have:", filename);
-                 await artifactClient.uploadArtifact(filename, filename);
+                 await artifactClient
+                       .uploadArtifact(path.basename(filename), filename);
             }
 
       # - uses: actions/checkout@v5
