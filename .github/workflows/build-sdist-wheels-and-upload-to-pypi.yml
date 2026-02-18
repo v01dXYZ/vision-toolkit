@@ -50,11 +50,10 @@ jobs:
         with:
           node-version: '24.x'
       - run: npm install @actions/artifact
-      - run: node -e "console.log(process.versions)"
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v8
         with:
           script:
-            console.log(process.versions)
+            const x = await import("@actions/artifact");
       - uses: actions/checkout@v5
 
       # Used to host cibuildwheel
