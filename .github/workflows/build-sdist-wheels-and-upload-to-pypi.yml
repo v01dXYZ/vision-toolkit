@@ -65,6 +65,7 @@ jobs:
 
             // Upload each folder in directory as individual artifact
             for (const filename of glob.create("*.whl").glob()) {
+                 console.log("we have:", filename);
                  await artifactClient.uploadArtifact(filename, filename);
             }
 
