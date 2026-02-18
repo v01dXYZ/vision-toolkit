@@ -52,7 +52,7 @@ jobs:
       - run: |
           cd /home/runner/work;
           npm install @actions/artifact
-      - run: cat hello > empty.whl
+      - run: echo hello > empty.whl
       - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
         with:
           script:
