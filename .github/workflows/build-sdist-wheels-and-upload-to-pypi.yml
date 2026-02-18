@@ -53,7 +53,7 @@ jobs:
       - uses: actions/github-script@v8
         with:
           script:
-            console.log(process.versions)
+            console.log(process.versions);
             const x = await import("@actions/artifact");
       - uses: actions/checkout@v5
 
