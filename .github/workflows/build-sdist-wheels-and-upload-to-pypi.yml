@@ -49,7 +49,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24.12.0'
-      - run: npm install @actions/artifact
+      - run: cd /home/runner/work; npm install @actions/artifact
       - run: node -e 'console.log(process); const x = await import("@actions/artifact");'
       - uses: actions/github-script@v8
         with:
