@@ -1150,7 +1150,29 @@ aoi2 = v.AoISequence(dict({'sequence': ['A','A','B','B','B','C','C','C','A','E',
                                                 ]),
                                               'centers': centers}))
 
-aoi_seqs = [aoi1,aoi2]
+aoi3 = v.AoISequence(dict({'sequence': ['A','A','A','C','C','B','B','B','A','A','E','E','D','D','A','A',
+                                                'C','C','B','B','E','A','A','A','C','C','D','E','B','B','A','A','C','C','A'],
+                                              'durations': np.array([
+                                                  0.15,0.21,0.18,0.20,0.16,0.13,0.27,0.20,0.56,0.18,
+                                                  0.12,0.22,0.11,0.30,0.19,0.14,0.15,0.21,0.14,0.41,
+                                                  0.19,0.87,0.23,0.15,0.18,0.13,0.74,0.12,0.15,0.16,
+                                                  0.20,0.18,0.50,0.20,0.35
+                                                ]),
+                                              'centers': centers}))
+
+aoi4 = v.AoISequence(dict({'sequence': ['B','B','B','A','A','C','C','C','B','B','A','A','E','E','A','C','C',
+                                                'B','B','B','D','D','E','B','A','A','A','C','C','E','B','B','A','A',
+                                                'A','C','D','E','A','A','A','B','B','C','C','A','A'],
+                                              'durations': np.array([
+                                                              0.13,0.39,0.20,0.14,0.51,0.21,0.16,0.74,0.14,0.35,
+                                                              0.21,0.16,0.12,0.21,0.87,0.15,0.19,0.13,0.41,0.20,
+                                                              0.11,0.30,0.22,0.15,0.73,0.20,0.14,0.25,0.20,0.14,
+                                                              0.16,0.18,0.93,0.21,0.15,0.21,0.13,0.15,0.27,0.35,
+                                                              0.18,0.22,0.14,0.19,0.16,0.24,0.31
+                                                            ]),
+                                              'centers': centers}))
+
+aoi_seqs = [aoi1,aoi2, aoi3, aoi4]
 
 
 emine = v.AoI_eMine(aoi_seqs)
@@ -1164,6 +1186,15 @@ cdba_1  = v.AoI_CDBA(aoi_seqs)
 print(emine)
 print(sta)
 print(cdba_1)
+
+AoI_scarf_plot_consensus(
+    aoi_seqs,
+    emine_res=emine,
+    sta_res=sta,
+    cdba_res=cdba_1, 
+    AoI_scarf_plot_path='figures/',  # ou "path/to/output/"
+)
+
 
 
 

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 
+import itertools
 
 def plot_BCEA(scanpath, p, path, config):
     plt.style.use("seaborn-v0_8")
@@ -73,42 +74,45 @@ def plot_BCEA(scanpath, p, path, config):
     plt.show()
     plt.clf()
 
-
+ 
 def plot_voronoi_cells(scanpath, vertices, path, config):
     plt.style.use("seaborn-v0_8")
 
-    # Palette de couleurs pastel
-    cmap = plt.cm.get_cmap("Pastel1")  # ou "Pastel2"
     n_cells = len(vertices)
-    colors = cmap(np.linspace(0, 1, n_cells))
 
-    # D'abord : les cellules de Voronoï (fond)
+    # Palette étendue très distincte
+    palette = (
+        list(plt.colormaps["tab20"].colors) +
+        list(plt.colormaps["tab20b"].colors) +
+        list(plt.colormaps["tab20c"].colors)
+    )
+    colors = [palette[i % len(palette)] for i in range(n_cells)]
+
+    # Cellules
     for i, poly in enumerate(vertices):
         xs, ys = zip(*poly)
         plt.fill(
             xs,
             ys,
             color=colors[i],
-            alpha=0.8,
-            edgecolor="none",
+            alpha=0.65,
+            edgecolor="black",
+            linewidth=0.4,
             zorder=1,
         )
 
-    # Ensuite : les fixations (par-dessus, bien visibles)
+    # Fixations
     plt.scatter(
         scanpath[0],
         scanpath[1],
         marker="P",
-        s=40,
-        color="darkblue",   # tu peux aussi tester "black"
-        edgecolor="white",  # optionnel : petit contour blanc pour les faire ressortir
-        linewidth=0.5,
+        s=50,
+        color="black",
+        edgecolor="white",
+        linewidth=0.6,
         zorder=3,
     )
 
-    plt.xticks(fontsize=10)
-    plt.yticks(fontsize=10)
-    
     plt.xlim([0, config["size_plan_x"]])
     plt.ylim([0, config["size_plan_y"]])
 
@@ -119,11 +123,12 @@ def plot_voronoi_cells(scanpath, vertices, path, config):
     plt.gca().set_aspect("equal", adjustable="box")
 
     if path is not None:
-        fig = plt.gcf()
-        fig.savefig(path + "_scanpath_voronoi", dpi=200, bbox_inches="tight")
+        plt.gcf().savefig(path + "_scanpath_voronoi", dpi=300, bbox_inches="tight")
 
     plt.show()
     plt.clf()
+
+
 
 
 

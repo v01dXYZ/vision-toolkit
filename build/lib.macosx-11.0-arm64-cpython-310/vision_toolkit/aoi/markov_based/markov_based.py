@@ -14,8 +14,7 @@ from vision_toolkit.utils.identification_utils import compute_aoi_sequence
 from vision_toolkit.visualization.aoi.transition_based.directed_graph import display_transition_matrix
 from vision_toolkit.visualization.aoi.basic_representation import (
     display_aoi_identification, display_aoi_identification_reference_image)
-from vision_toolkit.utils.identification_utils import merge_small_aois
-
+ 
 class MarkovBasedAnalysis:
     def __init__(self, input, gaze_df=None, **kwargs):
         """
