@@ -55,7 +55,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script:
-            const {DefaultArtifactClient} = __original_require__('@actions/artifact');
+            const {DefaultArtifactClient} = await import('@actions/artifact');
 
             console.log(DefaultArtifactClient)
       - uses: actions/checkout@v5
