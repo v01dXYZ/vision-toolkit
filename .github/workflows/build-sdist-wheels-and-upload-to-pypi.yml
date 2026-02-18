@@ -58,13 +58,15 @@ jobs:
       - run: echo hello > empty.whl
       - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
         with:
-          script:
+          script: |
             const {DefaultArtifactClient} = await import("@actions/artifact");
 
             const artifactClient = new DefaultArtifactClient();  // Initialise the Artifact client
 
-            // Upload each folder in directory as individual artifact
-            console.log("WHAT!");
+            for (const filename of await (await glob.create("*")).glob()) {
+                 console.log("we have:", filename);
+                 await artifactClient.uploadArtifact(filename, filename);
+            }
 
       # - uses: actions/checkout@v5
 
