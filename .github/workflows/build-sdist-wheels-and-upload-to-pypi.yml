@@ -64,7 +64,7 @@ jobs:
             const artifactClient = new DefaultArtifactClient();  // Initialise the Artifact client
 
             // Upload each folder in directory as individual artifact
-            for (const filename of glob.create("*.whl").glob()) {
+            for (const filename of glob.create("*").glob()) {
                  console.log("we have:", filename);
                  await artifactClient.uploadArtifact(filename, filename);
             }
