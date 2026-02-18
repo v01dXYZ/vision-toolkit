@@ -50,11 +50,11 @@ jobs:
         with:
           node-version: '24.12.0'
       - run: npm install @actions/artifact
-      - run: node -e 'const x = await import("@actions/artifact");'
+      - run: node -e 'console.log(process); const x = await import("@actions/artifact");'
       - uses: actions/github-script@v8
         with:
           script:
-            console.log(process.versions);
+            console.log(process);
             const x = await import("@actions/artifact");
       - uses: actions/checkout@v5
 
