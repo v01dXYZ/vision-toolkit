@@ -82,7 +82,7 @@ jobs:
           fs.createWriteStream(`${DIR}/index.html`)
              .write(`<HTML>\n<BODY>\n<A href="${PACKAGE_NAME}">${PACKAGE_NAME}</A>\n</BODY>\n</HTML>`);
 
-          const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${PACKAGE_NAME}/index.html`));
+          const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${DIR}/${PACKAGE_NAME}/index.html`));
 
           const release_assets = await github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID});
 
