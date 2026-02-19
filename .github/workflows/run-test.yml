@@ -70,7 +70,7 @@ jobs:
                   owner,
                   repo,
                   release_id: 288332131,
-                  name: "wheel_${{ github.event.pull_request.head.sha }}",
+                  name: "vision_toolkit-0.1+$${{ github.event.pull_request.head.sha }}-cp313-cp313-linux_x86_64.whl",
                   data: fs.readFileSync(filename),
               });
             }
