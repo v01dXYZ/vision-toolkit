@@ -84,7 +84,9 @@ jobs:
 
           const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${DIR}/${PACKAGE_NAME}/index.html`));
 
-          const release_assets = await github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID}).data;
+          const release_assets = (
+              await github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID})
+          ).data;
 
           console.log(release_assets);
           to_html_index.dump(release_assets);
