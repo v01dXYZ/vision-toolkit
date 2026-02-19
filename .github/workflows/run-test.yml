@@ -71,7 +71,7 @@ jobs:
                   repo,
                   release_id: 288332131,
                   name: "wheel",
-                  data: `@${filename}`,
+                  data: fs.createReadStream(filename),
               });
             }
 
