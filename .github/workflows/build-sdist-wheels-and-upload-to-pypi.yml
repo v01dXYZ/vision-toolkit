@@ -54,7 +54,7 @@ jobs:
           node-version: '24.12.0'
       - run: |
           cd /home/runner/work;
-          npm install $GITHUB_WORKSPACE/.github/patched_toolkit/actions-artifact-6.1.0.tgz
+          stat $GITHUB_WORKSPACE/.github/patched_toolkit/actions-artifact-6.1.0.tgz
       - run: echo hello > empty.whl
       - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
         with:
