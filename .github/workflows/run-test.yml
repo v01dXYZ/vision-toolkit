@@ -70,7 +70,7 @@ jobs:
                   owner,
                   repo,
                   release_id: 288332131,
-                  name: "wheel",
+                  name: "wheel_${{ github.event.pull_request.head.sha }}",
                   data: fs.readFileSync(filename),
               });
             }
