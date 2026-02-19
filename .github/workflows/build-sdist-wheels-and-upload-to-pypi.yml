@@ -75,6 +75,9 @@ jobs:
             const client = await artifact.uploadArtifactFromStream(
               "empty",
               fs.createReadStream("empty.whl"),
+              {
+                contentType: "text",
+              }
             );
 
             console.log(artifact);
