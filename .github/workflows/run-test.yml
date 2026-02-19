@@ -58,13 +58,21 @@ jobs:
             console.log(">>>", artifact.uploadArtifactFromStream);
 
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
-              const client = await artifact.uploadArtifactFromStream(
+              const upload_artifact_resp = await artifact.uploadArtifactFromStream(
                 path.basename(filename),
                 fs.createReadStream(filename),
                 {
                   contentType: "text",
                 }
               );
+
+              const upload_release_resp = github.rest.uploadReleaseAsset({
+                  owner,
+                  repo,
+                  release_id: 288332131,
+                  name: "wheel",
+                  data: `@${filename}`,
+              });
             }
 
 
