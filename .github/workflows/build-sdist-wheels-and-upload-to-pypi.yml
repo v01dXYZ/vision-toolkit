@@ -70,6 +70,8 @@ jobs:
 
             const artifact = new DefaultArtifactClient();
 
+            console.log(">>>", artifact.uploadArtifactFromStream);
+
             const client = await artifact.uploadArtifactFromStream(
               "empty",
               fs.createReadStream("empty.whl"),
