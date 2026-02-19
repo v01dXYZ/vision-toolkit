@@ -65,23 +65,28 @@ jobs:
             const owner = '${{ github.repository_owner }}';
             const repo = '${{ github.event.repository.name }}';
 
-            const release = github.rest.repos.createRelease({
-              owner,
-              repo,
-              tag_name: "0.0.0",
-              draft: True,
-            })
+            const fs = require("node:fs");
+            const artifact = await import("@actions/artifact");
 
-            for (const filename of await (await glob.create("*.whl")).glob()) {
-                 console.log("we have:", filename);
+            console.log(artifact);
 
-                github.rest.repos.uploadReleaseAsset(
-                  owner,
-                  repo,
-                  release_id: release.id,
-                  path.basename(filename)
-                );
-            }
+            // const release = github.rest.repos.createRelease({
+            //   owner,
+            //   repo,
+            //   tag_name: "0.0.0",
+            //   draft: True,
+            // })
+
+            // for (const filename of await (await glob.create("*.whl")).glob()) {
+            //      console.log("we have:", filename);
+
+            //     github.rest.repos.uploadReleaseAsset(
+            //       owner,
+            //       repo,
+            //       release_id: release.id,
+            //       path.basename(filename)
+            //     );
+            // }
 
       # # Used to host cibuildwheel
       # - uses: actions/setup-python@v6
