@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=42",
+    "setuptools-scm",
     "wheel",
     "Cython>=0.28.5",
     "oldest-supported-numpy",
@@ -9,7 +10,6 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vision_toolkit"
-version = "0.1"
 description = "Vision Toolkit"
 readme = "README.md"
 license = {text = "MIT"}
@@ -43,6 +43,7 @@ dependencies = [
     "tqdm",
     "pytlsd==0.0.2",
 ]
+dynamic = ["version"]
 
 [project.optional-dependencies]
 test = [
@@ -71,6 +72,8 @@ Homepage = "https://github.com/v01dxyz/vision_toolkit"
 # uv build needs to have the Cython files included
 [tool.setuptools.package-data]
 "*" = ["*.pyx", "*.pxd"]
+
+[tool.setuptools_scm]
 
 [tool.coverage.run]
 plugins = ["Cython.Coverage"]
