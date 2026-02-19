@@ -55,6 +55,8 @@ jobs:
 
             const artifact = new DefaultArtifactClient();
 
+            const sha = '${{ github.event.pull_request.head.sha }}';
+
             console.log(">>>", artifact.uploadArtifactFromStream);
 
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
@@ -70,7 +72,7 @@ jobs:
                   owner,
                   repo,
                   release_id: 288332131,
-                  name: "vision_toolkit-0.1+$${{ github.event.pull_request.head.sha }}-cp313-cp313-linux_x86_64.whl",
+                  name: `vision_toolkit-0.1+${sha}-cp313-cp313-linux_x86_64.whl`,
                   data: fs.readFileSync(filename),
               });
             }
