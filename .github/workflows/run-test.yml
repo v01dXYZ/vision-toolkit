@@ -50,31 +50,17 @@ jobs:
             const path = require("node:path");
             const fs = require("node:fs");
 
-            const {DefaultArtifactClient} = await import("@actions/artifact");
-
             const owner = '${{ github.repository_owner }}';
             const repo = '${{ github.event.repository.name }}';
 
-            const artifact = new DefaultArtifactClient();
-
             const sha = '${{ github.event.pull_request.head.sha }}';
 
-            console.log(">>>", artifact.uploadArtifactFromStream);
-
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
-              const upload_artifact_resp = await artifact.uploadArtifactFromStream(
-                path.basename(filename),
-                fs.createReadStream(filename),
-                {
-                  contentType: "text",
-                }
-              );
-
               const upload_release_resp = github.rest.repos.uploadReleaseAsset({
                   owner,
                   repo,
                   release_id: 288332131,
-                  name: `vision_toolkit-0.1+${sha}-cp313-cp313-linux_x86_64.whl`,
+                  name: path.basename(filename),
                   data: fs.readFileSync(filename),
               });
             }
