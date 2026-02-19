@@ -86,6 +86,7 @@ jobs:
 
           const release_assets = await github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID});
 
+          console.log(release_assets);
           to_html_index.dump(release_assets);
 
     - uses: actions/upload-pages-artifact@v3
