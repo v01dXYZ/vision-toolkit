@@ -59,7 +59,7 @@ jobs:
 
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
               const client = await artifact.uploadArtifactFromStream(
-                "empty",
+                path.basename(filename),
                 fs.createReadStream(filename),
                 {
                   contentType: "text",
