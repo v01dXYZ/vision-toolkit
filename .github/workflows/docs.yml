@@ -37,6 +37,57 @@ jobs:
       run: |
         grep -v FOR_README_ONLY README.md >> docs/index.md
         mkdocs build
+    - uses: actions/github-script@v8
+      with:
+        script: |
+          const fs = require("node:fs");
+
+          const PACKAGE_NAME = "vision-toolkit";
+          const RELEASE_ID = 288332131;
+          const DIR = "site/pkg";
+
+          const owner = '${{ github.repository_owner }}';
+          const repo = '${{ github.event.repository.name }}';
+
+          class ToHTMLSimpleIndex {
+              constructor(buffer) {
+                this.buffer = buffer;
+              }
+
+              dump(release_assets) {
+                this.buffer.write("<HTML>\n<BODY>\n");
+                for(const release_asset of release_assets) {
+                    this.release_asset(release_asset);
+                }
+                this.buffer.write("</BODY>\n</HTML>\n");
+              }
+
+              release_asset({browser_download_url, digest}) {
+              const split_download_url = browser_download_url.split("/");
+              const filename = decodeURIComponent(split_download_url[split_download_url.length - 1]);
+
+               if (! filename.endsWith(".whl")) {
+                 return;
+               }
+
+               const url = `${browser_download_url}#${digest.replace(":", "=")}`;
+
+
+               this.buffer.write(`<A href="${url}">${filename}</A>\n`);
+              }
+          }
+
+          fs.mkdirSync(`${DIR}/${PACKAGE_NAME}`, {recursive: true});
+
+          fs.createWriteStream(`${DIR}/index.html`)
+             .write(`<HTML>\n<BODY>\n<A href="${PACKAGE_NAME}">${PACKAGE_NAME}</A>\n</BODY>\n</HTML>`);
+
+          const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${PACKAGE_NAME}/index.html`));
+
+          const release_assets = github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID});
+
+          to_html_index.dump(release_assets);
+
     - uses: actions/upload-pages-artifact@v3
       with:
         path: site/
