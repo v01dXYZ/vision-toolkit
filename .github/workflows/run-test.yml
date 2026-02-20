@@ -39,22 +39,31 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24.12.0'
+      - run: echo "CLOSEST_TAG=$(git describe --no-abbrev --first-parent)" >> $GITHUB_ENV
       - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
         with:
           script: |
             const path = require("node:path");
             const fs = require("node:fs");
 
+            const CLOSEST_TAG='${{ env.CLOSEST_TAG }}';
+
             const owner = '${{ github.repository_owner }}';
             const repo = '${{ github.event.repository.name }}';
 
             const sha = '${{ github.event.pull_request.head.sha }}';
 
+            const release = (await github.rest.repos.getReleaseByTag({
+                owner,
+                repo,
+                CLOSEST_TAG,
+            })).data;
+
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
-              const upload_release_resp = github.rest.repos.uploadReleaseAsset({
+              const upload_release_resp = await github.rest.repos.uploadReleaseAsset({
                   owner,
                   repo,
-                  release_id: 288332131,
+                  release_id: release.id,
                   name: path.basename(filename),
                   data: fs.readFileSync(filename),
               });
