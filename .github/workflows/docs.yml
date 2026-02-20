@@ -83,7 +83,7 @@ jobs:
 
           const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${DIR}/${PACKAGE_NAME}/index.html`));
 
-          const all_release_assets = (await github.rest.repos.listReleases({owner, repo})).data.flatMap({assets} => assets);
+          const all_release_assets = (await github.rest.repos.listReleases({owner, repo})).data.flatMap(({assets}) => assets);
           to_html_index.dump(all_release_assets);
 
     - uses: actions/upload-pages-artifact@v3
