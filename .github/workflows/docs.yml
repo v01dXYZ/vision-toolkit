@@ -43,11 +43,10 @@ jobs:
           const fs = require("node:fs");
 
           const PACKAGE_NAME = "vision-toolkit";
-          const RELEASE_ID = 288332131;
           const DIR = "site/pkg";
 
           const owner = '${{ github.repository_owner }}';
-          const repo = '${{ github.event.repository.name }}';
+          const repo = "vision-toolkit";
 
           class ToHTMLSimpleIndex {
               constructor(buffer) {
@@ -84,12 +83,8 @@ jobs:
 
           const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${DIR}/${PACKAGE_NAME}/index.html`));
 
-          const release_assets = (
-              await github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID})
-          ).data;
-
-          console.log(release_assets);
-          to_html_index.dump(release_assets);
+          const all_release_assets = (await github.rest.repos.listReleases({owner, repo})).data.flatMap({assets} => assets);
+          to_html_index.dump(all_release_assets);
 
     - uses: actions/upload-pages-artifact@v3
       with:
