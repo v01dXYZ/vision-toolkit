@@ -35,15 +35,10 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: 3.13
-      - run: |
-          short_sha=$(echo ${{github.event.pull_request.head.sha}} | cut -b -7)
-          SETUPTOOLS_SCM_PRETEND_VERSION="0.1+${short_sha}" pip wheel --no-deps -w wheels .
+      - run: pip wheel --no-deps -w wheels .
       - uses: actions/setup-node@v6
         with:
           node-version: '24.12.0'
-      - run: |
-          cd /home/runner/work;
-          npm install $GITHUB_WORKSPACE/.github/patched_toolkit/actions-artifact-6.1.0.tgz
       - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
         with:
           script: |
