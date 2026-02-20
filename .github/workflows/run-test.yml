@@ -85,7 +85,7 @@ jobs:
           github.rest.repos.createDispatchEvent({
             owner: '${{ github.repository_owner }}',
             repo: '${{ github.event.repository.name }}',
-            type: 'refresh_index',
+            event_type: 'refresh_index',
           })
 
   coverage:
