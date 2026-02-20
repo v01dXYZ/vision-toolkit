@@ -2,7 +2,7 @@ from vision_toolkit2.config import Config, StackedConfig
 from vision_toolkit2.oculomotor_series import AugmentedSerie
 from vision_toolkit2.velocity_distance_factory import (
     absolute_angular_distance,
-    absolute_euclidian_distance,
+    absolute_euclidean_distance,
 )
 
 from .binary import implementations as binary_implementations
@@ -62,7 +62,7 @@ class DefaultConfigBuilder:
 
 class Segmentation:
     DISTANCES = {
-        "euclidean": absolute_euclidian_distance,
+        "euclidean": absolute_euclidean_distance,
         "angular": absolute_angular_distance,
     }
 
