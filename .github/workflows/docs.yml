@@ -1,7 +1,8 @@
 name: docs
 
 on:
-  push: {}
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -9,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/caches@v5
+    - uses: actions/cache@v5
       id: cache_docs
       with:
         path: site
@@ -51,7 +52,7 @@ jobs:
           const DIR = "site/pyindex";
 
           const owner = '${{ github.repository_owner }}';
-          const repo = '${{ github.event.repository.name }}'.replace("-pyindex", "");
+          const repo = '${{ github.event.repository.name }}';
 
           class ToHTMLSimpleIndex {
               constructor(buffer) {
