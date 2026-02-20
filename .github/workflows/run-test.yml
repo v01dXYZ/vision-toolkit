@@ -41,14 +41,17 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24.12.0'
-      - run: echo "CLOSEST_TAG=$(git describe --tags --no-abbrev --first-parent)" >> $GITHUB_ENV
-      - uses: actions/github-script@v8 # v8 has node 24 with 'import' allowing ESM modules
+      - run: echo "RELEASE_TAG=$(git describe --tags --no-abbrev --first-parent)" >> $GITHUB_ENV
+      - uses: actions/github-script@v6
         with:
-          script: |
+          env:
+            TO_UPLOAD_PATH: 'wheels/*.whl'
+          script: &upload_release_assets_by_tag |
             const path = require("node:path");
             const fs = require("node:fs");
 
-            const CLOSEST_TAG='${{ env.CLOSEST_TAG }}';
+            const RELEASE_TAG='${{ env.RELEASE_TAG }}';
+            const TO_UPLOAD_PATH = '${{ env.TO_UPLOAD_PATH }}';
 
             const owner = '${{ github.repository_owner }}';
             const repo = '${{ github.event.repository.name }}';
@@ -58,7 +61,7 @@ jobs:
             const release = (await github.rest.repos.getReleaseByTag({
                 owner,
                 repo,
-                tag: CLOSEST_TAG,
+                tag: RELEASE_TAG,
             })).data;
 
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
@@ -260,24 +263,19 @@ jobs:
           path: ${{ env.RESULTS_DIR }}/report.png
 
       # Hack to display image in comment as artifact can't be used for such a thing
-      - name: Push image into repo branch ${{ env.IMGSBRANCH }}
-        run: |
-          git config --global --add safe.directory .
-          git fetch --depth 1 origin $IMGSBRANCH
-          git switch -f $IMGSBRANCH
-          git config user.name "imgs-uploader"
-          git config user.email "nocontact@unreachable"
+      - run: |
           IMGNAME="report_v${VISION_TOOLKIT_VERSION}_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png"
           echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
+          echo TO_UPLOAD_PATH="$IMGNAME" >> $GITHUB_ENV
+          echo RELEASE_TAG=github-imgtag >> $GITHUB_ENV
+          echo IMGURL="https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$IMGNAME" >> $GITHUB_ENV
           cp -v $RESULTS_DIR/report.png $IMGNAME
-          git add -v $IMGNAME
-          git commit -m "Publish v$VISION_TOOLKIT_VERSION report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
-          git push origin $IMGSBRANCH
-
+      - uses: actions/github-script@v6
+          script: *upload_release_assets_by_tag
       - name: Step summary
         run: |
           echo "## Image" >> $GITHUB_STEP_SUMMARY
-          echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
+          echo "![barplot]($IMGURL)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
           cat $RESULTS_DIR/report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
@@ -296,14 +294,13 @@ jobs:
             const MAGIC = '<!-- MAGIC github-action-bot v${{ env.VISION_TOOLKIT_VERSION }} ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
 
             const success = '${{ job.status }}' === 'success';
-            const body = 
+            const body =
             `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}
             ${url}
             ${fs.readFileSync("./${{ env.RESULTS_DIR }}/report.md")}
 
 
-            ![barplot](https://github.com/${{ github.repository }}/blob/${{ env.IMGSBRANCH }}/${{ env.IMGNAME }}?raw=true)
-            
+            ![barplot](${{ env.IMGURL }})
 
             commit: ${sha}
 
