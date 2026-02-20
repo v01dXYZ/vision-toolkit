@@ -117,6 +117,7 @@ jobs:
     - name: Upload json report
       uses: actions/upload-artifact@v4
       with:
+        name: coverage
         path: coverage.json
     - name: Add coverage report to step summary
       run: |
