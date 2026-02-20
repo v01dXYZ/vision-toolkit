@@ -74,6 +74,7 @@ jobs:
               });
             }
   refresh_index:
+    name: Refresh Index
     runs-on: ubuntu-latest
     needs: build_wheel
     permissions:
