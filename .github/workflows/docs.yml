@@ -13,10 +13,7 @@ jobs:
       uses: actions/setup-python@v6
       with:
         python-version: '3.13'
-    # - name: Install sndfile library # for librose, see https://github.com/deepcharles/ruptures/pull/121
-    #   run: |
-    #     sudo apt-get install libsndfile1-dev
-    - name: Install ruptures and dependencies
+    - name: Install mkdocs and dependencies
       run: |
         python -m pip install --upgrade pip
         python -m pip install \
@@ -37,55 +34,6 @@ jobs:
       run: |
         grep -v FOR_README_ONLY README.md >> docs/index.md
         mkdocs build
-    - uses: actions/github-script@v8
-      with:
-        script: |
-          const fs = require("node:fs");
-
-          const PACKAGE_NAME = "vision-toolkit";
-          const DIR = "site/pkg";
-
-          const owner = '${{ github.repository_owner }}';
-          const repo = "vision-toolkit";
-
-          class ToHTMLSimpleIndex {
-              constructor(buffer) {
-                this.buffer = buffer;
-              }
-
-              dump(release_assets) {
-                this.buffer.write("<HTML>\n<BODY>\n");
-                for(const release_asset of release_assets) {
-                    this.release_asset(release_asset);
-                }
-                this.buffer.write("</BODY>\n</HTML>\n");
-              }
-
-              release_asset({browser_download_url, digest}) {
-              const split_download_url = browser_download_url.split("/");
-              const filename = decodeURIComponent(split_download_url[split_download_url.length - 1]);
-
-               if (! filename.endsWith(".whl")) {
-                 return;
-               }
-
-               const url = `${browser_download_url}#${digest.replace(":", "=")}`;
-
-
-               this.buffer.write(`<A href="${url}">${filename}</A>\n`);
-              }
-          }
-
-          fs.mkdirSync(`${DIR}/${PACKAGE_NAME}`, {recursive: true});
-
-          fs.createWriteStream(`${DIR}/index.html`)
-             .write(`<HTML>\n<BODY>\n<A href="${PACKAGE_NAME}">${PACKAGE_NAME}</A>\n</BODY>\n</HTML>`);
-
-          const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${DIR}/${PACKAGE_NAME}/index.html`));
-
-          const all_release_assets = (await github.rest.repos.listReleases({owner, repo})).data.flatMap(({assets}) => assets);
-          to_html_index.dump(all_release_assets);
-
     - uses: actions/upload-pages-artifact@v3
       with:
         path: site/
