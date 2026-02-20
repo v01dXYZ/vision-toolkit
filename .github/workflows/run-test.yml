@@ -60,7 +60,7 @@ jobs:
             const release = (await github.rest.repos.getReleaseByTag({
                 owner,
                 repo,
-                CLOSEST_TAG,
+                tag: CLOSEST_TAG,
             })).data;
 
             for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
