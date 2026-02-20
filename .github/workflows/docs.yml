@@ -3,6 +3,7 @@ name: docs
 on:
   push:
   workflow_dispatch:
+  repository_dispatch:
 
 jobs:
   build:
