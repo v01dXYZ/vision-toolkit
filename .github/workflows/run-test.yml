@@ -271,6 +271,7 @@ jobs:
           echo IMGURL="https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$IMGNAME" >> $GITHUB_ENV
           cp -v $RESULTS_DIR/report.png $IMGNAME
       - uses: actions/github-script@v6
+        with:
           script: *upload_release_assets_by_tag
       - name: Step summary
         run: |
