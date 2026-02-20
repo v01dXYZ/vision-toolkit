@@ -84,7 +84,7 @@ jobs:
         script: |
           github.rest.repos.createDispatchEvent({
             owner: '${{ github.repository_owner }}',
-            repo: '${{ github.event.repository.name }}-pyindex',
+            repo: '${{ github.event.repository.name }}',
             type: 'refresh_index',
           })
 
