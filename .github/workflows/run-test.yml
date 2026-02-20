@@ -61,7 +61,7 @@ jobs:
                 tag: CLOSEST_TAG,
             })).data;
 
-            for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
+            for (const filename of await (await glob.create("assets/*.jpg")).glob()) {
               const upload_release_resp = await github.rest.repos.uploadReleaseAsset({
                   owner,
                   repo,
