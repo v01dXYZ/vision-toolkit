@@ -73,7 +73,14 @@ jobs:
                   data: fs.readFileSync(filename),
               });
             }
-
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createDispatchEvent({
+              owner: '${{ github.repository_owner }}',
+              repo: '${{ github.event.repository.name }}-pyindex',
+              type: 'refresh_index',
+            })
 
   coverage:
     name: Coverage
