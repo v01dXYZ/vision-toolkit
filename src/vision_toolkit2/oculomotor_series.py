@@ -7,7 +7,7 @@ from .config import Config
 from .velocity_distance_factory import (
     process_angular_absolute_speeds,
     process_angular_coord,
-    process_euclidian_absolute_speeds,
+    process_euclidean_absolute_speeds,
     process_unitary_gaze_vectors,
 )
 
