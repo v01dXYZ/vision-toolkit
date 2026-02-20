@@ -64,7 +64,7 @@ jobs:
                 tag: RELEASE_TAG,
             })).data;
 
-            for (const filename of await (await glob.create("wheels/*.whl")).glob()) {
+            for (const filename of await (await glob.create(TO_UPLOAD_PATH)).glob()) {
               const upload_release_resp = await github.rest.repos.uploadReleaseAsset({
                   owner,
                   repo,
