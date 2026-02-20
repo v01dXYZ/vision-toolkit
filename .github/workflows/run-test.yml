@@ -43,9 +43,9 @@ jobs:
           node-version: '24.12.0'
       - run: echo "RELEASE_TAG=$(git describe --tags --no-abbrev --first-parent)" >> $GITHUB_ENV
       - uses: actions/github-script@v6
+        env:
+          TO_UPLOAD_PATH: 'wheels/*.whl'
         with:
-          env:
-            TO_UPLOAD_PATH: 'wheels/*.whl'
           script: &upload_release_assets_by_tag |
             const path = require("node:path");
             const fs = require("node:fs");
