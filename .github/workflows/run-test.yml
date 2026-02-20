@@ -34,7 +34,6 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - run: git tag --list
       - uses: actions/setup-python@v6
         with:
           python-version: 3.13
