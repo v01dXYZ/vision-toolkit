@@ -1,0 +1,50 @@
+site_name: !ENV REPO_SHORTNAME
+repo_url: !ENV REPO_URL
+repo_name: !ENV REPO_NAME
+docs_dir: docs
+site_dir: site
+plugins:
+  - search
+  - mkdocstrings:
+      watch:
+        - src
+      handlers:
+        python:
+          options:
+            filters:
+              - "!^_"  # exclude all members starting with _
+              - "^__init__$"  # but always include __init__ modules and methods
+  - mknotebooks:
+      execute: false
+      binder: false
+  - macros:
+      module_name: mkdocs_macros
+  - section-index
+markdown_extensions:
+  - pymdownx.snippets:
+  - pymdownx.tabbed:
+  - pymdownx.emoji:
+  - pymdownx.superfences:
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition:
+  - toc:
+      permalink: "#"
+  - codehilite
+nav:
+  - Home:
+    - index.md
+  - Contributor docs:
+    - testing.md
+theme:
+  name: material
+  palette:
+    primary: green
+  features:
+    - navigation.tabs
+    - search.highlight
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
