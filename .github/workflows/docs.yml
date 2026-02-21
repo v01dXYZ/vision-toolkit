@@ -35,7 +35,7 @@ jobs:
         #   mkdocs-section-index # .[docs]
         python -m pip install \
          zensical \
-         mkdocstrings
+         mkdocstrings[python]
     # - name: Run notebooks
     #   run: |
     #     find ./docs -name '*.ipynb' | xargs -P 3 -I % jupyter nbconvert --inplace --to notebook --ExecutePreprocessor.kernel_name=python --execute %
