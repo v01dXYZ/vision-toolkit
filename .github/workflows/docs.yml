@@ -49,6 +49,7 @@ jobs:
         grep -v FOR_README_ONLY README.md >> docs/index.md
         # mkdocs build
         zensical build
+        cp assets/* site/assets
     - uses: actions/github-script@v8
       with:
         script: |
