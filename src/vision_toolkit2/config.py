@@ -317,6 +317,23 @@ class Savgol:
 
 
 @prefix(class_name=True)
+class Fixation:
+    weighted_average_velocity_means: bool
+    BCEA_probability: float
+
+
+@prefix(class_name=True)
+class Saccade:
+    absolute_horizontal_deviations: bool
+    init_direction_duration_threshold: float
+    init_deviation_duration_threshold: float
+    weighted_average_velocity_means: bool
+    weighted_average_acceleration_profiles: bool
+    weighted_average_acceleration_means: bool
+    weighted_average_deceleration_means: bool
+
+
+@prefix(class_name=True)
 class Pursuit:
     end_idx: None | int
 
@@ -352,6 +369,8 @@ class Common(
     Scanpath,
     Smoothing,
     Savgol,
+    Fixation,
+    Saccade,
     Pursuit,
 ):
     curve_nb_points: int
