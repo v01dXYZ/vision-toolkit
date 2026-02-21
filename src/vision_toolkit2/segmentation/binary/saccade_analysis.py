@@ -1,3 +1,4 @@
+from .base_analysis import BinarySegmentationAnalysis, results_delegation, EasyAccessFunction
 from ..base_segmentation import Segmentation
 from .binary_segmentation_results import BinarySegmentationResults
 from vision_toolkit2.config import Config
@@ -8,40 +9,8 @@ from scipy.stats import gamma
 
 
 @dataclass
-class SaccadeAnalysis:
-    binary_segmentation_results: BinarySegmentationResults
-
-    def results_delegation(attr_name):
-        def f(self):
-            return getattr(self.binary_segmentation_results, attr_name)
-
-        return f
-
-    def config_delegation(attr_name):
-        def f(self):
-            return getattr(self.binary_segmentation_results.config, attr_name)
-
-        return f
-
-    def input_delegation(attr_name):
-        def f(self):
-            return getattr(self.binary_segmentation_results.input, attr_name)
-
-        return f
-
-
-    _absolute_speed = input_delegation("absolute_speed")
-
+class SaccadeAnalysis(BinarySegmentationAnalysis):
     _intervals = results_delegation("saccade_intervals")
-    _x = input_delegation("x")
-    _y = input_delegation("y")
-    _z = input_delegation("z")
-    _is_labeled = results_delegation("is_labeled")
-
-    _nb_samples = config_delegation("nb_samples")
-    _distance_type = config_delegation("distance_type")
-    _sampling_frequency = config_delegation("sampling_frequency")
-
 
     @staticmethod
     def _n_samples_per_interval(intervals):
@@ -873,78 +842,48 @@ class SaccadeAnalysis:
 
         return results
 
-EASY_ACCESS_FUNCTION_DEFAULT_KWARGS = {
-    "get_raw": True,
-}
+easy_access_function = EasyAccessFunction(
+    cls=SaccadeAnalysis,
+    common_default_kwargs={
+        "get_raw": True,
+    },
+)
+    
 
-def easy_access_function(
-        attr_name,
-        default_kwargs=None,
-        config=None,
-):
-    if default_kwargs:
-        default_kwargs = EASY_ACCESS_FUNCTION_DEFAULT_KWARGS | default_kwargs
-    else:
-        default_kwargs = EASY_ACCESS_FUNCTION_DEFAULT_KWARGS
-
-    method = getattr(SaccadeAnalysis, attr_name)
-    method_signature = inspect.signature(method)
-
-    keys = iter(method_signature.parameters.keys())
-    next(keys)
-
-    default_kwargs = {k: default_kwargs[k] for k in keys if k in default_kwargs}
-
-    def f(input, *args, **kwargs):
-        kwargs = default_kwargs | kwargs
-
-        if not isinstance(input, SaccadeAnalysis):
-            segmentation = Segmentation(input, config)
-            segmentation_results = segmentation.process()
-
-            input = SaccadeAnalysis(segmentation_results)
-
-        results = method(input, *args, **kwargs)
-
-        return results
-
-    return f
-
-
-saccade_count = easy_access_function("saccade_count")
-saccade_frequency = easy_access_function("saccade_frequency")
-saccade_frequency_wrt_labels = easy_access_function("saccade_frequency_wrt_labels")
-saccade_durations = easy_access_function("saccade_durations")
-saccade_amplitudes = easy_access_function("saccade_amplitudes")
-saccade_travel_distances = easy_access_function("saccade_travel_distances")
-saccade_efficiencies = easy_access_function("saccade_efficiencies")
-saccade_directions = easy_access_function("saccade_directions")
-saccade_horizontal_deviations = easy_access_function("saccade_horizontal_deviations")
-saccade_successive_deviations = easy_access_function("saccade_successive_deviations")
-saccade_initial_directions = easy_access_function("saccade_initial_directions")
-saccade_initial_deviations = easy_access_function("saccade_initial_deviations")
-saccade_max_curvatures = easy_access_function("saccade_max_curvatures")
-saccade_area_curvatures = easy_access_function("saccade_area_curvatures")
-saccade_mean_velocities = easy_access_function("saccade_mean_velocities")
+saccade_count = easy_access_function(SaccadeAnalysis.saccade_count)
+saccade_frequency = easy_access_function(SaccadeAnalysis.saccade_frequency)
+saccade_frequency_wrt_labels = easy_access_function(SaccadeAnalysis.saccade_frequency_wrt_labels)
+saccade_durations = easy_access_function(SaccadeAnalysis.saccade_durations)
+saccade_amplitudes = easy_access_function(SaccadeAnalysis.saccade_amplitudes)
+saccade_travel_distances = easy_access_function(SaccadeAnalysis.saccade_travel_distances)
+saccade_efficiencies = easy_access_function(SaccadeAnalysis.saccade_efficiencies)
+saccade_directions = easy_access_function(SaccadeAnalysis.saccade_directions)
+saccade_horizontal_deviations = easy_access_function(SaccadeAnalysis.saccade_horizontal_deviations)
+saccade_successive_deviations = easy_access_function(SaccadeAnalysis.saccade_successive_deviations)
+saccade_initial_directions = easy_access_function(SaccadeAnalysis.saccade_initial_directions)
+saccade_initial_deviations = easy_access_function(SaccadeAnalysis.saccade_initial_deviations)
+saccade_max_curvatures = easy_access_function(SaccadeAnalysis.saccade_max_curvatures)
+saccade_area_curvatures = easy_access_function(SaccadeAnalysis.saccade_area_curvatures)
+saccade_mean_velocities = easy_access_function(SaccadeAnalysis.saccade_mean_velocities)
 saccade_average_velocity_means = easy_access_function(
-    "saccade_average_velocity_means",
+    SaccadeAnalysis.saccade_average_velocity_means,
 #    config=Config(saccade_weighted_average_velocity_means=False),
 )
-saccade_average_velocity_deviations = easy_access_function("saccade_average_velocity_deviations")
-saccade_peak_velocities = easy_access_function("saccade_peak_velocities")
-saccade_mean_acceleration_profiles = easy_access_function("saccade_mean_acceleration_profiles")
-saccade_mean_accelerations = easy_access_function("saccade_mean_accelerations")
-saccade_mean_decelerations = easy_access_function("saccade_mean_decelerations")
-saccade_average_acceleration_profiles = easy_access_function("saccade_average_acceleration_profiles")
-saccade_average_acceleration_means = easy_access_function("saccade_average_acceleration_means")
-saccade_average_deceleration_means = easy_access_function("saccade_average_deceleration_means")
-saccade_peak_accelerations = easy_access_function("saccade_peak_accelerations")
-saccade_peak_decelerations = easy_access_function("saccade_peak_decelerations")
-saccade_skewness_exponents = easy_access_function("saccade_skewness_exponents")
-saccade_gamma_skewness_exponents = easy_access_function("saccade_gamma_skewness_exponents")
-saccade_amplitude_duration_ratios = easy_access_function("saccade_amplitude_duration_ratios")
-saccade_peak_velocity_amplitude_ratios = easy_access_function("saccade_peak_velocity_amplitude_ratios")
-saccade_peak_velocity_duration_ratios = easy_access_function("saccade_peak_velocity_duration_ratios")
-saccade_peak_velocity_velocity_ratios = easy_access_function("saccade_peak_velocity_velocity_ratios")
-saccade_acceleration_deceleration_ratios = easy_access_function("saccade_acceleration_deceleration_ratios")
-saccade_main_sequence = easy_access_function("saccade_main_sequence")
+saccade_average_velocity_deviations = easy_access_function(SaccadeAnalysis.saccade_average_velocity_deviations)
+saccade_peak_velocities = easy_access_function(SaccadeAnalysis.saccade_peak_velocities)
+saccade_mean_acceleration_profiles = easy_access_function(SaccadeAnalysis.saccade_mean_acceleration_profiles)
+saccade_mean_accelerations = easy_access_function(SaccadeAnalysis.saccade_mean_accelerations)
+saccade_mean_decelerations = easy_access_function(SaccadeAnalysis.saccade_mean_decelerations)
+saccade_average_acceleration_profiles = easy_access_function(SaccadeAnalysis.saccade_average_acceleration_profiles)
+saccade_average_acceleration_means = easy_access_function(SaccadeAnalysis.saccade_average_acceleration_means)
+saccade_average_deceleration_means = easy_access_function(SaccadeAnalysis.saccade_average_deceleration_means)
+saccade_peak_accelerations = easy_access_function(SaccadeAnalysis.saccade_peak_accelerations)
+saccade_peak_decelerations = easy_access_function(SaccadeAnalysis.saccade_peak_decelerations)
+saccade_skewness_exponents = easy_access_function(SaccadeAnalysis.saccade_skewness_exponents)
+saccade_gamma_skewness_exponents = easy_access_function(SaccadeAnalysis.saccade_gamma_skewness_exponents)
+saccade_amplitude_duration_ratios = easy_access_function(SaccadeAnalysis.saccade_amplitude_duration_ratios)
+saccade_peak_velocity_amplitude_ratios = easy_access_function(SaccadeAnalysis.saccade_peak_velocity_amplitude_ratios)
+saccade_peak_velocity_duration_ratios = easy_access_function(SaccadeAnalysis.saccade_peak_velocity_duration_ratios)
+saccade_peak_velocity_velocity_ratios = easy_access_function(SaccadeAnalysis.saccade_peak_velocity_velocity_ratios)
+saccade_acceleration_deceleration_ratios = easy_access_function(SaccadeAnalysis.saccade_acceleration_deceleration_ratios)
+saccade_main_sequence = easy_access_function(SaccadeAnalysis.saccade_main_sequence)
