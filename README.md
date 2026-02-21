@@ -41,5 +41,5 @@ In order to have a broad picture of what this package is meant to implement, you
 
 ## Credits
 
-This work was initiated by Quentin Laborde as a PoC related to his PhD in a WIP/draft shape and brought to a fully production ready state by 
-Robert Dazi (structuring and architecturing, cleaning and refactoring code, setting up strategies for automated quality assurance, documenting).
+This work was initiated by Quentin Laborde as a PoC related to his PhD in a WIP/draft shape while the efforts to industrialize it and bring it to a production ready state were passed on to
+Robert Dazi.
