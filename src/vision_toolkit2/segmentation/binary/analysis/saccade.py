@@ -1,86 +1,18 @@
-from .base_analysis import BinarySegmentationAnalysis, results_delegation, EasyAccessFunction
-from ..base_segmentation import Segmentation
-from .binary_segmentation_results import BinarySegmentationResults
+import numpy as np
+from numpy.linalg import norm
+from scipy.stats import gamma
+
+from .base_analysis import BaseBinarySegmentationAnalysis, results_delegation, EasyAccessFunction
+from ...base_segmentation import Segmentation
 from vision_toolkit2.config import Config
 from dataclasses import dataclass
-import inspect
-import numpy as np
-from scipy.stats import gamma
 
 
 @dataclass
-class SaccadeAnalysis(BinarySegmentationAnalysis):
+class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
     _intervals = results_delegation("saccade_intervals")
 
-    @staticmethod
-    def _n_samples_per_interval(intervals):
-
-        a_i = np.asarray(intervals, dtype=np.int64)
-        return (a_i[:, 1] - a_i[:, 0] + 1).astype(np.float64)
-
-    def _speed_segment(self, start, end):
-
-        if end <= start:
-            return np.array([], dtype=np.float64)
-
-        a_sp = self._absolute_speed()
-        return a_sp[start:end]
-
-    def _acc_segment(self, start, end):
-
-        v = self._speed_segment(start, end)
-        if v.size < 2:
-            return np.array([], dtype=np.float64)
-        return np.abs(np.diff(v)) * self._sampling_frequency()
-
-    @staticmethod
-    def _safe_sd(x):
-
-        x = np.asarray(x, dtype=np.float64)
-        return float(np.nanstd(x, ddof=1)) if np.sum(np.isfinite(x)) >= 2 else 0.0
-
-    def saccade_count(self):
-        return {
-            "count": int(len(self._intervals()))
-        }
-
-    def saccade_frequency(self):
-        ct = len(self._intervals())
-        denom = self._nb_samples() / self._sampling_frequency()
-        f = ct / denom if denom > 0 else np.nan
-
-        return {
-            "frequency": float(f)
-        }
-
-    def saccade_frequency_wrt_labels(self):
-
-        ct = len(self._intervals())
-        labeled = float(np.sum(self._is_labeled()))
-        denom = labeled / self._sampling_frequency()
-
-        f = ct / denom if denom > 0 else np.nan
-
-        return {
-            "frequency": float(f)
-        }
-
-    def saccade_durations(self, get_raw=True):
-
-        a_i = np.asarray(self._intervals(), dtype=np.int64)
-        a_d = (a_i[:, 1] - a_i[:, 0] + 1) / self._sampling_frequency()
-
-        results = {
-            "duration_mean": float(np.nanmean(a_d)),
-            "duration_sd": self._safe_sd(a_d),
-        }
-        if get_raw:
-            results["raw"] = a_d
-
-        return results
-
-    def saccade_amplitudes(self, get_raw=True):
-
+    def amplitudes(self, get_raw=True):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
@@ -105,8 +37,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_travel_distances(self, get_raw=True):
-
+    def travel_distances(self, get_raw=True):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
@@ -142,10 +73,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_efficiencies(self, get_raw=True):
-
-        s_a = self.saccade_amplitudes(get_raw=True)["raw"]
-        d_cum = self.saccade_travel_distances(get_raw=True)["raw"]
+    def efficiencies(self, get_raw=True):
+        s_a = self.amplitudes(get_raw=True)["raw"]
+        d_cum = self.travel_distances(get_raw=True)["raw"]
 
         eff = np.full_like(s_a, np.nan, dtype=np.float64)
         mask = np.isfinite(s_a) & np.isfinite(d_cum) & (d_cum > 0)
@@ -180,8 +110,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return dir_
 
-    def saccade_directions(self, get_raw=True):
-
+    def directions(self, get_raw=True):
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)
 
@@ -201,7 +130,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_horizontal_deviations(self, absolute=True, get_raw=True):
+    def horizontal_deviations(self, absolute=None, get_raw=True):
+        if absolute is None:
+            absolute = self.binary_segmentation_results.config.saccade_absolute_horizontal_deviations
 
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)
@@ -231,8 +162,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
             del results["raw"]
         return results
 
-    def saccade_successive_deviations(self, get_raw=True):
-
+    def successive_deviations(self, get_raw=True):
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)
         _ints = self._intervals()
@@ -266,7 +196,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_initial_directions(self, duration_threshold=0.020, get_raw=True):
+    def initial_directions(self, duration_threshold=None, get_raw=True):
+        if duration_threshold is None:
+            duration_threshold = self.binary_segmentation_results.config.saccade_init_direction_duration_threshold
 
         t_du = int(duration_threshold * self._sampling_frequency()) + 1
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -289,7 +221,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_initial_deviations(self, duration_threshold=0.020, get_raw=True):
+    def initial_deviations(self, duration_threshold=None, get_raw=True):
+        if duration_threshold is None:
+            duration_threshold = self.binary_segmentation_results.config.saccade_init_deviation_duration_threshold
 
         t_du = int(duration_threshold * self._sampling_frequency()) + 1
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -325,7 +259,6 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
         return results
 
     def shortest_distance(self, p_i, p_b=None, p_e=None):
-
         if p_b is None:
             p_b = p_i[0]
         if p_e is None:
@@ -348,7 +281,6 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
         return np.sin(alpha_i) * np.linalg.norm(d_, axis=1)
 
     def linear_distance(self, p_i, p_b=None, p_e=None):
-
         if p_b is None:
             p_b = p_i[0]
         if p_e is None:
@@ -374,8 +306,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return h_d_d
 
-    def saccade_max_curvatures(self, get_raw=True):
-
+    def max_curvatures(self, get_raw=True):
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)
 
@@ -397,8 +328,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_area_curvatures(self, get_raw=True):
-
+    def area_curvatures(self, get_raw=True):
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)
 
@@ -421,66 +351,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_mean_velocities(self):
-
-        m_sp, sd_sp = [], []
-        for start, end in self._intervals():
-            seg = self._speed_segment(start, end)
-            m_sp.append(float(np.nanmean(seg)) if seg.size else np.nan)
-            sd_sp.append(self._safe_sd(seg) if seg.size else np.nan)
-
-        return {"velocity_means": np.asarray(m_sp, dtype=np.float64),
-                "velocity_sd": np.asarray(sd_sp, dtype=np.float64)}
-
-    def saccade_average_velocity_means(self, weighted=False, get_raw=True, weight_mode="diffs"):
-
-        m_sp = self.saccade_mean_velocities()["velocity_means"]
-
-        if not weighted:
-            results = {"average_velocity_means": float(np.nanmean(m_sp)), "raw": m_sp}
-            if not get_raw:
-                del results["raw"]
-
-            return results
-
-        n_samples = self._n_samples_per_interval(self._intervals())
-        if weight_mode == "samples":
-            w = np.maximum(n_samples, 0.0)
-        else:
-            w = np.maximum(n_samples - 1.0, 0.0)
-
-        denom = np.nansum(w)
-        w_v = float(np.nansum(w * m_sp) / denom) if denom > 0 else np.nan
-
-        results = {"weighted_average_velocity_means": w_v, "raw": m_sp}
-
-        if not get_raw:
-            del results["raw"]
-
-        return results
-
-    def saccade_average_velocity_deviations(self, get_raw=True, weight_mode="diffs"):
-
-        sd_sp = self.saccade_mean_velocities()["velocity_sd"]
-
-        n_samples = self._n_samples_per_interval(self._intervals())
-        if weight_mode == "samples":
-            w = np.maximum(n_samples, 0.0)
-        else:
-            w = np.maximum(n_samples - 1.0, 0.0)
-
-        denom = np.nansum(w)
-        a_sd = float(np.sqrt(np.nansum(w * (sd_sp ** 2)) / denom)) if denom > 0 else np.nan
-
-        results = {"average_velocity_sd": a_sd, "raw": sd_sp}
-
-        if not get_raw:
-            del results["raw"]
-
-        return results
-
-    def saccade_peak_velocities(self, get_raw=True):
-
+    def peak_velocities(self, get_raw=True):
         p_sp = []
         for start, end in self._intervals():
             seg = self._speed_segment(start, end)
@@ -499,7 +370,6 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
         return results
 
     def get_pk_vel_idx(self):
-
         idxs = []
         for start, end in self._intervals():
             seg = self._speed_segment(start, end)
@@ -509,8 +379,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
                 idxs.append(int(start + np.nanargmax(seg)))
         return np.asarray(idxs, dtype=np.int64)
 
-    def saccade_mean_acceleration_profiles(self):
-
+    def mean_acceleration_profiles(self):
         m_ac, sd_ac = [], []
         for start, end in self._intervals():
             acc = self._acc_segment(start, end)
@@ -524,8 +393,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
         return {"acceleration_profile_means": np.asarray(m_ac, dtype=np.float64),
                 "acceleration_profile_sd": np.asarray(sd_ac, dtype=np.float64)}
 
-    def saccade_mean_accelerations(self):
-
+    def mean_accelerations(self):
         pk = self.get_pk_vel_idx()
         a_sp = self._absolute_speed()
 
@@ -545,8 +413,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
         return {"acceleration_means": np.asarray(m_ac, dtype=np.float64),
                 "acceleration_sd": np.asarray(sd_ac, dtype=np.float64)}
 
-    def saccade_mean_decelerations(self):
-
+    def mean_decelerations(self):
         pk = self.get_pk_vel_idx()
         a_sp = self._absolute_speed()
 
@@ -567,8 +434,6 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
                 "deceleration_sd": np.asarray(sd_dc, dtype=np.float64)}
 
     def acc_average(self, data, weighted, get_raw):
-
-
         data = np.asarray(data, dtype=np.float64)
 
         if not weighted:
@@ -594,22 +459,28 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_average_acceleration_profiles(self, weighted=False, get_raw=True):
+    def average_acceleration_profiles(self, weighted=None, get_raw=True):
+        if weighted is None:
+            weighted = self.binary_segmentation_results.config.saccade_weighted_average_acceleration_profiles
 
-        m_ac = self.saccade_mean_acceleration_profiles()["acceleration_profile_means"]
+        m_ac = self.mean_acceleration_profiles()["acceleration_profile_means"]
         return self.acc_average(m_ac, weighted, get_raw)
 
-    def saccade_average_acceleration_means(self, weighted=False, get_raw=True):
+    def average_acceleration_means(self, weighted=None, get_raw=True):
+        if weighted is None:
+            weighted = self.binary_segmentation_results.config.saccade_weighted_average_acceleration_means
 
-        m_ac = self.saccade_mean_accelerations()["acceleration_means"]
+        m_ac = self.mean_accelerations()["acceleration_means"]
         return self.acc_average(m_ac, weighted, get_raw)
 
-    def saccade_average_deceleration_means(self, weighted=False, get_raw=True):
-        m_dc = self.saccade_mean_decelerations()["deceleration_means"]
+    def average_deceleration_means(self, weighted=None, get_raw=True):
+        if weighted is None:
+            weighted = self.binary_segmentation_results.config.saccade_weighted_average_deceleration_means
+
+        m_dc = self.mean_decelerations()["deceleration_means"]
         return self.acc_average(m_dc, weighted, get_raw)
 
-    def saccade_peak_accelerations(self, get_raw=True):
-
+    def peak_accelerations(self, get_raw=True):
         pk = self.get_pk_vel_idx()
         a_sp = self._absolute_speed()
 
@@ -633,8 +504,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_peak_decelerations(self, get_raw=True):
-
+    def peak_decelerations(self, get_raw=True):
         pk = self.get_pk_vel_idx()
         a_sp = self._absolute_speed()
 
@@ -658,8 +528,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_skewness_exponents(self, get_raw=True):
-
+    def skewness_exponents(self, get_raw=True):
         pk = self.get_pk_vel_idx()
         _ints = self._intervals()
 
@@ -682,8 +551,7 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_gamma_skewness_exponents(self, get_raw=True):
-
+    def gamma_skewness_exponents(self, get_raw=True):
         a_sp = self._absolute_speed()
 
         skw = []
@@ -714,10 +582,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_amplitude_duration_ratios(self, get_raw=True):
-
-        a_s = self.saccade_amplitudes(get_raw=True)["raw"]
-        d_s = self.saccade_durations(get_raw=True)["raw"]
+    def amplitude_duration_ratios(self, get_raw=True):
+        a_s = self.amplitudes(get_raw=True)["raw"]
+        d_s = self.durations(get_raw=True)["raw"]
 
         r_ = np.full_like(a_s, np.nan, dtype=np.float64)
         mask = np.isfinite(a_s) & np.isfinite(d_s) & (d_s > 0)
@@ -732,10 +599,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_peak_velocity_amplitude_ratios(self, get_raw=True):
-
-        p_v = self.saccade_peak_velocities(get_raw=True)["raw"]
-        a_s = self.saccade_amplitudes(get_raw=True)["raw"]
+    def peak_velocity_amplitude_ratios(self, get_raw=True):
+        p_v = self.peak_velocities(get_raw=True)["raw"]
+        a_s = self.amplitudes(get_raw=True)["raw"]
 
         r_ = np.full_like(p_v, np.nan, dtype=np.float64)
         mask = np.isfinite(p_v) & np.isfinite(a_s) & (a_s > 0)
@@ -750,10 +616,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_peak_velocity_duration_ratios(self, get_raw=True):
-
-        p_v = self.saccade_peak_velocities(get_raw=True)["raw"]
-        d_s = self.saccade_durations(get_raw=True)["raw"]
+    def peak_velocity_duration_ratios(self, get_raw=True):
+        p_v = self.peak_velocities(get_raw=True)["raw"]
+        d_s = self.durations(get_raw=True)["raw"]
 
         r_ = np.full_like(p_v, np.nan, dtype=np.float64)
         mask = np.isfinite(p_v) & np.isfinite(d_s) & (d_s > 0)
@@ -768,10 +633,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_peak_velocity_velocity_ratios(self, get_raw=True):
-
-        p_v = self.saccade_peak_velocities(get_raw=True)["raw"]
-        a_d_r = self.saccade_amplitude_duration_ratios(get_raw=True)["raw"]
+    def peak_velocity_velocity_ratios(self, get_raw=True):
+        p_v = self.peak_velocities(get_raw=True)["raw"]
+        a_d_r = self.amplitude_duration_ratios(get_raw=True)["raw"]
 
         r_ = np.full_like(p_v, np.nan, dtype=np.float64)
         mask = np.isfinite(p_v) & np.isfinite(a_d_r) & (a_d_r > 0)
@@ -786,10 +650,9 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_acceleration_deceleration_ratios(self, get_raw=True):
-
-        a_c = self.saccade_peak_accelerations(get_raw=True)["raw"]
-        d_c = self.saccade_peak_decelerations(get_raw=True)["raw"]
+    def acceleration_deceleration_ratios(self, get_raw=True):
+        a_c = self.peak_accelerations(get_raw=True)["raw"]
+        d_c = self.peak_decelerations(get_raw=True)["raw"]
 
         r_ = np.full_like(a_c, np.nan, dtype=np.float64)
         mask = np.isfinite(a_c) & np.isfinite(d_c) & (d_c > 0)
@@ -804,11 +667,10 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
-    def saccade_main_sequence(self, get_raw=True):
-
-        a_s = self.saccade_amplitudes(get_raw=True)["raw"]
-        d_s = self.saccade_durations(get_raw=True)["raw"]
-        p_v = self.saccade_peak_velocities(get_raw=True)["raw"]
+    def main_sequence(self, get_raw=True):
+        a_s = self.amplitudes(get_raw=True)["raw"]
+        d_s = self.durations(get_raw=True)["raw"]
+        p_v = self.peak_velocities(get_raw=True)["raw"]
 
         mask = np.isfinite(a_s) & np.isfinite(d_s) & (d_s > 0) & np.isfinite(p_v) & (a_s > 0) & (p_v > 0)
         a_s_f = a_s[mask]
@@ -842,48 +704,67 @@ class SaccadeAnalysis(BinarySegmentationAnalysis):
 
         return results
 
+
 easy_access_function = EasyAccessFunction(
     cls=SaccadeAnalysis,
     common_default_kwargs={
         "get_raw": True,
     },
 )
-    
 
-saccade_count = easy_access_function(SaccadeAnalysis.saccade_count)
-saccade_frequency = easy_access_function(SaccadeAnalysis.saccade_frequency)
-saccade_frequency_wrt_labels = easy_access_function(SaccadeAnalysis.saccade_frequency_wrt_labels)
-saccade_durations = easy_access_function(SaccadeAnalysis.saccade_durations)
-saccade_amplitudes = easy_access_function(SaccadeAnalysis.saccade_amplitudes)
-saccade_travel_distances = easy_access_function(SaccadeAnalysis.saccade_travel_distances)
-saccade_efficiencies = easy_access_function(SaccadeAnalysis.saccade_efficiencies)
-saccade_directions = easy_access_function(SaccadeAnalysis.saccade_directions)
-saccade_horizontal_deviations = easy_access_function(SaccadeAnalysis.saccade_horizontal_deviations)
-saccade_successive_deviations = easy_access_function(SaccadeAnalysis.saccade_successive_deviations)
-saccade_initial_directions = easy_access_function(SaccadeAnalysis.saccade_initial_directions)
-saccade_initial_deviations = easy_access_function(SaccadeAnalysis.saccade_initial_deviations)
-saccade_max_curvatures = easy_access_function(SaccadeAnalysis.saccade_max_curvatures)
-saccade_area_curvatures = easy_access_function(SaccadeAnalysis.saccade_area_curvatures)
-saccade_mean_velocities = easy_access_function(SaccadeAnalysis.saccade_mean_velocities)
-saccade_average_velocity_means = easy_access_function(
-    SaccadeAnalysis.saccade_average_velocity_means,
-#    config=Config(saccade_weighted_average_velocity_means=False),
+
+count = easy_access_function(SaccadeAnalysis.count)
+frequency = easy_access_function(SaccadeAnalysis.frequency)
+frequency_wrt_labels = easy_access_function(SaccadeAnalysis.frequency_wrt_labels)
+durations = easy_access_function(SaccadeAnalysis.durations)
+amplitudes = easy_access_function(SaccadeAnalysis.amplitudes)
+travel_distances = easy_access_function(SaccadeAnalysis.travel_distances)
+efficiencies = easy_access_function(SaccadeAnalysis.efficiencies)
+directions = easy_access_function(SaccadeAnalysis.directions)
+horizontal_deviations = easy_access_function(
+    SaccadeAnalysis.horizontal_deviations,
+    config=Config(saccade_absolute_horizontal_deviations=True),
 )
-saccade_average_velocity_deviations = easy_access_function(SaccadeAnalysis.saccade_average_velocity_deviations)
-saccade_peak_velocities = easy_access_function(SaccadeAnalysis.saccade_peak_velocities)
-saccade_mean_acceleration_profiles = easy_access_function(SaccadeAnalysis.saccade_mean_acceleration_profiles)
-saccade_mean_accelerations = easy_access_function(SaccadeAnalysis.saccade_mean_accelerations)
-saccade_mean_decelerations = easy_access_function(SaccadeAnalysis.saccade_mean_decelerations)
-saccade_average_acceleration_profiles = easy_access_function(SaccadeAnalysis.saccade_average_acceleration_profiles)
-saccade_average_acceleration_means = easy_access_function(SaccadeAnalysis.saccade_average_acceleration_means)
-saccade_average_deceleration_means = easy_access_function(SaccadeAnalysis.saccade_average_deceleration_means)
-saccade_peak_accelerations = easy_access_function(SaccadeAnalysis.saccade_peak_accelerations)
-saccade_peak_decelerations = easy_access_function(SaccadeAnalysis.saccade_peak_decelerations)
-saccade_skewness_exponents = easy_access_function(SaccadeAnalysis.saccade_skewness_exponents)
-saccade_gamma_skewness_exponents = easy_access_function(SaccadeAnalysis.saccade_gamma_skewness_exponents)
-saccade_amplitude_duration_ratios = easy_access_function(SaccadeAnalysis.saccade_amplitude_duration_ratios)
-saccade_peak_velocity_amplitude_ratios = easy_access_function(SaccadeAnalysis.saccade_peak_velocity_amplitude_ratios)
-saccade_peak_velocity_duration_ratios = easy_access_function(SaccadeAnalysis.saccade_peak_velocity_duration_ratios)
-saccade_peak_velocity_velocity_ratios = easy_access_function(SaccadeAnalysis.saccade_peak_velocity_velocity_ratios)
-saccade_acceleration_deceleration_ratios = easy_access_function(SaccadeAnalysis.saccade_acceleration_deceleration_ratios)
-saccade_main_sequence = easy_access_function(SaccadeAnalysis.saccade_main_sequence)
+successive_deviations = easy_access_function(SaccadeAnalysis.successive_deviations)
+initial_directions = easy_access_function(
+    SaccadeAnalysis.initial_directions,
+    config=Config(saccade_init_direction_duration_threshold=0.020),
+)
+initial_deviations = easy_access_function(
+    SaccadeAnalysis.initial_deviations,
+    config=Config(saccade_init_deviation_duration_threshold=0.020),
+)
+max_curvatures = easy_access_function(SaccadeAnalysis.max_curvatures)
+area_curvatures = easy_access_function(SaccadeAnalysis.area_curvatures)
+mean_velocities = easy_access_function(SaccadeAnalysis.mean_velocities)
+average_velocity_means = easy_access_function(
+    SaccadeAnalysis.average_velocity_means,
+    config=Config(saccade_weighted_average_velocity_means=False),
+)
+average_velocity_deviations = easy_access_function(SaccadeAnalysis.average_velocity_deviations)
+peak_velocities = easy_access_function(SaccadeAnalysis.peak_velocities)
+mean_acceleration_profiles = easy_access_function(SaccadeAnalysis.mean_acceleration_profiles)
+mean_accelerations = easy_access_function(SaccadeAnalysis.mean_accelerations)
+mean_decelerations = easy_access_function(SaccadeAnalysis.mean_decelerations)
+average_acceleration_profiles = easy_access_function(
+    SaccadeAnalysis.average_acceleration_profiles,
+    config=Config(saccade_weighted_average_acceleration_profiles=False),
+)
+average_acceleration_means = easy_access_function(
+    SaccadeAnalysis.average_acceleration_means,
+    config=Config(saccade_weighted_average_acceleration_means=False),
+)
+average_deceleration_means = easy_access_function(
+    SaccadeAnalysis.average_deceleration_means,
+    config=Config(saccade_weighted_average_deceleration_means=False),
+)
+peak_accelerations = easy_access_function(SaccadeAnalysis.peak_accelerations)
+peak_decelerations = easy_access_function(SaccadeAnalysis.peak_decelerations)
+skewness_exponents = easy_access_function(SaccadeAnalysis.skewness_exponents)
+gamma_skewness_exponents = easy_access_function(SaccadeAnalysis.gamma_skewness_exponents)
+amplitude_duration_ratios = easy_access_function(SaccadeAnalysis.amplitude_duration_ratios)
+peak_velocity_amplitude_ratios = easy_access_function(SaccadeAnalysis.peak_velocity_amplitude_ratios)
+peak_velocity_duration_ratios = easy_access_function(SaccadeAnalysis.peak_velocity_duration_ratios)
+peak_velocity_velocity_ratios = easy_access_function(SaccadeAnalysis.peak_velocity_velocity_ratios)
+acceleration_deceleration_ratios = easy_access_function(SaccadeAnalysis.acceleration_deceleration_ratios)
+main_sequence = easy_access_function(SaccadeAnalysis.main_sequence)
