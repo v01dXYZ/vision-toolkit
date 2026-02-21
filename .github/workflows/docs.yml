@@ -33,7 +33,9 @@ jobs:
         #   mknotebooks \
         #   mkdocs-macros-plugin \
         #   mkdocs-section-index # .[docs]
-        python -m pip install zensical
+        python -m pip install \
+         zensical \
+         mkstrings
     # - name: Run notebooks
     #   run: |
     #     find ./docs -name '*.ipynb' | xargs -P 3 -I % jupyter nbconvert --inplace --to notebook --ExecutePreprocessor.kernel_name=python --execute %
