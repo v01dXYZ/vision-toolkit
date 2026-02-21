@@ -100,7 +100,7 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
 
 
 class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
-    SEGMENTATION_KWARGS = {
+    CONFIG = {
         "sampling_frequency": 500,
     }
 
@@ -150,9 +150,11 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
         return coords[[vt.GAZE_X, vt.GAZE_Y]].interpolate(), labels, gt_data["time"]
         
     @classmethod
-    def build_predictions_from_results(cls, r, gt, gt_vstk):
+    def build_predictions_from_results(cls, results, gt, gt_vstk):
+        (coords, *_) = gt_vstk
         predictions = cls.build_labels_ordinal_from_res(
-            r,
+            results,
+            coords.shape[0],
             {
                 vt.FIXATION_INTERVALS: FIX_STR,
                 vt.SACCADE_INTERVALS: SACCADE_STR,
@@ -191,7 +193,8 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
     def summarize_report_into_serie(cls, report):
         return pd.Series({
             method_name: r["all"]["F1"]
-            for method_name, r in {**report["BINARY"], **report["TERNARY"]}.items()
+            for d in report.values()
+            for method_name, r in d.items()
         })
 
 
@@ -222,9 +225,7 @@ class EntryPoint(vt.EntryPoint):
         height_px = metadata["height_px"]
         width_mm = metadata["width_mm"]
         height_mm = metadata["height_mm"]
-        distance_mm = metadata["distance_mm"]
 
-        df = pd.DataFrame(arff_data["data"])
         return (
             arff_data,
     #        df[["time", "x", "y", "handlabeller_final"]],

@@ -1,9 +1,79 @@
 [build-system]
-# Minimum requirements for the build system to execute.
 requires = [
-    "setuptools>=42",  # https://github.com/deepcharles/ruptures/pull/100#discussion_r553700339
+    "setuptools>=42",
+    "setuptools-scm",
     "wheel",
     "Cython>=0.28.5",
-    "oldest-supported-numpy",  # https://github.com/scipy/oldest-supported-numpy
+    "oldest-supported-numpy",
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "vision_toolkit"
+description = "Vision Toolkit"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.6"
+authors = [
+    {name = "Quentin Laborde", email = "quentin.laborde@ens-paris-saclay.fr"},
+]
+maintainers = [
+    {name = "QuentinLaborde-ENS"},
+]
+dependencies = [
+    "bitarray",
+    "build",
+    "func-timeout",
+    "gudhi",
+    "hilbertcurve",
+    "lempel_ziv_complexity",
+    "matplotlib",
+    "omegaconf==2.2.*",
+    "setuptools",
+    "networkx",
+    "numpy",
+    "imageio",
+    "pandas",
+    "plotly",
+    "scikit-learn",
+    "scipy",
+    "seaborn",
+    "shapely",
+    "treelib==1.6.4",
+    "tqdm",
+    "pytlsd==0.0.2",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "sp-tool @ git+https://github.com/v01dxyz/sp_tool",
+    "tabulate",
+    "coverage",
+    "Cython",
+]
+docs = [
+    "jupyter",
+    "librosa",
+    "matplotlib",
+    "mkdocs",
+    "mkdocs-macros-plugin",
+    "mkdocs-material",
+    "mkdocstrings[python]>=0.18",
+    "mknotebooks",
+    "pymdown-extensions",
+    "nltk",
+]
+
+[project.urls]
+Homepage = "https://github.com/v01dxyz/vision_toolkit"
+
+# uv build needs to have the Cython files included
+[tool.setuptools.package-data]
+"*" = ["*.pyx", "*.pxd"]
+
+[tool.setuptools_scm]
+
+[tool.coverage.run]
+plugins = ["Cython.Coverage"]

@@ -41,6 +41,5 @@ In order to have a broad picture of what this package is meant to implement, you
 
 ## Credits
 
-This work was done by Quentin Laborde as an extension to his PhD and
-Robert Dazi for industrializing the package development, both as part
-of Centre Borelli from ENS Paris-Saclay.
+This work was initiated by Quentin Laborde as a PoC related to his PhD in a WIP/draft shape while the efforts to industrialize it and bring it to a production ready state were passed on to
+Robert Dazi.

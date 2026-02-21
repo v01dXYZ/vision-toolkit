@@ -2,11 +2,18 @@
 
 import sys
 import json
-import os
 import argparse
+import os
+
+VISION_TOOLKIT_VERSION = os.getenv("VISION_TOOLKIT_VERSION")
+
+if VISION_TOOLKIT_VERSION is None:
+    raise ValueError("env var VISION_TOOLKIT_VERSION should be set")
 
 COVERAGE_JSON = "coverage.json"
 BASE_URL = "https://github.com"
+
+VISION_TOOLKIT_VERSION_SUFFIX = VISION_TOOLKIT_VERSION if VISION_TOOLKIT_VERSION != "1" else ""
 
 def create_link(
         repo,
@@ -14,7 +21,7 @@ def create_link(
         path,
         interval,
 ):
-    return f"[{interval[0]}-{interval[1]}]({BASE_URL}/{repo}/blob/{commit_sha}/src/vision_toolkit/{path}#L{interval[0]}-L{interval[1]})"
+    return f"[{interval[0]}-{interval[1]}]({BASE_URL}/{repo}/blob/{commit_sha}/{path}#L{interval[0]}-L{interval[1]})"
 
 def get_intervals(lines):
 

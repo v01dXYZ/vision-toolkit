@@ -5,10 +5,19 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+# Github-Action assumes containers don't provide bash, so it uses sh.
+# But to set up the python venv, our container image uses BASH_ENV to activate it at shell init.
+defaults:
+  run:
+    shell: bash
+
 env:
   CONTAINERCLI: docker # podman
   PYPKGMGR: pip # "uv pip"
+  PYPKGMGR_INSTALL_OPTS: --no-build-isolation
   IMGSBRANCH: v01dxyz-imgs
+  VISION_TOOLKIT_VERSION: 2
+  VISION_TOOLKIT_CACHE: 1
 
 permissions:
   contents: write
@@ -18,27 +27,130 @@ permissions:
 # BEWARE this is NOT the right to do things as anybody could fill our registry with custom images.
 # Limitations should be set in order to prevent this.
 jobs:
-  coverage:
+  build_wheel:
+    name: Build Wheel
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.13
+      - run: pip wheel --no-deps -w wheels .
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.12.0'
+      - run: echo "RELEASE_TAG=$(git describe --tags --no-abbrev --first-parent)" >> $GITHUB_ENV
+      - uses: actions/github-script@v6
+        env:
+          TO_UPLOAD_PATH: 'wheels/*.whl'
+        with:
+          script: &upload_release_assets_by_tag |
+            const path = require("node:path");
+            const fs = require("node:fs");
+
+            const RELEASE_TAG='${{ env.RELEASE_TAG }}';
+            const TO_UPLOAD_PATH = '${{ env.TO_UPLOAD_PATH }}';
+
+            const owner = '${{ github.repository_owner }}';
+            const repo = '${{ github.event.repository.name }}';
+
+            const sha = '${{ github.event.pull_request.head.sha }}';
+
+            const release = (await github.rest.repos.getReleaseByTag({
+                owner,
+                repo,
+                tag: RELEASE_TAG,
+            })).data;
+
+            for (const filename of await (await glob.create(TO_UPLOAD_PATH)).glob()) {
+              const upload_release_resp = await github.rest.repos.uploadReleaseAsset({
+                  owner,
+                  repo,
+                  release_id: release.id,
+                  name: path.basename(filename),
+                  data: fs.readFileSync(filename),
+              });
+            }
+  refresh_index:
+    name: Refresh Index
+    runs-on: ubuntu-latest
+    needs: build_wheel
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.repos.createDispatchEvent({
+            owner: '${{ github.repository_owner }}',
+            repo: '${{ github.event.repository.name }}',
+            event_type: 'refresh_index',
+          })
+
+  coverage:
+    name: Coverage
+    env:
+      VISION_TOOLKIT_COVERAGE: 1 # We define it at job level in case we move things aroung
+    runs-on: ubuntu-latest
+    needs: build_container_image
+    container: &container
+      image: ${{ needs.build_container_image.outputs.imgtag }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
+    steps:
+    - name: Checkout PR branch
+      uses: actions/checkout@v3
+    - name: Remove Cython cache to workaround cache bug (cython/cython#7532)
+      run:
+        # Cython ignores cythonize.compiler_directives when computing the cache key
+        # It wrongly outputs the cached source code without instrumentation if previously built.
+        # We clear the Cython cache as a workaround.
+        # An issue has been opened to fix it: https://github.com/cython/cython/issues/7532
+        rm -r /cache/cython
+    - name: Install package
+      run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS -e .[test]
+    - run: ./tests/coverage_in_container.sh
+    - name: Show coverage repport
+      run: coverage report -m
+    - name: Generate json report
+      run: coverage json
+    - name: Upload json report
+      uses: actions/upload-artifact@v4
+      with:
+        path: coverage.json
+    - name: Add coverage report to step summary
+      run: |
+        ./tests/coverage_markdown_report.py \
+              --coverage-filepath coverage.json \
+              -c ${{ github.event.pull_request.head.sha }} \
+              -r ${{ github.repository }} >> $GITHUB_STEP_SUMMARY
+  
+  compare_reports_both_versions:
+    name: Compare reports Fast hollywood2 from both versions
+    runs-on: ubuntu-latest
+    container: *container
     needs: build_container_image
     steps:
     - name: Checkout PR branch
       uses: actions/checkout@v3
-    - run: |
-        $CONTAINERCLI run \
-          -v .:/src \
-          ${{ needs.build_container_image.outputs.imgtag }} \
-          "cd /src/tests; ./run_in_container.sh ./coverage_in_container.sh; ./coverage_markdown_report.py --coverage-filepath /src/src/vision_toolkit/coverage.json -c ${{ github.event.pull_request.head.sha }} -r ${{ github.repository }} > coverage.md"
-        cat tests/coverage.md >> $GITHUB_STEP_SUMMARY
+    - name: Install package
+      run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS .[test]
+    - name: Run both versions and diff reports
+      run: ./tests/run_both_versions.sh
 
   basic_code_checker:
-    name: Basic code checker (style + lint)
+    name: Linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-
-      - uses: astral-sh/ruff-action@v3
+      - name: ruff check
+        uses: astral-sh/ruff-action@v3
+        with:
+          src: ./src/vision_toolkit${{ env.VISION_TOOLKIT_VERSION == 2 && '2' || '' }}
 
   build_container_image:
     name: Build container image
@@ -60,12 +172,12 @@ jobs:
           sparse-checkout-cone-mode: false
           path: sparse
 
-      - name: Check container image exists
+      - name: Check if container image exists
         id: build_container_image
         continue-on-error: true
         run: |
           cd sparse
-          HASH=$(cat Containerfile setup.py setup.cfg pyproject.toml | md5sum | cut -d' ' -f1)
+          HASH=$(cat Containerfile setup.py pyproject.toml | md5sum | cut -d' ' -f1)
           IMG=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')
           IMGTAG=$IMG:$HASH
           echo "imgtag=$IMGTAG" >> $GITHUB_OUTPUT
@@ -79,10 +191,14 @@ jobs:
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         uses: actions/checkout@v3
 
-      - name: build it
+      - name: Build container and check package loading
         if: ${{ ! steps.build_container_image.outputs.imgexists }}
         run: |
-          $CONTAINERCLI build --build-arg PYPKGMGR="$PYPKGMGR" -f Containerfile . -t $IMGTAG
+          $CONTAINERCLI build \
+              --build-arg PYPKGMGR="$PYPKGMGR" \
+              --build-arg PYPKGMGR_INSTALL_OPTS="$PYPKGMGR_INSTALL_OPTS" \
+              -f Containerfile . \
+              -t $IMGTAG
           $CONTAINERCLI push $IMGTAG
 
           # buggy, I need to work on this.
@@ -104,6 +220,8 @@ jobs:
           #   sleep 1;
           # done
 
+          $CONTAINERCLI run $IMGTAG "python -c 'import setuptools, importlib; print([importlib.import_module(m) for m in setuptools.find_packages(\"src\") if m.startswith(\"vision\")]);'"
+
       - name: Show container-cli version/info
         if: ${{ failure() }} # only show it for debugging purposes
         run: $CONTAINERCLI version; $CONTAINERCLI info
@@ -111,6 +229,7 @@ jobs:
 
   test-report:
     needs: build_container_image
+    container: *container
     strategy:
       matrix:
         args:
@@ -130,56 +249,53 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-        # with:
-        #   ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Log
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | $CONTAINERCLI login ghcr.io -u ${{ github.actor }} --password-stdin
-
+      - name: Install package
+        run: $PYPKGMGR install $PYPKGMGR_INSTALL_OPTS .[test] --debug
       - name: Run tests
         run: |
-          echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }} >> $GITHUB_ENV
-          $CONTAINERCLI run \
-            -v .:/src \
-            ${{ needs.build_container_image.outputs.imgtag }} \
-            "cd /src/tests; bash run_in_container.sh python run.py ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }};"
+          echo RESULTS_DIR=tests/results/${{ matrix.args.dataset }}/v$VISION_TOOLKIT_VERSION >> $GITHUB_ENV
+          echo REPORT_SUFFIX=v${{ env.VISION_TOOLKIT_VERSION }}-${{ matrix.args.dataset}}-${{ matrix.args.name }} >> $GITHUB_ENV
+            cd tests
+            ./run.py $VISION_TOOLKIT_VERSION ${{ matrix.args.dataset }} ${{ matrix.args.cutoff }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload all reports as directory
+        uses: actions/upload-artifact@v4
         with:
-          name: report-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          name: report-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload json report
+        uses: actions/upload-artifact@v4
         with:
-          name: report-json-${{ matrix.args.dataset}}-${{ matrix.args.name }}
+          name: report-json-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.json
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload image report
+        uses: actions/upload-artifact@v4
         with:
-          name: report-png-${{ matrix.args.dataset }}-${{ matrix.args.name }}
+          name: report-png-${{ env.REPORT_SUFFIX }}
           path: ${{ env.RESULTS_DIR }}/report.png
 
-      - name: Upload report.png
-        run: |
-          git fetch --depth 1 origin $IMGSBRANCH
-          git switch -f $IMGSBRANCH
-          git config user.name "imgs-uploader"
-          git config user.email "nocontact@unreachable"
-          IMGNAME='report_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png'
-          echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
-          cp $RESULTS_DIR/report.png $IMGNAME
-          git add $IMGNAME
-          git commit -m "Publish report ${{ matrix.args.name }} for ${{ matrix.args.dataset }} run_id: ${{ github.run_id }}"
-          git push origin $IMGSBRANCH
-
+      # Hack to display image in comment as artifact can't be used for such a thing
       - run: |
+          IMGNAME="report_v${VISION_TOOLKIT_VERSION}_${{ matrix.args.dataset }}_${{ matrix.args.name }}_${{ github.run_id }}_${{ github.run_attempt }}.png"
+          echo IMGNAME="$IMGNAME" >> $GITHUB_ENV
+          echo TO_UPLOAD_PATH="$IMGNAME" >> $GITHUB_ENV
+          RELEASE_TAG=github-imgtag
+          echo RELEASE_TAG=$RELEASE_TAG >> $GITHUB_ENV
+          echo IMGURL="https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$IMGNAME" >> $GITHUB_ENV
+          cp -v $RESULTS_DIR/report.png $IMGNAME
+      - uses: actions/github-script@v6
+        with:
+          script: *upload_release_assets_by_tag
+      - name: Step summary
+        run: |
           echo "## Image" >> $GITHUB_STEP_SUMMARY
-          echo "![barplot](https://github.com/${{ github.repository }}/blob/$IMGSBRANCH/$IMGNAME?raw=true)" >> $GITHUB_STEP_SUMMARY
+          echo "![barplot]($IMGURL)" >> $GITHUB_STEP_SUMMARY
           echo "## Table" >> $GITHUB_STEP_SUMMARY
-          cat ./tests/results/${{ matrix.args.dataset }}/report.md >> $GITHUB_STEP_SUMMARY
+          cat $RESULTS_DIR/report.md >> $GITHUB_STEP_SUMMARY
           echo -n '\n' >> $GITHUB_STEP_SUMMARY
 
-      # Hack to display image in comment as artifact can't be used for such a thing
       - name: Add report as comment on PR
         uses: actions/github-script@v6
         if: ${{ !cancelled() && matrix.args.comment }}
@@ -187,21 +303,20 @@ jobs:
           script: |
             const fs = require('node:fs');
 
-            const name = '${{ github.workflow }}';
+            const name = '${{ matrix.args.name }} ${{ matrix.args.dataset }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const sha = '${{ github.event.pull_request.head.sha }}';
 
-            const MAGIC = '<!-- MAGIC github-action-bot ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
+            const MAGIC = '<!-- MAGIC github-action-bot v${{ env.VISION_TOOLKIT_VERSION }} ${{ matrix.args.dataset }} ${{ matrix.args.name }} Test Report -->';
 
             const success = '${{ job.status }}' === 'success';
-            const body = 
+            const body =
             `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}
             ${url}
             ${fs.readFileSync("./${{ env.RESULTS_DIR }}/report.md")}
 
 
-            ![barplot](https://github.com/${{ github.repository }}/blob/${{ env.IMGSBRANCH }}/${{ env.IMGNAME }}?raw=true)
-            
+            ![barplot](${{ env.IMGURL }})
 
             commit: ${sha}
 
