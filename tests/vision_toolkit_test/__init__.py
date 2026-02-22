@@ -6,7 +6,7 @@ import pandas as pd
 
 import vision_toolkit as v1
 import vision_toolkit2 as v2
-from vision_toolkit2 import AugmentedSerie, Config, Serie, Smoothing, StackedConfig
+from vision_toolkit2 import Serie, Config, StackedConfig
 from vision_toolkit2.segmentation.binary.implementations import IMPLEMENTATIONS as BINARY_IMPLEMENTATIONS
 from vision_toolkit2.segmentation.ternary.implementations import IMPLEMENTATIONS as TERNARY_IMPLEMENTATIONS
 NOISE = 0
@@ -68,27 +68,19 @@ class V2Gateway:
 
     @classmethod
     def create_serie(cls, gt_coords, dimensions, config):
-        gt_s = Serie.from_df(
+        return Serie.from_df(
             gt_coords,
             size_plan_x=dimensions["width_mm"],
             size_plan_y=dimensions["height_mm"],
-            sampling_frequency = config.get("sampling_frequency")
-        )       
-
-        config = {
-            "smoothing": "savgol",
-            "savgol_window_length": 31,
-            "savgol_polyorder": 3,
-            "distance_type": "euclidean",
-            **config,
-        }
-        gt_smoothed = Smoothing.create_and_process(
-            gt_s,
-            Config(**config),
+            sampling_frequency = config.get("sampling_frequency"),
+            distance_type="euclidean",
+            smoothing_config=Config(
+                smoothing="savgol",
+                savgol_window_length=31,
+                savgol_polyorder=3,
+            )
         )
-        gt_augmented_smoothed = AugmentedSerie.augment_serie(gt_smoothed)
 
-        return gt_augmented_smoothed
 
 
 class V1Gateway:

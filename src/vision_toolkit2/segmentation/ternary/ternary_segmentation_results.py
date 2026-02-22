@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from vision_toolkit2.config import Config
-from vision_toolkit2.oculomotor_series import Serie
 
+from ..base_segmentation_results import BaseSegmentationResults
 from ..utils import interval_merging
 
 import numpy as np
@@ -9,16 +8,13 @@ import numpy.typing as npt
 
 
 @dataclass
-class TernarySegmentationResults:
+class TernarySegmentationResults(BaseSegmentationResults):
     is_fixation: npt.NDArray[np.bool_]
     fixation_intervals: npt.NDArray[np.int_]
     is_saccade: npt.NDArray[np.bool_]
     saccade_intervals: npt.NDArray[np.int_]
     is_pursuit: npt.NDArray[np.bool_]
     pursuit_intervals: npt.NDArray[np.int_]
-
-    input: Serie
-    config: Config
 
     def filter_events_by_duration(
         self,
