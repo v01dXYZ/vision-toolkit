@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.linalg import norm
 from scipy.stats import gamma
 
 from .base_analysis import (
@@ -211,7 +210,6 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
         return results
 
     def initial_directions(self, duration_threshold=None, get_raw=True):
-        c = self.binary_segmentation_results.config
         if duration_threshold is None:
             duration_threshold = self.binary_segmentation_results.config.saccade_init_direction_duration_threshold
 
@@ -242,7 +240,6 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
         return results
 
     def initial_deviations(self, duration_threshold=None, get_raw=True):
-        c = self.binary_segmentation_results.config
         if duration_threshold is None:
             duration_threshold = self.binary_segmentation_results.config.saccade_init_deviation_duration_threshold
 

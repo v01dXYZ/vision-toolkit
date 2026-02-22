@@ -17,7 +17,6 @@ from .velocity_distance_factory import (
 import copy
 
 from scipy.signal import savgol_filter
-import numpy as np
 
 
 class Smoothing:
@@ -100,7 +99,7 @@ class SpeedMovingAverage(Smoothing):
 
         smoothed_array = copy.deepcopy(coordinate)
         smoothed_speed_vector = self.generate_smoothed_speed_vector(
-            self.dataset[_dir], _len, _w, _delta_t
+            coordinate, _len, _w, _delta_t
         )
 
         for i in range(1, self.config.nb_samples):
