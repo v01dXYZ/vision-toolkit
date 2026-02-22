@@ -1,9 +1,8 @@
 import numpy as np
 
 from dataclasses import dataclass
-from ...base_segmentation import Segmentation
-
-from ..binary_segmentation_results import BinarySegmentationResults
+from ..base_segmentation import Segmentation
+from ..binary.binary_segmentation_results import BinarySegmentationResults
 import inspect
 
 def results_delegation(attr_name):

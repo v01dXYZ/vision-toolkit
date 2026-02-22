@@ -2,7 +2,7 @@ import numpy as np
 from numpy.linalg import norm
 
 from .base_analysis import BaseBinarySegmentationAnalysis, results_delegation, EasyAccessFunction
-from ...base_segmentation import Segmentation
+from ..base_segmentation import Segmentation
 from vision_toolkit2.config import Config
 
 
@@ -119,8 +119,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
 
         return results
 
-    def BCEA(self, BCEA_probability=None, get_raw=True):
-
+    def BCEA(self, BCEA_probability=0.68, get_raw=True):
         def pearson_corr_(x, y):
             x = np.asarray(x, dtype=np.float64)
             y = np.asarray(y, dtype=np.float64)
@@ -201,5 +200,6 @@ drift_distances = easy_access_function(FixationAnalysis.drift_distances)
 drift_velocities = easy_access_function(FixationAnalysis.drift_velocities)
 BCEA = easy_access_function(
     FixationAnalysis.BCEA,
+    default_kwargs={"BCEA_probability": 0.68},
     config=Config(fixation_BCEA_probability=0.68),
 )
