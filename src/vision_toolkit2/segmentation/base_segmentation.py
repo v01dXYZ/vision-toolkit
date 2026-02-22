@@ -1,5 +1,5 @@
 from vision_toolkit2.config import Config, StackedConfig
-from vision_toolkit2.oculomotor_series import AugmentedSerie
+from vision_toolkit2.serie import Serie
 from vision_toolkit2.velocity_distance_factory import (
     absolute_angular_distance,
     absolute_euclidean_distance,
@@ -36,7 +36,13 @@ class DefaultConfigBuilder:
 
     @classmethod
     def update(cls, input_, config):
-        config = StackedConfig([cls.DEFAULT_CONFIG, config])
+        stack = [
+            cls.DEFAULT_CONFIG,
+            input_.config,
+        ]
+        if config is not None:
+            stack.append(config)
+        config = StackedConfig(stack)
         config += cls.for_smoothing(config)
 
         _, default_config_impl = IMPLEMENTATIONS[config.segmentation_method]
@@ -68,12 +74,14 @@ class Segmentation:
 
     def __init__(
         self,
-        input_: AugmentedSerie,
-        config: Config,
+        input_: Serie,
+        segmentation_method="I_HMM",
+        config: Config = None,
     ):
         self.input_ = input_
         self.config = DefaultConfigBuilder.update(input_, config)
         self.config += config
+        self.config += Config(segmentation_method=segmentation_method)
 
     def process(self):
         process_impl, _ = IMPLEMENTATIONS[self.config.segmentation_method]
