@@ -19,6 +19,7 @@ import copy
 from scipy.signal import savgol_filter
 import numpy as np
 
+
 class Smoothing:
     def __init__(self, dataset, config):
         self.dataset = dataset
@@ -28,13 +29,13 @@ class Smoothing:
         dataset_with_old_config = self.process_serie(self.dataset)
 
         return dataset_with_old_config.update_config(
-                StackedConfig(
-                    [
-                        dataset_with_old_config.config,
-                        self.config,
-                    ]
-                )
+            StackedConfig(
+                [
+                    dataset_with_old_config.config,
+                    self.config,
+                ]
             )
+        )
 
     @classmethod
     def create(self, dataset, config):
@@ -42,7 +43,7 @@ class Smoothing:
             None: NoSmoothing,
             "no": NoSmoothing,
             "moving_average": MovingAverage,
-             "speed_moving_average": SpeedMovingAverage,
+            "speed_moving_average": SpeedMovingAverage,
             "savgol": SavgolFiltering,
         }
 
@@ -62,6 +63,7 @@ class Smoothing:
             smoothing_config=self.config,
         )
 
+
 class NoSmoothing(Smoothing):
     def process_serie(self, serie):
         return SmoothedSerie(
@@ -72,6 +74,7 @@ class NoSmoothing(Smoothing):
             config=serie.config,
             smoothing_config=None,
         )
+
 
 class MovingAverage(Smoothing):
     def process_coordinate(self, coordinate):
@@ -86,6 +89,7 @@ class MovingAverage(Smoothing):
             smoothed_array[i] = smoothed_array[_w]
 
         return smoothed_array
+
 
 class SpeedMovingAverage(Smoothing):
     def process_coordinate(self, coordinate):
@@ -106,6 +110,7 @@ class SpeedMovingAverage(Smoothing):
 
         return smoothed_array
 
+
 class SavgolFiltering(Smoothing):
     def process_coordinate(self, coordinate):
         _w = self.config.savgol_window_length
@@ -116,6 +121,7 @@ class SavgolFiltering(Smoothing):
 
         return smoothed_array
 
+
 EPSILON = 1e-3
 DEFAULT_DISTANCE_PROJECTION = 1_000
 
@@ -124,6 +130,7 @@ DEFAULT_DISTANCE_PROJECTION = 1_000
 #     distance_projection: int
 #     size_plan_x: float
 #     size_plan_y: float
+
 
 #     nb_samples: int
 @dataclass
@@ -141,10 +148,12 @@ class RawSerie:
 
         return dataclasses.replace(
             self,
-            config=StackedConfig([
-                self.config,
-                config,
-            ]),
+            config=StackedConfig(
+                [
+                    self.config,
+                    config,
+                ]
+            ),
         )
 
     def __init__(self, x, y, z, status, config):
@@ -169,7 +178,6 @@ class RawSerie:
         **kwargs,
     ):
         df = pd.read_csv(csv_path)
-
         return cls.from_df(
             df,
             *args,
@@ -247,17 +255,19 @@ BASE_SMOOTHING_CONFIG = Config(
     savgol_window_length=31,
     savgol_polyorder=3,
 )
+
+
 @dataclass
 class SmoothedSerie(RawSerie):
     smoothing_config: Config
 
     @classmethod
     def from_raw_serie(
-            cls,
-            raw_serie,
-            *,
-            smoothing_config=None,
-            **kwargs,
+        cls,
+        raw_serie,
+        *,
+        smoothing_config=None,
+        **kwargs,
     ):
         if smoothing_config is None:
             smoothing_config = BASE_SMOOTHING_CONFIG
@@ -266,6 +276,7 @@ class SmoothedSerie(RawSerie):
 
         raw_serie = super().from_raw_serie(raw_serie, **kwargs)
         return Smoothing.create_and_process(raw_serie, smoothing_config)
+
 
 @dataclass
 class Serie(SmoothedSerie):
@@ -279,6 +290,8 @@ class Serie(SmoothedSerie):
         absolute_speed,
         **kwargs,
     ):
+        del kwargs["smoothing_config"]
+
         return cls(
             x=serie.x,
             y=serie.y,
@@ -346,8 +359,8 @@ class Serie(SmoothedSerie):
 class EuclideanAugmentedSerie(Serie):
     pass
 
+
 @dataclass
 class AngularAugmentedSerie(Serie):
     unitary_gaze_vectors: str
     theta_coord: str
-

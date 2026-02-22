@@ -1,7 +1,11 @@
 import numpy as np
 from numpy.linalg import norm
 
-from .base_analysis import BaseBinarySegmentationAnalysis, results_delegation, EasyAccessFunction
+from .base_analysis import (
+    BaseBinarySegmentationAnalysis,
+    results_delegation,
+    EasyAccessFunction,
+)
 from ..base_segmentation import Segmentation
 from vision_toolkit2.config import Config
 
@@ -12,7 +16,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
 
     def centroids(self):
         return {
-            "centroids": np.asarray(self._centroids())
+            "centroids": np.asarray(self._centroids()),
         }
 
     def drift_displacements(self, get_raw=True):
@@ -95,8 +99,9 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
         return results
 
     def drift_velocities(self, get_raw=True, duration_mode="diffs"):
-
-        d_d = np.asarray(self.drift_displacements(get_raw=True)["raw"], dtype=np.float64)
+        d_d = np.asarray(
+            self.drift_displacements(get_raw=True)["raw"], dtype=np.float64
+        )
         n_samples = self._n_samples_per_interval(self._intervals())
 
         if duration_mode == "samples":
@@ -133,7 +138,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
             xm = x - np.mean(x)
             ym = y - np.mean(y)
 
-            den = np.sqrt(np.sum(xm ** 2) * np.sum(ym ** 2))
+            den = np.sqrt(np.sum(xm**2) * np.sum(ym**2))
             if den <= 0:
                 return 0.0
 
@@ -142,7 +147,9 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
             return max(min(r, 1.0), -1.0)
 
         if BCEA_probability is None:
-            BCEA_probability = self.binary_segmentation_results.config.fixation_BCEA_probability
+            BCEA_probability = (
+                self.binary_segmentation_results.config.fixation_BCEA_probability
+            )
 
         p = float(BCEA_probability)
         p = min(max(p, 1e-12), 1.0 - 1e-12)
@@ -157,10 +164,14 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
             l_y = y_a[start : end + 1]
 
             r = pearson_corr_(l_x, l_y)
-            sd_x = float(np.nanstd(l_x, ddof=1)) if np.sum(np.isfinite(l_x)) >= 2 else 0.0
-            sd_y = float(np.nanstd(l_y, ddof=1)) if np.sum(np.isfinite(l_y)) >= 2 else 0.0
+            sd_x = (
+                float(np.nanstd(l_x, ddof=1)) if np.sum(np.isfinite(l_x)) >= 2 else 0.0
+            )
+            sd_y = (
+                float(np.nanstd(l_y, ddof=1)) if np.sum(np.isfinite(l_y)) >= 2 else 0.0
+            )
 
-            inside = max(0.0, 1.0 - r ** 2)
+            inside = max(0.0, 1.0 - r**2)
             l_bcea = 2.0 * np.pi * k * sd_x * sd_y * np.sqrt(inside)
             bcea_s.append(l_bcea)
 
@@ -194,7 +205,9 @@ average_velocity_means = easy_access_function(
     FixationAnalysis.average_velocity_means,
     config=Config(fixation_weighted_average_velocity_means=False),
 )
-average_velocity_deviations = easy_access_function(FixationAnalysis.average_velocity_deviations)
+average_velocity_deviations = easy_access_function(
+    FixationAnalysis.average_velocity_deviations
+)
 drift_displacements = easy_access_function(FixationAnalysis.drift_displacements)
 drift_distances = easy_access_function(FixationAnalysis.drift_distances)
 drift_velocities = easy_access_function(FixationAnalysis.drift_velocities)

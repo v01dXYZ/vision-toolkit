@@ -18,10 +18,12 @@ IMPLEMENTATIONS = {
     **ternary_implementations.IMPLEMENTATIONS,
 }
 
+DEFAULT_SEGMENTATION_METHOD = "I_HMM"
+
 
 class DefaultConfigBuilder:
     DEFAULT_CONFIG = Config(
-        segmentation_method="I_HMM",
+        segmentation_method=DEFAULT_SEGMENTATION_METHOD,
         distance_type="angular",
         min_fix_duration=7e-2,
         max_fix_duration=2.0,
@@ -35,17 +37,22 @@ class DefaultConfigBuilder:
     )
 
     @classmethod
-    def update(cls, input_, config):
+    def update(cls, input_, config, segmentation_method=None):
         stack = [
             cls.DEFAULT_CONFIG,
             input_.config,
         ]
         if config is not None:
             stack.append(config)
+
+        if segmentation_method is not None:
+            stack.append(Config(segmentation_method=segmentation_method))
+
         config = StackedConfig(stack)
         config += cls.for_smoothing(config)
 
-        _, default_config_impl = IMPLEMENTATIONS[config.segmentation_method]
+        segmentation_method = config.segmentation_method
+        _, default_config_impl = IMPLEMENTATIONS[segmentation_method]
         vf_diag = np.linalg.norm(np.array([config.size_plan_x, config.size_plan_y]))
         config += default_config_impl(config, vf_diag)
 
@@ -75,13 +82,15 @@ class Segmentation:
     def __init__(
         self,
         input_: Serie,
-        segmentation_method="I_HMM",
+        segmentation_method=None,
         config: Config = None,
     ):
         self.input_ = input_
-        self.config = DefaultConfigBuilder.update(input_, config)
-        self.config += config
-        self.config += Config(segmentation_method=segmentation_method)
+        self.config = DefaultConfigBuilder.update(
+            input_,
+            config,
+            segmentation_method=segmentation_method,
+        )
 
     def process(self):
         process_impl, _ = IMPLEMENTATIONS[self.config.segmentation_method]
