@@ -1,13 +1,10 @@
 from .segmentation.base_segmentation import Segmentation
 from .config import Config, StackedConfig
-from .oculomotor_series import AugmentedSerie, Serie
-from .smoothing import Smoothing
+from .serie import Serie
 
 __all__ = [
     Segmentation,
     Config,
     StackedConfig,
-    AugmentedSerie,
     Serie,
-    Smoothing,
 ]

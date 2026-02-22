@@ -16,7 +16,7 @@ def process_impl(s, config):
 
     Parameters
     ----------
-    s : AugmentedSerie
+    s : Serie
         DESCRIPTION.
     config : Config
         DESCRIPTION.
