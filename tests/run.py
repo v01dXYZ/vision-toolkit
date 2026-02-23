@@ -5,6 +5,8 @@ import importlib
 import pathlib
 from vision_toolkit2.config import Config
 
+import vision_toolkit_test as vt
+
 
 def get_cli_args():
     arg_parser = argparse.ArgumentParser()
@@ -21,6 +23,14 @@ def get_cli_args():
         default=[],
     )
     arg_parser.add_argument(
+        "-m",
+        "--method",
+        dest="run_only_specific_methods",
+        choices=vt.METHODS_CONFIG["BINARY"].keys() | vt.METHODS_CONFIG["TERNARY"].keys(),
+        nargs="*",
+        help="run only specific methods",
+    )
+    arg_parser.add_argument(
         "--predictions", action=argparse.BooleanOptionalAction, default=False,
     )
 
@@ -28,16 +38,11 @@ def get_cli_args():
     arg_parser.add_argument(
         "-d",
         "--directory",
-        help=f"{default_directory_root}/<test_name>/<version>",
+        default=pathlib.Path(default_directory_root),
         type=pathlib.Path,
     )
 
     args = arg_parser.parse_args()
-
-    if args.directory is None:
-        args.directory = (
-            pathlib.Path(default_directory_root) / args.test_name / f"v{args.version}"
-        )
 
     return args
 
@@ -94,8 +99,9 @@ if __name__ == "__main__":
     test_mod.EntryPoint.main(
         cutoff=args.cutoff,
         report_name=args.report_name,
-        directory=args.directory,
+        directory =  args.directory / args.test_name / f"v{args.version}",
         version=args.version,
         config=config,
         with_predictions=args.predictions,
+        run_only_specific_methods=args.run_only_specific_methods,
     )
