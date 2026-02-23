@@ -3,6 +3,7 @@ import pathlib
 from dataclasses import dataclass
 
 import numpy as np
+import numpy.lib.recfunctions
 import pandas as pd
 
 import vision_toolkit as v1
@@ -346,16 +347,9 @@ class VSTKReportForEachMethod(ReportForEachMethod):
 
     @classmethod
     def build_predictions_from_predictions_array(cls, predictions_array, gt):
-        predictions_sp = np.lib.recfunctions.rename_fields(
-            gt["data"].copy(),
-            {
-                HANDLABELLER_FINAL: EYE_MOVEMENT_TYPE,
-            },
-        )
-
-        predictions_sp[EYE_MOVEMENT_TYPE] = predictions
-
-        return {"data": predictions_sp}
+        (coords, *_) = gt
+        
+        return (coords, pd.DataFrame({EVENT_LABEL: predictions_array}))
 
     @classmethod
     def summarize_report_into_serie(cls, report):

@@ -55,9 +55,9 @@ EYE_MOVEMENT_TYPE = "EYE_MOVEMENT_TYPE"
 
 def as_arff_data(x):
     column_dtypes = {
-        k: np.dtype("<U8")
-        for k, v in x.dtypes.items()
-        if isinstance(v, (np.dtypes.ObjectDType, pd.StringDtype))
+        key: np.dtype("<U8")
+        for key, value in x.dtypes.items()
+        if isinstance(value, (np.dtypes.ObjectDType, pd.StringDtype))
     }
     ret = {
         "data": x.to_records(
