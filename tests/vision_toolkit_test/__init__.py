@@ -8,8 +8,13 @@ import pandas as pd
 import vision_toolkit as v1
 import vision_toolkit2 as v2
 from vision_toolkit2 import Serie, Config, StackedConfig
-from vision_toolkit2.segmentation.binary.implementations import IMPLEMENTATIONS as BINARY_IMPLEMENTATIONS
-from vision_toolkit2.segmentation.ternary.implementations import IMPLEMENTATIONS as TERNARY_IMPLEMENTATIONS
+from vision_toolkit2.segmentation.binary.implementations import (
+    IMPLEMENTATIONS as BINARY_IMPLEMENTATIONS,
+)
+from vision_toolkit2.segmentation.ternary.implementations import (
+    IMPLEMENTATIONS as TERNARY_IMPLEMENTATIONS,
+)
+
 NOISE = 0
 FIX = 1
 SACCADE = 2
@@ -31,11 +36,13 @@ METHODS_CONFIG = {
 
 SKIP_IF_ANGULAR = {"I_KF", "I_MST"}
 
+
 @dataclass
 class EvaluationReport:
     report: dict
     summary: pd.Series | pd.DataFrame
     predictions: None | dict
+
 
 def normalize_report(d):
     """
@@ -51,6 +58,7 @@ def normalize_report(d):
         for k, v in d.items()
     }
 
+
 class V2Gateway:
     @classmethod
     def get_segmentation_cls(cls, nary):
@@ -58,10 +66,12 @@ class V2Gateway:
 
     @classmethod
     def run_segmentation_on_serie(cls, Segmentation, serie, config):
-        config = StackedConfig([
-            serie.config,
-            Config(**config),
-        ])
+        config = StackedConfig(
+            [
+                serie.config,
+                Config(**config),
+            ]
+        )
 
         segmentation = Segmentation(
             serie,
@@ -78,15 +88,14 @@ class V2Gateway:
             gt_coords,
             size_plan_x=dimensions["width_mm"],
             size_plan_y=dimensions["height_mm"],
-            sampling_frequency = config.get("sampling_frequency"),
+            sampling_frequency=config.get("sampling_frequency"),
             distance_type="euclidean",
             smoothing_config=Config(
                 smoothing="savgol",
                 savgol_window_length=31,
                 savgol_polyorder=3,
-            )
+            ),
         )
-
 
 
 class V1Gateway:
@@ -114,17 +123,18 @@ class V1Gateway:
     def create_serie(cls, gt_coords, dimensions, config):
         return gt_coords
 
+
 class ReportForEachMethod:
     @classmethod
     def run_segmentation(
-            cls,
-            version,
-            gt,
-            gt_vstk,
-            dimensions,
-            nary,
-            method,
-            config={},
+        cls,
+        version,
+        gt,
+        gt_vstk,
+        dimensions,
+        nary,
+        method,
+        config={},
     ):
         gt_coords, gt_labels, gt_time = gt_vstk
 
@@ -164,10 +174,10 @@ class ReportForEachMethod:
         return predictions, predictions_array
 
     def build_labels_ordinal_from_res(
-            r,
-            nb_samples,
-            key_ordinal,
-            default_ordinal,
+        r,
+        nb_samples,
+        key_ordinal,
+        default_ordinal,
     ):
         if not isinstance(key_ordinal, dict):
             key_ordinal = dict(key_ordinal)
@@ -195,7 +205,6 @@ class ReportForEachMethod:
                 predictions[start : end + 1] = val
 
         return predictions
-    
 
     @classmethod
     def evaluate(cls, version, gt_dim_list, config, with_predictions=False):
@@ -207,7 +216,7 @@ class ReportForEachMethod:
         ]
 
         report = {}
-        predictions_report = {} if with_predictions else None 
+        predictions_report = {} if with_predictions else None
 
         for nary, methods in METHODS_CONFIG.items():
             report_nary = {}
@@ -229,8 +238,8 @@ class ReportForEachMethod:
                     **config,
                 }
                 if (
-                        updated_config.get("distance_type") == "angular"
-                        and method_name in SKIP_IF_ANGULAR
+                    updated_config.get("distance_type") == "angular"
+                    and method_name in SKIP_IF_ANGULAR
                 ):
                     # please replace it by logging later
                     print(f"Skip {method_name} as do not support angular")
@@ -263,7 +272,6 @@ class ReportForEachMethod:
                     pred_list,
                 )
 
-
         return EvaluationReport(
             report=normalize_report(report),
             summary=cls.summarize_report_into_serie(report),
@@ -271,7 +279,7 @@ class ReportForEachMethod:
         )
 
     @classmethod
-    def debug(cls, nary, method_name, gt_list, pred_list): 
+    def debug(cls, nary, method_name, gt_list, pred_list):
         pass
 
     @classmethod
@@ -283,12 +291,12 @@ class ReportForEachMethod:
 
     @classmethod
     def convert_to_vstk(
-            cls,
-            data,
-            width_px,
-            height_px,
-            width_mm,
-            height_mm,
+        cls,
+        data,
+        width_px,
+        height_px,
+        width_mm,
+        height_mm,
     ):
         """
         convert test format to vstk
@@ -310,12 +318,12 @@ class VSTKReportForEachMethod(ReportForEachMethod):
 
     @classmethod
     def convert_to_vstk(
-            cls,
-            gt,
-            width_px,
-            height_px,
-            width_mm,
-            height_mm,
+        cls,
+        gt,
+        width_px,
+        height_px,
+        width_mm,
+        height_mm,
     ):
         return (*gt, None)
 
@@ -342,12 +350,12 @@ class VSTKReportForEachMethod(ReportForEachMethod):
             gt["data"].copy(),
             {
                 HANDLABELLER_FINAL: EYE_MOVEMENT_TYPE,
-            }
+            },
         )
 
         predictions_sp[EYE_MOVEMENT_TYPE] = predictions
 
-        return {"data": predictions_sp}   
+        return {"data": predictions_sp}
 
     @classmethod
     def summarize_report_into_serie(cls, report):
@@ -357,33 +365,35 @@ class VSTKReportForEachMethod(ReportForEachMethod):
 class EntryPoint:
     paths: list[pathlib.Path]
     ReportForEachMethod: type
-    
-
 
     @classmethod
     def load_ground_truth_file(cls, fn):
         pass
 
     @classmethod
-    def main(cls,
-             *,
-             cutoff,
-             report_name,
-             directory,
-             version,
-             config,
-             with_predictions,
+    def main(
+        cls,
+        *,
+        cutoff,
+        report_name,
+        directory,
+        version,
+        config,
+        with_predictions,
     ):
         # we sort it
         paths = sorted(cls.paths)
 
         if len(paths) >= cutoff:
-            paths_cutoff = [paths[i] for i in range(0, len(paths), len(paths) // cutoff)]
+            paths_cutoff = [
+                paths[i] for i in range(0, len(paths), len(paths) // cutoff)
+            ]
         else:
             paths_cutoff = paths
 
         gt_dim_list = [
-            res for p in paths_cutoff
+            res
+            for p in paths_cutoff
             if (res := cls.load_ground_truth_file(p)) is not None
         ]
 
@@ -398,11 +408,12 @@ class EntryPoint:
         predictions = evaluation_report.predictions
 
         if not any(d for d in report.values()):
-            raise RuntimeError("Report is empty. Maybe implementations were skipped because of unsupported distance_type.")
+            raise RuntimeError(
+                "Report is empty. Maybe implementations were skipped because of unsupported distance_type."
+            )
 
         if not directory.exists():
-            directory.mkdir(exist_ok=True,
-                            parents=True)
+            directory.mkdir(exist_ok=True, parents=True)
 
         report_path = directory / report_name
 
@@ -412,11 +423,8 @@ class EntryPoint:
         report_summary_serie.to_markdown(
             report_path.with_suffix(".md"),
         )
-        report_summary_serie.plot.bar().figure.savefig(
-            report_path.with_suffix(".png")
-        )
+        report_summary_serie.plot.bar().figure.savefig(report_path.with_suffix(".png"))
 
-        
         if with_predictions:
             predictions_path = directory / "predictions"
 

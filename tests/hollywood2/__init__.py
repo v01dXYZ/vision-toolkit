@@ -34,7 +34,6 @@ LABELS_ORDINAL_TO_STR = dict(reversed(t) for t in LABELS_ORDINALS)
 EYE_MOVEMENT_TYPE = "EYE_MOVEMENT_TYPE"
 
 
-
 # def convert_vstk_to_spt(
 #     coords,
 #     labels,
@@ -53,6 +52,7 @@ EYE_MOVEMENT_TYPE = "EYE_MOVEMENT_TYPE"
 #         }
 #     )
 
+
 def as_arff_data(x):
     column_dtypes = {
         k: np.dtype("<U8")
@@ -67,8 +67,9 @@ def as_arff_data(x):
     }
     return ret
 
+
 SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
-    
+
 
 # def main(cutoff, report_name):
 #     P = sorted((pathlib.Path(__file__).parent / "data" / "test").glob(
@@ -98,7 +99,6 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
 #     s.plot.bar().figure.savefig(report_path.with_suffix(".png"))
 
 
-
 class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
     CONFIG = {
         "sampling_frequency": 500,
@@ -116,19 +116,17 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
                 positive_label=positive_label,
             )
 
-
         return res_stats
 
     @classmethod
     def convert_to_vstk(
-            cls,
-            gt,
-            width_px,
-            height_px,
-            width_mm,
-            height_mm,
+        cls,
+        gt,
+        width_px,
+        height_px,
+        width_mm,
+        height_mm,
     ):
-        
         gt_data = gt["data"]
         coords = pd.DataFrame(
             {
@@ -148,7 +146,7 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
         coords.loc[labels == vt.NOISE, [vt.GAZE_X, vt.GAZE_Y]] = np.nan
 
         return coords[[vt.GAZE_X, vt.GAZE_Y]].interpolate(), labels, gt_data["time"]
-        
+
     @classmethod
     def build_predictions_array_from_results(cls, results, gt, gt_vstk):
         (coords, *_) = gt_vstk
@@ -171,14 +169,14 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
             gt["data"].copy(),
             {
                 HANDLABELLER_FINAL: EYE_MOVEMENT_TYPE,
-            }
+            },
         )
 
         predictions_sp[EYE_MOVEMENT_TYPE] = predictions_array
 
-        return {"data": predictions_sp,}   
-
-
+        return {
+            "data": predictions_sp,
+        }
 
     @classmethod
     def debug(cls, nary, method_name, gt_list, pred_list):
@@ -186,7 +184,7 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
 
         import pandas as pd
 
-        print("#"*30)
+        print("#" * 30)
         print()
         print("NARY:", nary)
         print("METHOD_NAME:", method_name)
@@ -197,11 +195,13 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
 
     @classmethod
     def summarize_report_into_serie(cls, report):
-        return pd.Series({
-            method_name: r["all"]["F1"]
-            for d in report.values()
-            for method_name, r in d.items()
-        })
+        return pd.Series(
+            {
+                method_name: r["all"]["F1"]
+                for d in report.values()
+                for method_name, r in d.items()
+            }
+        )
 
 
 # if __name__ == "__main__":
@@ -215,9 +215,7 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
 
 
 class EntryPoint(vt.EntryPoint):
-    paths = (pathlib.Path(__file__).parent / "data" / "test").glob(
-         "**/*.arff"
-    )
+    paths = (pathlib.Path(__file__).parent / "data" / "test").glob("**/*.arff")
     ReportForEachMethod = Hollywood2ReportForEachMethod
 
     @classmethod
@@ -234,7 +232,7 @@ class EntryPoint(vt.EntryPoint):
 
         return (
             arff_data,
-    #        df[["time", "x", "y", "handlabeller_final"]],
+            #        df[["time", "x", "y", "handlabeller_final"]],
             {
                 "width_px": width_px,
                 "height_px": height_px,
