@@ -1,5 +1,6 @@
 import argparse
 import pathlib
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
@@ -30,6 +31,11 @@ METHODS_CONFIG = {
 
 SKIP_IF_ANGULAR = {"I_KF", "I_MST"}
 
+@dataclass
+class EvaluationReport:
+    report: dict
+    summary: pd.Series | pd.DataFrame
+    predictions: None | dict
 
 def normalize_report(d):
     """
@@ -145,7 +151,17 @@ class ReportForEachMethod:
         Segmentation = VersionGateway.get_segmentation_cls(nary)
         results = VersionGateway.run_segmentation_on_serie(Segmentation, serie, config)
 
-        return cls.build_predictions_from_results(results, gt, gt_vstk)
+        predictions_array = cls.build_predictions_array_from_results(
+            results,
+            gt,
+            gt_vstk,
+        )
+        predictions = cls.build_predictions_from_predictions_array(
+            predictions_array,
+            gt,
+        )
+
+        return predictions, predictions_array
 
     def build_labels_ordinal_from_res(
             r,
@@ -182,7 +198,7 @@ class ReportForEachMethod:
     
 
     @classmethod
-    def evaluate(cls, version, gt_dim_list, config):
+    def evaluate(cls, version, gt_dim_list, config, with_predictions=False):
         # first we convert to VSTK ground truth
         gt_dim_list = [
             (gt, dim, gt_vstk)
@@ -191,10 +207,19 @@ class ReportForEachMethod:
         ]
 
         report = {}
+        predictions_report = {} if with_predictions else None 
 
         for nary, methods in METHODS_CONFIG.items():
-            report[nary] = {}
+            report_nary = {}
+            report[nary] = report_nary
+            if with_predictions:
+                predictions_report_nary = {}
+                predictions_report[nary] = predictions_report_nary
+
             for method_name, method_config in methods.items():
+                predictions_method = {}
+                predictions_report_nary[method_name] = predictions_method
+
                 gt_list = []
                 pred_list = []
 
@@ -211,8 +236,8 @@ class ReportForEachMethod:
                     print(f"Skip {method_name} as do not support angular")
                     continue
 
-                for gt, dimensions, gt_vstk in gt_dim_list:
-                    pred = cls.run_segmentation(
+                for i, (gt, dimensions, gt_vstk) in enumerate(gt_dim_list):
+                    pred_and_pred_array = cls.run_segmentation(
                         version,
                         gt,
                         gt_vstk,
@@ -221,19 +246,29 @@ class ReportForEachMethod:
                         method_name,
                         updated_config,
                     )
-                    if pred is None:
+                    if pred_and_pred_array is None:
                         continue
+
+                    pred, pred_array = pred_and_pred_array
 
                     pred_list.append(pred)
                     gt_list.append(gt)
 
+                    if with_predictions:
+                        predictions_method[i] = pred_array
+
                 cls.debug(nary, method_name, gt_list, pred_list)
-                report[nary][method_name] = cls.evaluate_predictions(
+                report_nary[method_name] = cls.evaluate_predictions(
                     gt_list,
                     pred_list,
                 )
 
-        return normalize_report(report), cls.summarize_report_into_serie(report)
+
+        return EvaluationReport(
+            report=normalize_report(report),
+            summary=cls.summarize_report_into_serie(report),
+            predictions=predictions_report,
+        )
 
     @classmethod
     def debug(cls, nary, method_name, gt_list, pred_list): 
@@ -285,7 +320,7 @@ class VSTKReportForEachMethod(ReportForEachMethod):
         return (*gt, None)
 
     @classmethod
-    def build_predictions_from_results(cls, results, gt, gt_vstk):
+    def build_predictions_array_from_results(cls, results, gt, gt_vstk):
         coords, *_ = gt_vstk
 
         pred_np = cls.build_labels_ordinal_from_res(
@@ -299,7 +334,20 @@ class VSTKReportForEachMethod(ReportForEachMethod):
             NOISE,
         )
 
-        return (coords, pd.DataFrame({EVENT_LABEL: pred_np}))
+        return pred_np
+
+    @classmethod
+    def build_predictions_from_predictions_array(cls, predictions_array, gt):
+        predictions_sp = np.lib.recfunctions.rename_fields(
+            gt["data"].copy(),
+            {
+                HANDLABELLER_FINAL: EYE_MOVEMENT_TYPE,
+            }
+        )
+
+        predictions_sp[EYE_MOVEMENT_TYPE] = predictions
+
+        return {"data": predictions_sp}   
 
     @classmethod
     def summarize_report_into_serie(cls, report):
@@ -324,6 +372,7 @@ class EntryPoint:
              directory,
              version,
              config,
+             with_predictions,
     ):
         # we sort it
         paths = sorted(cls.paths)
@@ -338,11 +387,15 @@ class EntryPoint:
             if (res := cls.load_ground_truth_file(p)) is not None
         ]
 
-        report, report_summary_serie = cls.ReportForEachMethod.evaluate(
+        evaluation_report = cls.ReportForEachMethod.evaluate(
             version,
             gt_dim_list=gt_dim_list,
             config=config,
+            with_predictions=with_predictions,
         )
+        report = evaluation_report.report
+        report_summary_serie = evaluation_report.summary
+        predictions = evaluation_report.predictions
 
         if not any(d for d in report.values()):
             raise RuntimeError("Report is empty. Maybe implementations were skipped because of unsupported distance_type.")
@@ -362,3 +415,20 @@ class EntryPoint:
         report_summary_serie.plot.bar().figure.savefig(
             report_path.with_suffix(".png")
         )
+
+        
+        if with_predictions:
+            predictions_path = directory / "predictions"
+
+            for nary, methods_predictions in predictions.items():
+                predictions_nary_path = predictions_path / nary
+
+                for method_name, predictions in methods_predictions.items():
+                    predictions_method_path = predictions_nary_path / method_name
+
+                    predictions_method_path.mkdir(exist_ok=True, parents=True)
+
+                    for i, prediction in predictions.items():
+                        predictions_file_path = predictions_method_path / f"{i}.csv"
+
+                        pd.Series(prediction).to_csv(predictions_file_path, index=False)

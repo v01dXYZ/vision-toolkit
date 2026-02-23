@@ -150,9 +150,9 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
         return coords[[vt.GAZE_X, vt.GAZE_Y]].interpolate(), labels, gt_data["time"]
         
     @classmethod
-    def build_predictions_from_results(cls, results, gt, gt_vstk):
+    def build_predictions_array_from_results(cls, results, gt, gt_vstk):
         (coords, *_) = gt_vstk
-        predictions = cls.build_labels_ordinal_from_res(
+        predictions_array = cls.build_labels_ordinal_from_res(
             results,
             coords.shape[0],
             {
@@ -163,6 +163,10 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
             default_ordinal=NOISE_STR,
         )
 
+        return predictions_array
+
+    @classmethod
+    def build_predictions_from_predictions_array(cls, predictions_array, gt):
         predictions_sp = np.lib.recfunctions.rename_fields(
             gt["data"].copy(),
             {
@@ -170,9 +174,11 @@ class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
             }
         )
 
-        predictions_sp[EYE_MOVEMENT_TYPE] = predictions
+        predictions_sp[EYE_MOVEMENT_TYPE] = predictions_array
 
-        return {"data": predictions_sp}
+        return {"data": predictions_sp,}   
+
+
 
     @classmethod
     def debug(cls, nary, method_name, gt_list, pred_list):
