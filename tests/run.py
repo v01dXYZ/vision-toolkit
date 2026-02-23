@@ -13,18 +13,34 @@ def get_cli_args():
     arg_parser.add_argument("test_name", choices=["hollywood2", "zemblys"])
     arg_parser.add_argument("cutoff", type=int)
     arg_parser.add_argument("report_name", nargs="?", default="report")
-    arg_parser.add_argument("-c", "--config", help="config to add. example: distance_type=euclidean sample_frequency=1000", nargs="*", default=[])
-    arg_parser.add_argument("--predictions", action=argparse.BooleanOptionalAction, default=True)
+    arg_parser.add_argument(
+        "-c",
+        "--config",
+        help="config to add. example: distance_type=euclidean sample_frequency=1000",
+        nargs="*",
+        default=[],
+    )
+    arg_parser.add_argument(
+        "--predictions", action=argparse.BooleanOptionalAction, default=True
+    )
 
     default_directory_root = "results"
-    arg_parser.add_argument("-d", "--directory", help=f"{default_directory_root}/<test_name>/<version>", type=pathlib.Path)
+    arg_parser.add_argument(
+        "-d",
+        "--directory",
+        help=f"{default_directory_root}/<test_name>/<version>",
+        type=pathlib.Path,
+    )
 
     args = arg_parser.parse_args()
 
     if args.directory is None:
-        args.directory = pathlib.Path(default_directory_root) / args.test_name / f"v{args.version}"
+        args.directory = (
+            pathlib.Path(default_directory_root) / args.test_name / f"v{args.version}"
+        )
 
     return args
+
 
 def config_constructor(c):
     r = c.split("=")
@@ -51,6 +67,7 @@ def config_constructor(c):
 
     return (config_key, config_value)
 
+
 if __name__ == "__main__":
     args = get_cli_args()
 
@@ -68,7 +85,7 @@ if __name__ == "__main__":
     if errors:
         print("Error with provided config arguments", file=sys.stderr)
         for err in errors:
-            print(" "*5, "-", err, file=sys.stderr)
+            print(" " * 5, "-", err, file=sys.stderr)
 
         exit(-1)
 

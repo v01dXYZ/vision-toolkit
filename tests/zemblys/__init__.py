@@ -16,6 +16,7 @@ SCREEN_HEIGHT = 301.0
 # blinking too many times
 FAULTY_PARTICIPANT_ID = 5
 
+
 class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
     CONFIG = {
         "sampling_frequency": 1000,
@@ -33,16 +34,16 @@ class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
 
     @classmethod
     def summarize_report_into_serie(cls, report):
-        return pd.Series({
-            method_name: r
-            for d in report.values()
-            for method_name, r in d.items()
-        })
+        return pd.Series(
+            {method_name: r for d in report.values() for method_name, r in d.items()}
+        )
+
 
 class EntryPoint(vt.EntryPoint):
     paths = [
         pathlib.Path(__file__).parent / "data" / f"lookAtPoint_EL_S{i}.npy"
-        for i in range(1, 6) if i != FAULTY_PARTICIPANT_ID
+        for i in range(1, 6)
+        if i != FAULTY_PARTICIPANT_ID
     ]
     ReportForEachMethod = ZemblysReportForEachMethod
 
@@ -50,19 +51,13 @@ class EntryPoint(vt.EntryPoint):
     def load_ground_truth_file(cls, fn):
         seq = np.load(fn)
 
-        theta_x = np.array([
-            seq[i][1] for i in range(len(seq))
-            ])
+        theta_x = np.array([seq[i][1] for i in range(len(seq))])
 
-        theta_y = np.array([
-            seq[i][2] for i in range(len(seq))
-            ])
+        theta_y = np.array([seq[i][2] for i in range(len(seq))])
 
-        e_ = np.array([
-            seq[i][4] for i in range(len(seq))
-            ])
+        e_ = np.array([seq[i][4] for i in range(len(seq))])
 
-        labels_df = pd.DataFrame(e_, columns = ['event_label'])
+        labels_df = pd.DataFrame(e_, columns=["event_label"])
 
         # Merge fixations and post-saccadic oscillations
         labels_df = labels_df.replace(3, 1)
@@ -74,18 +69,17 @@ class EntryPoint(vt.EntryPoint):
         labels_df = labels_df.replace(5, 0)
 
         # Save as cartesian coordinates
-        x = np.tan(theta_x * (np.pi/180)) * EYE_DISTANCE + SCREEN_WIDTH/2
-        y = np.tan(theta_y * (np.pi/180)) * EYE_DISTANCE + SCREEN_HEIGHT/2
+        x = np.tan(theta_x * (np.pi / 180)) * EYE_DISTANCE + SCREEN_WIDTH / 2
+        y = np.tan(theta_y * (np.pi / 180)) * EYE_DISTANCE + SCREEN_HEIGHT / 2
 
-        gaze_df = pd.DataFrame(np.array([x, y]).T, 
-                            columns = [vt.GAZE_X, vt.GAZE_Y])
+        gaze_df = pd.DataFrame(np.array([x, y]).T, columns=[vt.GAZE_X, vt.GAZE_Y])
 
         # Undefined and blinks are replaced by np.nan and interpolated
-        gaze_df.loc[labels_df['event_label'] == 0] = np.nan 
+        gaze_df.loc[labels_df["event_label"] == 0] = np.nan
         gaze_df = gaze_df.interpolate()
 
-        noise = np.where(labels_df['event_label'] == 0)[0]
-        ratio = len(noise)/len(labels_df)
+        noise = np.where(labels_df["event_label"] == 0)[0]
+        ratio = len(noise) / len(labels_df)
 
         if ratio <= 0.10:
             return (
@@ -98,4 +92,4 @@ class EntryPoint(vt.EntryPoint):
                 },
             )
 
-        return 
+        return
