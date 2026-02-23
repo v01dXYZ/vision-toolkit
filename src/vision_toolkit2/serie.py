@@ -173,6 +173,7 @@ class RawSerie:
     def read_csv(
         cls,
         csv_path,
+        *,
         *args,
         **kwargs,
     ):
@@ -191,8 +192,8 @@ class RawSerie:
         size_plan_x,
         size_plan_y,
         distance_projection=None,
-        sampling_frequency=None,
-        distance_type=None,
+        sampling_frequency,
+        distance_type="euclidean",
         **kwargs,
     ):
         distance_projection = distance_projection or 1000
