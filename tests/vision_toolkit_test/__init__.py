@@ -217,18 +217,23 @@ class ReportForEachMethod:
         ]
 
         report = {}
-        predictions_report = {} if with_predictions else None
+        if with_predictions:
+            predictions_report = {}
+        else:
+            predictions_report = None
 
         for nary, methods in METHODS_CONFIG.items():
             report_nary = {}
             report[nary] = report_nary
             if with_predictions:
-                predictions_report_nary = {}
-                predictions_report[nary] = predictions_report_nary
+                if with_predictions:
+                    predictions_report_nary = {}
+                    predictions_report[nary] = predictions_report_nary
 
             for method_name, method_config in methods.items():
-                predictions_method = {}
-                predictions_report_nary[method_name] = predictions_method
+                if with_predictions:
+                    predictions_method = {}
+                    predictions_report_nary[method_name] = predictions_method
 
                 gt_list = []
                 pred_list = []
