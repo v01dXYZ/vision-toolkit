@@ -84,8 +84,8 @@ class PursuitAnalysis(BaseBinarySegmentationAnalysis):
         dsp = np.asarray(dsp, dtype=np.float64)
 
         results = {
-            "amplitude_mean": float(np.nanmean(dsp)),
-            "amplitude_sd": self._safe_sd(dsp),
+            "pursuit_amplitude_mean": float(np.nanmean(dsp)),
+            "pursuit_amplitude_sd": self._safe_sd(dsp),
             "raw": dsp,
         }
         if not get_raw:
@@ -115,8 +115,8 @@ class PursuitAnalysis(BaseBinarySegmentationAnalysis):
         t_cum = np.asarray(t_cum, dtype=np.float64)
 
         results = {
-            "distance_mean": float(np.nanmean(t_cum)),
-            "distance_sd": self._safe_sd(t_cum),
+            "pursuit_cumul_distance_mean": float(np.nanmean(t_cum)),
+            "pursuit_cumul_distance_sd": self._safe_sd(t_cum),
             "raw": t_cum,
         }
         if not get_raw:
@@ -150,8 +150,8 @@ class PursuitAnalysis(BaseBinarySegmentationAnalysis):
         eff = np.asarray(eff, dtype=np.float64)
 
         results = {
-            "efficiency_mean": float(np.nanmean(eff)),
-            "efficiency_sd": self._safe_sd(eff),
+            "pursuit_efficiency_mean": float(np.nanmean(eff)),
+            "pursuit_efficiency_sd": self._safe_sd(eff),
             "raw": eff,
         }
         if not get_raw:
