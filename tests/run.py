@@ -14,6 +14,7 @@ def get_cli_args():
     arg_parser.add_argument("cutoff", type=int)
     arg_parser.add_argument("report_name", nargs="?", default="report")
     arg_parser.add_argument("-c", "--config", help="config to add. example: distance_type=euclidean sample_frequency=1000", nargs="*", default=[])
+    arg_parser.add_argument("--predictions", action=argparse.BooleanOptionalAction, default=True)
 
     default_directory_root = "results"
     arg_parser.add_argument("-d", "--directory", help=f"{default_directory_root}/<test_name>/<version>", type=pathlib.Path)
@@ -79,4 +80,5 @@ if __name__ == "__main__":
         directory=args.directory,
         version=args.version,
         config=config,
+        with_predictions=args.predictions,
     )
