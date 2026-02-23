@@ -289,7 +289,7 @@ class Serie(SmoothedSerie):
         absolute_speed,
         **kwargs,
     ):
-        del kwargs["smoothing_config"]
+        kwargs.pop("smoothing_config", None)
 
         return cls(
             x=serie.x,
