@@ -1,4 +1,3 @@
-import argparse
 import pathlib
 from dataclasses import dataclass
 
@@ -353,7 +352,7 @@ class VSTKReportForEachMethod(ReportForEachMethod):
     @classmethod
     def build_predictions_from_predictions_array(cls, predictions_array, gt):
         (coords, *_) = gt
-        
+
         return (coords, pd.DataFrame({EVENT_LABEL: predictions_array}))
 
     @classmethod
