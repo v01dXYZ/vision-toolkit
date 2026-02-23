@@ -173,7 +173,6 @@ class RawSerie:
     def read_csv(
         cls,
         csv_path,
-        *,
         *args,
         **kwargs,
     ):
