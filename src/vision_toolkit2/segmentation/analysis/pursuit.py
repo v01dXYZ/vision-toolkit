@@ -1,6 +1,10 @@
 import numpy as np
 
-from .base_analysis import BaseBinarySegmentationAnalysis, results_delegation, EasyAccessFunction
+from .base_analysis import (
+    BaseBinarySegmentationAnalysis,
+    results_delegation,
+    EasyAccessFunction,
+)
 from ..base_segmentation import Segmentation
 from vision_toolkit2.config import Config
 
