@@ -9,3 +9,4 @@ done
 wait
 
 git diff --no-index ./results/$test_name/v{1,2}/report.md
+git diff --no-index ./results/$test_name/v{1,2}/predictions
