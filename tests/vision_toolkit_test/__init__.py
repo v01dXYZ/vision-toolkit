@@ -237,7 +237,6 @@ class ReportForEachMethod:
                 gt_list = []
                 pred_list = []
 
-                # TO TIRED ME: do not rename it config! (unless you want it to accumulate)
                 updated_config = {
                     **method_config,
                     **config,
