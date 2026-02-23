@@ -1,5 +1,4 @@
 #!/bin/env python3
-import argparse
 import pathlib
 
 from sp_tool.arff_helper import ArffHelper
@@ -7,9 +6,6 @@ from sp_tool.evaluate import evaluate
 import pandas as pd
 import numpy as np
 
-from scipy.io import arff as a
-
-import vision_toolkit as v
 import vision_toolkit_test as vt
 
 HANDLABELLER_FINAL = "handlabeller_final"
