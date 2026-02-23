@@ -120,7 +120,14 @@ for event_name, methods in METHODS_PER_EVENT.items():
         fun1 = getattr(mod1, attr1)
         fun2 = getattr(mod2, attr2)
 
-        res1 = fun1(data_file, **KWARGS, segmentation_method=segmentation_method)
+        res1 = fun1(
+            data_file,
+            status_threshold = 0.5,
+            distance_projection = 1000,
+            **KWARGS,
+            segmentation_method=segmentation_method,
+            savgol_window_length=31,
+        )
         res2 = fun2(serie2, config=Config(segmentation_method=segmentation_method))
 
         RES[event_name][method] = (res1, res2)

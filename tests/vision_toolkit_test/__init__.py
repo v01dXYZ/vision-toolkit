@@ -207,7 +207,7 @@ class ReportForEachMethod:
         return predictions
 
     @classmethod
-    def evaluate(cls, version, gt_dim_list, config, with_predictions=False):
+    def evaluate(cls, version, gt_dim_list, config, with_predictions=False, run_only_specific_methods=None,):
         # first we convert to VSTK ground truth
         gt_dim_list = [
             (gt, dim, gt_vstk)
@@ -230,6 +230,9 @@ class ReportForEachMethod:
                     predictions_report[nary] = predictions_report_nary
 
             for method_name, method_config in methods.items():
+                if run_only_specific_methods and method_name not in run_only_specific_methods:
+                    continue
+
                 if with_predictions:
                     predictions_method = {}
                     predictions_report_nary[method_name] = predictions_method
@@ -377,6 +380,7 @@ class EntryPoint:
         version,
         config,
         with_predictions,
+        run_only_specific_methods=None,
     ):
         # we sort it
         paths = sorted(cls.paths)
@@ -399,6 +403,7 @@ class EntryPoint:
             gt_dim_list=gt_dim_list,
             config=config,
             with_predictions=with_predictions,
+            run_only_specific_methods=run_only_specific_methods,
         )
         report = evaluation_report.report
         report_summary_serie = evaluation_report.summary
