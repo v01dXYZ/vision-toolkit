@@ -111,6 +111,6 @@ class Segmentation:
                 ),
             )
 
-        self.config.print()
+        # self.config.print()
 
         return results
