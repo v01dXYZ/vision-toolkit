@@ -1,8 +1,10 @@
 #!/bin/env python
-import numpy as np
 
-from vision_toolkit2.segmentation.analysis import fixation as fa2, saccade as sa2, pursuit as pu2
-from vision_toolkit2.segmentation.base_segmentation import Segmentation
+from vision_toolkit2.segmentation.analysis import (
+    fixation as fa2,
+    saccade as sa2,
+    pursuit as pu2,
+)
 from vision_toolkit2 import Serie, Config
 
 # from vision_toolkit import FixationAnalysis, SaccadeAnalysis, PursuitAnalysis
@@ -30,7 +32,7 @@ serie2 = Serie.read_csv(
 )
 
 METHODS_PER_EVENT = {
-    "fixation":  [
+    "fixation": [
         "count",
         "frequency",
         "frequency",
@@ -80,19 +82,18 @@ METHODS_PER_EVENT = {
         "acceleration_deceleration_ratios",
         "main_sequence",
     ],
-
-"pursuit": [
-    "count",
-    "frequency",
-    "durations",
-    "proportion",
-    "velocity",
-    "velocity_means",
-    "peak_velocity",
-    "amplitude",
-    "distance",
-    "efficiency",
-]
+    "pursuit": [
+        "count",
+        "frequency",
+        "durations",
+        "proportion",
+        "velocity",
+        "velocity_means",
+        "peak_velocity",
+        "amplitude",
+        "distance",
+        "efficiency",
+    ],
 }
 
 MODULE_PER_EVENT = {
