@@ -21,7 +21,7 @@ def get_cli_args():
         default=[],
     )
     arg_parser.add_argument(
-        "--predictions", action=argparse.BooleanOptionalAction, default=True
+        "--predictions", action=argparse.BooleanOptionalAction, default=False,
     )
 
     default_directory_root = "results"
