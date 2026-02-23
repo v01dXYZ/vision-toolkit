@@ -190,7 +190,7 @@ class EasyAccessFunction:
 
         base_config = config
 
-        def f(input, *args, config, **kwargs):
+        def f(input, *args, config=None, **kwargs):
             kwargs = default_kwargs | kwargs
 
             if config is None:
