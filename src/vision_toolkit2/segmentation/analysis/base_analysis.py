@@ -3,6 +3,7 @@ import numpy as np
 from dataclasses import dataclass
 from ..base_segmentation import Segmentation
 from ..binary.binary_segmentation_results import BinarySegmentationResults
+from vision_toolkit2.config import StackedConfig
 import inspect
 
 
@@ -187,11 +188,18 @@ class EasyAccessFunction:
 
         default_kwargs = {k: default_kwargs[k] for k in keys if k in default_kwargs}
 
-        def f(input, *args, **kwargs):
+        base_config = config
+
+        def f(input, *args, config, **kwargs):
             kwargs = default_kwargs | kwargs
 
+            if config is None:
+                config = base_config
+            elif base_config is not None:
+                config = StackedConfig([base_config, config])
+
             if not isinstance(input, self.cls):
-                segmentation = Segmentation(input, config)
+                segmentation = Segmentation(input, config=config)
                 segmentation_results = segmentation.process()
 
                 input = self.cls(segmentation_results)

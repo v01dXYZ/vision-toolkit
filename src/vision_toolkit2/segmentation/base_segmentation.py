@@ -82,8 +82,9 @@ class Segmentation:
     def __init__(
         self,
         input_: Serie,
-        segmentation_method=None,
+        *,
         config: Config = None,
+        segmentation_method=None,
     ):
         self.input_ = input_
         self.config = DefaultConfigBuilder.update(
