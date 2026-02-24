@@ -10,9 +10,8 @@ import numpy.typing as npt
 @dataclass
 class TernarySegmentationResults(BaseSegmentationResults):
     is_fixation: npt.NDArray[np.bool_]
-    fixation_intervals: npt.NDArray[np.int_]
     is_saccade: npt.NDArray[np.bool_]
-    saccade_intervals: npt.NDArray[np.int_]
+
     is_pursuit: npt.NDArray[np.bool_]
     pursuit_intervals: npt.NDArray[np.int_]
 

@@ -8,6 +8,4 @@ import numpy as np
 @dataclass
 class BinarySegmentationResults(BaseSegmentationResults):
     is_labeled: np.ndarray[bool]
-    fixation_intervals: np.ndarray[int]
-    saccade_intervals: np.ndarray[int]
     fixation_centroids: np.ndarray[int]
