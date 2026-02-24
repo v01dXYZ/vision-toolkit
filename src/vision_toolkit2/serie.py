@@ -192,7 +192,7 @@ class RawSerie:
         size_plan_y,
         distance_projection=None,
         sampling_frequency,
-        distance_type="euclidean",
+        distance_type="angular",
         **kwargs,
     ):
         distance_projection = distance_projection or 1000
