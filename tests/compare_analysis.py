@@ -1,5 +1,5 @@
 #!/bin/env python
-
+import pandas as pd
 from vision_toolkit2.segmentation.analysis import (
     fixation as fa2,
     saccade as sa2,
@@ -16,7 +16,7 @@ from vision_toolkit.oculomotor.segmentation_based import (
     pursuit_task as pt1,
 )
 
-data_file = "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv"
+
 method = "I_VT"
 ternary_method = "I_VVT"
 sampling_frequency = 1000
@@ -27,12 +27,12 @@ KWARGS = {
     "distance_type": "euclidean",
     "sampling_frequency": sampling_frequency,
 }
-
-serie2 = Serie.read_csv(
-    data_file,
-    **KWARGS,
-)
-
+DATA_FILE_PER_EVENT = {
+    "fixation": "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv",
+    "saccade": "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv",
+    "pursuit": "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv",
+    "pursuit_task": "../documentation/Documentaion_VT/dataset/example_pursuit.csv",
+}
 METHODS_PER_EVENT = {
     "fixation": [
         "count",
@@ -133,12 +133,24 @@ SEGMENTATION_METHOD_PER_EVENT = {
     "pursuit_task": "I_VVT",
 }
 RES = {}
+
+def normalize_dict(d):
+    if not isinstance(d, dict):
+        return d
+
+    return {
+        k.replace(" ", "_"): normalize_dict(v)  for k, v in d.items()
+    }
+
 for event_name, methods in METHODS_PER_EVENT.items():
     (mod1, mod2) = MODULE_PER_EVENT[event_name]
     segmentation_method = SEGMENTATION_METHOD_PER_EVENT[event_name]
 
-    if "pursuit" not in event_name:
-        continue
+    data_file = DATA_FILE_PER_EVENT[event_name]
+    if event_name == "pursuit_task":
+        args = (pd.read_csv("../documentation/Documentaion_VT/dataset/example_pursuit_theo.csv"),)
+    else:
+        args = ()
 
     RES[event_name] = {}
     for method in methods:
@@ -150,12 +162,37 @@ for event_name, methods in METHODS_PER_EVENT.items():
 
         res1 = fun1(
             data_file,
+            *args,
             status_threshold = 0.5,
             distance_projection = 1000,
             **KWARGS,
             segmentation_method=segmentation_method,
             savgol_window_length=31,
+            pursuit_start_idx=200,
+            nb_samples_pursuit=499,
+            verbose=False,
         )
-        res2 = fun2(serie2, config=Config(segmentation_method=segmentation_method))
+
+        config = Config(
+            **KWARGS,
+            savgol_window_length=31,
+            status_threshold = 0.5,
+            distance_projection = 1000,
+            segmentation_method=segmentation_method,
+            pursuit_start_idx=200,
+            nb_samples_pursuit=499,
+            verbose=False,
+        )
+        serie2 = Serie.read_csv(
+            data_file,
+            **KWARGS,
+            config=config,
+        )
+
+        res2 = fun2(serie2, *args, config=config)
 
         RES[event_name][method] = (res1, res2)
+        A = str(normalize_dict(res1))
+        B = str(normalize_dict(res2))
+        if A != B:
+            print("PING", event_name, method, A, B)
