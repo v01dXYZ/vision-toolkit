@@ -21,13 +21,13 @@ def passthrough_attr(*passthrough_attr):
 
     return delegate
 
-results_delegation = passthrough_attr("binary_segmentation_results")
-config_delegation = passthrough_attr("binary_segmentation_results", "config")
-input_delegation = passthrough_attr("binary_segmentation_results", "input")
+results_delegation = passthrough_attr("segmentation_results")
+config_delegation = passthrough_attr("segmentation_results", "config")
+input_delegation = passthrough_attr("segmentation_results", "input")
 
 @dataclass
 class BaseBinarySegmentationAnalysis:
-    binary_segmentation_results: BinarySegmentationResults
+    segmentation_results: BinarySegmentationResults
 
     _absolute_speed = input_delegation("absolute_speed")
 

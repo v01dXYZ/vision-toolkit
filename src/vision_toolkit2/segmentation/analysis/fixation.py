@@ -148,7 +148,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
 
         if BCEA_probability is None:
             BCEA_probability = (
-                self.binary_segmentation_results.config.fixation_BCEA_probability
+                self.segmentation_results.config.fixation_BCEA_probability
             )
 
         p = float(BCEA_probability)

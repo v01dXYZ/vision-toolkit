@@ -90,8 +90,8 @@ class PursuitTaskAnalysis(PursuitAnalysis):
     def __post_init__(self):
         self.recalibrated_data = PursuitTaskRecalibratedData.create_from_results_and_theo_coords(
             self.df_theo,
-            self.binary_segmentation_results,
-            self.binary_segmentation_results.config,
+            self.segmentation_results,
+            self.segmentation_results.config,
         )
     
     _intervals = recalibrated_data_delegation("recomputed_intervals")
