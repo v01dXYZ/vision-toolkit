@@ -4,6 +4,7 @@ from vision_toolkit2.segmentation.analysis import (
     fixation as fa2,
     saccade as sa2,
     pursuit as pu2,
+    pursuit_task as pt2,
 )
 from vision_toolkit2 import Serie, Config
 
@@ -12,6 +13,7 @@ from vision_toolkit.oculomotor.segmentation_based import (
     fixation as fa1,
     saccade as sa1,
     pursuit as pu1,
+    pursuit_task as pt1,
 )
 
 data_file = "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv"
@@ -94,23 +96,49 @@ METHODS_PER_EVENT = {
         "distance",
         "efficiency",
     ],
+    "pursuit_task": [
+        "count",
+        "frequency",
+        "durations",
+        "proportion",
+        "velocity",
+        "velocity_means",
+        "peak_velocity",
+        "amplitude",
+        "distance",
+        "efficiency",
+        "slope_ratios",
+        "slope_gain",
+        "crossing_time",
+        "overall_gain",
+        "overall_gain_x",
+        "overall_gain_y",
+        "sinusoidal_phase",
+        "accuracy",
+        "entropy",
+    ]
 }
 
 MODULE_PER_EVENT = {
     "fixation": (fa1, fa2),
     "saccade": (sa1, sa2),
     "pursuit": (pu1, pu2),
+    "pursuit_task": (pt1, pt2),
 }
 
 SEGMENTATION_METHOD_PER_EVENT = {
     "fixation": "I_VT",
     "saccade": "I_VT",
     "pursuit": "I_VVT",
+    "pursuit_task": "I_VVT",
 }
 RES = {}
 for event_name, methods in METHODS_PER_EVENT.items():
     (mod1, mod2) = MODULE_PER_EVENT[event_name]
     segmentation_method = SEGMENTATION_METHOD_PER_EVENT[event_name]
+
+    if "pursuit" not in event_name:
+        continue
 
     RES[event_name] = {}
     for method in methods:
