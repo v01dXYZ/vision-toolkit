@@ -43,7 +43,7 @@ def process_impl(s, config):
         s_int = s_ints[i]
         o_s_int = s_ints[i - 1]
 
-        if s_int[0] - o_s_int[-1] < fix_dur_t:
+        if s_int[0] - o_s_int[-1] <= fix_dur_t:
             is_fix[o_s_int[-1] : s_int[0] + 1] = False
 
     f_ints = interval_merging(
