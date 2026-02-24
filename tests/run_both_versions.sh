@@ -1,11 +1,13 @@
 #!/bin/env bash
 
-test_name="hollywood2"
+test_names="hollywood2 zemblys"
 
-for version in 1 2; do
-    $(dirname $0)/run.py --predictions $version $test_name 3 &
+for test_name in test_names; do
+    for version in 1 2; do
+	$(dirname $0)/run.py --predictions $version $test_name 10000 &
+    done
 done
-    
+
 wait
 
 git diff --no-index ./results/$test_name/v{1,2}/report.md
