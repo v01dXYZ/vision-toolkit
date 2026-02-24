@@ -143,7 +143,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def horizontal_deviations(self, absolute=None, get_raw=True):
         if absolute is None:
-            absolute = self.binary_segmentation_results.config.saccade_absolute_horizontal_deviations
+            absolute = self.segmentation_results.config.saccade_absolute_horizontal_deviations
 
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)
@@ -211,7 +211,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def initial_directions(self, duration_threshold=None, get_raw=True):
         if duration_threshold is None:
-            duration_threshold = self.binary_segmentation_results.config.saccade_init_direction_duration_threshold
+            duration_threshold = self.segmentation_results.config.saccade_init_direction_duration_threshold
 
         t_du = int(duration_threshold * self._sampling_frequency()) + 1
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -241,7 +241,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def initial_deviations(self, duration_threshold=None, get_raw=True):
         if duration_threshold is None:
-            duration_threshold = self.binary_segmentation_results.config.saccade_init_deviation_duration_threshold
+            duration_threshold = self.segmentation_results.config.saccade_init_deviation_duration_threshold
 
         t_du = int(duration_threshold * self._sampling_frequency()) + 1
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -493,21 +493,21 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def average_acceleration_profiles(self, weighted=None, get_raw=True):
         if weighted is None:
-            weighted = self.binary_segmentation_results.config.saccade_weighted_average_acceleration_profiles
+            weighted = self.segmentation_results.config.saccade_weighted_average_acceleration_profiles
 
         m_ac = self.mean_acceleration_profiles()["acceleration_profile_means"]
         return self.acc_average(m_ac, weighted, get_raw)
 
     def average_acceleration_means(self, weighted=None, get_raw=True):
         if weighted is None:
-            weighted = self.binary_segmentation_results.config.saccade_weighted_average_acceleration_means
+            weighted = self.segmentation_results.config.saccade_weighted_average_acceleration_means
 
         m_ac = self.mean_accelerations()["acceleration_means"]
         return self.acc_average(m_ac, weighted, get_raw)
 
     def average_deceleration_means(self, weighted=None, get_raw=True):
         if weighted is None:
-            weighted = self.binary_segmentation_results.config.saccade_weighted_average_deceleration_means
+            weighted = self.segmentation_results.config.saccade_weighted_average_deceleration_means
 
         m_dc = self.mean_decelerations()["deceleration_means"]
         return self.acc_average(m_dc, weighted, get_raw)
