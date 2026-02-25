@@ -41,7 +41,7 @@ def process_impl(s, config):
     n_s = int(config.nb_samples)
     s_f = float(config.sampling_frequency)
 
-    g_p = np.column_stack((x_a.reshape(n_s), y_a.reshape(n_s)))
+    g_p = np.column_stack((x_a.reshape(n_s), y_a.reshape(n_s)))  # (n_s, 2) array of gaze points
 
     vareps = float(config.IMST_distance_threshold)
 

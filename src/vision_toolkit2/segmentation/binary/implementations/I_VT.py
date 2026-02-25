@@ -8,17 +8,20 @@ from ..binary_segmentation_results import BinarySegmentationResults
 
 
 def process_impl(s, config):
+    # Find indices where velocity is below threshold
     (idx_velocity_lower_than_threshold,) = np.where(
         s.absolute_speed <= config.IVT_velocity_threshold
     )
 
     is_fix = np.full(config.nb_samples, False)
 
+    # Add index + 1 to fixation since velocities are computed from two data points
     is_fix[idx_velocity_lower_than_threshold] = True
     is_fix[(idx_velocity_lower_than_threshold + 1).clip(max=config.nb_samples - 1)] = (
         True
     )
 
+    # Compute saccadic intervals
     is_sac = ~is_fix
     (idx_fix,) = is_fix.nonzero()
     (idx_sac,) = (~is_fix).nonzero()
@@ -46,6 +49,7 @@ def process_impl(s, config):
         if s_int[0] - o_s_int[-1] <= fix_dur_t:
             is_fix[o_s_int[-1] : s_int[0] + 1] = False
 
+    # Recompute fixation intervals
     f_ints = interval_merging(
         idx_fix,
         min_int_size=math.ceil(config.min_fix_duration * config.sampling_frequency),
@@ -54,12 +58,14 @@ def process_impl(s, config):
         proportion=config.status_threshold,
     )
 
+    # Compute fixation centroids
     ctrds = centroids_from_ints(f_ints, s.x, s.y)
 
     is_sac = ~is_fix
 
     (idx_sac,) = is_sac.nonzero()
 
+    # Recompute saccadic intervals
     s_ints = interval_merging(
         idx_sac,
         min_int_size=math.ceil(config.min_sac_duration * config.sampling_frequency),
@@ -67,6 +73,7 @@ def process_impl(s, config):
         proportion=config.status_threshold,
     )
 
+    # Keep track of index that were effectively labeled
     i_lab = np.full(config.nb_samples, False)
 
     for ints in (f_ints, s_ints):

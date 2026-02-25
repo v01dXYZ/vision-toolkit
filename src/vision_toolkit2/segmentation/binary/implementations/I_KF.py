@@ -32,8 +32,10 @@ def process_impl(s, config):
 
     sp = process_speed_components(s, config)[0:2, :]
 
+    # predict velocities and positions from Kalman filter
     pred = process_Kalman_filter(pos, sp, d_t, config.IKF_sigma_1, config.IKF_sigma_2)
 
+    # compute norms of predicted and true speed vectors
     p_sp = np.linalg.norm(
         np.concatenate(
             (pred["x"][1, :].reshape(1, n_s), pred["y"][1, :].reshape(1, n_s)), axis=0
@@ -43,10 +45,12 @@ def process_impl(s, config):
 
     t_sp = np.linalg.norm(sp, axis=0)
 
+    # compute chi2 statistics over sampling intervals of size c_wn
     chi2_a = compute_chi2(p_sp, t_sp, c_wn)
 
     wi_fix = np.where(chi2_a[:-1] <= config.IKF_chi2_threshold)[0]
 
+    # Add index + 1 to fixation since velocities are computed from two data points
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
     i_fix = np.array([False] * config.nb_samples)
@@ -60,6 +64,7 @@ def process_impl(s, config):
         min_int_size=np.ceil(config.min_sac_duration * s_f),
     )
 
+    # i_sac events not retained as intervals are relabeled as fix events
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
@@ -72,6 +77,7 @@ def process_impl(s, config):
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
+    # second pass to merge saccade separated by short fixations
     fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
 
     for i in range(1, len(s_ints)):
@@ -90,6 +96,7 @@ def process_impl(s, config):
 
     wi_fix = np.where(i_fix)[0]
 
+    # Recompute fixation intervals
     f_ints = interval_merging(
         wi_fix,
         min_int_size=np.ceil(config.min_fix_duration * s_f),
@@ -97,11 +104,13 @@ def process_impl(s, config):
         proportion=config.status_threshold,
     )
 
+    # Compute fixation centroids
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
 
     i_sac = ~i_fix
     wi_sac = np.where(i_sac)[0]
 
+    # Recompute saccadic intervals
     s_ints = interval_merging(
         wi_sac,
         min_int_size=np.ceil(config.min_sac_duration * s_f),
