@@ -25,10 +25,10 @@ def process_impl(s, config):
 
     if euclidean:
         g_npts = np.concatenate(
-            (s.x.reshape(1, n_s), s.y.reshape(1, n_s), s.z.reshape(1, n_s)), axis=0
+            (s.x.reshape(1, n_s), s.y.reshape(1, n_s), s.z.reshape(1, n_s)), axis=0, dtype="float64",
         )
     else:
-        g_npts = s.unitary_gaze_vectors
+        g_npts = s.unitary_gaze_vectors.astype("float64")
 
     d_t = config.IDeT_density_threshold
     win_w = int(np.ceil(config.IDeT_duration_threshold * s_f))
