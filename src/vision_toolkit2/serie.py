@@ -22,9 +22,7 @@ from scipy.signal import savgol_filter
 class SmoothingConfigBuilder:
     @classmethod
     def update(cls, config):
-        if config.smoothing is None:
-            return Config()
-        elif config.smoothing in (
+        if config.smoothing in (
             "moving_average",
             "speed_moving_average",
         ):

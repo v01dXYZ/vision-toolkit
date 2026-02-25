@@ -13,6 +13,12 @@ from dataclasses import dataclass
 
 @dataclass
 class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
+    """
+    For a saccade [start,end]:
+        * positions:      start .. end        (n_samples = end-start+1)
+        * speeds:       start .. end-1      (n_vel = n_samples-1)  => slice a_sp[start:end]
+        * accélérations:  start .. end-2      (n_acc = n_samples-2)  => diff(vitesse)*sf sur a_sp[start:end]
+    """
     _intervals = results_delegation("saccade_intervals")
 
     def amplitudes(self, get_raw=True):
@@ -219,6 +225,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
         v_i = []
         for start, end in self._intervals():
+            # nombre de samples dans l'intervalle = end-start+1 => déplacement initial max = end-start
             t_s = min(t_du, max(end - start, 0))
             v_i.append(
                 np.array(
@@ -377,7 +384,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
     def peak_velocities(self, get_raw=True):
         p_sp = []
         for start, end in self._intervals():
-            seg = self._speed_segment(start, end)
+            seg = self._speed_segment(start, end)  # start..end-1
             p_sp.append(float(np.nanmax(seg)) if np.any(np.isfinite(seg)) else np.nan)
 
         p_sp = np.asarray(p_sp, dtype=np.float64)
@@ -395,7 +402,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
     def get_pk_vel_idx(self):
         idxs = []
         for start, end in self._intervals():
-            seg = self._speed_segment(start, end)
+            seg = self._speed_segment(start, end)  # start..end-1 (PAS end)
             if seg.size == 0 or not np.any(np.isfinite(seg)):
                 idxs.append(int(start))
             else:
