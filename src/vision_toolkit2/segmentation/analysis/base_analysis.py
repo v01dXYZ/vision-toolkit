@@ -2,15 +2,16 @@ import numpy as np
 
 from dataclasses import dataclass
 from ..base_segmentation import Segmentation
+from ..base_segmentation_results import BaseSegmentationResults
 from ..binary.binary_segmentation_results import BinarySegmentationResults
 from vision_toolkit2.config import StackedConfig
 import inspect
 
-def passthrough_attr(*passthrough_attr):
+def passthrough_attr(*passthrough_attrs):
     def delegate(attr):
         def f(self):
             passthrough = self
-            for intermediate_attr in passthrough_attr:
+            for intermediate_attr in passthrough_attrs:
                 passthrough = getattr(passthrough, intermediate_attr)
 
             value = getattr(passthrough, attr)
@@ -26,15 +27,14 @@ config_delegation = passthrough_attr("segmentation_results", "config")
 input_delegation = passthrough_attr("segmentation_results", "input")
 
 @dataclass
-class BaseBinarySegmentationAnalysis:
-    segmentation_results: BinarySegmentationResults
+class BaseAnalysis:
+    segmentation_results: BaseSegmentationResults
 
     _absolute_speed = input_delegation("absolute_speed")
 
     _x = input_delegation("x")
     _y = input_delegation("y")
     _z = input_delegation("z")
-    _is_labeled = results_delegation("is_labeled")
 
     _nb_samples = config_delegation("nb_samples")
     _distance_type = config_delegation("distance_type")
@@ -77,20 +77,9 @@ class BaseBinarySegmentationAnalysis:
             "frequency": float(f),
         }
 
-    def frequency_wrt_labels(self):
-        ct = len(self._intervals())
-        labeled = float(np.sum(self._is_labeled()))
-        denom = labeled / self._sampling_frequency()
-
-        f = ct / denom if denom > 0 else np.nan
-
-        return {
-            "frequency": float(f),
-        }
-
     def durations(self, get_raw=True):
         a_i = np.asarray(self._intervals(), dtype=np.int64)
-        a_d = (a_i[:, 1] - a_i[:, 0] + 1) / self._sampling_frequency()
+        a_d = (a_i[:, 1] - a_i[:, 0] + 1) / self._sampling_frequency()  # inclusive
 
         results = {
             "duration_mean": float(np.nanmean(a_d)),
@@ -162,6 +151,24 @@ class BaseBinarySegmentationAnalysis:
         return results
 
 
+class BaseBinarySegmentationAnalysis(BaseAnalysis):
+    """Base class for binary segmentation analysis with labeled data support."""
+
+    segmentation_results: BinarySegmentationResults
+    _is_labeled = results_delegation("is_labeled")
+
+    def frequency_wrt_labels(self):
+        ct = len(self._intervals())
+        labeled = float(np.sum(self._is_labeled()))
+        denom = labeled / self._sampling_frequency()
+
+        f = ct / denom if denom > 0 else np.nan
+
+        return {
+            "frequency": float(f),
+        }
+
+
 class EasyAccessFunction:
     def __init__(self, cls, common_default_kwargs):
         self.cls = cls
@@ -208,4 +215,4 @@ class EasyAccessFunction:
         return f
 
 
-BinarySegmentationAnalysis = BaseBinarySegmentationAnalysis
+

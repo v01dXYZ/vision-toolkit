@@ -1,7 +1,7 @@
 import numpy as np
 
 from .base_analysis import (
-    BaseBinarySegmentationAnalysis,
+    BaseAnalysis,
     results_delegation,
     EasyAccessFunction,
 )
@@ -9,7 +9,12 @@ from ..base_segmentation import Segmentation
 from vision_toolkit2.config import Config
 
 
-class PursuitAnalysis(BaseBinarySegmentationAnalysis):
+class PursuitAnalysis(BaseAnalysis):
+    """
+    For a pursuit [start,end]:
+        * positions:  start .. end        (n_samples = end-start+1)
+        * speeds:     start .. end-1      (n_vel = n_samples-1) => slice a_sp[start:end]
+    """
     _intervals = results_delegation("pursuit_intervals")
 
     def proportion(self):
@@ -24,7 +29,7 @@ class PursuitAnalysis(BaseBinarySegmentationAnalysis):
     def velocity(self, get_raw=True):
         l_sp = []
         for start, end in self._intervals():
-            seg = self._speed_segment(start, end)
+            seg = self._speed_segment(start, end)  # start..end-1
             if seg.size:
                 l_sp.append(seg)
 
@@ -42,7 +47,7 @@ class PursuitAnalysis(BaseBinarySegmentationAnalysis):
     def velocity_means(self, get_raw=True):
         m_sp = []
         for start, end in self._intervals():
-            seg = self._speed_segment(start, end)
+            seg = self._speed_segment(start, end)  # start..end-1
             m_sp.append(float(np.nanmean(seg)) if seg.size else np.nan)
 
         m_sp = np.asarray(m_sp, dtype=np.float64)
@@ -59,7 +64,7 @@ class PursuitAnalysis(BaseBinarySegmentationAnalysis):
     def peak_velocity(self, get_raw=True):
         p_sp = []
         for start, end in self._intervals():
-            seg = self._speed_segment(start, end)
+            seg = self._speed_segment(start, end)  # start..end-1
             p_sp.append(float(np.nanmax(seg)) if seg.size else np.nan)
 
         p_sp = np.asarray(p_sp, dtype=np.float64)
