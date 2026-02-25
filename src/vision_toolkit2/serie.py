@@ -19,10 +19,32 @@ import copy
 from scipy.signal import savgol_filter
 
 
+class SmoothingConfigBuilder:
+    @classmethod
+    def update(cls, config):
+        if config.smoothing is None:
+            return Config()
+        elif config.smoothing in (
+            "moving_average",
+            "speed_moving_average",
+        ):
+            return Config(moving_average_window=5)
+        elif config.smoothing == "savgol":
+            return Config(
+                savgol_window_length=31,
+                savgol_polyorder=3,
+            )
+        assert False, "unreachable"
+    @classmethod
+    def build(cls, config):
+        smoothing_defaults = cls.update(config)
+        return StackedConfig([smoothing_defaults, config])
+
+
 class Smoothing:
     def __init__(self, dataset, config):
         self.dataset = dataset
-        self.config = config
+        self.config = SmoothingConfigBuilder.build(config)
 
     def process(self):
         dataset_with_old_config = self.process_serie(self.dataset)
@@ -290,12 +312,15 @@ class Serie(SmoothedSerie):
         **kwargs,
     ):
         kwargs.pop("smoothing_config", None)
+        config = serie.config
+        if "config" in kwargs:
+            config += kwargs.pop("config")
 
         return cls(
             x=serie.x,
             y=serie.y,
             z=serie.z,
-            config=serie.config,
+            config=config,
             status=serie.status,
             absolute_speed=absolute_speed,
             smoothing_config=serie.smoothing_config,
