@@ -49,7 +49,6 @@ class DefaultConfigBuilder:
             stack.append(Config(segmentation_method=segmentation_method))
 
         config = StackedConfig(stack)
-        config += cls.for_smoothing(config)
 
         segmentation_method = config.segmentation_method
         _, default_config_impl = IMPLEMENTATIONS[segmentation_method]
@@ -57,21 +56,6 @@ class DefaultConfigBuilder:
         config += default_config_impl(config, vf_diag)
 
         return config
-
-    @staticmethod
-    def for_smoothing(config):
-        if config.smoothing in (
-            "moving_average",
-            "speed_moving_average",
-        ):
-            return Config(moving_average_window=5)
-        elif config.smoothing == "savgol":
-            return Config(
-                savgol_window_length=31,
-                savgol_polyorder=3,
-            )
-        return Config()
-
 
 class Segmentation:
     DISTANCES = {
