@@ -89,7 +89,7 @@ class V2Gateway:
             size_plan_x=dimensions["width_mm"],
             size_plan_y=dimensions["height_mm"],
             sampling_frequency=config.get("sampling_frequency"),
-            distance_type="euclidean",
+            distance_type=config["distance_type"],
             smoothing_config=Config(
                 smoothing="savgol",
                 savgol_window_length=31,
@@ -385,7 +385,6 @@ class EntryPoint:
         cls,
         *,
         cutoff,
-        report_name,
         directory,
         version,
         config,
@@ -427,7 +426,7 @@ class EntryPoint:
         if not directory.exists():
             directory.mkdir(exist_ok=True, parents=True)
 
-        report_path = directory / report_name
+        report_path = directory / "report"
 
         report_summary_serie.to_json(
             report_path.with_suffix(".json"),

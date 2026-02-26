@@ -14,7 +14,7 @@ def get_cli_args():
     arg_parser.add_argument("version", type=int, choices=[1, 2])
     arg_parser.add_argument("test_name", choices=["hollywood2", "zemblys"])
     arg_parser.add_argument("cutoff", type=int)
-    arg_parser.add_argument("report_name", nargs="?", default="report")
+    # arg_parser.add_argument("report_name", nargs="?", default="report")  # Removed CLI arg
     arg_parser.add_argument(
         "-c",
         "--config",
@@ -98,7 +98,6 @@ if __name__ == "__main__":
 
     test_mod.EntryPoint.main(
         cutoff=args.cutoff,
-        report_name=args.report_name,
         directory =  args.directory / args.test_name / f"v{args.version}",
         version=args.version,
         config=config,
