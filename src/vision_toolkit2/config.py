@@ -42,7 +42,6 @@ def prefix(prefix="", class_name=False, lower=True):
 
 @dataclasses.dataclass
 class HMM:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     init_low_velocity: float
     init_high_velocity: float
@@ -52,7 +51,6 @@ class HMM:
 
 @dataclasses.dataclass
 class I2MC:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     merging_distance_threshold: float  # [0, 1]?
     merging_duration_threshold: float  # [0, 1]?
@@ -62,7 +60,6 @@ class I2MC:
 
 @dataclasses.dataclass
 class CDBA:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     initial_random_state: int
     initialization_length: str  # min | max
@@ -71,14 +68,12 @@ class CDBA:
 
 @dataclasses.dataclass
 class IAP:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     centers: str  # mean | raw_IAP
 
 
 @dataclasses.dataclass
 class IDP:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     centers: str  # mean | raw_IDP
     gaussian_kernel_sd: float
@@ -86,7 +81,6 @@ class IDP:
 
 @dataclasses.dataclass
 class IDT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     density_threshold: float
     min_samples: int
@@ -94,7 +88,6 @@ class IDT:
 
 @dataclasses.dataclass
 class IKM:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     cluster_number: str  # search
     min_clusters: int
@@ -103,14 +96,12 @@ class IKM:
 
 @dataclasses.dataclass
 class IMS:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     bandwidth: float
 
 
 @dataclasses.dataclass
 class IDeT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     density_threshold: float
     duration_threshold: float
@@ -119,7 +110,6 @@ class IDeT:
 
 @dataclasses.dataclass
 class String_Distance:
-    __config_merge__ = prefix(class_name=False)
 
     deletion_cost: float
     insertion_cost: float
@@ -128,21 +118,18 @@ class String_Distance:
 
 @dataclasses.dataclass
 class Levenshtein_Distance(String_Distance):
-    __config_merge__ = prefix(class_name=True)
 
     substitution_cost: float
 
 
 @dataclasses.dataclass
 class Generalized_Edit_Distance(String_Distance):
-    __config_merge__ = prefix(class_name=True)
 
     pass
 
 
 @dataclasses.dataclass
 class Needleman_Wunsch_Distance:
-    __config_merge__ = prefix(class_name=True)
 
     concordance_bonus: float
     gap_cost: 0.25
@@ -151,7 +138,6 @@ class Needleman_Wunsch_Distance:
 
 @dataclasses.dataclass
 class Smith_Waterman:
-    __config_merge__ = prefix(class_name=True)
 
     base_deletion_cost: float
     iterative_deletion_cost: float
@@ -161,7 +147,6 @@ class Smith_Waterman:
 
 @dataclasses.dataclass
 class Temporal_Binning:
-    __config_merge__ = prefix()
 
     temporal_binning: bool
     temporal_binning_length: float
@@ -182,7 +167,6 @@ Identification = tagged_union_disjoint_types(
 
 @dataclasses.dataclass
 class AoI:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     # Distance classes as attributes
     levenshtein_distance: Levenshtein_Distance
@@ -210,7 +194,6 @@ class AoI:
 
 @dataclasses.dataclass
 class IBDT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     duration_threshold: float
     fixation_sd: float
@@ -222,7 +205,6 @@ class IBDT:
 
 @dataclasses.dataclass
 class I_DiT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     dispersion_threshold: float
     window_duration: float
@@ -230,7 +212,6 @@ class I_DiT:
 
 @dataclasses.dataclass
 class IFC:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     bcea_prob: float
     classifier: str  # to specify more closely
@@ -241,7 +222,6 @@ class IFC:
 
 @dataclasses.dataclass
 class IKF:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     chi2_threshold: float
     chi2_window: float
@@ -252,7 +232,6 @@ class IKF:
 
 @dataclasses.dataclass
 class IMST:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     distance_threshold: float
     window_duration: float
@@ -262,7 +241,6 @@ class IMST:
 
 @dataclasses.dataclass
 class IVDT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     dispersion_threshold: float
     saccade_threshold: float
@@ -271,7 +249,6 @@ class IVDT:
 
 @dataclasses.dataclass
 class IVMP:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     # Paper link: Part2 l.345
     rayleigh_threshold: float
@@ -281,7 +258,6 @@ class IVMP:
 
 @dataclasses.dataclass
 class IVT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     # Paper link: Part2 l.189
     velocity_threshold: float
@@ -289,7 +265,6 @@ class IVT:
 
 @dataclasses.dataclass
 class IVVT:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     pursuit_threshold: float
     saccade_threshold: float
@@ -297,7 +272,6 @@ class IVVT:
 
 @dataclasses.dataclass
 class TDE_distance:
-    __config_merge__ = prefix(class_name=True, lower=False)
 
     method: None
     scaling: None
@@ -306,7 +280,6 @@ class TDE_distance:
 
 @dataclasses.dataclass
 class Display:
-    __config_merge__ = prefix(class_name=True)
 
     _display: None  # means display itself
 
@@ -322,7 +295,6 @@ class Display:
 
 @dataclasses.dataclass
 class Multimatch_Simplification:
-    __config_merge__ = prefix(class_name=True)
 
     amplitude_threshold: float
     angular_threshold: float
@@ -332,7 +304,6 @@ class Multimatch_Simplification:
 
 @dataclasses.dataclass
 class Persistence:
-    __config_merge__ = prefix(class_name=True)
 
     display: bool
     landscape_order: int
@@ -340,7 +311,6 @@ class Persistence:
 
 @dataclasses.dataclass
 class Scanmatch_Score:
-    __config_merge__ = prefix(class_name=True)
 
     concordance_bonus: None
     gap_cost: None
@@ -349,7 +319,6 @@ class Scanmatch_Score:
 
 @dataclasses.dataclass
 class Scanpath:
-    __config_merge__ = prefix(class_name=True)
 
     # Distance classes as attributes
     levenshtein_distance: Levenshtein_Distance
@@ -369,7 +338,6 @@ class Scanpath:
 
 
 # class Smoothing:
-#     __config_merge__ = prefix()
 
 #     smoothing: str  # moving_average | speed_moving_average | savgol
 
@@ -384,7 +352,6 @@ Smoothing = tagged_union_disjoint_types(
 
 @dataclasses.dataclass
 class Savgol:
-    __config_merge__ = prefix(class_name=True)
 
     polyorder: int
     window_length: int
@@ -392,7 +359,6 @@ class Savgol:
 
 @dataclasses.dataclass
 class Fixation:
-    __config_merge__ = prefix(class_name=True)
 
     weighted_average_velocity_means: bool
     BCEA_probability: float
@@ -400,7 +366,6 @@ class Fixation:
 
 @dataclasses.dataclass
 class Saccade:
-    __config_merge__ = prefix(class_name=True)
 
     absolute_horizontal_deviations: bool
     init_direction_duration_threshold: float
@@ -413,7 +378,6 @@ class Saccade:
 
 @dataclasses.dataclass
 class Pursuit:
-    __config_merge__ = prefix(class_name=True)
 
     end_idx: None | int
 
