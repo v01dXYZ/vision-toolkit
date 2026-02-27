@@ -5,8 +5,9 @@ import time
 import numpy as np
 from scipy.stats import norm
 
-from vision_toolkit.utils.segmentation_utils import interval_merging
+from vision_toolkit2.segmentation.utils import interval_merging
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IBDT, Segmentation
 
 from ..ternary_segmentation_results import TernarySegmentationResults
 
@@ -31,17 +32,17 @@ def process_impl(s, config):
         print("Processing BDT Identification...")
         start_time = time.time()
 
-    n_s = int(config.nb_samples)
-    s_f = float(config.sampling_frequency)
+    n_s = int(config.serie_metadata.nb_samples)
+    s_f = float(config.serie_metadata.sampling_frequency)
 
-    d_t = max(1, int(np.ceil(float(config.IBDT_duration_threshold) * s_f)))
+    d_t = max(1, int(np.ceil(float(config.segmentation.ibdt.duration_threshold) * s_f)))
 
-    fix_t = float(config.IBDT_fixation_threshold)
-    sac_t = float(config.IBDT_saccade_threshold)
-    pur_t = float(config.IBDT_pursuit_threshold)
+    fix_t = float(config.segmentation.ibdt.fixation_threshold)
+    sac_t = float(config.segmentation.ibdt.saccade_threshold)
+    pur_t = float(config.segmentation.ibdt.pursuit_threshold)
 
-    fix_sd = max(1e-9, float(config.IBDT_fixation_sd))
-    sac_sd = max(1e-9, float(config.IBDT_saccade_sd))
+    fix_sd = max(1e-9, float(config.segmentation.ibdt.fixation_sd))
+    sac_sd = max(1e-9, float(config.segmentation.ibdt.saccade_sd))
 
     a_s = s.absolute_speed
 
@@ -107,20 +108,23 @@ def default_config_impl(config, vf_diag):
         fix_t = 0.1 * vf_diag
         pur_t = 0.15 * vf_diag
         sac_t = 1.0 * vf_diag
+        ibdt_config = IBDT(
+            duration_threshold=0.050,
+            fixation_threshold=fix_t,
+            saccade_threshold=sac_t,
+            pursuit_threshold=pur_t,
+            fixation_sd=0.01,
+            saccade_sd=0.01,
+        )
         return Config(
-            IBDT_duration_threshold=0.050,
-            IBDT_fixation_threshold=fix_t,
-            IBDT_saccade_threshold=sac_t,
-            IBDT_pursuit_threshold=pur_t,
-            IBDT_fixation_sd=0.01,
-            IBDT_saccade_sd=0.01,
+            segmentation=Segmentation(ibdt_config),
         )
     elif config.distance_type == "angular":
-        return Config(
-            IBDT_duration_threshold=0.050,
-            IBDT_fixation_threshold=5,
-            IBDT_saccade_threshold=50,
-            IBDT_pursuit_threshold=8,
-            IBDT_fixation_sd=0.01,
-            IBDT_saccade_sd=0.01,
+        ibdt_config = IBDT(
+            duration_threshold=0.050,
+            fixation_threshold=5,
+            saccade_threshold=50,
+            pursuit_threshold=8,
+            fixation_sd=0.01,
+            saccade_sd=0.01,
         )

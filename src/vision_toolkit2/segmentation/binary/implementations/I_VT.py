@@ -2,6 +2,7 @@ import numpy as np
 import math
 
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IVT, Segmentation
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 
 from ..binary_segmentation_results import BinarySegmentationResults
@@ -10,14 +11,14 @@ from ..binary_segmentation_results import BinarySegmentationResults
 def process_impl(s, config):
     # Find indices where velocity is below threshold
     (idx_velocity_lower_than_threshold,) = np.where(
-        s.absolute_speed <= config.IVT_velocity_threshold
+        s.absolute_speed <= config.segmentation.ivt.velocity_threshold
     )
 
-    is_fix = np.full(config.nb_samples, False)
+    is_fix = np.full(config.serie_metadata.nb_samples, False)
 
     # Add index + 1 to fixation since velocities are computed from two data points
     is_fix[idx_velocity_lower_than_threshold] = True
-    is_fix[(idx_velocity_lower_than_threshold + 1).clip(max=config.nb_samples - 1)] = (
+    is_fix[(idx_velocity_lower_than_threshold + 1).clip(max=config.serie_metadata.nb_samples - 1)] = (
         True
     )
 
@@ -29,18 +30,18 @@ def process_impl(s, config):
     s_ints = interval_merging(
         idx_sac,
         min_int_size=math.ceil(
-            config.min_sac_duration * config.sampling_frequency,
+            config.segmentation.filter.saccade_duration.min * config.serie_metadata.sampling_frequency,
         ),
     )
 
-    is_fix = np.full(config.nb_samples, True)
+    is_fix = np.full(config.serie_metadata.nb_samples, True)
 
     for s_start, s_end in s_ints:
         is_fix[s_start : s_end + 1] = False
 
     (idx_fix,) = is_fix.nonzero()
 
-    fix_dur_t = math.ceil(config.min_fix_duration * config.sampling_frequency)
+    fix_dur_t = math.ceil(config.segmentation.filter.fixation_duration.min * config.serie_metadata.sampling_frequency)
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -52,10 +53,10 @@ def process_impl(s, config):
     # Recompute fixation intervals
     f_ints = interval_merging(
         idx_fix,
-        min_int_size=math.ceil(config.min_fix_duration * config.sampling_frequency),
-        max_int_size=math.ceil(config.max_fix_duration * config.sampling_frequency),
+        min_int_size=math.ceil(config.segmentation.filter.fixation_duration.min * config.serie_metadata.sampling_frequency),
+        max_int_size=math.ceil(config.segmentation.filter.fixation_duration.max * config.serie_metadata.sampling_frequency),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -68,13 +69,13 @@ def process_impl(s, config):
     # Recompute saccadic intervals
     s_ints = interval_merging(
         idx_sac,
-        min_int_size=math.ceil(config.min_sac_duration * config.sampling_frequency),
+        min_int_size=math.ceil(config.segmentation.filter.saccade_duration.min * config.serie_metadata.sampling_frequency),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Keep track of index that were effectively labeled
-    i_lab = np.full(config.nb_samples, False)
+    i_lab = np.full(config.serie_metadata.nb_samples, False)
 
     for ints in (f_ints, s_ints):
         for start, end in ints:
@@ -93,10 +94,12 @@ def process_impl(s, config):
 def default_config_impl(config, vf_diag):
     if config.distance_type == "euclidean":
         v_t = vf_diag * 0.2
+        ivt_config = IVT(velocity_threshold=v_t)
         return Config(
-            IVT_velocity_threshold=v_t,
+            segmentation=Segmentation(ivt_config),
         )
     elif config.distance_type == "angular":
+        ivt_config = IVT(velocity_threshold=50)
         return Config(
-            IVT_velocity_threshold=50,
+            segmentation=Segmentation(ivt_config),
         )

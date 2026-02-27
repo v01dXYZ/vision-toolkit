@@ -8,6 +8,7 @@ from scipy.spatial.distance import cdist
 
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IMST, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
@@ -38,20 +39,20 @@ def process_impl(s, config):
     x_a = s.x
     y_a = s.y
 
-    n_s = int(config.nb_samples)
-    s_f = float(config.sampling_frequency)
+    n_s = int(config.serie_metadata.nb_samples)
+    s_f = float(config.serie_metadata.sampling_frequency)
 
     g_p = np.column_stack((x_a.reshape(n_s), y_a.reshape(n_s)))  # (n_s, 2) array of gaze points
 
-    vareps = float(config.IMST_distance_threshold)
+    vareps = float(config.segmentation.imst.distance_threshold)
 
     # Window length in samples
-    t_du = int(np.ceil(float(config.IMST_window_duration) * s_f))
+    t_du = int(np.ceil(float(config.segmentation.imst.window_duration) * s_f))
     t_du = max(2, t_du)  # need at least 2 points
 
     # Overlap / stride (B)
     # If user provides IMST_step_samples, use it; otherwise default to 50% overlap.
-    step = config.IMST_step_samples
+    step = config.segmentation.imst.step_samples
     if step is None:
         step = max(1, t_du // 2)
     else:
@@ -59,9 +60,9 @@ def process_impl(s, config):
 
     # Minimum cluster size to accept as fixation-like (A)
     # Default: at least the minimum fixation duration in samples, capped by window length.
-    min_pts = config.IMST_min_cluster_size
+    min_pts = config.segmentation.imst.min_cluster_size
     if min_pts is None:
-        min_pts = int(np.ceil(float(config.min_fix_duration) * s_f))
+        min_pts = int(np.ceil(float(config.segmentation.filter.fixation_duration.min) * s_f))
     min_pts = max(2, min(min_pts, t_du))
 
     # Build fixation mask via voting across overlapping windows
@@ -119,24 +120,24 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.min_sac_duration
+                s_du=config.segmentation.filter.saccade_duration.min
             )
         )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True] * config.nb_samples)
+    i_fix = np.array([True] * config.serie_metadata.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
+    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -149,7 +150,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.min_fix_duration
+                f_du=config.segmentation.filter.fixation_duration.min
             )
         )
 
@@ -158,10 +159,10 @@ def process_impl(s, config):
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.min_fix_duration * s_f),
-        max_int_size=np.ceil(config.max_fix_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
+        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -173,15 +174,15 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.status_threshold
+                s_th=config.segmentation.filter.status_threshold
             )
         )
 
@@ -194,7 +195,7 @@ def process_impl(s, config):
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
     # Keep track of index that were effectively labeled
-    i_lab = np.array([False] * config.nb_samples)
+    i_lab = np.array([False] * config.serie_metadata.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True
@@ -213,10 +214,13 @@ def process_impl(s, config):
 
 
 def default_config_impl(config, vf_diag):
-    du_t = 40 / config.sampling_frequency
+    du_t = 40 / config.serie_metadata.sampling_frequency
     s_ = 0.001 * vf_diag
 
+    imst_config = IMST(
+        distance_threshold=s_,
+        window_duration=du_t,
+    )
     return Config(
-        IMST_distance_threshold=s_,
-        IMST_window_duration=du_t,
+        segmentation=Segmentation(imst_config),
     )

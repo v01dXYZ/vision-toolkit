@@ -4,8 +4,9 @@ import time
 
 import numpy as np
 
-from vision_toolkit.utils.segmentation_utils import dispersion_metric, interval_merging
+from vision_toolkit2.segmentation.utils import dispersion_metric, interval_merging
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IVDT, Segmentation
 
 from ..ternary_segmentation_results import TernarySegmentationResults
 
@@ -25,7 +26,7 @@ def process_impl(s, config):
         start_time = time.time()
 
     a_sp = s.absolute_speed
-    s_f = config.sampling_frequency
+    s_f = config.serie_metadata.sampling_frequency
 
     if config.distance_type == "euclidean":
         x_a = s.x
@@ -35,10 +36,10 @@ def process_impl(s, config):
         x_a = theta_coord[0, :]
         y_a = theta_coord[1, :]
 
-    t_s = config.IVDT_saccade_threshold
-    t_du = int(np.ceil(config.IVDT_window_duration * s_f))
+    t_s = config.segmentation.ivdt.saccade_threshold
+    t_du = int(np.ceil(config.segmentation.ivdt.window_duration * s_f))
     t_du = max(2, t_du)
-    t_di = config.IVDT_dispersion_threshold
+    t_di = config.segmentation.ivdt.dispersion_threshold
 
     i_sac = (a_sp > t_s).astype(int)
     i_purs = np.zeros_like(i_sac)
@@ -100,14 +101,20 @@ def default_config_impl(config, vf_diag):
     if config.distance_type == "euclidean":
         s_t = vf_diag * 0.5
         di_t = 0.02 * vf_diag
+        ivdt_config = IVDT(
+            saccade_threshold=s_t,
+            dispersion_threshold=di_t,
+            window_duration=0.040,
+        )
         return Config(
-            IVDT_saccade_threshold=s_t,
-            IVDT_dispersion_threshold=di_t,
-            IVDT_window_duration=0.040,
+            segmentation=Segmentation(ivdt_config),
         )
     elif config.distance_type == "angular":
+        ivdt_config = IVDT(
+            saccade_threshold=40,
+            dispersion_threshold=0.20,
+            window_duration=0.040,
+        )
         return Config(
-            IVDT_saccade_threshold=40,
-            IVDT_dispersion_threshold=0.20,
-            IVDT_window_duration=0.040,
+            segmentation=Segmentation(ivdt_config),
         )

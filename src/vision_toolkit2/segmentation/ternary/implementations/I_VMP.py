@@ -4,8 +4,9 @@ import time
 
 import numpy as np
 
-from vision_toolkit.utils.segmentation_utils import interval_merging
+from vision_toolkit2.segmentation.utils import interval_merging
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IVMP, Segmentation
 
 from ..ternary_segmentation_results import TernarySegmentationResults
 
@@ -25,16 +26,16 @@ def process_impl(s, config):
         start_time = time.time()
 
     a_sp = s.absolute_speed
-    n_s = config.nb_samples
-    s_f = config.sampling_frequency
+    n_s = config.serie_metadata.nb_samples
+    s_f = config.serie_metadata.sampling_frequency
 
     x_array = s.x
     y_array = s.y
 
-    t_s = config.IVMP_saccade_threshold
-    t_du = int(np.ceil(config.IVMP_window_duration * s_f))
+    t_s = config.segmentation.ivmp.saccade_threshold
+    t_du = int(np.ceil(config.segmentation.ivmp.window_duration * s_f))
     t_du = max(2, t_du)
-    t_r = config.IVMP_rayleigh_threshold
+    t_r = config.segmentation.ivmp.rayleigh_threshold
 
     is_sac = a_sp > t_s
     is_fix = ~is_sac
@@ -95,14 +96,20 @@ def process_impl(s, config):
 def default_config_impl(config, vf_diag):
     if config.distance_type == "euclidean":
         s_t = vf_diag * 0.5
+        ivmp_config = IVMP(
+            saccade_threshold=s_t,
+            rayleigh_threshold=0.50,
+            window_duration=0.050,
+        )
         return Config(
-            IVMP_saccade_threshold=s_t,
-            IVMP_rayleigh_threshold=0.50,
-            IVMP_window_duration=0.050,
+            segmentation=Segmentation(ivmp_config),
         )
     elif config.distance_type == "angular":
+        ivmp_config = IVMP(
+            saccade_threshold=40,
+            rayleigh_threshold=0.50,
+            window_duration=0.050,
+        )
         return Config(
-            IVMP_saccade_threshold=40,
-            IVMP_rayleigh_threshold=0.50,
-            IVMP_window_duration=0.050,
+            segmentation=Segmentation(ivmp_config),
         )

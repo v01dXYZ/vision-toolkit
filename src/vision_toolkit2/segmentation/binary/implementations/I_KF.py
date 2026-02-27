@@ -7,6 +7,7 @@ import numpy as np
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from vision_toolkit2.velocity_distance_factory import process_speed_components
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IKF, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
@@ -19,11 +20,11 @@ def process_impl(s, config):
         print("Processing KF Identification...")
         start_time = time.time()
 
-    n_s = config.nb_samples
-    s_f = config.sampling_frequency
+    n_s = config.serie_metadata.nb_samples
+    s_f = config.serie_metadata.sampling_frequency
 
     d_t = 1 / s_f
-    c_wn = config.IKF_chi2_window
+    c_wn = config.segmentation.ikf.chi2_window
 
     x_a = s.x
     y_a = s.y
@@ -33,7 +34,7 @@ def process_impl(s, config):
     sp = process_speed_components(s, config)[0:2, :]
 
     # predict velocities and positions from Kalman filter
-    pred = process_Kalman_filter(pos, sp, d_t, config.IKF_sigma_1, config.IKF_sigma_2)
+    pred = process_Kalman_filter(pos, sp, d_t, config.segmentation.ikf.sigma_1, config.segmentation.ikf.sigma_2)
 
     # compute norms of predicted and true speed vectors
     p_sp = np.linalg.norm(
@@ -48,12 +49,12 @@ def process_impl(s, config):
     # compute chi2 statistics over sampling intervals of size c_wn
     chi2_a = compute_chi2(p_sp, t_sp, c_wn)
 
-    wi_fix = np.where(chi2_a[:-1] <= config.IKF_chi2_threshold)[0]
+    wi_fix = np.where(chi2_a[:-1] <= config.segmentation.ikf.chi2_threshold)[0]
 
     # Add index + 1 to fixation since velocities are computed from two data points
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
-    i_fix = np.array([False] * config.nb_samples)
+    i_fix = np.array([False] * config.serie_metadata.nb_samples)
     i_fix[wi_fix] = True
 
     i_sac = ~i_fix
@@ -61,24 +62,24 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
     )
 
     # i_sac events not retained as intervals are relabeled as fix events
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.min_sac_duration
+                s_du=config.segmentation.filter.saccade_duration.min
             )
         )
 
-    i_fix = np.array([True] * config.nb_samples)
+    i_fix = np.array([True] * config.serie_metadata.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
+    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -90,7 +91,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.min_fix_duration
+                f_du=config.segmentation.filter.fixation_duration.min
             )
         )
 
@@ -99,9 +100,9 @@ def process_impl(s, config):
     # Recompute fixation intervals
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.min_fix_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -113,15 +114,15 @@ def process_impl(s, config):
     # Recompute saccadic intervals
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.status_threshold
+                s_th=config.segmentation.filter.status_threshold
             )
         )
 
@@ -133,7 +134,7 @@ def process_impl(s, config):
         print("\n...KF Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    i_lab = np.array([False] * config.nb_samples)
+    i_lab = np.array([False] * config.serie_metadata.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True
@@ -209,10 +210,13 @@ def default_config_impl(config, vf_diag):
     si_2 = (5 * vf_diag) ** 2
     c_t = (1 * vf_diag) ** 2
 
+    ikf_config = IKF(
+        chi2_threshold=c_t,
+        chi2_window=10,
+        chi2_sigma=1.0,
+        sigma_1=si_1,
+        sigma_2=si_2,
+    )
     return Config(
-        IKF_chi2_threshold=c_t,
-        IKF_chi2_window=10,
-        IKF_chi2_sigma=1.0,
-        IKF_sigma_1=si_1,
-        IKF_sigma_2=si_2,
+        segmentation=Segmentation(ikf_config),
     )

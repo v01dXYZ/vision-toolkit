@@ -8,6 +8,7 @@ from scipy.cluster.vq import kmeans2
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from vision_toolkit2.velocity_distance_factory import absolute_angular_distance
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import I2MC, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
@@ -32,17 +33,17 @@ def process_impl(
         x_a = theta_coord[0, :]
         y_a = theta_coord[1, :]
 
-    n_s = config.nb_samples
-    s_f = config.sampling_frequency
+    n_s = config.serie_metadata.nb_samples
+    s_f = config.serie_metadata.sampling_frequency
 
-    t_du = np.floor(config.I2MC_window_duration * s_f / 2)
-    t_mo = np.ceil(config.I2MC_moving_threshold * s_f)
+    t_du = np.floor(config.segmentation.i2mc.window_duration * s_f / 2)
+    t_mo = np.ceil(config.segmentation.i2mc.moving_threshold * s_f)
 
     # interval merging for saccade with min_int_size = t_me_du-2
-    t_me_du = np.ceil(config.I2MC_merging_duration_threshold * s_f)
-    t_me_di = config.I2MC_merging_distance_threshold
+    t_me_du = np.ceil(config.segmentation.i2mc.merging_duration_threshold * s_f)
+    t_me_di = config.segmentation.i2mc.merging_distance_threshold
 
-    i_fix = np.array([True] * config.nb_samples)
+    i_fix = np.array([True] * config.serie_metadata.nb_samples)
 
     n_wc = int(2 * t_du + 1)
     n_wc_2 = int(np.ceil(n_wc / 2))
@@ -121,7 +122,7 @@ def process_impl(
     f_ints = interval_merging(wi_fix, min_int_size=t_me_du)
 
     # Initialize final i_fix
-    i_fix = np.array([False] * config.nb_samples)
+    i_fix = np.array([False] * config.serie_metadata.nb_samples)
 
     # Merging fixations separated by a distance below I2MC_merging_distance_threshold
     for i in range(len(f_ints)):
@@ -155,24 +156,24 @@ def process_impl(
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.min_sac_duration
+                s_du=config.segmentation.filter.saccade_duration.min
             )
         )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True] * config.nb_samples)
+    i_fix = np.array([True] * config.serie_metadata.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
+    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -184,7 +185,7 @@ def process_impl(
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.min_fix_duration
+                f_du=config.segmentation.filter.fixation_duration.min
             )
         )
 
@@ -193,9 +194,9 @@ def process_impl(
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.min_fix_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -207,15 +208,15 @@ def process_impl(
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.status_threshold
+                s_th=config.segmentation.filter.status_threshold
             )
         )
 
@@ -228,7 +229,7 @@ def process_impl(
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
     # Keep track of index that were effectively labeled
-    i_lab = np.array([False] * config.nb_samples)
+    i_lab = np.array([False] * config.serie_metadata.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True
@@ -249,16 +250,22 @@ def process_impl(
 def default_config_impl(config, vf_diag):
     if config.distance_type == "euclidean":
         di_t = 0.025 * vf_diag
+        i2mc_config = I2MC(
+            window_duration=0.300,
+            moving_threshold=0.020,
+            merging_duration_threshold=0.020,
+            merging_distance_threshold=di_t,
+        )
         return Config(
-            I2MC_window_duration=0.300,
-            I2MC_moving_threshold=0.020,
-            I2MC_merging_duration_threshold=0.020,
-            I2MC_merging_distance_threshold=di_t,
+            segmentation=Segmentation(i2mc_config),
         )
     elif config.distance_type == "angular":
+        i2mc_config = I2MC(
+            window_duration=0.300,
+            moving_threshold=0.020,
+            merging_duration_threshold=0.020,
+            merging_distance_threshold=0.5,
+        )
         return Config(
-            I2MC_window_duration=0.300,
-            I2MC_moving_threshold=0.020,
-            I2MC_merging_duration_threshold=0.020,
-            I2MC_merging_distance_threshold=0.5,
+            segmentation=Segmentation(i2mc_config),
         )

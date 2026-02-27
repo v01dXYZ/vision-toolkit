@@ -4,8 +4,9 @@ import time
 
 import numpy as np
 
-from vision_toolkit.utils.segmentation_utils import interval_merging
+from vision_toolkit2.segmentation.utils import interval_merging
 from vision_toolkit2.config import Config
+from vision_toolkit2.config import IVVT, Segmentation
 
 from ..ternary_segmentation_results import TernarySegmentationResults
 
@@ -25,8 +26,8 @@ def process_impl(s, config):
 
     a_sp = s.absolute_speed
 
-    T_s = config.IVVT_saccade_threshold
-    T_p = config.IVVT_pursuit_threshold
+    T_s = config.segmentation.ivvt.saccade_threshold
+    T_p = config.segmentation.ivvt.pursuit_threshold
 
     valid = np.isfinite(a_sp)
 
@@ -58,12 +59,18 @@ def default_config_impl(config, vf_diag):
     if config.distance_type == "euclidean":
         s_t = vf_diag * 0.5
         p_t = vf_diag * 0.15
+        ivvt_config = IVVT(
+            saccade_threshold=s_t,
+            pursuit_threshold=p_t,
+        )
         return Config(
-            IVVT_saccade_threshold=s_t,
-            IVVT_pursuit_threshold=p_t,
+            segmentation=Segmentation(ivvt_config),
         )
     elif config.distance_type == "angular":
+        ivvt_config = IVVT(
+            saccade_threshold=10,
+            pursuit_threshold=1,
+        )
         return Config(
-            IVVT_saccade_threshold=10,
-            IVVT_pursuit_threshold=1,
+            segmentation=Segmentation(ivvt_config),
         )
