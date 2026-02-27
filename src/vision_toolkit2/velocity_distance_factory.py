@@ -19,15 +19,15 @@ def process_unitary_gaze_vectors(data_set, config):
         DESCRIPTION.
 
     """
-    x = data_set.x - config.size_plan_x / 2
-    y = data_set.y - config.size_plan_y / 2
+    x = data_set.x - config.screen_dimensions.x / 2
+    y = data_set.y - config.screen_dimensions.y / 2
     z = data_set.z
 
     gaze_vectors = np.concatenate(
         (
-            x.reshape(1, config.nb_samples),
-            y.reshape(1, config.nb_samples),
-            z.reshape(1, config.nb_samples),
+            x.reshape(1, config.serie_metadata.nb_samples),
+            y.reshape(1, config.serie_metadata.nb_samples),
+            z.reshape(1, config.serie_metadata.nb_samples),
         ),
         axis=0,
     )
@@ -54,16 +54,16 @@ def process_angular_coord(data_set, config):
 
     """
     theta_x = (180 / np.pi) * np.arctan(
-        (data_set.x - (config.size_plan_x / 2)) / data_set.z
+        (data_set.x - (config.screen_dimensions.x / 2)) / data_set.z
     )
     theta_y = (180 / np.pi) * np.arctan(
-        (data_set.y - (config.size_plan_y / 2)) / data_set.z
+        (data_set.y - (config.screen_dimensions.y / 2)) / data_set.z
     )
 
     theta_coord = np.concatenate(
         (
-            theta_x.reshape(1, config.nb_samples),
-            theta_y.reshape(1, config.nb_samples),
+            theta_x.reshape(1, config.serie_metadata.nb_samples),
+            theta_y.reshape(1, config.serie_metadata.nb_samples),
         ),
         axis=0,
     )
@@ -100,15 +100,15 @@ def process_angular_absolute_speeds(
     dot_ = np.array(
         [
             unitary_gaze_vectors[:, i - 1] @ unitary_gaze_vectors[:, i]
-            for i in range(1, config.nb_samples)
+            for i in range(1, config.serie_metadata.nb_samples)
         ]
     )
 
     absolute_angular_distances_rad = np.arccos(dot_)
     absolute_angular_distances_deg = absolute_angular_distances_rad / (np.pi) * 180
 
-    absolute_speeds = np.zeros(config.nb_samples)
-    absolute_speeds[:-1] = absolute_angular_distances_deg * config.sampling_frequency
+    absolute_speeds = np.zeros(config.serie_metadata.nb_samples)
+    absolute_speeds[:-1] = absolute_angular_distances_deg * config.serie_metadata.sampling_frequency
 
     absolute_speeds[-1] = absolute_speeds[-2]
 
@@ -116,7 +116,7 @@ def process_angular_absolute_speeds(
 
 
 def process_euclidean_absolute_speeds(data_set, config):
-    nb_samples = config.nb_samples
+    nb_samples = config.serie_metadata.nb_samples
 
     gaze_points = np.concatenate(
         (
@@ -130,7 +130,7 @@ def process_euclidean_absolute_speeds(data_set, config):
     absolute_speeds = np.zeros(nb_samples, dtype=np.float64)
     absolute_speeds[:-1] = (
         np.linalg.norm(gaze_points[:, 1:] - gaze_points[:, :-1], axis=0)
-        * config.sampling_frequency
+        * config.serie_metadata.sampling_frequency
     )
 
     if nb_samples >= 2:
@@ -155,7 +155,7 @@ def process_speed_components(data_set, config):
         DESCRIPTION.
 
     """
-    nb_s = config.nb_samples
+    nb_s = config.serie_metadata.nb_samples
 
     g_p = np.concatenate(
         (
@@ -167,7 +167,7 @@ def process_speed_components(data_set, config):
     )
 
     sp = np.zeros_like(g_p)
-    sp[:, :-1] = (g_p[:, 1:] - g_p[:, :-1]) * config.sampling_frequency
+    sp[:, :-1] = (g_p[:, 1:] - g_p[:, :-1]) * config.serie_metadata.sampling_frequency
 
     return sp
 

@@ -52,7 +52,7 @@ class DefaultConfigBuilder:
 
         segmentation_method = config.segmentation_method
         _, default_config_impl = IMPLEMENTATIONS[segmentation_method]
-        vf_diag = np.linalg.norm(np.array([config.size_plan_x, config.size_plan_y]))
+        vf_diag = np.linalg.norm(np.array([config.screen_dimensions.x, config.screen_dimensions.y]))
         config += default_config_impl(config, vf_diag)
 
         return config

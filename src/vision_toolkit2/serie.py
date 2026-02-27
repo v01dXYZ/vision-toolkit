@@ -97,8 +97,8 @@ class NoSmoothing(Smoothing):
 
 class MovingAverage(Smoothing):
     def process_coordinate(self, coordinate):
-        _len = self.config.nb_samples
-        _w = self.config.moving_average_window
+        _len = self.config.serie_metadata.nb_samples
+        _w = self.config.smoothing.moving_average.window_length
         assert _w % 2 == 1, "Moving average window must be odd"
 
         conv = np.convolve(coordinate, np.ones(_w)) / _w
@@ -112,9 +112,9 @@ class MovingAverage(Smoothing):
 
 class SpeedMovingAverage(Smoothing):
     def process_coordinate(self, coordinate):
-        _delta_t = 1 / self.config.sampling_frequency
-        _len = self.config.nb_samples
-        _w = self.config.moving_average_window
+        _delta_t = 1 / self.config.serie_metadata.sampling_frequency
+        _len = self.config.serie_metadata.nb_samples
+        _w = self.config.smoothing.speed_moving_average.window_length
         assert _w % 2 == 1, "Moving average window must be odd"
 
         smoothed_array = copy.deepcopy(coordinate)
@@ -122,7 +122,7 @@ class SpeedMovingAverage(Smoothing):
             coordinate, _len, _w, _delta_t
         )
 
-        for i in range(1, self.config.nb_samples):
+        for i in range(1, self.config.serie_metadata.nb_samples):
             smoothed_array[i] = (
                 smoothed_array[i - 1] + smoothed_speed_vector[i - 1] * _delta_t
             )
@@ -132,9 +132,9 @@ class SpeedMovingAverage(Smoothing):
 
 class SavgolFiltering(Smoothing):
     def process_coordinate(self, coordinate):
-        _w = self.config.savgol_window_length
+        _w = self.config.smoothing.savgol.window_length
         assert _w % 2 == 1, "Savgol window must be odd"
-        _order = self.config.savgol_polyorder
+        _order = self.config.smoothing.savgol.polyorder
 
         smoothed_array = savgol_filter(coordinate, _w, _order)
 

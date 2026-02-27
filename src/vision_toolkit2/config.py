@@ -346,16 +346,28 @@ Smoothing = tagged_union_disjoint_types(
     "smoothing",
     {
         "savgol": Savgol,
+        "moving_average": MovingAverage,
+        "speed_moving_average": SpeedMovingAverage,
     }
 )
 
 
 @dataclasses.dataclass
-class Savgol:
-
-    polyorder: int
+class BaseSmoothing:
     window_length: int
 
+
+@dataclasses.dataclass
+class MovingAverage(BaseSmoothing):
+    pass
+
+@dataclasses.dataclass
+class SpeedMovingAverage(BaseSmoothing):
+    pass
+
+@dataclasses.dataclass
+class Savgol(BaseSmoothing):
+    polyorder: int
 
 @dataclasses.dataclass
 class Fixation:
