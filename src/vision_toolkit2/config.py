@@ -383,28 +383,13 @@ class Pursuit:
 
 @prefix()
 class Common(
-    HMM,
-    I2MC,
     AoI,
-    IBDT,
-    ICNN,
-    I_DiT,
-    IFC,
-    IKF,
-    IMST,
-    IVDT,
-    IVMP,
-    IVT,
-    IVVT,
-    IDeT,
     TDE_distance,
     Display,
     Multimatch_Simplification,
     Persistence,
     Scanmatch_Score,
     Scanpath,
-    Smoothing,
-    Savgol,
     Fixation,
     Saccade,
     Pursuit,
@@ -444,6 +429,10 @@ class Common(
 
     # do it later
     segmentation_method: None
+
+    segmentation: Segmentation
+
+    smoothing: Smoothing
 
     size_plan_x: float
     size_plan_y: float
