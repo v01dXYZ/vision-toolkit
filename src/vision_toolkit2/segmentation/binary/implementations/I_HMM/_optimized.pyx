@@ -11,12 +11,12 @@ def process_IHMM(data_set, config):
     """
     cdef double[:] a_s = data_set.absolute_speed
 
-    cdef double i_low_vel  = config.HMM_init_low_velocity
-    cdef double i_high_vel = config.HMM_init_high_velocity
-    cdef double i_var      = config.HMM_init_variance
+    cdef double i_low_vel  = config.segmentation.ihmm.init_low_velocity
+    cdef double i_high_vel = config.segmentation.ihmm.init_high_velocity
+    cdef double i_var      = config.segmentation.ihmm.init_variance
 
-    cdef int n_iter = config.HMM_nb_iters
-    cdef int s_f    = config.sampling_frequency
+    cdef int n_iter = config.segmentation.ihmm.nb_iters
+    cdef int s_f    = config.serie_metadata.sampling_frequency
 
     theta = baum_welch(a_s, 2, n_iter, i_low_vel, i_high_vel, i_var)
 
@@ -27,7 +27,7 @@ def process_IHMM(data_set, config):
     wi_fix = np.where(s_s[:-1] == fix_s)[0]
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
-    i_fix = np.array([False]*config.nb_samples)
+    i_fix = np.array([False]*config.serie_metadata.nb_samples)
     i_fix[wi_fix] = True
 
     x_a = data_set.x
@@ -38,20 +38,20 @@ def process_IHMM(data_set, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration*s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min*s_f),
     )
 
     if config.verbose:
         print('   Saccadic intervals identified with minimum duration: {s_du} sec'
-              .format(s_du=config.min_sac_duration))
+              .format(s_du=config.segmentation.filter.saccade_duration.min))
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True]*config.nb_samples)
+    i_fix = np.array([True]*config.serie_metadata.nb_samples)
     for s_int in s_ints:
         i_fix[s_int[0]: s_int[1]+1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.min_fix_duration*s_f))
+    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min*s_f))
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
         o_s_int = s_ints[i-1]
@@ -60,17 +60,17 @@ def process_IHMM(data_set, config):
 
     if config.verbose:
         print('   Close saccadic intervals merged with duration threshold: {f_du} sec'
-              .format(f_du=config.min_fix_duration))
+              .format(f_du=config.segmentation.filter.fixation_duration.min))
 
     # Recompute fixation intervals
     wi_fix = np.where(i_fix == True)[0]
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.min_fix_duration*s_f),
-        max_int_size=np.ceil(config.max_fix_duration*s_f),
+        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min*s_f),
+        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max*s_f),
         status=data_set.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -82,18 +82,18 @@ def process_IHMM(data_set, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration*s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min*s_f),
         status=data_set.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     if config.verbose:
         print('   Fixations ans saccades identified using availability status threshold: {s_th}'
-              .format(s_th=config.status_threshold))
+              .format(s_th=config.segmentation.filter.status_threshold))
 
     assert len(f_ints) == len(ctrds), "Interval set and centroid set have different lengths"
 
-    i_lab = np.array([False]*config.nb_samples)
+    i_lab = np.array([False]*config.serie_metadata.nb_samples)
     for f_int in f_ints:
         i_lab[f_int[0]: f_int[1]+1] = True
     for s_int in s_ints:
