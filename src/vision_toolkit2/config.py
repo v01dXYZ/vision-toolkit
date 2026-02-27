@@ -192,15 +192,6 @@ class IBDT:
     saccade_threshold: float
 
 
-class ICNN:
-    __config_merge__ = prefix(class_name=True, lower=False)
-
-    batch_size: int
-    learning_rate: float
-    num_epochs: int
-    temporal_window_size: int
-
-
 class I_DiT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -590,7 +581,6 @@ Segmentation = tagged_union_disjoint_types(
         "HMM": HMM,
         "I2MC": I2MC,
         "IBDT": IBDT,
-        "ICNN": ICNN,
         "I_DiT": I_DiT,
         "IFC": IFC,
         "IKF": IKF,
