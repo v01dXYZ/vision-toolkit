@@ -1,4 +1,5 @@
 import dataclasses
+from typing import TypeVar, Generic, Union
 
 
 def asdict(dc_instance):
@@ -158,13 +159,15 @@ class AoI(
     IDT,
     IKM,
     IMS,
-    Levenshtein_Distance,
-    Generalized_Edit_Distance,
-    Needleman_Wunsch_Distance,
-    Smith_Waterman,
     Temporal_Binning,
 ):
     __config_merge__ = prefix(class_name=True, lower=False)
+
+    # Distance classes as attributes
+    levenshtein_distance: Levenshtein_Distance
+    generalized_edit_distance: Generalized_Edit_Distance
+    needleman_wunsch_distance: Needleman_Wunsch_Distance
+    smith_waterman: Smith_Waterman
 
     SPAM_support: float
     coordinates: None  # array[2, 2]
@@ -312,13 +315,16 @@ class Scanmatch_Score:
     substitution_threshold: None
 
 
-class Scanpath(
-    Levenshtein_Distance,
-    Needleman_Wunsch_Distance,
-    Generalized_Edit_Distance,
-    Temporal_Binning,
-):
+class Scanpath:
     __config_merge__ = prefix(class_name=True)
+
+    # Distance classes as attributes
+    levenshtein_distance: Levenshtein_Distance
+    generalized_edit_distance: Generalized_Edit_Distance
+    needleman_wunsch_distance: Needleman_Wunsch_Distance
+
+    # Temporal binning as attribute
+    temporal_binning: Temporal_Binning
 
     CRQA_distance_threshold: float
     CRQA_minimum_length: float
@@ -381,19 +387,39 @@ class Pursuit:
     start_idx: int
 
 
+@dataclasses.dataclass
+class ScreenDimensions:
+    x: float
+    y: float
+    diagonal: float
+
+
+T = TypeVar('T', bound=Union[float, int])
+
+
+@dataclasses.dataclass
+class FilterRange(Generic[T]):
+    min: T | None
+    max: T | None
+
+
+@dataclasses.dataclass
+class SegmentationFilter:
+    fixation_duration: FilterRange[float]
+    pursuit_duration: FilterRange[float]
+    saccade_duration: FilterRange[float]
+    interval_size: FilterRange[int]
+    status_threshold: float | None
+
+
+@dataclasses.dataclass
+class SerieMetadata:
+    sampling_frequency: int
+    nb_samples: int
+
+
 @prefix()
-class Common(
-    AoI,
-    TDE_distance,
-    Display,
-    Multimatch_Simplification,
-    Persistence,
-    Scanmatch_Score,
-    Scanpath,
-    Fixation,
-    Saccade,
-    Pursuit,
-):
+class Common:
     curve_nb_points: int
 
     distance_projection: int | None
@@ -401,21 +427,9 @@ class Common(
 
     mannan_distance_nb_random_scanpaths: int
 
-    max_fix_duration: float
-    min_fix_duration: float
-    max_pursuit_duration: float
-    min_pursuit_duration: float
-
-    min_int_size: int
-    min_sac_duration: float
-
     # from reference_image_mapper, so ??
     #    model: None
-
     moving_average_window: int
-
-    nb_samples: int
-    nb_samples_pursuit: int
 
     # commented out in the code
     #    normalized_scanpath_saliency_delta: None
@@ -423,26 +437,23 @@ class Common(
     # from reference_image_mapper, so ??
     #    processing: None
 
-    sampling_frequency: int
-
-    screen_diagonal: float
-
-    # do it later
-    segmentation_method: None
+    serie_metadata: SerieMetadata
 
     segmentation: Segmentation
 
     smoothing: Smoothing
 
-    size_plan_x: float
-    size_plan_y: float
+    fixation: Fixation
+    saccade: Saccade
+    pursuit: Pursuit
 
-    status_threshold: float  # (between 0 and 1?)
+    screen_dimensions: ScreenDimensions
+
     subsmatch_ngram_length: int
     task: str  # binary | ternary
 
     verbose: bool
-
+    nb_samples_pursuit: int
 
 class ConfigMixin:
     def update(self, **kwargs):
@@ -508,22 +519,23 @@ class StackedConfig(ConfigMixin):
         return None
 
 
-def tagged_union_disjoint_types(class_name: str, tag_name: str, classes: dict[str, type]) -> type:
+def tagged_union_disjoint_types(class_name: str, tag_name: str, classes: dict[str, type], **extra_fields) -> type:
     """
-    Creates a tagged union dataclass with __disjoint_types__ attribute.
+    Creates a tagged union dataclass with __disjoint_types__ attribute and extra fields.
 
     Args:
         class_name: Name of the generated dataclass
         tag_name: Name of the tag attribute
         classes: Dictionary mapping tag values to dataclass types
+        **extra_fields: Additional fields to add to the dataclass (field_name: type)
 
     Returns:
-        A dataclass with __disjoint_types__ attribute and smart initialization
+        A dataclass with __disjoint_types__ attribute, extra fields, and smart initialization
     """
     # Convert classes dict to list of (tag_value, type) tuples
     disjoint_types = list(classes.items())
 
-    def __init__(self, variant):
+    def __init__(self, variant, **kwargs):
         # Determine the tag based on the variant's type
         variant_class = type(variant)
 
@@ -547,10 +559,21 @@ def tagged_union_disjoint_types(class_name: str, tag_name: str, classes: dict[st
         # Set the variant in the correct attribute
         setattr(self, tag_value, variant)
 
+        # Set extra fields
+        for field_name, value in kwargs.items():
+            setattr(self, field_name, value)
+
+    # Build fields list: tag field + variant fields + extra fields
+    fields = [(tag_name, str)] + [cls for _, cls in disjoint_types]
+    
+    # Add extra fields
+    for field_name, field_type in extra_fields.items():
+        fields.append((field_name, field_type))
+
     # Create the dataclass using make_dataclass
     cls = dataclasses.make_dataclass(
         class_name,
-        [(tag_name, str)] + [cls for _, cls in disjoint_types],
+        fields,
         namespace={
             '__tag__': tag_name,
             '__disjoint_types__': disjoint_types,
@@ -577,5 +600,6 @@ Segmentation = tagged_union_disjoint_types(
         "IVT": IVT,
         "IVVT": IVVT,
         "IDeT": IDeT,
-    }
+    },
+    filter=SegmentationFilter  # Add filter as an extra field
 )
