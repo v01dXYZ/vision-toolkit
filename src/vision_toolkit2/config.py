@@ -40,6 +40,7 @@ def prefix(prefix="", class_name=False, lower=True):
     return f
 
 
+@dataclasses.dataclass
 class HMM:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -49,6 +50,7 @@ class HMM:
     nb_iters: int
 
 
+@dataclasses.dataclass
 class I2MC:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -58,6 +60,7 @@ class I2MC:
     window_duration: float
 
 
+@dataclasses.dataclass
 class CDBA:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -66,12 +69,14 @@ class CDBA:
     maximum_iterations: int
 
 
+@dataclasses.dataclass
 class IAP:
     __config_merge__ = prefix(class_name=True, lower=False)
 
     centers: str  # mean | raw_IAP
 
 
+@dataclasses.dataclass
 class IDP:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -79,6 +84,7 @@ class IDP:
     gaussian_kernel_sd: float
 
 
+@dataclasses.dataclass
 class IDT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -86,6 +92,7 @@ class IDT:
     min_samples: int
 
 
+@dataclasses.dataclass
 class IKM:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -94,12 +101,14 @@ class IKM:
     max_clusters: int
 
 
+@dataclasses.dataclass
 class IMS:
     __config_merge__ = prefix(class_name=True, lower=False)
 
     bandwidth: float
 
 
+@dataclasses.dataclass
 class IDeT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -108,6 +117,7 @@ class IDeT:
     min_pts: int
 
 
+@dataclasses.dataclass
 class String_Distance:
     __config_merge__ = prefix(class_name=False)
 
@@ -116,18 +126,21 @@ class String_Distance:
     normalization: str  # min | max
 
 
+@dataclasses.dataclass
 class Levenshtein_Distance(String_Distance):
     __config_merge__ = prefix(class_name=True)
 
     substitution_cost: float
 
 
+@dataclasses.dataclass
 class Generalized_Edit_Distance(String_Distance):
     __config_merge__ = prefix(class_name=True)
 
     pass
 
 
+@dataclasses.dataclass
 class Needleman_Wunsch_Distance:
     __config_merge__ = prefix(class_name=True)
 
@@ -136,6 +149,7 @@ class Needleman_Wunsch_Distance:
     normalization: str  # min | max
 
 
+@dataclasses.dataclass
 class Smith_Waterman:
     __config_merge__ = prefix(class_name=True)
 
@@ -145,6 +159,7 @@ class Smith_Waterman:
     similarity_weight: float
 
 
+@dataclasses.dataclass
 class Temporal_Binning:
     __config_merge__ = prefix()
 
@@ -152,15 +167,21 @@ class Temporal_Binning:
     temporal_binning_length: float
 
 
-class AoI(
-    CDBA,
-    IAP,
-    IDP,
-    IDT,
-    IKM,
-    IMS,
-    Temporal_Binning,
-):
+Identification = tagged_union_disjoint_types(
+    "Identification",
+    "identification_method",
+    {
+        "iap": IAP,
+        "idp": IDP,
+        "idt": IDT,
+        "ikm": IKM,
+        "ims": IMS,
+    }
+)
+
+
+@dataclasses.dataclass
+class AoI:
     __config_merge__ = prefix(class_name=True, lower=False)
 
     # Distance classes as attributes
@@ -169,10 +190,16 @@ class AoI(
     needleman_wunsch_distance: Needleman_Wunsch_Distance
     smith_waterman: Smith_Waterman
 
+    # Identification methods as attribute
+    identification: Identification
+
+    # Other classes as attributes
+    cdba: CDBA
+    temporal_binning: Temporal_Binning
+
     SPAM_support: float
     coordinates: None  # array[2, 2]
 
-    identification_method: None
     longest_common_subsequence_normalization: str  # min | max
 
     predefined_all: bool
@@ -181,6 +208,7 @@ class AoI(
     trend_analysis_tolerance_level: None
 
 
+@dataclasses.dataclass
 class IBDT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -192,6 +220,7 @@ class IBDT:
     saccade_threshold: float
 
 
+@dataclasses.dataclass
 class I_DiT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -199,6 +228,7 @@ class I_DiT:
     window_duration: float
 
 
+@dataclasses.dataclass
 class IFC:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -209,6 +239,7 @@ class IFC:
     i2mc_window_duration: float
 
 
+@dataclasses.dataclass
 class IKF:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -219,6 +250,7 @@ class IKF:
     sigma_2: float
 
 
+@dataclasses.dataclass
 class IMST:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -228,6 +260,7 @@ class IMST:
     min_cluster_size: int | None
 
 
+@dataclasses.dataclass
 class IVDT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -236,6 +269,7 @@ class IVDT:
     window_duration: float
 
 
+@dataclasses.dataclass
 class IVMP:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -245,6 +279,7 @@ class IVMP:
     window_duration: float
 
 
+@dataclasses.dataclass
 class IVT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -252,6 +287,7 @@ class IVT:
     velocity_threshold: float
 
 
+@dataclasses.dataclass
 class IVVT:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -259,6 +295,7 @@ class IVVT:
     saccade_threshold: float
 
 
+@dataclasses.dataclass
 class TDE_distance:
     __config_merge__ = prefix(class_name=True, lower=False)
 
@@ -267,6 +304,7 @@ class TDE_distance:
     subsequence_length: None
 
 
+@dataclasses.dataclass
 class Display:
     __config_merge__ = prefix(class_name=True)
 
@@ -282,6 +320,7 @@ class Display:
     segmentation_path: None | str
 
 
+@dataclasses.dataclass
 class Multimatch_Simplification:
     __config_merge__ = prefix(class_name=True)
 
@@ -291,6 +330,7 @@ class Multimatch_Simplification:
     iterations: int
 
 
+@dataclasses.dataclass
 class Persistence:
     __config_merge__ = prefix(class_name=True)
 
@@ -298,6 +338,7 @@ class Persistence:
     landscape_order: int
 
 
+@dataclasses.dataclass
 class Scanmatch_Score:
     __config_merge__ = prefix(class_name=True)
 
@@ -306,6 +347,7 @@ class Scanmatch_Score:
     substitution_threshold: None
 
 
+@dataclasses.dataclass
 class Scanpath:
     __config_merge__ = prefix(class_name=True)
 
@@ -340,6 +382,7 @@ Smoothing = tagged_union_disjoint_types(
 )
 
 
+@dataclasses.dataclass
 class Savgol:
     __config_merge__ = prefix(class_name=True)
 
@@ -347,6 +390,7 @@ class Savgol:
     window_length: int
 
 
+@dataclasses.dataclass
 class Fixation:
     __config_merge__ = prefix(class_name=True)
 
@@ -354,6 +398,7 @@ class Fixation:
     BCEA_probability: float
 
 
+@dataclasses.dataclass
 class Saccade:
     __config_merge__ = prefix(class_name=True)
 
@@ -366,6 +411,7 @@ class Saccade:
     weighted_average_deceleration_means: bool
 
 
+@dataclasses.dataclass
 class Pursuit:
     __config_merge__ = prefix(class_name=True)
 
