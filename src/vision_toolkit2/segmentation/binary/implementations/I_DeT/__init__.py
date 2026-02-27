@@ -3,7 +3,7 @@ import time
 
 import numpy as np
 
-from vision_toolkit2.config import Config
+from vision_toolkit2.config import Config, IDeT, Segmentation
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from ...binary_segmentation_results import BinarySegmentationResults
 from ._optimized import vareps_neighborhood, expand_cluster
@@ -18,8 +18,8 @@ def process_impl(s, config):
         print("Processing DeT Identification...")
         start_time = time.time()
 
-    n_s = config.nb_samples
-    s_f = config.sampling_frequency
+    n_s = config.serie_metadata.nb_samples
+    s_f = config.serie_metadata.sampling_frequency
 
     euclidean = config.distance_type == "euclidean"
 
@@ -30,11 +30,11 @@ def process_impl(s, config):
     else:
         g_npts = s.unitary_gaze_vectors.astype("float64")
 
-    d_t = config.IDeT_density_threshold
-    win_w = int(np.ceil(config.IDeT_duration_threshold * s_f))
+    d_t = config.segmentation.i_det.density_threshold
+    win_w = int(np.ceil(config.segmentation.i_det.duration_threshold * s_f))
     win_w = max(1, win_w)
 
-    min_pts = int(np.ceil(config.IDeT_min_pts * s_f))
+    min_pts = int(np.ceil(config.segmentation.i_det.min_pts * s_f))
     min_pts = max(2, min_pts)
 
     assert min_pts <= win_w, (
@@ -73,24 +73,24 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.min_sac_duration
+                s_du=config.segmentation.filter.saccade_duration.min
             )
         )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True] * config.nb_samples)
+    i_fix = np.array([True] * config.serie_metadata.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = max(1, int(np.ceil(config.min_fix_duration * s_f)))
+    fix_dur_t = max(1, int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f)))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -103,7 +103,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.min_fix_duration
+                f_du=config.segmentation.filter.fixation_duration.min
             )
         )
 
@@ -112,10 +112,10 @@ def process_impl(s, config):
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.min_fix_duration * s_f),
-        max_int_size=np.ceil(config.max_fix_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
+        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -127,15 +127,15 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.status_threshold
+                s_th=config.segmentation.filter.status_threshold
             )
         )
 
@@ -144,7 +144,7 @@ def process_impl(s, config):
     )
 
     # Keep track of index that were effectively labeled
-    i_lab = np.array([False] * config.nb_samples)
+    i_lab = np.array([False] * config.serie_metadata.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True
@@ -167,19 +167,27 @@ def process_impl(s, config):
 
 
 def default_config_impl(config, vf_diag):
-    du_t = 5 / config.sampling_frequency
-    nb_t = 3 / config.sampling_frequency
+    du_t = 5 / config.serie_metadata.sampling_frequency
+    nb_t = 3 / config.serie_metadata.sampling_frequency
     if config.distance_type == "euclidean":
-        de_t = vf_diag / config.sampling_frequency
+        de_t = vf_diag / config.serie_metadata.sampling_frequency
         return Config(
-            IDeT_duration_threshold=du_t,
-            IDeT_density_threshold=de_t,
-            IDeT_min_pts=nb_t,
+            segmentation=Segmentation(
+                i_det=IDeT(
+                    duration_threshold=du_t,
+                    density_threshold=de_t,
+                    min_pts=nb_t,
+                )
+            )
         )
     elif config.distance_type == "angular":
-        de_t = 30 / config.sampling_frequency
+        de_t = 30 / config.serie_metadata.sampling_frequency
         return Config(
-            IDeT_duration_threshold=du_t,
-            IDeT_density_threshold=de_t,
-            IDeT_min_pts=nb_t,
+            segmentation=Segmentation(
+                i_det=IDeT(
+                    duration_threshold=du_t,
+                    density_threshold=de_t,
+                    min_pts=nb_t,
+                )
+            )
         )

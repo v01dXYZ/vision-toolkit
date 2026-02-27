@@ -5,7 +5,7 @@ import time
 import numpy as np
 
 from ._optimized import baum_welch, Viterbi
-from vision_toolkit2.config import Config
+from vision_toolkit2.config import Config, HMM, Segmentation
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 from ...binary_segmentation_results import BinarySegmentationResults
 
@@ -17,11 +17,11 @@ def process_impl(s, config):
 
     a_s = s.absolute_speed
 
-    i_low_vel = config.HMM_init_low_velocity
-    i_high_vel = config.HMM_init_high_velocity
-    i_var = config.HMM_init_variance
-    n_iter = config.HMM_nb_iters
-    s_f = config.sampling_frequency
+    i_low_vel = config.segmentation.ihmm.init_low_velocity
+    i_high_vel = config.segmentation.ihmm.init_high_velocity
+    i_var = config.segmentation.ihmm.init_variance
+    n_iter = config.segmentation.ihmm.nb_iters
+    s_f = config.serie_metadata.sampling_frequency
 
     theta = baum_welch(a_s, 2, n_iter, i_low_vel, i_high_vel, i_var)
 
@@ -32,7 +32,7 @@ def process_impl(s, config):
     wi_fix = np.where(s_s[:-1] == fix_s)[0]
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
-    i_fix = np.array([False] * config.nb_samples)
+    i_fix = np.array([False] * config.serie_metadata.nb_samples)
     i_fix[wi_fix] = True
 
     x_a = s.x
@@ -43,21 +43,21 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.min_sac_duration
+                s_du=config.segmentation.filter.saccade_duration.min
             )
         )
 
-    i_fix = np.array([True] * config.nb_samples)
+    i_fix = np.array([True] * config.serie_metadata.nb_samples)
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
-    fix_dur_t = int(np.ceil(config.min_fix_duration * s_f))
+    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
         o_s_int = s_ints[i - 1]
@@ -67,7 +67,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.min_fix_duration
+                f_du=config.segmentation.filter.fixation_duration.min
             )
         )
 
@@ -75,10 +75,10 @@ def process_impl(s, config):
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.min_fix_duration * s_f),
-        max_int_size=np.ceil(config.max_fix_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
+        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
@@ -88,15 +88,15 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.min_sac_duration * s_f),
+        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.status_threshold,
+        proportion=config.segmentation.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.status_threshold
+                s_th=config.segmentation.filter.status_threshold
             )
         )
 
@@ -108,7 +108,7 @@ def process_impl(s, config):
         print("\n...HMM Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    i_lab = np.array([False] * config.nb_samples)
+    i_lab = np.array([False] * config.serie_metadata.nb_samples)
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True
     for s_int in s_ints:
@@ -130,8 +130,12 @@ def default_config_impl(config, vf_diag):
     i_v = 100 * vf_diag**2
 
     return Config(
-        HMM_init_low_velocity=i_l,
-        HMM_init_high_velocity=i_h,
-        HMM_init_variance=i_v,
-        HMM_nb_iters=10,
+        segmentation=Segmentation(
+            ihmm=HMM(
+                init_low_velocity=i_l,
+                init_high_velocity=i_h,
+                init_variance=i_v,
+                nb_iters=10,
+            )
+        )
     )
