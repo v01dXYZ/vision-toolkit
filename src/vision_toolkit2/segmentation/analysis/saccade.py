@@ -19,6 +19,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
         * speeds:       start .. end-1      (n_vel = n_samples-1)  => slice a_sp[start:end]
         * accélérations:  start .. end-2      (n_acc = n_samples-2)  => diff(vitesse)*sf sur a_sp[start:end]
     """
+
     _intervals = results_delegation("saccade_intervals")
 
     def amplitudes(self, get_raw=True):
@@ -149,7 +150,9 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def horizontal_deviations(self, absolute=None, get_raw=True):
         if absolute is None:
-            absolute = self.segmentation_results.config.saccade_absolute_horizontal_deviations
+            absolute = (
+                self.segmentation_results.config.saccade_absolute_horizontal_deviations
+            )
 
         x_a = np.asarray(self._x(), dtype=np.float64)
         y_a = np.asarray(self._y(), dtype=np.float64)

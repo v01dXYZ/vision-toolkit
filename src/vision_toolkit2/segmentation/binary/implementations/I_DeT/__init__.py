@@ -25,7 +25,9 @@ def process_impl(s, config):
 
     if euclidean:
         g_npts = np.concatenate(
-            (s.x.reshape(1, n_s), s.y.reshape(1, n_s), s.z.reshape(1, n_s)), axis=0, dtype="float64",
+            (s.x.reshape(1, n_s), s.y.reshape(1, n_s), s.z.reshape(1, n_s)),
+            axis=0,
+            dtype="float64",
         )
     else:
         g_npts = s.unitary_gaze_vectors.astype("float64")
@@ -90,7 +92,9 @@ def process_impl(s, config):
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = max(1, int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f)))
+    fix_dur_t = max(
+        1, int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
+    )
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]

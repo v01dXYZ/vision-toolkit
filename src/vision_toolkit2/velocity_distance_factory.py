@@ -108,7 +108,9 @@ def process_angular_absolute_speeds(
     absolute_angular_distances_deg = absolute_angular_distances_rad / (np.pi) * 180
 
     absolute_speeds = np.zeros(config.serie_metadata.nb_samples)
-    absolute_speeds[:-1] = absolute_angular_distances_deg * config.serie_metadata.sampling_frequency
+    absolute_speeds[:-1] = (
+        absolute_angular_distances_deg * config.serie_metadata.sampling_frequency
+    )
 
     absolute_speeds[-1] = absolute_speeds[-2]
 

@@ -34,7 +34,9 @@ def process_impl(s, config):
     sp = process_speed_components(s, config)[0:2, :]
 
     # predict velocities and positions from Kalman filter
-    pred = process_Kalman_filter(pos, sp, d_t, config.segmentation.ikf.sigma_1, config.segmentation.ikf.sigma_2)
+    pred = process_Kalman_filter(
+        pos, sp, d_t, config.segmentation.ikf.sigma_1, config.segmentation.ikf.sigma_2
+    )
 
     # compute norms of predicted and true speed vectors
     p_sp = np.linalg.norm(

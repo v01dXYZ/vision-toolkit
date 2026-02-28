@@ -26,12 +26,15 @@ def get_cli_args():
         "-m",
         "--method",
         dest="run_only_specific_methods",
-        choices=vt.METHODS_CONFIG["BINARY"].keys() | vt.METHODS_CONFIG["TERNARY"].keys(),
+        choices=vt.METHODS_CONFIG["BINARY"].keys()
+        | vt.METHODS_CONFIG["TERNARY"].keys(),
         nargs="*",
         help="run only specific methods",
     )
     arg_parser.add_argument(
-        "--predictions", action=argparse.BooleanOptionalAction, default=False,
+        "--predictions",
+        action=argparse.BooleanOptionalAction,
+        default=False,
     )
 
     default_directory_root = "results"
@@ -98,7 +101,7 @@ if __name__ == "__main__":
 
     test_mod.EntryPoint.main(
         cutoff=args.cutoff,
-        directory =  args.directory / args.test_name / f"v{args.version}",
+        directory=args.directory / args.test_name / f"v{args.version}",
         version=args.version,
         config=config,
         with_predictions=args.predictions,

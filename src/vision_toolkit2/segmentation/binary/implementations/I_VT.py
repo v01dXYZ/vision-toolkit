@@ -18,9 +18,11 @@ def process_impl(s, config):
 
     # Add index + 1 to fixation since velocities are computed from two data points
     is_fix[idx_velocity_lower_than_threshold] = True
-    is_fix[(idx_velocity_lower_than_threshold + 1).clip(max=config.serie_metadata.nb_samples - 1)] = (
-        True
-    )
+    is_fix[
+        (idx_velocity_lower_than_threshold + 1).clip(
+            max=config.serie_metadata.nb_samples - 1
+        )
+    ] = True
 
     # Compute saccadic intervals
     is_sac = ~is_fix
@@ -30,7 +32,8 @@ def process_impl(s, config):
     s_ints = interval_merging(
         idx_sac,
         min_int_size=math.ceil(
-            config.segmentation.filter.saccade_duration.min * config.serie_metadata.sampling_frequency,
+            config.segmentation.filter.saccade_duration.min
+            * config.serie_metadata.sampling_frequency,
         ),
     )
 
@@ -41,7 +44,10 @@ def process_impl(s, config):
 
     (idx_fix,) = is_fix.nonzero()
 
-    fix_dur_t = math.ceil(config.segmentation.filter.fixation_duration.min * config.serie_metadata.sampling_frequency)
+    fix_dur_t = math.ceil(
+        config.segmentation.filter.fixation_duration.min
+        * config.serie_metadata.sampling_frequency
+    )
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -53,8 +59,14 @@ def process_impl(s, config):
     # Recompute fixation intervals
     f_ints = interval_merging(
         idx_fix,
-        min_int_size=math.ceil(config.segmentation.filter.fixation_duration.min * config.serie_metadata.sampling_frequency),
-        max_int_size=math.ceil(config.segmentation.filter.fixation_duration.max * config.serie_metadata.sampling_frequency),
+        min_int_size=math.ceil(
+            config.segmentation.filter.fixation_duration.min
+            * config.serie_metadata.sampling_frequency
+        ),
+        max_int_size=math.ceil(
+            config.segmentation.filter.fixation_duration.max
+            * config.serie_metadata.sampling_frequency
+        ),
         status=s.status,
         proportion=config.segmentation.filter.status_threshold,
     )
@@ -69,7 +81,10 @@ def process_impl(s, config):
     # Recompute saccadic intervals
     s_ints = interval_merging(
         idx_sac,
-        min_int_size=math.ceil(config.segmentation.filter.saccade_duration.min * config.serie_metadata.sampling_frequency),
+        min_int_size=math.ceil(
+            config.segmentation.filter.saccade_duration.min
+            * config.serie_metadata.sampling_frequency
+        ),
         status=s.status,
         proportion=config.segmentation.filter.status_threshold,
     )

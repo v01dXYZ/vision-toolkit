@@ -13,18 +13,21 @@ if VISION_TOOLKIT_VERSION is None:
 COVERAGE_JSON = "coverage.json"
 BASE_URL = "https://github.com"
 
-VISION_TOOLKIT_VERSION_SUFFIX = VISION_TOOLKIT_VERSION if VISION_TOOLKIT_VERSION != "1" else ""
+VISION_TOOLKIT_VERSION_SUFFIX = (
+    VISION_TOOLKIT_VERSION if VISION_TOOLKIT_VERSION != "1" else ""
+)
+
 
 def create_link(
-        repo,
-        commit_sha,
-        path,
-        interval,
+    repo,
+    commit_sha,
+    path,
+    interval,
 ):
     return f"[{interval[0]}-{interval[1]}]({BASE_URL}/{repo}/blob/{commit_sha}/{path}#L{interval[0]}-L{interval[1]})"
 
-def get_intervals(lines):
 
+def get_intervals(lines):
     if not lines:
         return []
 
@@ -41,6 +44,7 @@ def get_intervals(lines):
         prev = l
 
     yield (start, prev)
+
 
 if __name__ == "__main__":
     arg_parse = argparse.ArgumentParser()
@@ -62,23 +66,28 @@ if __name__ == "__main__":
 
         missing_intervals = list(get_intervals(missing_lines))
 
-        tbl_data.append((f, " ".join(
-            [
-                create_link(
-                    args.repo,
-                    args.commit_sha,
-                    f,
-                    interval,
-                )
-                for interval in missing_intervals
-            ])))
+        tbl_data.append(
+            (
+                f,
+                " ".join(
+                    [
+                        create_link(
+                            args.repo,
+                            args.commit_sha,
+                            f,
+                            interval,
+                        )
+                        for interval in missing_intervals
+                    ]
+                ),
+            )
+        )
 
     headers = ["File", "Missing Intervals"]
 
     sys.stdout.write("|")
     sys.stdout.write("|".join(headers))
     sys.stdout.write("|\n")
-
 
     for _ in headers:
         sys.stdout.write("|---")

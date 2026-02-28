@@ -38,6 +38,7 @@ class SmoothingConfigBuilder:
                 )
             )
         assert False, "unreachable"
+
     @classmethod
     def build(cls, config):
         smoothing_defaults = cls.update(config)
@@ -243,8 +244,7 @@ class RawSerie:
             distance_projection=distance_projection,
             screen_dimensions=c.ScreenDimensions(x=size_plan_x, y=size_plan_y),
             serie_metadata=c.SerieMetadata(
-                nb_samples=len(x),
-                sampling_frequency=sampling_frequency
+                nb_samples=len(x), sampling_frequency=sampling_frequency
             ),
             distance_type=distance_type,
         )
@@ -276,9 +276,7 @@ class RawSerie:
 
 
 BASE_SMOOTHING_CONFIG = Config(
-    smoothing=c.Smoothing(
-        c.Savgol(window_length=31, polyorder=3)
-    ),
+    smoothing=c.Smoothing(c.Savgol(window_length=31, polyorder=3)),
 )
 
 

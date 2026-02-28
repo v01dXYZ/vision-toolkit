@@ -7,6 +7,7 @@ from ..binary.binary_segmentation_results import BinarySegmentationResults
 from vision_toolkit2.config import StackedConfig
 import inspect
 
+
 def passthrough_attr(*passthrough_attrs):
     def delegate(attr):
         def f(self):
@@ -22,9 +23,11 @@ def passthrough_attr(*passthrough_attrs):
 
     return delegate
 
+
 results_delegation = passthrough_attr("segmentation_results")
 config_delegation = passthrough_attr("segmentation_results", "config")
 input_delegation = passthrough_attr("segmentation_results", "input")
+
 
 @dataclass
 class BaseAnalysis:
@@ -213,6 +216,3 @@ class EasyAccessFunction:
             return results
 
         return f
-
-
-

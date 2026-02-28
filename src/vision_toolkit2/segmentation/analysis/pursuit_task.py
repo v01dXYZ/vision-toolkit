@@ -1,6 +1,13 @@
 import numpy as np
 
-from .base_analysis import BaseBinarySegmentationAnalysis, passthrough_attr, results_delegation, input_delegation, config_delegation, EasyAccessFunction
+from .base_analysis import (
+    BaseBinarySegmentationAnalysis,
+    passthrough_attr,
+    results_delegation,
+    input_delegation,
+    config_delegation,
+    EasyAccessFunction,
+)
 from .pursuit import PursuitAnalysis
 
 import pandas as pd
@@ -80,7 +87,9 @@ class PursuitTaskRecalibratedData:
 
         return np.asarray(recomputed_intervals, dtype=np.int64).reshape(-1, 2)
 
+
 recalibrated_data_delegation = passthrough_attr("recalibrated_data")
+
 
 @dataclass
 class PursuitTaskAnalysis(PursuitAnalysis):
@@ -88,12 +97,14 @@ class PursuitTaskAnalysis(PursuitAnalysis):
     recalibrated_data: PursuitTaskRecalibratedData = field(init=False)
 
     def __post_init__(self):
-        self.recalibrated_data = PursuitTaskRecalibratedData.create_from_results_and_theo_coords(
-            self.df_theo,
-            self.segmentation_results,
-            self.segmentation_results.config,
+        self.recalibrated_data = (
+            PursuitTaskRecalibratedData.create_from_results_and_theo_coords(
+                self.df_theo,
+                self.segmentation_results,
+                self.segmentation_results.config,
+            )
         )
-    
+
     _intervals = recalibrated_data_delegation("recomputed_intervals")
     _x_pursuit = recalibrated_data_delegation("x_pursuit")
     _y_pursuit = recalibrated_data_delegation("y_pursuit")
@@ -138,7 +149,9 @@ class PursuitTaskAnalysis(PursuitAnalysis):
 
         return float(entropy)
 
-    def entropy(self, pursuit_entropy_window=10, pursuit_entropy_tolerance=0.1, get_raw=True):
+    def entropy(
+        self, pursuit_entropy_window=10, pursuit_entropy_tolerance=0.1, get_raw=True
+    ):
         w_s = int(pursuit_entropy_window)
         t_eps = float(pursuit_entropy_tolerance)
 
@@ -171,10 +184,12 @@ class PursuitTaskAnalysis(PursuitAnalysis):
         diff_x = sp_e_x - sp_t_x
         diff_y = sp_e_y - sp_t_y
 
-        return {"entropy": {
-            "x": self.ap_entropy(diff_x, w_s, t_eps),
-            "y": self.ap_entropy(diff_y, w_s, t_eps),
-        }}
+        return {
+            "entropy": {
+                "x": self.ap_entropy(diff_x, w_s, t_eps),
+                "y": self.ap_entropy(diff_y, w_s, t_eps),
+            }
+        }
 
     def slope_ratios(self, get_raw=True):
         _ints = self._intervals()
@@ -226,7 +241,10 @@ class PursuitTaskAnalysis(PursuitAnalysis):
 
         gains = {}
         for direction in ["x", "y"]:
-            ratios = np.asarray(slope_ratios.get(direction, np.array([], dtype=np.float64)), dtype=np.float64)
+            ratios = np.asarray(
+                slope_ratios.get(direction, np.array([], dtype=np.float64)),
+                dtype=np.float64,
+            )
 
             if ratios.size != len(self._intervals()):
                 gains["gain_" + direction] = 0.0
@@ -243,7 +261,9 @@ class PursuitTaskAnalysis(PursuitAnalysis):
                 w = durations[valid]
                 r = ratios[valid]
                 denom = float(np.sum(w))
-                gains["gain_" + direction] = float(np.sum(w * r) / denom) if denom > 0 else 0.0
+                gains["gain_" + direction] = (
+                    float(np.sum(w * r) / denom) if denom > 0 else 0.0
+                )
 
         return {"slope gain": gains}
 
@@ -261,10 +281,10 @@ class PursuitTaskAnalysis(PursuitAnalysis):
             if b <= a:
                 continue
 
-            xe = pos["x"][a:b+1]
-            ye = pos["y"][a:b+1]
-            xt = theo["x"][a:b+1]
-            yt = theo["y"][a:b+1]
+            xe = pos["x"][a : b + 1]
+            ye = pos["y"][a : b + 1]
+            xt = theo["x"][a : b + 1]
+            yt = theo["y"][a : b + 1]
 
             min_len = min(len(xe), len(ye), len(xt), len(yt))
             if min_len < 2:
@@ -305,8 +325,8 @@ class PursuitTaskAnalysis(PursuitAnalysis):
             if b <= a:
                 continue
 
-            xe = xe_all[a:b+1]
-            xt = xt_all[a:b+1]
+            xe = xe_all[a : b + 1]
+            xt = xt_all[a : b + 1]
 
             min_len = min(len(xe), len(xt))
             if min_len < 2:
@@ -343,8 +363,8 @@ class PursuitTaskAnalysis(PursuitAnalysis):
             if b <= a:
                 continue
 
-            ye = ye_all[a:b+1]
-            yt = yt_all[a:b+1]
+            ye = ye_all[a : b + 1]
+            yt = yt_all[a : b + 1]
 
             min_len = min(len(ye), len(yt))
             if min_len < 2:
@@ -382,7 +402,10 @@ class PursuitTaskAnalysis(PursuitAnalysis):
             guess_freq = np.abs(ff[np.argmax(Fyy[1:]) + 1]) if len(Fyy) > 1 else 1.0
             guess_amp = np.std(yy) * np.sqrt(2.0)
             guess_offset = np.mean(yy)
-            guess = np.array([guess_amp, 2.0 * np.pi * guess_freq, 0.0, guess_offset], dtype=np.float64)
+            guess = np.array(
+                [guess_amp, 2.0 * np.pi * guess_freq, 0.0, guess_offset],
+                dtype=np.float64,
+            )
 
             def sinfunc(t, A, w, p, c):
                 return A * np.sin(w * t + p) + c
@@ -424,8 +447,14 @@ class PursuitTaskAnalysis(PursuitAnalysis):
         crossings = {"x": None, "y": None}
 
         for direction in ["x", "y"]:
-            eye_pos = np.asarray(self._x_pursuit() if direction == "x" else self._y_pursuit(), dtype=np.float64)
-            target_pos = np.asarray(self._x_theo_pursuit() if direction == "x" else self._y_theo_pursuit(), dtype=np.float64)
+            eye_pos = np.asarray(
+                self._x_pursuit() if direction == "x" else self._y_pursuit(),
+                dtype=np.float64,
+            )
+            target_pos = np.asarray(
+                self._x_theo_pursuit() if direction == "x" else self._y_theo_pursuit(),
+                dtype=np.float64,
+            )
 
             min_len = min(len(eye_pos), len(target_pos), len(time))
             if min_len <= 0:
@@ -455,7 +484,9 @@ class PursuitTaskAnalysis(PursuitAnalysis):
 
         out = {}
         for _dir in ["x", "y"]:
-            ratios = np.asarray(s_r.get(_dir, np.array([], dtype=np.float64)), dtype=np.float64)
+            ratios = np.asarray(
+                s_r.get(_dir, np.array([], dtype=np.float64)), dtype=np.float64
+            )
             if ratios.size != len(self._intervals()):
                 out[_dir] = 0.0
                 continue
@@ -466,7 +497,11 @@ class PursuitTaskAnalysis(PursuitAnalysis):
             if _type == "weighted":
                 mask = valid_dur & np.isfinite(ratios)
                 denom = float(np.sum(durations[mask])) if np.any(mask) else 0.0
-                out[_dir] = float(np.sum(within[mask] * durations[mask]) / denom) if denom > 0 else 0.0
+                out[_dir] = (
+                    float(np.sum(within[mask] * durations[mask]) / denom)
+                    if denom > 0
+                    else 0.0
+                )
             else:
                 out[_dir] = float(np.mean(within)) if within.size else 0.0
 

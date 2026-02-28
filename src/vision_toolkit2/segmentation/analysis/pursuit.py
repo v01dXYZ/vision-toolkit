@@ -15,6 +15,7 @@ class PursuitAnalysis(BaseAnalysis):
         * positions:  start .. end        (n_samples = end-start+1)
         * speeds:     start .. end-1      (n_vel = n_samples-1) => slice a_sp[start:end]
     """
+
     _intervals = results_delegation("pursuit_intervals")
 
     def proportion(self):

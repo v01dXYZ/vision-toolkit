@@ -9,7 +9,10 @@ import vision_toolkit as v1
 import vision_toolkit2 as v2
 from vision_toolkit2 import Serie, Config, StackedConfig
 from vision_toolkit2 import config as c
-from vision_toolkit2.config_old import Config as ConfigOld, StackedConfig as StackedConfigOld
+from vision_toolkit2.config_old import (
+    Config as ConfigOld,
+    StackedConfig as StackedConfigOld,
+)
 from vision_toolkit2.segmentation.binary.implementations import (
     IMPLEMENTATIONS as BINARY_IMPLEMENTATIONS,
 )
@@ -70,13 +73,13 @@ class V2Gateway:
     def run_segmentation_on_serie(cls, Segmentation, serie, config):
         # Convert ConfigOld to nested Config
         from vision_toolkit2.config_compat import flat_to_nested
-        
+
         # Ensure config is ConfigOld
         if not isinstance(config, (ConfigOld, StackedConfigOld)):
             raise TypeError(f"config must be ConfigOld, got {type(config)}")
-        
+
         nested_config = flat_to_nested(config)
-        
+
         config = StackedConfig(
             [
                 serie.config,
@@ -108,7 +111,7 @@ class V2Gateway:
                         polyorder=3,
                     ),
                 ),
-            )
+            ),
         )
 
 

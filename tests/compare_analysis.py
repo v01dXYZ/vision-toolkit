@@ -116,7 +116,7 @@ METHODS_PER_EVENT = {
         "sinusoidal_phase",
         "accuracy",
         "entropy",
-    ]
+    ],
 }
 
 MODULE_PER_EVENT = {
@@ -134,13 +134,13 @@ SEGMENTATION_METHOD_PER_EVENT = {
 }
 RES = {}
 
+
 def normalize_dict(d):
     if not isinstance(d, dict):
         return d
 
-    return {
-        k.replace(" ", "_"): normalize_dict(v)  for k, v in d.items()
-    }
+    return {k.replace(" ", "_"): normalize_dict(v) for k, v in d.items()}
+
 
 for event_name, methods in METHODS_PER_EVENT.items():
     (mod1, mod2) = MODULE_PER_EVENT[event_name]
@@ -148,7 +148,11 @@ for event_name, methods in METHODS_PER_EVENT.items():
 
     data_file = DATA_FILE_PER_EVENT[event_name]
     if event_name == "pursuit_task":
-        args = (pd.read_csv("../documentation/Documentaion_VT/dataset/example_pursuit_theo.csv"),)
+        args = (
+            pd.read_csv(
+                "../documentation/Documentaion_VT/dataset/example_pursuit_theo.csv"
+            ),
+        )
     else:
         args = ()
 
@@ -163,8 +167,8 @@ for event_name, methods in METHODS_PER_EVENT.items():
         res1 = fun1(
             data_file,
             *args,
-            status_threshold = 0.5,
-            distance_projection = 1000,
+            status_threshold=0.5,
+            distance_projection=1000,
             **KWARGS,
             segmentation_method=segmentation_method,
             savgol_window_length=31,

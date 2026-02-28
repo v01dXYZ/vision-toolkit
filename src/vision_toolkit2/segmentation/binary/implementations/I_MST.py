@@ -42,7 +42,9 @@ def process_impl(s, config):
     n_s = int(config.serie_metadata.nb_samples)
     s_f = float(config.serie_metadata.sampling_frequency)
 
-    g_p = np.column_stack((x_a.reshape(n_s), y_a.reshape(n_s)))  # (n_s, 2) array of gaze points
+    g_p = np.column_stack(
+        (x_a.reshape(n_s), y_a.reshape(n_s))
+    )  # (n_s, 2) array of gaze points
 
     vareps = float(config.segmentation.imst.distance_threshold)
 
@@ -62,7 +64,9 @@ def process_impl(s, config):
     # Default: at least the minimum fixation duration in samples, capped by window length.
     min_pts = config.segmentation.imst.min_cluster_size
     if min_pts is None:
-        min_pts = int(np.ceil(float(config.segmentation.filter.fixation_duration.min) * s_f))
+        min_pts = int(
+            np.ceil(float(config.segmentation.filter.fixation_duration.min) * s_f)
+        )
     min_pts = max(2, min(min_pts, t_du))
 
     # Build fixation mask via voting across overlapping windows
