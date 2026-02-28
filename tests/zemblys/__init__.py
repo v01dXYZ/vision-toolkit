@@ -5,6 +5,7 @@ import pandas as pd
 import sklearn as sk
 
 import vision_toolkit_test as vt
+from vision_toolkit2.config_old import Config as ConfigOld
 
 
 # Here, screen dimensions do not change
@@ -18,9 +19,9 @@ FAULTY_PARTICIPANT_ID = 5
 
 
 class ZemblysReportForEachMethod(vt.VSTKReportForEachMethod):
-    CONFIG = {
-        "sampling_frequency": 1000,
-    }
+    CONFIG = ConfigOld(
+        sampling_frequency=1000,
+    )
 
     @classmethod
     def evaluate_predictions(cls, gt, pred):

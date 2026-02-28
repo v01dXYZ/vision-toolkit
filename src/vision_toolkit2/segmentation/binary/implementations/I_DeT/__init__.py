@@ -173,7 +173,7 @@ def default_config_impl(config, vf_diag):
         de_t = vf_diag / config.serie_metadata.sampling_frequency
         return Config(
             segmentation=Segmentation(
-                i_det=IDeT(
+                IDeT(
                     duration_threshold=du_t,
                     density_threshold=de_t,
                     min_pts=nb_t,
@@ -184,7 +184,7 @@ def default_config_impl(config, vf_diag):
         de_t = 30 / config.serie_metadata.sampling_frequency
         return Config(
             segmentation=Segmentation(
-                i_det=IDeT(
+                IDeT(
                     duration_threshold=du_t,
                     density_threshold=de_t,
                     min_pts=nb_t,

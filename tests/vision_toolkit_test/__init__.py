@@ -8,6 +8,8 @@ import pandas as pd
 import vision_toolkit as v1
 import vision_toolkit2 as v2
 from vision_toolkit2 import Serie, Config, StackedConfig
+from vision_toolkit2 import config as c
+from vision_toolkit2.config_old import Config as ConfigOld, StackedConfig as StackedConfigOld
 from vision_toolkit2.segmentation.binary.implementations import (
     IMPLEMENTATIONS as BINARY_IMPLEMENTATIONS,
 )
@@ -66,10 +68,19 @@ class V2Gateway:
 
     @classmethod
     def run_segmentation_on_serie(cls, Segmentation, serie, config):
+        # Convert ConfigOld to nested Config
+        from vision_toolkit2.config_compat import flat_to_nested
+        
+        # Ensure config is ConfigOld
+        if not isinstance(config, (ConfigOld, StackedConfigOld)):
+            raise TypeError(f"config must be ConfigOld, got {type(config)}")
+        
+        nested_config = flat_to_nested(config)
+        
         config = StackedConfig(
             [
                 serie.config,
-                Config(**config),
+                nested_config,
             ]
         )
 
@@ -91,10 +102,13 @@ class V2Gateway:
             sampling_frequency=config.get("sampling_frequency"),
             distance_type=config["distance_type"],
             smoothing_config=Config(
-                smoothing="savgol",
-                savgol_window_length=31,
-                savgol_polyorder=3,
-            ),
+                smoothing=c.Smoothing(
+                    c.Savgol(
+                        window_length=31,
+                        polyorder=3,
+                    ),
+                ),
+            )
         )
 
 
@@ -134,26 +148,31 @@ class ReportForEachMethod:
         dimensions,
         nary,
         method,
-        config={},
+        config=None,
     ):
         gt_coords, gt_labels, gt_time = gt_vstk
 
         if gt_coords[GAZE_X].isna().sum() >= 1:
             return None
 
-        config = {
-            "segmentation_method": method,
-            "distance_type": "euclidean",
-            "display_segmentation": True,
-            "size_plan_x": dimensions["width_mm"],
-            "size_plan_y": dimensions["height_mm"],
-            "smoothing": "savgol",
-            "savgol_window_length": 31,
-            "savgol_polyorder": 3,
-            "verbose": False,
-            **cls.CONFIG,
-            **config,
-        }
+        config_stack = [
+            ConfigOld(
+                segmentation_method=method,
+                distance_type="euclidean",
+                display_segmentation=True,
+                size_plan_x=dimensions["width_mm"],
+                size_plan_y=dimensions["height_mm"],
+                smoothing="savgol",
+                savgol_window_length=31,
+                savgol_polyorder=3,
+                verbose=False,
+            ),
+            cls.CONFIG,
+        ]
+        if config is not None:
+            config_stack.append(config)
+
+        config = StackedConfigOld(config_stack)
 
         VersionGateway = V2Gateway if version == 2 else V1Gateway
 

@@ -6,6 +6,7 @@ import numpy as np
 
 
 from .config import Config, StackedConfig
+from . import config as c
 
 from .velocity_distance_factory import (
     process_angular_absolute_speeds,
@@ -22,15 +23,19 @@ from scipy.signal import savgol_filter
 class SmoothingConfigBuilder:
     @classmethod
     def update(cls, config):
-        if config.smoothing in (
+        if config.smoothing.method in (
             "moving_average",
             "speed_moving_average",
         ):
             return Config(moving_average_window=5)
-        elif config.smoothing == "savgol":
+        elif config.smoothing.method == "savgol":
             return Config(
-                savgol_window_length=31,
-                savgol_polyorder=3,
+                smoothing=c.Smoothing(
+                    c.Savgol(
+                        window_length=31,
+                        polyorder=3,
+                    )
+                )
             )
         assert False, "unreachable"
     @classmethod
@@ -66,7 +71,7 @@ class Smoothing:
             "savgol": SavgolFiltering,
         }
 
-        return kw_to_cls[config.smoothing](dataset, config)
+        return kw_to_cls[config.smoothing.method](dataset, config)
 
     @classmethod
     def create_and_process(cls, dataset, config):
@@ -236,10 +241,11 @@ class RawSerie:
 
         config = Config(
             distance_projection=distance_projection,
-            size_plan_x=size_plan_x,
-            size_plan_y=size_plan_y,
-            nb_samples=len(x),
-            sampling_frequency=sampling_frequency,
+            screen_dimensions=c.ScreenDimensions(x=size_plan_x, y=size_plan_y),
+            serie_metadata=c.SerieMetadata(
+                nb_samples=len(x),
+                sampling_frequency=sampling_frequency
+            ),
             distance_type=distance_type,
         )
 
@@ -270,9 +276,9 @@ class RawSerie:
 
 
 BASE_SMOOTHING_CONFIG = Config(
-    smoothing="savgol",
-    savgol_window_length=31,
-    savgol_polyorder=3,
+    smoothing=c.Smoothing(
+        c.Savgol(window_length=31, polyorder=3)
+    ),
 )
 
 

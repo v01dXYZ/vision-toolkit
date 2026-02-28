@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 
 import vision_toolkit_test as vt
+from vision_toolkit2.config_old import Config as ConfigOld
 
 HANDLABELLER_FINAL = "handlabeller_final"
 
@@ -96,9 +97,9 @@ SORTED_LABELS = sorted([FIX_STR, SACCADE_STR, SP_STR])
 
 
 class Hollywood2ReportForEachMethod(vt.ReportForEachMethod):
-    CONFIG = {
-        "sampling_frequency": 500,
-    }
+    CONFIG = ConfigOld(
+        sampling_frequency=500,
+    )
 
     @classmethod
     def evaluate_predictions(cls, gt_list, pred_list):

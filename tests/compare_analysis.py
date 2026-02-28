@@ -175,11 +175,22 @@ for event_name, methods in METHODS_PER_EVENT.items():
 
         config = Config(
             **KWARGS,
-            savgol_window_length=31,
-            status_threshold = 0.5,
-            distance_projection = 1000,
+            smoothing=Config(
+                savgol=Config(
+                    window_length=31,
+                    polyorder=3,
+                )
+            ),
+            segmentation=Config(
+                filter=Config(
+                    status_threshold=0.5,
+                ),
+                pursuit=Config(
+                    start_idx=200,
+                ),
+            ),
+            distance_projection=1000,
             segmentation_method=segmentation_method,
-            pursuit_start_idx=200,
             nb_samples_pursuit=499,
             verbose=False,
         )

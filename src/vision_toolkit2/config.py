@@ -1,5 +1,179 @@
 import dataclasses
-from typing import TypeVar, Generic, Union
+from typing import TypeVar, Generic, Union, Optional, get_type_hints
+
+@dataclasses.dataclass(frozen=True)
+class UnionTag:
+    attr: str
+    value: str | None = None
+
+    def __post_init__(self):
+        object.__setattr__(self, "attr", self.attr.lower())
+        if self.value is None:
+            object.__setattr__(self, "value", self.attr)
+    
+    @classmethod
+    def ensure(cls, value):
+        if isinstance(value, cls):
+            return value
+        else:
+            return cls(value)
+
+def all_nullable_dataclass(cls):
+    """
+    Modify a dataclass to make all fields Optional with default=None.
+    
+    This function modifies the original dataclass in-place by replacing its
+    __init__ method with one that makes all fields optional.
+    
+    Args:
+        cls: The dataclass to modify
+        
+    Returns:
+        The modified dataclass (same as input)
+        
+    Example:
+        @dataclass
+        class Original:
+            name: str
+            age: int
+        
+        all_nullable_dataclass(Original)
+        obj = Original()  # All fields are None now
+    """
+    cls = dataclasses.dataclass(cls, kw_only=True)
+    
+    # Get the dataclass fields using dataclasses.fields()
+    fields = dataclasses.fields(cls)
+    
+    # Create new field definitions with Optional types and default=None
+    new_fields = []
+    for field in fields:
+        # Get the original type
+        original_type = field.type
+        
+        # Make the type Optional
+        optional_type = Optional[original_type]
+        
+        # Create field with default=None
+        new_field = dataclasses.field(default=None)
+        
+        new_fields.append((field.name, optional_type, new_field))
+  
+    # Create a new dataclass with nullable fields
+    nullable_cls = dataclasses.make_dataclass(
+        cls.__name__,
+        fields=new_fields,
+    )
+    
+    # Copy the __init__ method from nullable_cls to cls
+    cls.__init__ = nullable_cls.__init__
+    cls.__dataclass_fields__ = nullable_cls.__dataclass_fields__
+    
+    return cls
+
+
+def tagged_union_disjoint_types(class_name: str, tag_name: str, classes: dict[str, type], **extra_fields) -> type:
+    """
+    Creates a tagged union dataclass with __disjoint_types__ attribute and extra fields.
+
+    Args:
+        class_name: Name of the generated dataclass
+        tag_name: Name of the tag attribute
+        classes: Dictionary mapping tag values to dataclass types
+        **extra_fields: Additional fields to add to the dataclass (field_name: type)
+
+    Returns:
+        A dataclass with __disjoint_types__ attribute, extra fields, and smart initialization
+    """
+    # Convert classes dict to list of (tag_value, type) tuples
+    disjoint_types = [ (UnionTag.ensure(tag), cls) for tag, cls in classes.items() ]
+
+    def __repr__(self):
+        return (
+            f"{self.__class__.__name__}<{getattr(self, self.__tag__)}="
+            f"{getattr(self, self.__tag_attr__, None)}"
+        )
+
+        tag = class_to_tag[variant_class]
+
+        # Set the tag using self.__tag__
+        setattr(self, self.__tag__, tag.value)
+
+        # Set the variant in the correct attribute
+        setattr(self, tag.attr, variant)
+
+    # Build fields list: tag field + variant fields + extra fields
+    no_init = lambda: dataclasses.field(init=False)
+    fields = [(tag_name, str, no_init())] + [(tag.attr, cls, no_init()) for tag, cls in disjoint_types]
+
+    nullable_kw_only = lambda: dataclasses.field(kw_only=True, default=None)
+    # Add extra fields
+    for field_name, field_type in extra_fields.items():
+        fields.append((field_name, field_type, nullable_kw_only()))
+
+
+
+    # Create the dataclass using make_dataclass
+    cls = dataclasses.make_dataclass(
+        class_name,
+        fields,
+        namespace={
+            '__tag__': tag_name,
+            '__disjoint_types__': disjoint_types,
+            '__types__': tuple(cls for _, cls in disjoint_types),
+            '__repr__': __repr__,
+        }
+    )
+
+    def __init__(self, variant=None, **kwargs):
+        # Allow None variant for flexible initialization
+        if variant is None:
+            setattr(self, self.__tag__, None)
+            self.__tag_attr__ = None
+            self.__original_init__(**kwargs)
+            return
+
+        if isinstance(variant, str):
+            value_to_tag = {tag.value: tag for tag, _ in disjoint_types}
+
+            if variant not in value_to_tag:
+                raise ValueError(
+                    f"Invalid tag: {variant}. "
+                    f"Valid tags: {tags}"
+                )
+
+            tag = value_to_tag[variant]
+        elif isinstance(variant, self.__types__):
+            # Determine the tag based on the variant's type
+            variant_class = type(variant)
+
+            # Build reverse mapping from class to tag using self.__disjoint_types__
+            class_to_tag = {
+                cls: tag
+                for tag, cls in self.__disjoint_types__
+            }
+
+            if variant_class not in class_to_tag:
+                raise TypeError(
+                    f"Unsupported variant type: {variant_class}. "
+                    f"Supported types: {[cls.__name__ for cls in class_to_tag.keys()]}"
+                )
+
+            tag = class_to_tag[variant_class]
+            setattr(self, tag.attr, variant)
+        else:
+            ValueError()
+
+        setattr(self, self.__tag__, tag.value)
+        self.__tag_attr__ = tag.attr
+
+        self.__original_init__(**kwargs)
+
+    cls.__original_init__ = cls.__init__
+    cls.__init__ = __init__
+
+
+    return cls
 
 
 def asdict(dc_instance):
@@ -40,7 +214,7 @@ def prefix(prefix="", class_name=False, lower=True):
     return f
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class HMM:
 
     init_low_velocity: float
@@ -49,7 +223,7 @@ class HMM:
     nb_iters: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class I2MC:
 
     merging_distance_threshold: float  # [0, 1]?
@@ -58,7 +232,7 @@ class I2MC:
     window_duration: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class CDBA:
 
     initial_random_state: int
@@ -66,27 +240,27 @@ class CDBA:
     maximum_iterations: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IAP:
 
     centers: str  # mean | raw_IAP
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IDP:
 
     centers: str  # mean | raw_IDP
     gaussian_kernel_sd: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IDT:
 
     density_threshold: float
     min_samples: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IKM:
 
     cluster_number: str  # search
@@ -94,13 +268,13 @@ class IKM:
     max_clusters: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IMS:
 
     bandwidth: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IDeT:
 
     density_threshold: float
@@ -108,7 +282,7 @@ class IDeT:
     min_pts: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class String_Distance:
 
     deletion_cost: float
@@ -116,19 +290,19 @@ class String_Distance:
     normalization: str  # min | max
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Levenshtein_Distance(String_Distance):
 
     substitution_cost: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Generalized_Edit_Distance(String_Distance):
 
     pass
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Needleman_Wunsch_Distance:
 
     concordance_bonus: float
@@ -136,7 +310,7 @@ class Needleman_Wunsch_Distance:
     normalization: str  # min | max
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Smith_Waterman:
 
     base_deletion_cost: float
@@ -145,7 +319,7 @@ class Smith_Waterman:
     similarity_weight: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Temporal_Binning:
 
     temporal_binning: bool
@@ -154,7 +328,7 @@ class Temporal_Binning:
 
 Identification = tagged_union_disjoint_types(
     "Identification",
-    "identification_method",
+    "method",
     {
         "iap": IAP,
         "idp": IDP,
@@ -165,7 +339,7 @@ Identification = tagged_union_disjoint_types(
 )
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class AoI:
 
     # Distance classes as attributes
@@ -192,7 +366,7 @@ class AoI:
     trend_analysis_tolerance_level: None
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IBDT:
 
     duration_threshold: float
@@ -203,14 +377,14 @@ class IBDT:
     saccade_threshold: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class I_DiT:
 
     dispersion_threshold: float
     window_duration: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IFC:
 
     bcea_prob: float
@@ -220,7 +394,7 @@ class IFC:
     i2mc_window_duration: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IKF:
 
     chi2_threshold: float
@@ -230,7 +404,7 @@ class IKF:
     sigma_2: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IMST:
 
     distance_threshold: float
@@ -239,7 +413,7 @@ class IMST:
     min_cluster_size: int | None
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IVDT:
 
     dispersion_threshold: float
@@ -247,7 +421,7 @@ class IVDT:
     window_duration: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IVMP:
 
     # Paper link: Part2 l.345
@@ -256,21 +430,21 @@ class IVMP:
     window_duration: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IVT:
 
     # Paper link: Part2 l.189
     velocity_threshold: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class IVVT:
 
     pursuit_threshold: float
     saccade_threshold: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class TDE_distance:
 
     method: None
@@ -278,7 +452,7 @@ class TDE_distance:
     subsequence_length: None
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Display:
 
     _display: None  # means display itself
@@ -293,7 +467,7 @@ class Display:
     segmentation_path: None | str
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Multimatch_Simplification:
 
     amplitude_threshold: float
@@ -302,14 +476,14 @@ class Multimatch_Simplification:
     iterations: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Persistence:
 
     display: bool
     landscape_order: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Scanmatch_Score:
 
     concordance_bonus: None
@@ -317,7 +491,7 @@ class Scanmatch_Score:
     substitution_threshold: None
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Scanpath:
 
     # Distance classes as attributes
@@ -341,42 +515,42 @@ class Scanpath:
 
 #     smoothing: str  # moving_average | speed_moving_average | savgol
 
-Smoothing = tagged_union_disjoint_types(
-    "Smoothing",
-    "smoothing",
-    {
-        "savgol": Savgol,
-        "moving_average": MovingAverage,
-        "speed_moving_average": SpeedMovingAverage,
-    }
-)
-
-
-@dataclasses.dataclass
+@all_nullable_dataclass
 class BaseSmoothing:
     window_length: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class MovingAverage(BaseSmoothing):
     pass
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class SpeedMovingAverage(BaseSmoothing):
     pass
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Savgol(BaseSmoothing):
     polyorder: int
 
-@dataclasses.dataclass
+
+Smoothing = tagged_union_disjoint_types(
+    "Smoothing",
+    "method",
+    {
+        "savgol": Savgol,
+        "moving_average": MovingAverage,
+        "speed_moving_average": SpeedMovingAverage,
+    },
+)
+
+@all_nullable_dataclass
 class Fixation:
 
     weighted_average_velocity_means: bool
     BCEA_probability: float
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Saccade:
 
     absolute_horizontal_deviations: bool
@@ -388,7 +562,7 @@ class Saccade:
     weighted_average_deceleration_means: bool
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class Pursuit:
 
     end_idx: None | int
@@ -400,7 +574,7 @@ class Pursuit:
     start_idx: int
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class ScreenDimensions:
     x: float
     y: float
@@ -410,13 +584,13 @@ class ScreenDimensions:
 T = TypeVar('T', bound=Union[float, int])
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class FilterRange(Generic[T]):
     min: T | None
     max: T | None
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class SegmentationFilter:
     fixation_duration: FilterRange[float]
     pursuit_duration: FilterRange[float]
@@ -425,10 +599,31 @@ class SegmentationFilter:
     status_threshold: float | None
 
 
-@dataclasses.dataclass
+@all_nullable_dataclass
 class SerieMetadata:
     sampling_frequency: int
     nb_samples: int
+
+
+Segmentation = tagged_union_disjoint_types(
+    "Segmentation",
+    "method",
+    {
+        UnionTag(attr="iHMM", value="I_HMM"): HMM,
+        UnionTag(attr="I2MC", value="I_2MC"): I2MC,
+        UnionTag(attr="IBDT", value="I_BDT"): IBDT,
+        UnionTag(attr="I_DiT", value="I_DiT"): I_DiT,
+        UnionTag(attr="IFC", value="IFC"): IFC,
+        UnionTag(attr="IKF", value="I_KF"): IKF,
+        UnionTag(attr="IMST", value="I_MST"): IMST,
+        UnionTag(attr="IVDT", value="I_VDT"): IVDT,
+        UnionTag(attr="IVMP", value="I_VMP"): IVMP,
+        UnionTag(attr="IVT", value="I_VT"): IVT,
+        UnionTag(attr="IVVT", value="I_VVT"): IVVT,
+        UnionTag(attr="I_DeT", value="I_DeT"): IDeT,
+    },
+    filter=SegmentationFilter  # Add filter as an extra field
+)
 
 
 @prefix()
@@ -467,6 +662,7 @@ class Common:
 
     verbose: bool
     nb_samples_pursuit: int
+    display: Display
 
 class ConfigMixin:
     def update(self, **kwargs):
@@ -499,119 +695,78 @@ class ConfigMixin:
 
         return f"{prologue}{','.join(s_v)})"
 
-
 class Config(ConfigMixin, Common):
     pass
 
+def isatomic(obj):
+    return isinstance(
+        obj,
+        (
+            str,
+            int,
+            float,
+            bytes,
+        ),
+    )
 
-class StackedConfig(ConfigMixin):
+def common_fields(objs):
+    return set.intersection(*(set(getattr(obj, "__dataclass_fields__", [])) for obj in objs))
+
+class StackedObject:
+    def __init__(self, stack):
+        fields = common_fields(stack)
+        if not fields:
+            raise TypeError
+
+        self.fields = fields
+        self.stack = stack
+
+    @property
+    def __dataclass_fields__(self):
+        return self.fields
+
+    def __getattr__(self, attr_name: str):
+        if attr_name not in self.fields:
+            raise AttributeError
+
+        for c in reversed(self.stack):
+            value = getattr(c, attr_name, None)
+
+            if value is not None:
+
+                if isatomic(value):
+                    return value
+
+                stack = [
+                    value
+                    for el in self.stack
+                    if (value := getattr(el, attr_name, None)) is not None 
+                ]
+                return StackedObject(stack)
+
+        return None
+
+class StackedConfig(StackedObject, ConfigMixin):
+
+    __dataclass_fields__ = Common.__dataclass_fields__
     # Quickly implemented class for stacking config which is useful to
     # build bit by bit a config
-    def __init__(self, config=None):
-        if config is None:
-            self.stack = []
-            return
-
-        self.stack = config if isinstance(config, list) else [config]
+    def __init__(self, config=None):      
+        super().__init__(config if isinstance(config, list) else ([config] if config is not None else []))
 
     def __iadd__(self, other: Config):
         self.stack.append(other)
 
         return self
 
-    def __getattr__(self, attr_name: str):
-        if attr_name not in Config.__dataclass_fields__:
-            raise AttributeError
+    # def __getattr__(self, attr_name: str):
+    #     if attr_name not in Config.__dataclass_fields__:
+    #         raise AttributeError
 
-        for c in reversed(self.stack):
-            attr = getattr(c, attr_name, None)
+    #     for c in reversed(self.stack):
+    #         attr = getattr(c, attr_name, None)
 
-            if attr is not None:
-                return attr
+    #         if attr is not None:
+    #             return attr
+    #     return None
 
-        return None
-
-
-def tagged_union_disjoint_types(class_name: str, tag_name: str, classes: dict[str, type], **extra_fields) -> type:
-    """
-    Creates a tagged union dataclass with __disjoint_types__ attribute and extra fields.
-
-    Args:
-        class_name: Name of the generated dataclass
-        tag_name: Name of the tag attribute
-        classes: Dictionary mapping tag values to dataclass types
-        **extra_fields: Additional fields to add to the dataclass (field_name: type)
-
-    Returns:
-        A dataclass with __disjoint_types__ attribute, extra fields, and smart initialization
-    """
-    # Convert classes dict to list of (tag_value, type) tuples
-    disjoint_types = list(classes.items())
-
-    def __init__(self, variant, **kwargs):
-        # Determine the tag based on the variant's type
-        variant_class = type(variant)
-
-        # Build reverse mapping from class to tag using self.__disjoint_types__
-        class_to_tag = {
-            cls: tag
-            for tag, cls in self.__disjoint_types__
-        }
-
-        if variant_class not in class_to_tag:
-            raise TypeError(
-                f"Unsupported variant type: {variant_class}. "
-                f"Supported types: {[cls.__name__ for cls in class_to_tag.keys()]}"
-            )
-
-        tag_value = class_to_tag[variant_class]
-
-        # Set the tag using self.__tag__
-        setattr(self, self.__tag__, tag_value)
-
-        # Set the variant in the correct attribute
-        setattr(self, tag_value, variant)
-
-        # Set extra fields
-        for field_name, value in kwargs.items():
-            setattr(self, field_name, value)
-
-    # Build fields list: tag field + variant fields + extra fields
-    fields = [(tag_name, str)] + [cls for _, cls in disjoint_types]
-    
-    # Add extra fields
-    for field_name, field_type in extra_fields.items():
-        fields.append((field_name, field_type))
-
-    # Create the dataclass using make_dataclass
-    cls = dataclasses.make_dataclass(
-        class_name,
-        fields,
-        namespace={
-            '__tag__': tag_name,
-            '__disjoint_types__': disjoint_types,
-            '__init__': __init__
-        }
-    )
-
-    return cls
-
-Segmentation = tagged_union_disjoint_types(
-    "Segmentation",
-    "segmentation_method",
-    {
-        "HMM": HMM,
-        "I2MC": I2MC,
-        "IBDT": IBDT,
-        "I_DiT": I_DiT,
-        "IFC": IFC,
-        "IKF": IKF,
-        "IMST": IMST,
-        "IVDT": IVDT,
-        "IVMP": IVMP,
-        "IVT": IVT,
-        "IVVT": IVVT,
-        "IDeT": IDeT,
-    },
-    filter=SegmentationFilter  # Add filter as an extra field
-)

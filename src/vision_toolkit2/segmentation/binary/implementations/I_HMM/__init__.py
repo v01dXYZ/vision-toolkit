@@ -131,7 +131,7 @@ def default_config_impl(config, vf_diag):
 
     return Config(
         segmentation=Segmentation(
-            ihmm=HMM(
+            HMM(
                 init_low_velocity=i_l,
                 init_high_velocity=i_h,
                 init_variance=i_v,

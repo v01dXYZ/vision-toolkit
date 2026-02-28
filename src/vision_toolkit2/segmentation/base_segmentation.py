@@ -4,6 +4,7 @@ from vision_toolkit2.velocity_distance_factory import (
     absolute_angular_distance,
     absolute_euclidean_distance,
 )
+from vision_toolkit2 import config
 
 from .binary import implementations as binary_implementations
 from .ternary import implementations as ternary_implementations
@@ -22,17 +23,30 @@ DEFAULT_SEGMENTATION_METHOD = "I_HMM"
 
 
 class DefaultConfigBuilder:
-    DEFAULT_CONFIG = Config(
-        segmentation_method=DEFAULT_SEGMENTATION_METHOD,
+    DEFAULT_CONFIG = config.Config(
         distance_type="angular",
-        min_fix_duration=7e-2,
-        max_fix_duration=2.0,
-        min_sac_duration=1.5e-2,
-        min_pursuit_duration=1e-1,
-        max_pursuit_duration=2.0,
-        status_threshold=0.5,
-        display_segmentation=False,
-        display_results=True,
+        segmentation=config.Segmentation(
+            DEFAULT_SEGMENTATION_METHOD,
+            filter=config.SegmentationFilter(
+                fixation_duration=config.FilterRange[float](
+                    min=7e-2,
+                    max=2.0,
+                ),
+                saccade_duration=config.FilterRange[float](
+                    min=1.5e-2,
+                    max=None,
+                ),
+                pursuit_duration=config.FilterRange[float](
+                    min=1e-1,
+                    max=2.0,
+                ),
+                status_threshold=0.5,
+            ),
+        ),
+        display=config.Display(
+            segmentation=False,
+            results=True,
+        ),
         verbose=True,
     )
 
@@ -50,7 +64,7 @@ class DefaultConfigBuilder:
 
         config = StackedConfig(stack)
 
-        segmentation_method = config.segmentation_method
+        segmentation_method = config.segmentation.method
         _, default_config_impl = IMPLEMENTATIONS[segmentation_method]
         vf_diag = np.linalg.norm(np.array([config.screen_dimensions.x, config.screen_dimensions.y]))
         config += default_config_impl(config, vf_diag)
@@ -78,20 +92,19 @@ class Segmentation:
         )
 
     def process(self):
-        process_impl, _ = IMPLEMENTATIONS[self.config.segmentation_method]
-
+        process_impl, _ = IMPLEMENTATIONS[self.config.segmentation.method]
         results = process_impl(self.input_, self.config)
 
         if isinstance(results, TernarySegmentationResults):
             conf = self.config
             results = results.filter_events_by_duration(
                 fixation_duration_range=(
-                    conf.min_fix_duration,
-                    conf.max_fix_duration,
+                    conf.segmentation.filter.fixation_duration.min,
+                    conf.segmentation.filter.fixation_duration.max,
                 ),
                 pursuit_duration_range=(
-                    conf.min_pursuit_duration,
-                    conf.max_pursuit_duration,
+                    conf.segmentation.filter.pursuit_duration.min,
+                    conf.segmentation.filter.pursuit_duration.max,
                 ),
             )
 
