@@ -728,14 +728,3 @@ class StackedConfig(StackedObject, ConfigMixin):
         self.stack.append(other)
 
         return self
-
-    # def __getattr__(self, attr_name: str):
-    #     if attr_name not in Config.__dataclass_fields__:
-    #         raise AttributeError
-
-    #     for c in reversed(self.stack):
-    #         attr = getattr(c, attr_name, None)
-
-    #         if attr is not None:
-    #             return attr
-    #     return None
