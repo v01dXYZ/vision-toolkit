@@ -6,7 +6,6 @@ from .base_analysis import (
     EasyAccessFunction,
 )
 from ..base_segmentation import Segmentation
-from vision_toolkit2.config import Config
 
 
 class PursuitAnalysis(BaseAnalysis):

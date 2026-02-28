@@ -1,10 +1,7 @@
 import numpy as np
 
 from .base_analysis import (
-    BaseBinarySegmentationAnalysis,
     passthrough_attr,
-    results_delegation,
-    input_delegation,
     config_delegation,
     EasyAccessFunction,
 )

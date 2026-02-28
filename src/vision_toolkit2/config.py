@@ -1,5 +1,5 @@
 import dataclasses
-from typing import TypeVar, Generic, Union, Optional, get_type_hints
+from typing import TypeVar, Generic, Union, Optional
 
 
 @dataclasses.dataclass(frozen=True)
@@ -98,14 +98,6 @@ def tagged_union_disjoint_types(
             f"{getattr(self, self.__tag_attr__, None)}"
         )
 
-        tag = class_to_tag[variant_class]
-
-        # Set the tag using self.__tag__
-        setattr(self, self.__tag__, tag.value)
-
-        # Set the variant in the correct attribute
-        setattr(self, tag.attr, variant)
-
     # Build fields list: tag field + variant fields + extra fields
     no_init = lambda: dataclasses.field(init=False)
     fields = [(tag_name, str, no_init())] + [
@@ -141,7 +133,7 @@ def tagged_union_disjoint_types(
             value_to_tag = {tag.value: tag for tag, _ in disjoint_types}
 
             if variant not in value_to_tag:
-                raise ValueError(f"Invalid tag: {variant}. Valid tags: {tags}")
+                raise ValueError(f"Invalid tag: {variant}. Valid tags: {value_to_tag.keys()}")
 
             tag = value_to_tag[variant]
         elif isinstance(variant, self.__types__):
