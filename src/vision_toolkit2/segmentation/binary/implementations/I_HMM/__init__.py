@@ -10,17 +10,17 @@ from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_
 from ...binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     if config.verbose:
         print("Processing HMM Identification...")
         start_time = time.time()
 
     a_s = s.absolute_speed
 
-    i_low_vel = config.segmentation.ihmm.init_low_velocity
-    i_high_vel = config.segmentation.ihmm.init_high_velocity
-    i_var = config.segmentation.ihmm.init_variance
-    n_iter = config.segmentation.ihmm.nb_iters
+    i_low_vel = segmentation_config.ihmm.init_low_velocity
+    i_high_vel = segmentation_config.ihmm.init_high_velocity
+    i_var = segmentation_config.ihmm.init_variance
+    n_iter = segmentation_config.ihmm.nb_iters
     s_f = s.min_config.sampling_frequency
 
     theta = baum_welch(a_s, 2, n_iter, i_low_vel, i_high_vel, i_var)
@@ -43,13 +43,13 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.segmentation.filter.saccade_duration.min
+                s_du=segmentation_config.filter.saccade_duration.min
             )
         )
 
@@ -57,7 +57,7 @@ def process_impl(s, config):
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
-    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
+    fix_dur_t = int(np.ceil(segmentation_config.filter.fixation_duration.min * s_f))
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
         o_s_int = s_ints[i - 1]
@@ -67,7 +67,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.segmentation.filter.fixation_duration.min
+                f_du=segmentation_config.filter.fixation_duration.min
             )
         )
 
@@ -75,10 +75,10 @@ def process_impl(s, config):
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
-        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.fixation_duration.min * s_f),
+        max_int_size=np.ceil(segmentation_config.filter.fixation_duration.max * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     ctrds = centroids_from_ints(f_ints, x_a, y_a)
@@ -88,15 +88,15 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.segmentation.filter.status_threshold
+                s_th=segmentation_config.filter.status_threshold
             )
         )
 

@@ -17,6 +17,7 @@ from ..binary_segmentation_results import BinarySegmentationResults
 def process_impl(
     s,
     config,
+    segmentation_config,
 ):
     if config.verbose:
         print("Processing DiT Identification...")
@@ -34,8 +35,8 @@ def process_impl(
     n_s = s.min_config.nb_samples
     s_f = s.min_config.sampling_frequency
 
-    t_du = int(np.ceil(config.segmentation.i_dit.window_duration * s_f))
-    t_di = config.segmentation.i_dit.dispersion_threshold
+    t_du = int(np.ceil(segmentation_config.i_dit.window_duration * s_f))
+    t_di = segmentation_config.i_dit.dispersion_threshold
 
     i_fix = np.array([False] * s.min_config.nb_samples)
 
@@ -62,13 +63,13 @@ def process_impl(
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.segmentation.filter.saccade_duration.min
+                s_du=segmentation_config.filter.saccade_duration.min
             )
         )
 
@@ -79,7 +80,7 @@ def process_impl(
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
+    fix_dur_t = int(np.ceil(segmentation_config.filter.fixation_duration.min * s_f))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -92,7 +93,7 @@ def process_impl(
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.segmentation.filter.fixation_duration.min
+                f_du=segmentation_config.filter.fixation_duration.min
             )
         )
 
@@ -101,10 +102,10 @@ def process_impl(
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
-        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.fixation_duration.min * s_f),
+        max_int_size=np.ceil(segmentation_config.filter.fixation_duration.max * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -116,15 +117,15 @@ def process_impl(
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.segmentation.filter.status_threshold
+                s_th=segmentation_config.filter.status_threshold
             )
         )
 

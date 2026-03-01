@@ -12,7 +12,7 @@ from vision_toolkit2.config import IBDT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     """
 
     Parameters
@@ -35,14 +35,14 @@ def process_impl(s, config):
     n_s = int(s.min_config.nb_samples)
     s_f = float(s.min_config.sampling_frequency)
 
-    d_t = max(1, int(np.ceil(float(config.segmentation.ibdt.duration_threshold) * s_f)))
+    d_t = max(1, int(np.ceil(float(segmentation_config.ibdt.duration_threshold) * s_f)))
 
-    fix_t = float(config.segmentation.ibdt.fixation_threshold)
-    sac_t = float(config.segmentation.ibdt.saccade_threshold)
-    pur_t = float(config.segmentation.ibdt.pursuit_threshold)
+    fix_t = float(segmentation_config.ibdt.fixation_threshold)
+    sac_t = float(segmentation_config.ibdt.saccade_threshold)
+    pur_t = float(segmentation_config.ibdt.pursuit_threshold)
 
-    fix_sd = max(1e-9, float(config.segmentation.ibdt.fixation_sd))
-    sac_sd = max(1e-9, float(config.segmentation.ibdt.saccade_sd))
+    fix_sd = max(1e-9, float(segmentation_config.ibdt.fixation_sd))
+    sac_sd = max(1e-9, float(segmentation_config.ibdt.saccade_sd))
 
     a_s = s.absolute_speed
 

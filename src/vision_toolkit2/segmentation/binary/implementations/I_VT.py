@@ -8,10 +8,10 @@ from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     # Find indices where velocity is below threshold
     (idx_velocity_lower_than_threshold,) = np.where(
-        s.absolute_speed <= config.segmentation.ivt.velocity_threshold
+        s.absolute_speed <= segmentation_config.ivt.velocity_threshold
     )
 
     is_fix = np.full(s.min_config.nb_samples, False)
@@ -32,8 +32,8 @@ def process_impl(s, config):
     s_ints = interval_merging(
         idx_sac,
         min_int_size=math.ceil(
-            config.segmentation.filter.saccade_duration.min
-            * config.serie_metadata.sampling_frequency,
+            segmentation_config.filter.saccade_duration.min
+            * s.min_config.sampling_frequency,
         ),
     )
 
@@ -45,7 +45,7 @@ def process_impl(s, config):
     (idx_fix,) = is_fix.nonzero()
 
     fix_dur_t = math.ceil(
-        config.segmentation.filter.fixation_duration.min
+        segmentation_config.filter.fixation_duration.min
         * s.min_config.sampling_frequency
     )
 
@@ -60,15 +60,15 @@ def process_impl(s, config):
     f_ints = interval_merging(
         idx_fix,
         min_int_size=math.ceil(
-            config.segmentation.filter.fixation_duration.min
+            segmentation_config.filter.fixation_duration.min
             * s.min_config.sampling_frequency
         ),
         max_int_size=math.ceil(
-            config.segmentation.filter.fixation_duration.max
+            segmentation_config.filter.fixation_duration.max
             * s.min_config.sampling_frequency
         ),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -82,11 +82,11 @@ def process_impl(s, config):
     s_ints = interval_merging(
         idx_sac,
         min_int_size=math.ceil(
-            config.segmentation.filter.saccade_duration.min
-            * config.serie_metadata.sampling_frequency
+            segmentation_config.filter.saccade_duration.min
+            * s.min_config.sampling_frequency
         ),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     # Keep track of index that were effectively labeled

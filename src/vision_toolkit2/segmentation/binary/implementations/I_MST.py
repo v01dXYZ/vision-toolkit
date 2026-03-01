@@ -12,7 +12,7 @@ from vision_toolkit2.config import IMST, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     """
 
     Parameters
@@ -46,15 +46,15 @@ def process_impl(s, config):
         (x_a.reshape(n_s), y_a.reshape(n_s))
     )  # (n_s, 2) array of gaze points
 
-    vareps = float(config.segmentation.imst.distance_threshold)
+    vareps = float(segmentation_config.imst.distance_threshold)
 
     # Window length in samples
-    t_du = int(np.ceil(float(config.segmentation.imst.window_duration) * s_f))
+    t_du = int(np.ceil(float(segmentation_config.imst.window_duration) * s_f))
     t_du = max(2, t_du)  # need at least 2 points
 
     # Overlap / stride (B)
     # If user provides IMST_step_samples, use it; otherwise default to 50% overlap.
-    step = config.segmentation.imst.step_samples
+    step = segmentation_config.imst.step_samples
     if step is None:
         step = max(1, t_du // 2)
     else:
@@ -62,10 +62,10 @@ def process_impl(s, config):
 
     # Minimum cluster size to accept as fixation-like (A)
     # Default: at least the minimum fixation duration in samples, capped by window length.
-    min_pts = config.segmentation.imst.min_cluster_size
+    min_pts = segmentation_config.imst.min_cluster_size
     if min_pts is None:
         min_pts = int(
-            np.ceil(float(config.segmentation.filter.fixation_duration.min) * s_f)
+            np.ceil(float(segmentation_config.filter.fixation_duration.min) * s_f)
         )
     min_pts = max(2, min(min_pts, t_du))
 
@@ -124,13 +124,13 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.segmentation.filter.saccade_duration.min
+                s_du=segmentation_config.filter.saccade_duration.min
             )
         )
 
@@ -141,7 +141,7 @@ def process_impl(s, config):
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
+    fix_dur_t = int(np.ceil(segmentation_config.filter.fixation_duration.min * s_f))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -154,7 +154,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.segmentation.filter.fixation_duration.min
+                f_du=segmentation_config.filter.fixation_duration.min
             )
         )
 
@@ -163,10 +163,10 @@ def process_impl(s, config):
 
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
-        max_int_size=np.ceil(config.segmentation.filter.fixation_duration.max * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.fixation_duration.min * s_f),
+        max_int_size=np.ceil(segmentation_config.filter.fixation_duration.max * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -178,15 +178,15 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.segmentation.filter.status_threshold
+                s_th=segmentation_config.filter.status_threshold
             )
         )
 

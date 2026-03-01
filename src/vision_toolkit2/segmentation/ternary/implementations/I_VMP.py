@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVMP, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     """
     Identifies saccades like the I-VT algorithm.
     Distinguishes pursuits from fixations using the movement
@@ -32,10 +32,10 @@ def process_impl(s, config):
     x_array = s.x
     y_array = s.y
 
-    t_s = config.segmentation.ivmp.saccade_threshold
-    t_du = int(np.ceil(config.segmentation.ivmp.window_duration * s_f))
+    t_s = segmentation_config.ivmp.saccade_threshold
+    t_du = int(np.ceil(segmentation_config.ivmp.window_duration * s_f))
     t_du = max(2, t_du)
-    t_r = config.segmentation.ivmp.rayleigh_threshold
+    t_r = segmentation_config.ivmp.rayleigh_threshold
 
     is_sac = a_sp > t_s
     is_fix = ~is_sac

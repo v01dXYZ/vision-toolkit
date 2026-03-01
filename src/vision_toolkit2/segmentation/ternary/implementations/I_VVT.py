@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVVT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     """
     Adapted from Komogortsev & Karpov (2013).
     Modified I-VT algorithm, with a supplementary
@@ -26,8 +26,8 @@ def process_impl(s, config):
 
     a_sp = s.absolute_speed
 
-    T_s = config.segmentation.ivvt.saccade_threshold
-    T_p = config.segmentation.ivvt.pursuit_threshold
+    T_s = segmentation_config.ivvt.saccade_threshold
+    T_p = segmentation_config.ivvt.pursuit_threshold
 
     valid = np.isfinite(a_sp)
 

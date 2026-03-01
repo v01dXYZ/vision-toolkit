@@ -11,7 +11,7 @@ from vision_toolkit2.config import IKF, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     assert config.distance_type == "euclidean", (
         "'Distance type' must be set to 'euclidean"
     )
@@ -24,7 +24,7 @@ def process_impl(s, config):
     s_f = s.min_config.sampling_frequency
 
     d_t = 1 / s_f
-    c_wn = config.segmentation.ikf.chi2_window
+    c_wn = segmentation_config.ikf.chi2_window
 
     x_a = s.x
     y_a = s.y
@@ -35,7 +35,7 @@ def process_impl(s, config):
 
     # predict velocities and positions from Kalman filter
     pred = process_Kalman_filter(
-        pos, sp, d_t, config.segmentation.ikf.sigma_1, config.segmentation.ikf.sigma_2
+        pos, sp, d_t, segmentation_config.ikf.sigma_1, segmentation_config.ikf.sigma_2
     )
 
     # compute norms of predicted and true speed vectors
@@ -51,7 +51,7 @@ def process_impl(s, config):
     # compute chi2 statistics over sampling intervals of size c_wn
     chi2_a = compute_chi2(p_sp, t_sp, c_wn)
 
-    wi_fix = np.where(chi2_a[:-1] <= config.segmentation.ikf.chi2_threshold)[0]
+    wi_fix = np.where(chi2_a[:-1] <= segmentation_config.ikf.chi2_threshold)[0]
 
     # Add index + 1 to fixation since velocities are computed from two data points
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
@@ -64,14 +64,14 @@ def process_impl(s, config):
 
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
     # i_sac events not retained as intervals are relabeled as fix events
     if config.verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
-                s_du=config.segmentation.filter.saccade_duration.min
+                s_du=segmentation_config.filter.saccade_duration.min
             )
         )
 
@@ -81,7 +81,7 @@ def process_impl(s, config):
         i_fix[s_int[0] : s_int[1] + 1] = False
 
     # second pass to merge saccade separated by short fixations
-    fix_dur_t = int(np.ceil(config.segmentation.filter.fixation_duration.min * s_f))
+    fix_dur_t = int(np.ceil(segmentation_config.filter.fixation_duration.min * s_f))
 
     for i in range(1, len(s_ints)):
         s_int = s_ints[i]
@@ -93,7 +93,7 @@ def process_impl(s, config):
     if config.verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
-                f_du=config.segmentation.filter.fixation_duration.min
+                f_du=segmentation_config.filter.fixation_duration.min
             )
         )
 
@@ -102,9 +102,9 @@ def process_impl(s, config):
     # Recompute fixation intervals
     f_ints = interval_merging(
         wi_fix,
-        min_int_size=np.ceil(config.segmentation.filter.fixation_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.fixation_duration.min * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     # Compute fixation centroids
@@ -116,15 +116,15 @@ def process_impl(s, config):
     # Recompute saccadic intervals
     s_ints = interval_merging(
         wi_sac,
-        min_int_size=np.ceil(config.segmentation.filter.saccade_duration.min * s_f),
+        min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
         status=s.status,
-        proportion=config.segmentation.filter.status_threshold,
+        proportion=segmentation_config.filter.status_threshold,
     )
 
     if config.verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
-                s_th=config.segmentation.filter.status_threshold
+                s_th=segmentation_config.filter.status_threshold
             )
         )
 

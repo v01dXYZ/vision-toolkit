@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVDT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config):
+def process_impl(s, config, segmentation_config):
     """
     Adapted from Komogortsev & Karpov (2013).
     Identifies saccades like the I-VT algorithm.
@@ -36,10 +36,10 @@ def process_impl(s, config):
         x_a = theta_coord[0, :]
         y_a = theta_coord[1, :]
 
-    t_s = config.segmentation.ivdt.saccade_threshold
-    t_du = int(np.ceil(config.segmentation.ivdt.window_duration * s_f))
+    t_s = segmentation_config.ivdt.saccade_threshold
+    t_du = int(np.ceil(segmentation_config.ivdt.window_duration * s_f))
     t_du = max(2, t_du)
-    t_di = config.segmentation.ivdt.dispersion_threshold
+    t_di = segmentation_config.ivdt.dispersion_threshold
 
     i_sac = (a_sp > t_s).astype(int)
     i_purs = np.zeros_like(i_sac)
