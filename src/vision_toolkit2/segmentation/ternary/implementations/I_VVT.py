@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVVT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     """
     Adapted from Komogortsev & Karpov (2013).
     Modified I-VT algorithm, with a supplementary
@@ -20,7 +20,7 @@ def process_impl(s, config, segmentation_config):
         - T_p = saccade velocity threshold.
     """
 
-    if config.verbose:
+    if verbose:
         print("Processing VVT Identification...")
         start_time = time.time()
 
@@ -39,7 +39,7 @@ def process_impl(s, config, segmentation_config):
     pursuit_intervals = interval_merging(np.where(is_pursuit)[0])
     fixation_intervals = interval_merging(np.where(is_fixation)[0])
 
-    if config.verbose:
+    if verbose:
         print("\n...VVT Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

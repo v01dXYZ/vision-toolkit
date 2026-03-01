@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVMP, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     """
     Identifies saccades like the I-VT algorithm.
     Distinguishes pursuits from fixations using the movement
@@ -21,7 +21,7 @@ def process_impl(s, config, segmentation_config):
         – T_m = movement threshold.
     """
 
-    if config.verbose:
+    if verbose:
         print("Processing VMP Identification...")
         start_time = time.time()
 
@@ -77,7 +77,7 @@ def process_impl(s, config, segmentation_config):
     pursuit_intervals = interval_merging(np.where(is_purs)[0])
     fixation_intervals = interval_merging(np.where(is_fix)[0])
 
-    if config.verbose:
+    if verbose:
         print("\n...VMP Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

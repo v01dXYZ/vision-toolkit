@@ -12,7 +12,7 @@ from vision_toolkit2.config import IBDT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     """
 
     Parameters
@@ -28,7 +28,7 @@ def process_impl(s, config, segmentation_config):
         DESCRIPTION.
 
     """
-    if config.verbose:
+    if verbose:
         print("Processing BDT Identification...")
         start_time = time.time()
 
@@ -87,7 +87,7 @@ def process_impl(s, config, segmentation_config):
     saccade_intervals = interval_merging(np.where(is_saccade)[0])
     pursuit_intervals = interval_merging(np.where(is_pursuit)[0])
 
-    if config.verbose:
+    if verbose:
         print("\n...BDT Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

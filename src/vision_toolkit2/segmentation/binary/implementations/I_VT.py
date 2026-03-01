@@ -8,7 +8,7 @@ from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     # Find indices where velocity is below threshold
     (idx_velocity_lower_than_threshold,) = np.where(
         s.absolute_speed <= segmentation_config.ivt.velocity_threshold

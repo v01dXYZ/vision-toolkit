@@ -11,12 +11,12 @@ from vision_toolkit2.config import IKF, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
-    assert config.distance_type == "euclidean", (
+def process_impl(s, config, segmentation_config, distance_type, verbose):
+    assert distance_type == "euclidean", (
         "'Distance type' must be set to 'euclidean"
     )
 
-    if config.verbose:
+    if verbose:
         print("Processing KF Identification...")
         start_time = time.time()
 
@@ -68,7 +68,7 @@ def process_impl(s, config, segmentation_config):
     )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    if config.verbose:
+    if verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
                 s_du=segmentation_config.filter.saccade_duration.min
@@ -90,7 +90,7 @@ def process_impl(s, config, segmentation_config):
         if s_int[0] - o_s_int[-1] < fix_dur_t:
             i_fix[o_s_int[-1] : s_int[0] + 1] = False
 
-    if config.verbose:
+    if verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
                 f_du=segmentation_config.filter.fixation_duration.min
@@ -121,7 +121,7 @@ def process_impl(s, config, segmentation_config):
         proportion=segmentation_config.filter.status_threshold,
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
                 s_th=segmentation_config.filter.status_threshold
@@ -132,7 +132,7 @@ def process_impl(s, config, segmentation_config):
         "Interval set and centroid set have different lengths"
     )
 
-    if config.verbose:
+    if verbose:
         print("\n...KF Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

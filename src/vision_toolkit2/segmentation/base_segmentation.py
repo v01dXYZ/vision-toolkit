@@ -97,7 +97,7 @@ class Segmentation:
 
     def process(self):
         process_impl, _ = IMPLEMENTATIONS[self.config.segmentation.method]
-        results = process_impl(self.input_, self.config, self.min_config)
+        results = process_impl(self.input_, self.config, self.min_config, self.config.distance_type, self.config.verbose)
 
         if isinstance(results, TernarySegmentationResults):
             conf = self.config

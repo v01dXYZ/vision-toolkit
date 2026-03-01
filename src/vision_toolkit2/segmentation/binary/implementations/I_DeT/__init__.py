@@ -9,19 +9,19 @@ from ...binary_segmentation_results import BinarySegmentationResults
 from ._optimized import vareps_neighborhood, expand_cluster
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     """
     I-DeT algorithm.
     """
 
-    if config.verbose:
+    if verbose:
         print("Processing DeT Identification...")
         start_time = time.time()
 
     n_s = s.min_config.nb_samples
     s_f = s.min_config.sampling_frequency
 
-    euclidean = config.distance_type == "euclidean"
+    euclidean = distance_type == "euclidean"
 
     if euclidean:
         g_npts = np.concatenate(
@@ -78,7 +78,7 @@ def process_impl(s, config, segmentation_config):
         min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
                 s_du=segmentation_config.filter.saccade_duration.min
@@ -104,7 +104,7 @@ def process_impl(s, config, segmentation_config):
         if 0 <= gap < fix_dur_t:
             i_fix[o_s_int[1] + 1 : s_int[0]] = False
 
-    if config.verbose:
+    if verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
                 f_du=segmentation_config.filter.fixation_duration.min
@@ -136,7 +136,7 @@ def process_impl(s, config, segmentation_config):
         proportion=segmentation_config.filter.status_threshold,
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
                 s_th=segmentation_config.filter.status_threshold
@@ -156,7 +156,7 @@ def process_impl(s, config, segmentation_config):
     for s_int in s_ints:
         i_lab[s_int[0] : s_int[1] + 1] = True
 
-    if config.verbose:
+    if verbose:
         print("\n...DeT Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVDT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     """
     Adapted from Komogortsev & Karpov (2013).
     Identifies saccades like the I-VT algorithm.
@@ -21,7 +21,7 @@ def process_impl(s, config, segmentation_config):
         - n_w = temporal window size.
         – T_d = dispersion threshold.
     """
-    if config.verbose:
+    if verbose:
         print("Processing VDT Identification...")
         start_time = time.time()
 
@@ -81,7 +81,7 @@ def process_impl(s, config, segmentation_config):
     pursuit_intervals = interval_merging(np.where(i_purs == 1)[0])
     fixation_intervals = interval_merging(np.where(i_fix == 1)[0])
 
-    if config.verbose:
+    if verbose:
         print("\n...VDT Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

@@ -16,18 +16,20 @@ def process_impl(
     s,
     config,
     segmentation_config,
+    distance_type,
+    verbose,
 ):
     """ """
 
-    if config.verbose:
+    if verbose:
         print("Processing 2MC Identification...")
         start_time = time.time()
 
-    if config.distance_type == "euclidean":
+    if distance_type == "euclidean":
         x_a = s.x
         y_a = s.y
 
-    if config.distance_type == "angular":
+    if distance_type == "angular":
         theta_coord = s.theta_coord
         u_v = s.unitary_gaze_vectors
 
@@ -133,14 +135,14 @@ def process_impl(
         if i > 0:
             f_int_p = f_ints[i - 1]
 
-            if config.distance_type == "euclidean":
+            if distance_type == "euclidean":
                 arr_ = np.array(
                     [x_a[f_int[0]] - x_a[f_int_p[1]], y_a[f_int[0]] - y_a[f_int_p[1]]]
                 )
 
                 dist_ = np.linalg.norm(arr_)
 
-            elif config.distance_type == "angular":
+            elif distance_type == "angular":
                 uv_1 = u_v[:, f_int_p[1]]
                 uv_2 = u_v[:, f_int[0]]
 
@@ -160,7 +162,7 @@ def process_impl(
         min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
                 s_du=segmentation_config.filter.saccade_duration.min
@@ -183,7 +185,7 @@ def process_impl(
         if s_int[0] - o_s_int[-1] < fix_dur_t:
             i_fix[o_s_int[-1] : s_int[0] + 1] = False
 
-    if config.verbose:
+    if verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
                 f_du=segmentation_config.filter.fixation_duration.min
@@ -214,7 +216,7 @@ def process_impl(
         proportion=segmentation_config.filter.status_threshold,
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
                 s_th=segmentation_config.filter.status_threshold
@@ -225,7 +227,7 @@ def process_impl(
         "Interval set and centroid set have different lengths"
     )
 
-    if config.verbose:
+    if verbose:
         print("\n...2MC Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 

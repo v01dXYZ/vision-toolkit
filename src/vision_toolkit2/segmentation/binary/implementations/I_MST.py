@@ -12,7 +12,7 @@ from vision_toolkit2.config import IMST, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config):
+def process_impl(s, config, segmentation_config, distance_type, verbose):
     """
 
     Parameters
@@ -28,11 +28,11 @@ def process_impl(s, config, segmentation_config):
         DESCRIPTION.
 
     """
-    assert config.distance_type == "euclidean", (
+    assert distance_type == "euclidean", (
         "'distance_type' must be set to 'euclidean'"
     )
 
-    if config.verbose:
+    if verbose:
         print("Processing MST Identification...")
         start_time = time.time()
 
@@ -116,7 +116,7 @@ def process_impl(s, config, segmentation_config):
     covered = cover_votes > 0
     i_fix[covered] = fix_votes[covered] >= np.ceil(0.5 * cover_votes[covered])
 
-    if config.verbose:
+    if verbose:
         print("Done")
 
     i_sac = ~i_fix
@@ -127,7 +127,7 @@ def process_impl(s, config, segmentation_config):
         min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min * s_f),
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Saccadic intervals identified with minimum duration: {s_du} sec".format(
                 s_du=segmentation_config.filter.saccade_duration.min
@@ -151,7 +151,7 @@ def process_impl(s, config, segmentation_config):
         if 0 <= gap < fix_dur_t:
             i_fix[o_s_int[1] + 1 : s_int[0]] = False
 
-    if config.verbose:
+    if verbose:
         print(
             "   Close saccadic intervals merged with duration threshold: {f_du} sec".format(
                 f_du=segmentation_config.filter.fixation_duration.min
@@ -183,7 +183,7 @@ def process_impl(s, config, segmentation_config):
         proportion=segmentation_config.filter.status_threshold,
     )
 
-    if config.verbose:
+    if verbose:
         print(
             "   Fixations ans saccades identified using availability status threshold: {s_th}".format(
                 s_th=segmentation_config.filter.status_threshold
@@ -194,7 +194,7 @@ def process_impl(s, config, segmentation_config):
         "Interval set and centroid set have different lengths"
     )
 
-    if config.verbose:
+    if verbose:
         print("\n...MST Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
