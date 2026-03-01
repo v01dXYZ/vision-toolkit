@@ -26,7 +26,7 @@ def process_impl(s, config):
         start_time = time.time()
 
     a_sp = s.absolute_speed
-    s_f = config.serie_metadata.sampling_frequency
+    s_f = s.min_config.sampling_frequency
 
     if config.distance_type == "euclidean":
         x_a = s.x

@@ -26,8 +26,8 @@ def process_impl(s, config):
         start_time = time.time()
 
     a_sp = s.absolute_speed
-    n_s = config.serie_metadata.nb_samples
-    s_f = config.serie_metadata.sampling_frequency
+    n_s = s.min_config.nb_samples
+    s_f = s.min_config.sampling_frequency
 
     x_array = s.x
     y_array = s.y

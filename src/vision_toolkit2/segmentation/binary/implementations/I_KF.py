@@ -20,8 +20,8 @@ def process_impl(s, config):
         print("Processing KF Identification...")
         start_time = time.time()
 
-    n_s = config.serie_metadata.nb_samples
-    s_f = config.serie_metadata.sampling_frequency
+    n_s = s.min_config.nb_samples
+    s_f = s.min_config.sampling_frequency
 
     d_t = 1 / s_f
     c_wn = config.segmentation.ikf.chi2_window
@@ -56,7 +56,7 @@ def process_impl(s, config):
     # Add index + 1 to fixation since velocities are computed from two data points
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
-    i_fix = np.array([False] * config.serie_metadata.nb_samples)
+    i_fix = np.array([False] * s.min_config.nb_samples)
     i_fix[wi_fix] = True
 
     i_sac = ~i_fix
@@ -75,7 +75,7 @@ def process_impl(s, config):
             )
         )
 
-    i_fix = np.array([True] * config.serie_metadata.nb_samples)
+    i_fix = np.array([True] * s.min_config.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
@@ -136,7 +136,7 @@ def process_impl(s, config):
         print("\n...KF Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    i_lab = np.array([False] * config.serie_metadata.nb_samples)
+    i_lab = np.array([False] * s.min_config.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True

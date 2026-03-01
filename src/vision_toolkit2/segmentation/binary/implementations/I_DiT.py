@@ -31,13 +31,13 @@ def process_impl(
         x_a = theta_coord[0, :]
         y_a = theta_coord[1, :]
 
-    n_s = config.serie_metadata.nb_samples
-    s_f = config.serie_metadata.sampling_frequency
+    n_s = s.min_config.nb_samples
+    s_f = s.min_config.sampling_frequency
 
     t_du = int(np.ceil(config.segmentation.i_dit.window_duration * s_f))
     t_di = config.segmentation.i_dit.dispersion_threshold
 
-    i_fix = np.array([False] * config.serie_metadata.nb_samples)
+    i_fix = np.array([False] * s.min_config.nb_samples)
 
     i = 0
     while i + t_du < n_s:
@@ -73,7 +73,7 @@ def process_impl(
         )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True] * config.serie_metadata.nb_samples)
+    i_fix = np.array([True] * s.min_config.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
@@ -137,7 +137,7 @@ def process_impl(
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
     # Keep track of index that were effectively labeled
-    i_lab = np.array([False] * config.serie_metadata.nb_samples)
+    i_lab = np.array([False] * s.min_config.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True

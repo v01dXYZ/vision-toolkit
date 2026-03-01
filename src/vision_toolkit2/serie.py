@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import dataclasses
 
 import pandas as pd
@@ -166,12 +166,13 @@ class RawSerie:
     status: np.array
 
     config: Config
+    min_config: c.SerieMetadata = field(init=False)
 
     def update_config(self, config):
         if self.config == config:
             return self
 
-        return dataclasses.replace(
+        new_instance = dataclasses.replace(
             self,
             config=StackedConfig(
                 [
@@ -179,7 +180,12 @@ class RawSerie:
                     config,
                 ]
             ),
+
         )
+        return new_instance
+
+    def __post_init__(self):
+        self.min_config = self.config.serie_metadata
 
     def __init__(self, x, y, z, status, config):
         self.x = x.astype("float64")
@@ -194,6 +200,7 @@ class RawSerie:
         self.status = status
 
         self.config = config
+        self.min_config = config.serie_metadata
 
     @classmethod
     def read_csv(

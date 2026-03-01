@@ -32,8 +32,8 @@ def process_impl(s, config):
         print("Processing BDT Identification...")
         start_time = time.time()
 
-    n_s = int(config.serie_metadata.nb_samples)
-    s_f = float(config.serie_metadata.sampling_frequency)
+    n_s = int(s.min_config.nb_samples)
+    s_f = float(s.min_config.sampling_frequency)
 
     d_t = max(1, int(np.ceil(float(config.segmentation.ibdt.duration_threshold) * s_f)))
 

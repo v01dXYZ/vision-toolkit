@@ -14,13 +14,13 @@ def process_impl(s, config):
         s.absolute_speed <= config.segmentation.ivt.velocity_threshold
     )
 
-    is_fix = np.full(config.serie_metadata.nb_samples, False)
+    is_fix = np.full(s.min_config.nb_samples, False)
 
     # Add index + 1 to fixation since velocities are computed from two data points
     is_fix[idx_velocity_lower_than_threshold] = True
     is_fix[
         (idx_velocity_lower_than_threshold + 1).clip(
-            max=config.serie_metadata.nb_samples - 1
+            max=s.min_config.nb_samples - 1
         )
     ] = True
 
@@ -37,7 +37,7 @@ def process_impl(s, config):
         ),
     )
 
-    is_fix = np.full(config.serie_metadata.nb_samples, True)
+    is_fix = np.full(s.min_config.nb_samples, True)
 
     for s_start, s_end in s_ints:
         is_fix[s_start : s_end + 1] = False
@@ -46,7 +46,7 @@ def process_impl(s, config):
 
     fix_dur_t = math.ceil(
         config.segmentation.filter.fixation_duration.min
-        * config.serie_metadata.sampling_frequency
+        * s.min_config.sampling_frequency
     )
 
     for i in range(1, len(s_ints)):
@@ -61,11 +61,11 @@ def process_impl(s, config):
         idx_fix,
         min_int_size=math.ceil(
             config.segmentation.filter.fixation_duration.min
-            * config.serie_metadata.sampling_frequency
+            * s.min_config.sampling_frequency
         ),
         max_int_size=math.ceil(
             config.segmentation.filter.fixation_duration.max
-            * config.serie_metadata.sampling_frequency
+            * s.min_config.sampling_frequency
         ),
         status=s.status,
         proportion=config.segmentation.filter.status_threshold,
@@ -90,7 +90,7 @@ def process_impl(s, config):
     )
 
     # Keep track of index that were effectively labeled
-    i_lab = np.full(config.serie_metadata.nb_samples, False)
+    i_lab = np.full(s.min_config.nb_samples, False)
 
     for ints in (f_ints, s_ints):
         for start, end in ints:

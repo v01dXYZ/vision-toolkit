@@ -39,8 +39,8 @@ def process_impl(s, config):
     x_a = s.x
     y_a = s.y
 
-    n_s = int(config.serie_metadata.nb_samples)
-    s_f = float(config.serie_metadata.sampling_frequency)
+    n_s = int(s.min_config.nb_samples)
+    s_f = float(s.min_config.sampling_frequency)
 
     g_p = np.column_stack(
         (x_a.reshape(n_s), y_a.reshape(n_s))
@@ -135,7 +135,7 @@ def process_impl(s, config):
         )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True] * config.serie_metadata.nb_samples)
+    i_fix = np.array([True] * s.min_config.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
@@ -199,7 +199,7 @@ def process_impl(s, config):
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
     # Keep track of index that were effectively labeled
-    i_lab = np.array([False] * config.serie_metadata.nb_samples)
+    i_lab = np.array([False] * s.min_config.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True

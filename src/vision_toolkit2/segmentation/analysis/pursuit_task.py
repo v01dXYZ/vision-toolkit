@@ -35,7 +35,7 @@ class PursuitTaskRecalibratedData:
 
         x_view = ternary_segmentation_results.input.x
         y_view = ternary_segmentation_results.input.y
-        nb_samples = int(config.serie_metadata.nb_samples)
+        nb_samples = int(ternary_segmentation_results.input.min_config.nb_samples)
         end_idx = min(start_idx + n_theo, nb_samples)
 
         n_win = max(0, end_idx - start_idx)

@@ -16,7 +16,7 @@ def process_IHMM(data_set, config):
     cdef double i_var      = config.segmentation.ihmm.init_variance
 
     cdef int n_iter = config.segmentation.ihmm.nb_iters
-    cdef int s_f    = config.serie_metadata.sampling_frequency
+    cdef int s_f    = s.min_config.sampling_frequency
 
     theta = baum_welch(a_s, 2, n_iter, i_low_vel, i_high_vel, i_var)
 
@@ -27,7 +27,7 @@ def process_IHMM(data_set, config):
     wi_fix = np.where(s_s[:-1] == fix_s)[0]
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
-    i_fix = np.array([False]*config.serie_metadata.nb_samples)
+    i_fix = np.array([False]*s.min_config.nb_samples)
     i_fix[wi_fix] = True
 
     x_a = data_set.x
@@ -46,7 +46,7 @@ def process_IHMM(data_set, config):
               .format(s_du=config.segmentation.filter.saccade_duration.min))
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True]*config.serie_metadata.nb_samples)
+    i_fix = np.array([True]*s.min_config.nb_samples)
     for s_int in s_ints:
         i_fix[s_int[0]: s_int[1]+1] = False
 
@@ -93,7 +93,7 @@ def process_IHMM(data_set, config):
 
     assert len(f_ints) == len(ctrds), "Interval set and centroid set have different lengths"
 
-    i_lab = np.array([False]*config.serie_metadata.nb_samples)
+    i_lab = np.array([False]*s.min_config.nb_samples)
     for f_int in f_ints:
         i_lab[f_int[0]: f_int[1]+1] = True
     for s_int in s_ints:

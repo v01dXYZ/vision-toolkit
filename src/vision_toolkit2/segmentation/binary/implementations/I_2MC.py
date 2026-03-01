@@ -33,8 +33,8 @@ def process_impl(
         x_a = theta_coord[0, :]
         y_a = theta_coord[1, :]
 
-    n_s = config.serie_metadata.nb_samples
-    s_f = config.serie_metadata.sampling_frequency
+    n_s = s.min_config.nb_samples
+    s_f = s.min_config.sampling_frequency
 
     t_du = np.floor(config.segmentation.i2mc.window_duration * s_f / 2)
     t_mo = np.ceil(config.segmentation.i2mc.moving_threshold * s_f)
@@ -43,7 +43,7 @@ def process_impl(
     t_me_du = np.ceil(config.segmentation.i2mc.merging_duration_threshold * s_f)
     t_me_di = config.segmentation.i2mc.merging_distance_threshold
 
-    i_fix = np.array([True] * config.serie_metadata.nb_samples)
+    i_fix = np.array([True] * s.min_config.nb_samples)
 
     n_wc = int(2 * t_du + 1)
     n_wc_2 = int(np.ceil(n_wc / 2))
@@ -122,7 +122,7 @@ def process_impl(
     f_ints = interval_merging(wi_fix, min_int_size=t_me_du)
 
     # Initialize final i_fix
-    i_fix = np.array([False] * config.serie_metadata.nb_samples)
+    i_fix = np.array([False] * s.min_config.nb_samples)
 
     # Merging fixations separated by a distance below I2MC_merging_distance_threshold
     for i in range(len(f_ints)):
@@ -167,7 +167,7 @@ def process_impl(
         )
 
     # i_sac events not retained as intervals are relabeled as fix events
-    i_fix = np.array([True] * config.serie_metadata.nb_samples)
+    i_fix = np.array([True] * s.min_config.nb_samples)
 
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
@@ -229,7 +229,7 @@ def process_impl(
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
     # Keep track of index that were effectively labeled
-    i_lab = np.array([False] * config.serie_metadata.nb_samples)
+    i_lab = np.array([False] * s.min_config.nb_samples)
 
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True

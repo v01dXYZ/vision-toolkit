@@ -21,7 +21,7 @@ def process_impl(s, config):
     i_high_vel = config.segmentation.ihmm.init_high_velocity
     i_var = config.segmentation.ihmm.init_variance
     n_iter = config.segmentation.ihmm.nb_iters
-    s_f = config.serie_metadata.sampling_frequency
+    s_f = s.min_config.sampling_frequency
 
     theta = baum_welch(a_s, 2, n_iter, i_low_vel, i_high_vel, i_var)
 
@@ -32,7 +32,7 @@ def process_impl(s, config):
     wi_fix = np.where(s_s[:-1] == fix_s)[0]
     wi_fix = np.array(sorted(set(list(wi_fix) + list(wi_fix + 1))))
 
-    i_fix = np.array([False] * config.serie_metadata.nb_samples)
+    i_fix = np.array([False] * s.min_config.nb_samples)
     i_fix[wi_fix] = True
 
     x_a = s.x
@@ -53,7 +53,7 @@ def process_impl(s, config):
             )
         )
 
-    i_fix = np.array([True] * config.serie_metadata.nb_samples)
+    i_fix = np.array([True] * s.min_config.nb_samples)
     for s_int in s_ints:
         i_fix[s_int[0] : s_int[1] + 1] = False
 
@@ -108,7 +108,7 @@ def process_impl(s, config):
         print("\n...HMM Identification done\n")
         print("--- Execution time: %s seconds ---" % (time.time() - start_time))
 
-    i_lab = np.array([False] * config.serie_metadata.nb_samples)
+    i_lab = np.array([False] * s.min_config.nb_samples)
     for f_int in f_ints:
         i_lab[f_int[0] : f_int[1] + 1] = True
     for s_int in s_ints:
