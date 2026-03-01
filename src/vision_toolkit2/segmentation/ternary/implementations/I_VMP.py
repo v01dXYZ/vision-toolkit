@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVMP, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config, distance_type, verbose):
+def process_impl(s, segmentation_config, distance_type, verbose):
     """
     Identifies saccades like the I-VT algorithm.
     Distinguishes pursuits from fixations using the movement
@@ -89,7 +89,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
         is_pursuit=is_purs,
         pursuit_intervals=pursuit_intervals,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 

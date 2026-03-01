@@ -9,7 +9,7 @@ from ...binary_segmentation_results import BinarySegmentationResults
 from ._optimized import vareps_neighborhood, expand_cluster
 
 
-def process_impl(s, config, segmentation_config, distance_type, verbose):
+def process_impl(s, segmentation_config, distance_type, verbose):
     """
     I-DeT algorithm.
     """
@@ -166,7 +166,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
         saccade_intervals=s_ints,
         fixation_centroids=ctrds,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 

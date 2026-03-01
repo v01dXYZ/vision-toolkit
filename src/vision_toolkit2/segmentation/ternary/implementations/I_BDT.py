@@ -12,7 +12,7 @@ from vision_toolkit2.config import IBDT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config, distance_type, verbose):
+def process_impl(s, segmentation_config, distance_type, verbose):
     """
 
     Parameters
@@ -99,7 +99,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
         is_pursuit=is_pursuit,
         pursuit_intervals=pursuit_intervals,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 

@@ -11,7 +11,7 @@ from vision_toolkit2.config import IKF, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config, distance_type, verbose):
+def process_impl(s, segmentation_config, distance_type, verbose):
     assert distance_type == "euclidean", (
         "'Distance type' must be set to 'euclidean"
     )
@@ -31,7 +31,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
 
     pos = np.concatenate((x_a.reshape(1, n_s), y_a.reshape(1, n_s)), axis=0)
 
-    sp = process_speed_components(s, config)[0:2, :]
+    sp = process_speed_components(s)[0:2, :]
 
     # predict velocities and positions from Kalman filter
     pred = process_Kalman_filter(
@@ -150,7 +150,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
         saccade_intervals=s_ints,
         fixation_centroids=ctrds,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 

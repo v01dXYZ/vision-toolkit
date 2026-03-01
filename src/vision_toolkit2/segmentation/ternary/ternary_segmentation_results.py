@@ -21,8 +21,8 @@ class TernarySegmentationResults(BaseSegmentationResults):
         pursuit_duration_range,
     ):
         return self._filter_events_by_duration(
-            self.config.serie_metadata.nb_samples,
-            self.config.serie_metadata.sampling_frequency,
+            self.input.config.serie_metadata.nb_samples,
+            self.input.config.serie_metadata.sampling_frequency,
             self.fixation_intervals,
             self.pursuit_intervals,
             fixation_duration_range,

@@ -16,7 +16,6 @@ from ..binary_segmentation_results import BinarySegmentationResults
 
 def process_impl(
     s,
-    config,
     segmentation_config,
     distance_type,
     verbose,
@@ -25,7 +24,7 @@ def process_impl(
         print("Processing DiT Identification...")
         start_time = time.time()
 
-    if config.distance_type == "euclidean":
+    if distance_type == "euclidean":
         x_a = s.x
         y_a = s.y
 
@@ -154,7 +153,7 @@ def process_impl(
         saccade_intervals=s_ints,
         fixation_centroids=ctrds,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 

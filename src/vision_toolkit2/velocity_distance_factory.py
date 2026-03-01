@@ -141,14 +141,12 @@ def process_euclidean_absolute_speeds(data_set, config):
     return absolute_speeds
 
 
-def process_speed_components(data_set, config):
+def process_speed_components(data_set):
     """
 
     Parameters
     ----------
     data_set : TYPE
-        DESCRIPTION.
-    config : TYPE
         DESCRIPTION.
 
     Returns
@@ -157,7 +155,7 @@ def process_speed_components(data_set, config):
         DESCRIPTION.
 
     """
-    nb_s = config.serie_metadata.nb_samples
+    nb_s = data_set.min_config.nb_samples
 
     g_p = np.concatenate(
         (
@@ -169,7 +167,7 @@ def process_speed_components(data_set, config):
     )
 
     sp = np.zeros_like(g_p)
-    sp[:, :-1] = (g_p[:, 1:] - g_p[:, :-1]) * config.serie_metadata.sampling_frequency
+    sp[:, :-1] = (g_p[:, 1:] - g_p[:, :-1]) * data_set.min_config.sampling_frequency
 
     return sp
 

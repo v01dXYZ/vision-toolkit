@@ -5,7 +5,7 @@ import numpy as np
 from vision_toolkit2.segmentation.utils import interval_merging, centroids_from_ints
 
 
-def process_IHMM(data_set, config, segmentation_config, distance_type, verbose):
+def process_IHMM(data_set, segmentation_config, distance_type, verbose):
     """
     I-HMM algorithm.
     """

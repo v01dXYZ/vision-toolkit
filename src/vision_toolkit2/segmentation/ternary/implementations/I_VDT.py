@@ -11,7 +11,7 @@ from vision_toolkit2.config import IVDT, Segmentation
 from ..ternary_segmentation_results import TernarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config, distance_type, verbose):
+def process_impl(s, segmentation_config, distance_type, verbose):
     """
     Adapted from Komogortsev & Karpov (2013).
     Identifies saccades like the I-VT algorithm.
@@ -28,10 +28,10 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
     a_sp = s.absolute_speed
     s_f = s.min_config.sampling_frequency
 
-    if config.distance_type == "euclidean":
+    if distance_type == "euclidean":
         x_a = s.x
         y_a = s.y
-    elif config.distance_type == "angular":
+    elif distance_type == "angular":
         theta_coord = s.theta_coord
         x_a = theta_coord[0, :]
         y_a = theta_coord[1, :]
@@ -93,7 +93,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
         is_pursuit=i_purs == 1,
         pursuit_intervals=pursuit_intervals,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 

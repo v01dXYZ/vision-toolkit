@@ -12,7 +12,7 @@ from vision_toolkit2.config import IMST, Segmentation
 from ..binary_segmentation_results import BinarySegmentationResults
 
 
-def process_impl(s, config, segmentation_config, distance_type, verbose):
+def process_impl(s, segmentation_config, distance_type, verbose):
     """
 
     Parameters
@@ -213,7 +213,7 @@ def process_impl(s, config, segmentation_config, distance_type, verbose):
         saccade_intervals=s_ints,
         fixation_centroids=ctrds,
         input=s,
-        config=config,
+        config=segmentation_config,
     )
 
 
