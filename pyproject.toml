@@ -71,7 +71,7 @@ Homepage = "https://github.com/v01dxyz/vision_toolkit"
 
 # uv build needs to have the Cython files included
 [tool.setuptools.package-data]
-"*" = ["*.pyx", "*.pxd"]
+"*" = ["*.pyx", "*.pxd", "*.csv"]
 
 [tool.setuptools_scm]
 
