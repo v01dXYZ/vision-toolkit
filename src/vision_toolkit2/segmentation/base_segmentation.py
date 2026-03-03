@@ -97,21 +97,12 @@ class Segmentation:
 
     def process(self):
         process_impl, _ = IMPLEMENTATIONS[self.config.segmentation.method]
-        results = process_impl(self.input_, self.min_config, self.config.distance_type, self.config.verbose)
-
-        if isinstance(results, TernarySegmentationResults):
-            filter_conf = self.min_config.filter
-            results = results.filter_events_by_duration(
-                fixation_duration_range=(
-                    filter_conf.fixation_duration.min,
-                    filter_conf.fixation_duration.max,
-                ),
-                pursuit_duration_range=(
-                    filter_conf.pursuit_duration.min,
-                    filter_conf.pursuit_duration.max,
-                ),
-            )
-
-        # self.config.print()
+        results = process_impl(
+            self.input_,
+            self.min_config,
+            self.config.distance_type,
+            self.config.verbose,
+        )
+        results = results.filter_events()
 
         return results

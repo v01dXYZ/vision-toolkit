@@ -15,6 +15,18 @@ class TernarySegmentationResults(BaseSegmentationResults):
     is_pursuit: npt.NDArray[np.bool_]
     pursuit_intervals: npt.NDArray[np.int_]
 
+    def _filter_events(self, filter):
+        return self.filter_events_by_duration(
+            fixation_duration_range=(
+                filter.fixation_duration.min,
+                filter.fixation_duration.max,
+            ),
+            pursuit_duration_range=(
+                filter.pursuit_duration.min,
+                filter.pursuit_duration.max,
+            ),
+        )
+
     def filter_events_by_duration(
         self,
         fixation_duration_range,
@@ -99,4 +111,5 @@ class TernarySegmentationResults(BaseSegmentationResults):
             fixation_intervals=fix_out,
             input=self.input,
             config=self.config,
+            filtered_from=self,
         )
