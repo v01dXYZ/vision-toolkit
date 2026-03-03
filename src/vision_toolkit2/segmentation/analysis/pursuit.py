@@ -1,14 +1,13 @@
 import numpy as np
 
 from .base_analysis import (
-    BaseAnalysis,
+    BaseTernarySegmentationAnalysis,
     results_delegation,
     EasyAccessFunction,
 )
-from ..base_segmentation import Segmentation
 
 
-class PursuitAnalysis(BaseAnalysis):
+class PursuitAnalysis(BaseTernarySegmentationAnalysis):
     """
     For a pursuit [start,end]:
         * positions:  start .. end        (n_samples = end-start+1)
@@ -82,7 +81,7 @@ class PursuitAnalysis(BaseAnalysis):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         dsp = []
         for start, end in self._intervals():
@@ -105,7 +104,7 @@ class PursuitAnalysis(BaseAnalysis):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         t_cum = []
         for start, end in self._intervals():
@@ -136,7 +135,7 @@ class PursuitAnalysis(BaseAnalysis):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         eff = []
         for start, end in self._intervals():

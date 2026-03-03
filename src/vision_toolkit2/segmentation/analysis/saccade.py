@@ -27,7 +27,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         s_a = []
         for start, end in self._intervals():
@@ -52,7 +52,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
         x_a = self._x()
         y_a = self._y()
         z_a = self._z()
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         d_cum = []
         for start, end in self._intervals():

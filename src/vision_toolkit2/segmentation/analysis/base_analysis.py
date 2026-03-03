@@ -1,9 +1,10 @@
 import numpy as np
 
 from dataclasses import dataclass
-from ..base_segmentation import Segmentation
+from ..base_segmentation import Segmentation, BinarySegmentation, TernarySegmentation
 from ..base_segmentation_results import BaseSegmentationResults
 from ..binary.binary_segmentation_results import BinarySegmentationResults
+from ..ternary.ternary_segmentation_results import TernarySegmentationResults
 from vision_toolkit2.config import StackedConfig
 import inspect
 
@@ -27,6 +28,7 @@ def passthrough_attr(*passthrough_attrs):
 results_delegation = passthrough_attr("segmentation_results")
 config_delegation = passthrough_attr("segmentation_results", "config")
 input_delegation = passthrough_attr("segmentation_results", "input")
+serie_metadata_delegation = passthrough_attr("segmentation_results", "input", "min_config")
 
 
 @dataclass
@@ -39,9 +41,9 @@ class BaseAnalysis:
     _y = input_delegation("y")
     _z = input_delegation("z")
 
-    _nb_samples = config_delegation("nb_samples")
-    _distance_type = config_delegation("distance_type")
-    _sampling_frequency = config_delegation("sampling_frequency")
+    _nb_samples = serie_metadata_delegation("nb_samples")
+    _distance_type = serie_metadata_delegation("distance_type")
+    _sampling_frequency = serie_metadata_delegation("sampling_frequency")
 
     @staticmethod
     def _n_samples_per_interval(intervals):
@@ -157,6 +159,7 @@ class BaseAnalysis:
 class BaseBinarySegmentationAnalysis(BaseAnalysis):
     """Base class for binary segmentation analysis with labeled data support."""
 
+    SEGMENTATION_CLS = BinarySegmentation
     segmentation_results: BinarySegmentationResults
     _is_labeled = results_delegation("is_labeled")
 
@@ -170,6 +173,13 @@ class BaseBinarySegmentationAnalysis(BaseAnalysis):
         return {
             "frequency": float(f),
         }
+
+
+class BaseTernarySegmentationAnalysis(BaseAnalysis):
+    """Base class for ternary segmentation analysis with fixation, saccade, and pursuit."""
+
+    SEGMENTATION_CLS = TernarySegmentation
+    segmentation_results: TernarySegmentationResults
 
 
 class EasyAccessFunction:
@@ -206,7 +216,7 @@ class EasyAccessFunction:
                 config = StackedConfig([base_config, config])
 
             if not isinstance(input, self.cls):
-                segmentation = Segmentation(input, config=config)
+                segmentation = self.cls.SEGMENTATION_CLS(input, config=config)
                 segmentation_results = segmentation.process()
 
                 input = self.cls(segmentation_results, *args)

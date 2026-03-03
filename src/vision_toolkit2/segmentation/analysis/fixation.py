@@ -31,7 +31,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
         y_a = self._y()
         z_a = self._z()
 
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         dsp = []
         for start, end in self._intervals():
@@ -58,7 +58,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
         z_a = self._z()
         n_s = len(x_a)
 
-        dist_ = Segmentation.DISTANCES[self._distance_type()]
+        dist_ = self.SEGMENTATION_CLS.DISTANCES[self._distance_type()]
 
         t_cum = []
         stack_ = np.concatenate(
