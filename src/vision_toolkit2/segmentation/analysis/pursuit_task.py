@@ -17,6 +17,8 @@ class PursuitTaskRecalibratedData:
     y_pursuit: np.ndarray
     x_theo_pursuit: np.ndarray
     y_theo_pursuit: np.ndarray
+    absolute_speed: np.ndarray
+    nb_samples: int
     recomputed_intervals: np.ndarray
 
     @classmethod
@@ -35,6 +37,7 @@ class PursuitTaskRecalibratedData:
 
         x_view = ternary_segmentation_results.input.x
         y_view = ternary_segmentation_results.input.y
+        abs_speed = ternary_segmentation_results.input.absolute_speed
         nb_samples = int(ternary_segmentation_results.input.min_config.nb_samples)
         end_idx = min(start_idx + n_theo, nb_samples)
 
@@ -42,7 +45,7 @@ class PursuitTaskRecalibratedData:
         x_theo = x_theo[:n_win]
         y_theo = y_theo[:n_win]
 
-        end_idx = min(start_idx + n_win, len(x_view), len(y_view))
+        end_idx = min(start_idx + n_win, len(x_view), len(y_view), len(abs_speed))
         n_valid = end_idx - start_idx
 
         if n_valid <= 0:
@@ -50,17 +53,21 @@ class PursuitTaskRecalibratedData:
             y_win = np.array([], dtype=np.float64)
             x_theo_win = np.array([], dtype=np.float64)
             y_theo_win = np.array([], dtype=np.float64)
+            abs_speed_win = np.array([], dtype=np.float64)
         else:
             x_win = x_view[start_idx:end_idx]
             y_win = y_view[start_idx:end_idx]
             x_theo_win = np.asarray(x_theo[:n_valid], dtype=np.float64)
             y_theo_win = np.asarray(y_theo[:n_valid], dtype=np.float64)
+            abs_speed_win = abs_speed[start_idx:end_idx]
 
         return cls(
             x_pursuit=x_win,
             y_pursuit=y_win,
             x_theo_pursuit=x_theo_win,
             y_theo_pursuit=y_theo_win,
+            absolute_speed=abs_speed_win,
+            nb_samples=n_win,
             recomputed_intervals=cls._reproject_intervals_to_window(
                 ternary_segmentation_results.pursuit_intervals,
                 start_idx,
@@ -107,7 +114,8 @@ class PursuitTaskAnalysis(PursuitAnalysis):
     _y_pursuit = recalibrated_data_delegation("y_pursuit")
     _x_theo_pursuit = recalibrated_data_delegation("x_theo_pursuit")
     _y_theo_pursuit = recalibrated_data_delegation("y_theo_pursuit")
-    _nb_samples_pursuit = config_delegation("nb_samples_pursuit")
+    _absolute_speed = recalibrated_data_delegation("absolute_speed")
+    _nb_samples = recalibrated_data_delegation("nb_samples")
 
     def ap_entropy(self, diff_vec, w_s, t_eps):
         diff_vec = np.asarray(diff_vec, dtype=np.float64)
@@ -438,7 +446,7 @@ class PursuitTaskAnalysis(PursuitAnalysis):
 
     def crossing_time(self, tolerance=1.0):
         s_f = self._sampling_frequency()
-        n = self._nb_samples_pursuit()
+        n = self._nb_samples()
         time = np.arange(n, dtype=np.float64) / s_f
 
         crossings = {"x": None, "y": None}
