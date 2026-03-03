@@ -582,6 +582,9 @@ Segmentation = tagged_union_disjoint_types(
         UnionTag(attr="I_DeT", value="I_DeT"): IDeT,
     },
     filter=SegmentationFilter,  # Add filter as an extra field
+    fixation=Fixation,
+    saccade=Saccade,
+    pursuit=Pursuit,
 )
 
 
@@ -609,10 +612,6 @@ class Common:
     segmentation: Segmentation
 
     smoothing: Smoothing
-
-    fixation: Fixation
-    saccade: Saccade
-    pursuit: Pursuit
 
     screen_dimensions: ScreenDimensions
 
