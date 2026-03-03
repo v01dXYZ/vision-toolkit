@@ -26,8 +26,8 @@ def get_cli_args():
         "-m",
         "--method",
         dest="run_only_specific_methods",
-        choices=vt.METHODS_CONFIG["BINARY"].keys()
-        | vt.METHODS_CONFIG["TERNARY"].keys(),
+        choices=vt.METHODS_PER_TYPE["BINARY"]
+        | vt.METHODS_PER_TYPE["TERNARY"],
         nargs="*",
         help="run only specific methods",
     )

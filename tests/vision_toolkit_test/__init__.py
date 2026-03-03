@@ -34,9 +34,9 @@ GAZE_Y = "gazeY"
 
 EVENT_LABEL = "event_label"
 
-METHODS_CONFIG = {
-    "BINARY": {method: {} for method in BINARY_IMPLEMENTATIONS},
-    "TERNARY": {method: {} for method in TERNARY_IMPLEMENTATIONS},
+METHODS_PER_TYPE = {
+    "BINARY": BINARY_IMPLEMENTATIONS.keys(),
+    "TERNARY": TERNARY_IMPLEMENTATIONS.keys(),
 }
 
 SKIP_IF_ANGULAR = {"I_KF", "I_MST"}
@@ -250,7 +250,7 @@ class ReportForEachMethod:
         else:
             predictions_report = None
 
-        for nary, methods in METHODS_CONFIG.items():
+        for nary, methods in METHODS_PER_TYPE.items():
             report_nary = {}
             report[nary] = report_nary
             if with_predictions:
@@ -258,7 +258,7 @@ class ReportForEachMethod:
                     predictions_report_nary = {}
                     predictions_report[nary] = predictions_report_nary
 
-            for method_name, method_config in methods.items():
+            for method_name in methods:
                 if (
                     run_only_specific_methods
                     and method_name not in run_only_specific_methods
@@ -272,12 +272,8 @@ class ReportForEachMethod:
                 gt_list = []
                 pred_list = []
 
-                updated_config = {
-                    **method_config,
-                    **config,
-                }
                 if (
-                    updated_config.get("distance_type") == "angular"
+                    config.get("distance_type") == "angular"
                     and method_name in SKIP_IF_ANGULAR
                 ):
                     # please replace it by logging later
@@ -292,7 +288,7 @@ class ReportForEachMethod:
                         dimensions,
                         nary,
                         method_name,
-                        updated_config,
+                        config,
                     )
                     if pred_and_pred_array is None:
                         continue
