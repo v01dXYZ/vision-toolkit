@@ -31,9 +31,11 @@ markdown_extensions:
   - toc:
       permalink: "#"
   - codehilite
+  - footnotes
 nav:
   - Home:
     - index.md
+    - api_reference.md
   - Contributor docs:
     - testing.md
 theme:
@@ -43,6 +45,7 @@ theme:
   features:
     - navigation.tabs
     - search.highlight
+    - content.footnote.tooltips
 extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6

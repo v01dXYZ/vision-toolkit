@@ -1,7 +1,10 @@
 name: docs
 
 on:
-  push: {}
+  push:
+  workflow_dispatch:
+  repository_dispatch:
+    types: refresh_index
 
 jobs:
   build:
@@ -9,42 +12,51 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
+    - uses: actions/cache@v5
+      id: cache_docs
+      with:
+        path: site
+        key: $${{ hashFiles('docs/**/*', 'mkdocs_macros.py', 'mkdocs.yml', 'README.md', 'assets/*') }}
     - name: Set up Python 3.x
+      if: steps.cache_docs.outputs.cache-hit != 'true'
       uses: actions/setup-python@v6
       with:
         python-version: '3.13'
-    # - name: Install sndfile library # for librose, see https://github.com/deepcharles/ruptures/pull/121
-    #   run: |
-    #     sudo apt-get install libsndfile1-dev
-    - name: Install ruptures and dependencies
+    - name: Install mkdocs and dependencies
+      if: steps.cache_docs.outputs.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
+        # python -m pip install \
+        #   mkdocs \
+        #   mkdocs-material \
+        #   mkdocstrings[python] \
+        #   mknotebooks \
+        #   mkdocs-macros-plugin \
+        #   mkdocs-section-index # .[docs]
         python -m pip install \
-          mkdocs \
-          mkdocs-material \
-          mkdocstrings[python] \
-          mknotebooks \
-          mkdocs-macros-plugin \
-          mkdocs-section-index # .[docs]
+         zensical \
+         mkdocstrings[python]
     # - name: Run notebooks
     #   run: |
     #     find ./docs -name '*.ipynb' | xargs -P 3 -I % jupyter nbconvert --inplace --to notebook --ExecutePreprocessor.kernel_name=python --execute %
     - name: Build documentation
+      if: steps.cache_docs.outputs.cache-hit != 'true'
       env:
         REPO_URL: ${{ github.server_url }}/${{ github.repository }}
         REPO_NAME: ${{ github.repository }}
         REPO_SHORTNAME: ${{ github.event.repository.name }}
       run: |
         grep -v FOR_README_ONLY README.md >> docs/index.md
-        mkdocs build
+        # mkdocs build
+        zensical build
+        cp assets/* site/assets
     - uses: actions/github-script@v8
       with:
         script: |
           const fs = require("node:fs");
 
           const PACKAGE_NAME = "vision-toolkit";
-          const RELEASE_ID = 288332131;
-          const DIR = "site/pkg";
+          const DIR = "site/pyindex";
 
           const owner = '${{ github.repository_owner }}';
           const repo = '${{ github.event.repository.name }}';
@@ -84,13 +96,8 @@ jobs:
 
           const to_html_index = new ToHTMLSimpleIndex(fs.createWriteStream(`${DIR}/${PACKAGE_NAME}/index.html`));
 
-          const release_assets = (
-              await github.rest.repos.listReleaseAssets({owner, repo, release_id: RELEASE_ID})
-          ).data;
-
-          console.log(release_assets);
-          to_html_index.dump(release_assets);
-
+          const all_release_assets = (await github.rest.repos.listReleases({owner, repo})).data.flatMap(({assets}) => assets);
+          to_html_index.dump(all_release_assets);
     - uses: actions/upload-pages-artifact@v3
       with:
         path: site/
