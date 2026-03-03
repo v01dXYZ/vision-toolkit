@@ -41,7 +41,7 @@ def process_IHMM(data_set, segmentation_config, distance_type, verbose):
         min_int_size=np.ceil(segmentation_config.filter.saccade_duration.min*s_f),
     )
 
-    if config.verbose:
+    if verbose:
         print('   Saccadic intervals identified with minimum duration: {s_du} sec'
               .format(s_du=segmentation_config.filter.saccade_duration.min))
 
@@ -58,7 +58,7 @@ def process_IHMM(data_set, segmentation_config, distance_type, verbose):
         if s_int[0] - o_s_int[-1] < fix_dur_t:
             i_fix[o_s_int[-1]: s_int[0]+1] = False
 
-    if config.verbose:
+    if verbose:
         print('   Close saccadic intervals merged with duration threshold: {f_du} sec'
               .format(f_du=segmentation_config.filter.fixation_duration.min))
 
@@ -87,7 +87,7 @@ def process_IHMM(data_set, segmentation_config, distance_type, verbose):
         proportion=segmentation_config.filter.status_threshold,
     )
 
-    if config.verbose:
+    if verbose:
         print('   Fixations ans saccades identified using availability status threshold: {s_th}'
               .format(s_th=segmentation_config.filter.status_threshold))
 
