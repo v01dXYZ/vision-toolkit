@@ -116,9 +116,6 @@ def default_config_impl(config, vf_diag):
             fixation_sd=0.01,
             saccade_sd=0.01,
         )
-        return Config(
-            segmentation=Segmentation(ibdt_config),
-        )
     elif config.distance_type == "angular":
         ibdt_config = IBDT(
             duration_threshold=0.050,
@@ -128,3 +125,7 @@ def default_config_impl(config, vf_diag):
             fixation_sd=0.01,
             saccade_sd=0.01,
         )
+
+    return Config(
+        segmentation=Segmentation(ibdt_config),
+    )
