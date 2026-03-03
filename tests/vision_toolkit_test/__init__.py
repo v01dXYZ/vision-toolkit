@@ -424,6 +424,7 @@ class EntryPoint:
             if (res := cls.load_ground_truth_file(p)) is not None
         ]
 
+        config = ConfigOld(**config)
         evaluation_report = cls.ReportForEachMethod.evaluate(
             version,
             gt_dim_list=gt_dim_list,
