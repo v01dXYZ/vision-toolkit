@@ -77,3 +77,8 @@ Homepage = "https://github.com/v01dxyz/vision_toolkit"
 
 [tool.coverage.run]
 plugins = ["Cython.Coverage"]
+
+[tool.pyrefly]
+project-includes = [
+    "src/vision_toolkit2",
+]
