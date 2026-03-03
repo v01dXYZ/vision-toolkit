@@ -78,14 +78,34 @@ class Segmentation:
         "euclidean": absolute_euclidean_distance,
         "angular": absolute_angular_distance,
     }
+    DEFAULT_SEGMENTATION_METHOD = None
+    ALLOWED_SEGMENTATION_METHODS = None
 
     def __init__(
         self,
         input_: Serie,
         *,
-        config: Config = None,
         segmentation_method=None,
+        config: Config = None,
     ):
+
+        if segmentation_method is None:
+            try:
+                segmentation_method = config.segmentation.method
+            except AttributeError:
+                pass
+
+            segmentation_method = segmentation_method or self.DEFAULT_SEGMENTATION_METHOD
+
+        if segmentation_method is None:
+            raise ValueError("There is no segmentation method specified either as arg, in config nor in class default")
+
+        if (
+                self.ALLOWED_SEGMENTATION_METHODS is not None
+                and segmentation_method not in self.ALLOWED_SEGMENTATION_METHODS
+        ):
+            raise ValueError(f"Segmentation method should be among: {self.ALLOWED_SEGMENTATION_METHODS}")
+
         self.input_ = input_
         self.config = DefaultConfigBuilder.update(
             input_,
@@ -105,3 +125,11 @@ class Segmentation:
         results = results.filter_events()
 
         return results
+
+class BinarySegmentation(Segmentation):
+    DEFAULT_SEGMENTATION_METHOD = "I_HMM"
+    ALLOWED_SEGMENTATION_METHODS = binary_implementations.IMPLEMENTATIONS.keys()
+
+class TernarySegmentation(Segmentation):
+    DEFAULT_SEGMENTATION_METHOD = "I_VMP"
+    ALLOWED_SEGMENTATION_METHODS = ternary_implementations.IMPLEMENTATIONS.keys()
