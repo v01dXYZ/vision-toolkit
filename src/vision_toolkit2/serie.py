@@ -251,7 +251,9 @@ class RawSerie:
             distance_projection=distance_projection,
             screen_dimensions=c.ScreenDimensions(x=size_plan_x, y=size_plan_y),
             serie_metadata=c.SerieMetadata(
-                nb_samples=len(x), sampling_frequency=sampling_frequency
+                nb_samples=len(x),
+                sampling_frequency=sampling_frequency,
+                distance_type=distance_type,
             ),
             distance_type=distance_type,
         )

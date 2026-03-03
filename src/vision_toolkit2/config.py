@@ -562,6 +562,7 @@ class SegmentationFilter:
 class SerieMetadata:
     sampling_frequency: int
     nb_samples: int
+    distance_type: str
 
 
 Segmentation = tagged_union_disjoint_types(
