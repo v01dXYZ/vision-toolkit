@@ -103,7 +103,7 @@ class V2Gateway:
             size_plan_x=dimensions["width_mm"],
             size_plan_y=dimensions["height_mm"],
             sampling_frequency=config.get("sampling_frequency"),
-            distance_type=config["distance_type"],
+            distance_type=config.get("distance_type"),
             smoothing_config=Config(
                 smoothing=c.Smoothing(
                     c.Savgol(
@@ -161,7 +161,6 @@ class ReportForEachMethod:
         config_stack = [
             ConfigOld(
                 segmentation_method=method,
-                distance_type="euclidean",
                 display_segmentation=True,
                 size_plan_x=dimensions["width_mm"],
                 size_plan_y=dimensions["height_mm"],
