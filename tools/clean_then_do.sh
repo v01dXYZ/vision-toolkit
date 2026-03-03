@@ -9,12 +9,14 @@
 #
 # uv pip create those directories as well (I don't know if it uses it as caches)
 
-if [[ ! -d src ]]; then
+srcdir=$(dirname $0)/..
+
+if [[ ! -d $srcdir/src ]]; then
     echo "ERROR: should be run in the source directory"
     exit -1
 fi
 
-rm -r build dist
-find src -name "*.egg-info*" -exec rm -r {} \+
+rm -r $srcdir/build $srcdir/dist
+find $srcdir/src -name "*.egg-info*" -exec rm -r {} \+
 
 $@
