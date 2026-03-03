@@ -32,10 +32,12 @@ markdown_extensions:
       permalink: "#"
   - codehilite
   - footnotes
+  - md_in_html
 nav:
   - Home:
     - index.md
     - api_reference.md
+    - notebooks/analysis.md
   - Contributor docs:
     - testing.md
 theme:

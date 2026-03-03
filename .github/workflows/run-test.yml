@@ -2,8 +2,13 @@ name: "Test suite reports"
 
 # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  # to enable again later
+  # pull_request:
+  #   types: [opened, reopened, synchronize]
+  push:
+    branches: v01dxyz-main
+  schedule:
+    - cron: '0 0 * * *'
 
 # Github-Action assumes containers don't provide bash, so it uses sh.
 # But to set up the python venv, our container image uses BASH_ENV to activate it at shell init.
@@ -29,6 +34,9 @@ permissions:
 jobs:
   build_wheel:
     name: Build Wheel
+    if: github.event_name != 'schedule'
+    outputs:
+      vision_toolkit_version_identifier: ${{ env.VISION_TOOLKIT_VERSION_IDENTIFIER }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -38,6 +46,9 @@ jobs:
         with:
           python-version: 3.13
       - run: pip wheel --no-deps -w wheels .
+      - run: |
+          pip install setuptools-scm
+          echo "VISION_TOOLKIT_VERSION_IDENTIFIER=$(setuptools-scm)" >> $GITHUB_ENV
       - run: echo "RELEASE_TAG=$(git describe --tags --no-abbrev --first-parent)" >> $GITHUB_ENV
       - uses: actions/github-script@v6
         env:
@@ -72,6 +83,7 @@ jobs:
             }
   refresh_index:
     name: Refresh Index
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     needs: build_wheel
     permissions:
@@ -84,10 +96,14 @@ jobs:
             owner: '${{ github.repository_owner }}',
             repo: '${{ github.event.repository.name }}',
             event_type: 'refresh_index',
+            client_payload: {
+                vision_toolkit_version_identifier: '${{ needs.build_wheel.outputs.vision_toolkit_version_identifier }}',
+            },
           })
 
   coverage:
     name: Coverage
+    if: github.event_name != 'schedule'
     env:
       VISION_TOOLKIT_COVERAGE: 1 # We define it at job level in case we move things aroung
     runs-on: ubuntu-latest
@@ -128,6 +144,7 @@ jobs:
   
   compare_reports_both_versions:
     name: Compare reports Fast hollywood2 from both versions
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     container: *container
     needs: build_container_image
@@ -141,6 +158,7 @@ jobs:
 
   basic_code_checker:
     name: Linter
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
@@ -226,6 +244,7 @@ jobs:
 
 
   test-report:
+    if: github.event_name != 'schedule'
     needs: build_container_image
     container: *container
     strategy:

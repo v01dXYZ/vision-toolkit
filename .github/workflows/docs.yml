@@ -1,53 +1,65 @@
 name: docs
 
 on:
-  push:
   workflow_dispatch:
   repository_dispatch:
     types: refresh_index
 
 jobs:
   build:
-    if: ${{ github.ref_name == github.event.repository.default_branch }}
+    # if: ${{ github.ref_name == github.event.repository.default_branch }}
     runs-on: ubuntu-latest
+    env:
+      REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+      REPO_NAME: ${{ github.repository }}
+      REPO_SHORTNAME: ${{ github.event.repository.name }}
+      REPO_OWNER: ${{ github.repository_owner }}
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/cache@v5
-      id: cache_docs
       with:
-        path: site
-        key: $${{ hashFiles('docs/**/*', 'mkdocs_macros.py', 'mkdocs.yml', 'README.md', 'assets/*') }}
+        fetch-depth: 0
     - name: Set up Python 3.x
       if: steps.cache_docs.outputs.cache-hit != 'true'
       uses: actions/setup-python@v6
       with:
         python-version: '3.13'
-    - name: Install mkdocs and dependencies
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
+    - uses: actions/cache@v5
+      id: cache_notebooks
+      with:
+        path: docs/notebooks
+        key: ${{ hashFiles('docs/notebooks_original/*', 'src/vision_toolkit2/**/*', 'pyproject.toml') }}
+    - name: Install notebook dependencies
+      if: steps.cache_notebooks.outputs.cache-hit != 'true'
+      run: |
+        python -m pip install \
+         ipykernel \
+         nbconvert \
+         jupytext \
+         tabulate \
+         setuptools-scm \
+         .
+    - name: Build notebook
+      if: steps.cache_notebooks.outputs.cache-hit != 'true'
+      run: |
+        ./docs/notebooks_original/update_notebooks.sh
+        rm -rv docs/notebooks_original
+    - uses: actions/cache@v5
+      id: cache_docs
+      with:
+        path: site
+        key: $${{ hashFiles('docs/**/*', 'mkdocs_macros.py', 'mkdocs.yml', 'README.md', 'assets/*') }}
+    - name: Install docs dependencies
       if: steps.cache_docs.outputs.cache-hit != 'true'
       run: |
-        python -m pip install --upgrade pip
-        # python -m pip install \
-        #   mkdocs \
-        #   mkdocs-material \
-        #   mkdocstrings[python] \
-        #   mknotebooks \
-        #   mkdocs-macros-plugin \
-        #   mkdocs-section-index # .[docs]
         python -m pip install \
          zensical \
          mkdocstrings[python]
-    # - name: Run notebooks
-    #   run: |
-    #     find ./docs -name '*.ipynb' | xargs -P 3 -I % jupyter nbconvert --inplace --to notebook --ExecutePreprocessor.kernel_name=python --execute %
     - name: Build documentation
       if: steps.cache_docs.outputs.cache-hit != 'true'
-      env:
-        REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-        REPO_NAME: ${{ github.repository }}
-        REPO_SHORTNAME: ${{ github.event.repository.name }}
       run: |
         grep -v FOR_README_ONLY README.md >> docs/index.md
-        # mkdocs build
         zensical build
         cp assets/* site/assets
     - uses: actions/github-script@v8
