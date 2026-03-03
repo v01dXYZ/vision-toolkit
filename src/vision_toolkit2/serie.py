@@ -225,9 +225,12 @@ class RawSerie:
         size_plan_y,
         distance_projection=None,
         sampling_frequency,
-        distance_type="angular",
+        distance_type=None,
         **kwargs,
     ):
+        if distance_type is None:
+            distance_type = "angular"
+
         distance_projection = distance_projection or 1000
 
         # Populate data (add columns if missing)
