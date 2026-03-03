@@ -94,8 +94,8 @@ def tagged_union_disjoint_types(
 
     def __repr__(self):
         return (
-            f"{self.__class__.__name__}<{getattr(self, self.__tag__)}="
-            f"{getattr(self, self.__tag_attr__, None)}"
+            f"{self.__class__.__name__}<{getattr(self, self.__tag__)+'='}"
+            f"{getattr(self, self.__tag_attr__) if self.__tag_attr__ is not None else ''}>"
         )
 
     # Build fields list: tag field + variant fields + extra fields
