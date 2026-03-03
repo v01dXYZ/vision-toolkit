@@ -4,7 +4,7 @@ from vision_toolkit2.velocity_distance_factory import (
     absolute_angular_distance,
     absolute_euclidean_distance,
 )
-from vision_toolkit2 import config
+from vision_toolkit2 import config as c
 
 from .binary import implementations as binary_implementations
 from .ternary import implementations as ternary_implementations
@@ -19,35 +19,34 @@ IMPLEMENTATIONS = {
     **ternary_implementations.IMPLEMENTATIONS,
 }
 
-DEFAULT_SEGMENTATION_METHOD = "I_HMM"
-
-
 class DefaultConfigBuilder:
-    DEFAULT_CONFIG = config.Config(
+    DEFAULT_CONFIG = c.Config(
         distance_type="angular",
-        segmentation=config.Segmentation(
-            DEFAULT_SEGMENTATION_METHOD,
-            filter=config.SegmentationFilter(
-                fixation_duration=config.FilterRange[float](
+        segmentation=c.Segmentation(
+            filter=c.SegmentationFilter(
+                fixation_duration=c.FilterRange[float](
                     min=7e-2,
                     max=2.0,
                 ),
-                saccade_duration=config.FilterRange[float](
+                saccade_duration=c.FilterRange[float](
                     min=1.5e-2,
                     max=None,
                 ),
-                pursuit_duration=config.FilterRange[float](
+                pursuit_duration=c.FilterRange[float](
                     min=1e-1,
                     max=2.0,
                 ),
                 status_threshold=0.5,
             ),
+            pursuit=c.Pursuit(
+                start_idx=0,
+            ),
         ),
-        display=config.Display(
+        display=c.Display(
             segmentation=False,
             results=True,
         ),
-        verbose=True,
+        verbose=False,
     )
 
     @classmethod
@@ -60,7 +59,7 @@ class DefaultConfigBuilder:
             stack.append(config)
 
         if segmentation_method is not None:
-            stack.append(Config(segmentation_method=segmentation_method))
+            stack.append(Config(segmentation=c.Segmentation(segmentation_method)))
 
         config = StackedConfig(stack)
 

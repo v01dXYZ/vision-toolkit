@@ -30,7 +30,7 @@ class PursuitTaskRecalibratedData:
         y_theo = np.asarray(df_theo.iloc[:, 1], dtype=np.float64)
         n_theo = int(len(x_theo))
 
-        start_idx = int(config.pursuit_start_idx)
+        start_idx = int(config.pursuit.start_idx)
         start_idx = max(start_idx, 0)
 
         x_view = ternary_segmentation_results.input.x

@@ -8,6 +8,7 @@ from .base_analysis import (
 )
 from ..base_segmentation import Segmentation
 from vision_toolkit2.config import Config
+import vision_toolkit2.config as c
 
 
 class FixationAnalysis(BaseBinarySegmentationAnalysis):
@@ -154,7 +155,7 @@ class FixationAnalysis(BaseBinarySegmentationAnalysis):
 
         if BCEA_probability is None:
             BCEA_probability = (
-                self.segmentation_results.config.fixation_BCEA_probability
+                self.segmentation_results.config.fixation.BCEA_probability
             )
 
         p = float(BCEA_probability)
@@ -209,7 +210,7 @@ centroids = easy_access_function(FixationAnalysis.centroids)
 mean_velocities = easy_access_function(FixationAnalysis.mean_velocities)
 average_velocity_means = easy_access_function(
     FixationAnalysis.average_velocity_means,
-    config=Config(fixation_weighted_average_velocity_means=False),
+    config=Config(segmentation=c.Segmentation(fixation=c.Fixation(weighted_average_velocity_means=False))),
 )
 average_velocity_deviations = easy_access_function(
     FixationAnalysis.average_velocity_deviations
@@ -220,5 +221,5 @@ drift_velocities = easy_access_function(FixationAnalysis.drift_velocities)
 BCEA = easy_access_function(
     FixationAnalysis.BCEA,
     default_kwargs={"BCEA_probability": 0.68},
-    config=Config(fixation_BCEA_probability=0.68),
+    config=Config(segmentation=c.Segmentation(fixation=c.Fixation(BCEA_probability=0.68))),
 )

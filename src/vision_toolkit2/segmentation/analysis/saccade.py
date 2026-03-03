@@ -8,6 +8,7 @@ from .base_analysis import (
 )
 from ..base_segmentation import Segmentation
 from vision_toolkit2.config import Config
+import vision_toolkit2.config as c
 from dataclasses import dataclass
 
 
@@ -151,7 +152,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
     def horizontal_deviations(self, absolute=None, get_raw=True):
         if absolute is None:
             absolute = (
-                self.segmentation_results.config.saccade_absolute_horizontal_deviations
+                self.segmentation_results.config.saccade.absolute_horizontal_deviations
             )
 
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -220,7 +221,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def initial_directions(self, duration_threshold=None, get_raw=True):
         if duration_threshold is None:
-            duration_threshold = self.segmentation_results.config.saccade_init_direction_duration_threshold
+            duration_threshold = self.segmentation_results.config.saccade.init_direction_duration_threshold
 
         t_du = int(duration_threshold * self._sampling_frequency()) + 1
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -251,7 +252,7 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def initial_deviations(self, duration_threshold=None, get_raw=True):
         if duration_threshold is None:
-            duration_threshold = self.segmentation_results.config.saccade_init_deviation_duration_threshold
+            duration_threshold = self.segmentation_results.config.saccade.init_deviation_duration_threshold
 
         t_du = int(duration_threshold * self._sampling_frequency()) + 1
         x_a = np.asarray(self._x(), dtype=np.float64)
@@ -503,21 +504,21 @@ class SaccadeAnalysis(BaseBinarySegmentationAnalysis):
 
     def average_acceleration_profiles(self, weighted=None, get_raw=True):
         if weighted is None:
-            weighted = self.segmentation_results.config.saccade_weighted_average_acceleration_profiles
+            weighted = self.segmentation_results.config.saccade.weighted_average_acceleration_profiles
 
         m_ac = self.mean_acceleration_profiles()["acceleration_profile_means"]
         return self.acc_average(m_ac, weighted, get_raw)
 
     def average_acceleration_means(self, weighted=None, get_raw=True):
         if weighted is None:
-            weighted = self.segmentation_results.config.saccade_weighted_average_acceleration_means
+            weighted = self.segmentation_results.config.saccade.weighted_average_acceleration_means
 
         m_ac = self.mean_accelerations()["acceleration_means"]
         return self.acc_average(m_ac, weighted, get_raw)
 
     def average_deceleration_means(self, weighted=None, get_raw=True):
         if weighted is None:
-            weighted = self.segmentation_results.config.saccade_weighted_average_deceleration_means
+            weighted = self.segmentation_results.config.saccade.weighted_average_deceleration_means
 
         m_dc = self.mean_decelerations()["deceleration_means"]
         return self.acc_average(m_dc, weighted, get_raw)
@@ -791,23 +792,23 @@ efficiencies = easy_access_function(SaccadeAnalysis.efficiencies)
 directions = easy_access_function(SaccadeAnalysis.directions)
 horizontal_deviations = easy_access_function(
     SaccadeAnalysis.horizontal_deviations,
-    config=Config(saccade_absolute_horizontal_deviations=True),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(absolute_horizontal_deviations=True))),
 )
 successive_deviations = easy_access_function(SaccadeAnalysis.successive_deviations)
 initial_directions = easy_access_function(
     SaccadeAnalysis.initial_directions,
-    config=Config(saccade_init_direction_duration_threshold=0.020),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(init_direction_duration_threshold=0.020))),
 )
 initial_deviations = easy_access_function(
     SaccadeAnalysis.initial_deviations,
-    config=Config(saccade_init_deviation_duration_threshold=0.020),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(init_deviation_duration_threshold=0.020))),
 )
 max_curvatures = easy_access_function(SaccadeAnalysis.max_curvatures)
 area_curvatures = easy_access_function(SaccadeAnalysis.area_curvatures)
 mean_velocities = easy_access_function(SaccadeAnalysis.mean_velocities)
 average_velocity_means = easy_access_function(
     SaccadeAnalysis.average_velocity_means,
-    config=Config(saccade_weighted_average_velocity_means=False),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(weighted_average_velocity_means=False))),
 )
 average_velocity_deviations = easy_access_function(
     SaccadeAnalysis.average_velocity_deviations
@@ -820,15 +821,15 @@ mean_accelerations = easy_access_function(SaccadeAnalysis.mean_accelerations)
 mean_decelerations = easy_access_function(SaccadeAnalysis.mean_decelerations)
 average_acceleration_profiles = easy_access_function(
     SaccadeAnalysis.average_acceleration_profiles,
-    config=Config(saccade_weighted_average_acceleration_profiles=False),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(weighted_average_acceleration_profiles=False))),
 )
 average_acceleration_means = easy_access_function(
     SaccadeAnalysis.average_acceleration_means,
-    config=Config(saccade_weighted_average_acceleration_means=False),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(weighted_average_acceleration_means=False))),
 )
 average_deceleration_means = easy_access_function(
     SaccadeAnalysis.average_deceleration_means,
-    config=Config(saccade_weighted_average_deceleration_means=False),
+    config=Config(segmentation=c.Segmentation('I_VT', saccade=c.Saccade(weighted_average_deceleration_means=False))),
 )
 peak_accelerations = easy_access_function(SaccadeAnalysis.peak_accelerations)
 peak_decelerations = easy_access_function(SaccadeAnalysis.peak_decelerations)
