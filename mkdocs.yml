@@ -38,6 +38,11 @@ nav:
     - index.md
     - api_reference.md
     - notebooks/analysis.md
+
+  - Papers:
+    - "Part 1: Neurophysiology": papers/part1.md
+    - "Part 2: Features/Metrics": papers/part2.md
+    - "Part 3: Scanpaths": papers/part3.md
   - Contributor docs:
     - testing.md
 theme:
