@@ -32,7 +32,7 @@ Below a video showing the gaze of multiple viewers watching a movie scene:
 
 ## Papers
 
-In order to have a broad picture of what this package is meant to implement, you can document yourself wih this 4-part paper
+In order to have a broad picture of what this package is meant to implement, you can document yourself with this 4-part paper
 
 1. [Neurophysiological Foundations and experimental paradigms in Eye-Tracking Research](./assets/Vision_Part_1_Frontiers_in_Physiology_Revised.pdf)
 2. [Features and Metrics for assessing Oculomotor Signal](./assets/Vision_Part_2_Frontiers_in_Physiology_Revised.pdf)
