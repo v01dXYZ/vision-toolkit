@@ -61,7 +61,9 @@ jobs:
       run: |
         grep -v FOR_README_ONLY README.md >> docs/index.md
         zensical build
-        cp assets/* site/assets
+    - name: copy root assets to site assets
+      run: |
+        cp assets/* site/assets/
     - uses: actions/github-script@v8
       with:
         script: |
@@ -110,6 +112,8 @@ jobs:
 
           const all_release_assets = (await github.rest.repos.listReleases({owner, repo})).data.flatMap(({assets}) => assets);
           to_html_index.dump(all_release_assets);
+    - name: Print all files from site/
+      run: find site -type f
     - uses: actions/upload-pages-artifact@v3
       with:
         path: site/
