@@ -34,9 +34,9 @@ Below a video showing the gaze of multiple viewers watching a movie scene:
 
 In order to have a broad picture of what this package is meant to implement, you can document yourself with this 4-part paper
 
-1. [Neurophysiological Foundations and experimental paradigms in Eye-Tracking Research](./assets/Vision_Part_1_Frontiers_in_Physiology_Revised.pdf)
-2. [Features and Metrics for assessing Oculomotor Signal](./assets/Vision_Part_2_Frontiers_in_Physiology_Revised.pdf)
-3. [Scanpaths and Derived Representations for Gaze Behavior Characterization](./assets/Vision_Part_3_Frontiers_in_Physiology_Revised.pdf)
+1. [Neurophysiological Foundations and experimental paradigms in Eye-Tracking Research](./docs/papers/part1.md)
+2. [Features and Metrics for assessing Oculomotor Signal](./docs/papers/part2.md)
+3. [Scanpaths and Derived Representations for Gaze Behavior Characterization](./docs/papers/part3.md)
 4. [Area of Interest and Associated Algorithms](./assets/Vision_Part_4_Frontiers_in_Physiology_Revised.pdf)
 
 ## Credits
