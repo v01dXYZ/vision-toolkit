@@ -1,0 +1,213 @@
+#!/bin/env python
+import pandas as pd
+from vision_toolkit2.segmentation.analysis import (
+    fixation as fa2,
+    saccade as sa2,
+    pursuit as pu2,
+    pursuit_task as pt2,
+)
+from vision_toolkit2 import Serie, Config
+
+# from vision_toolkit import FixationAnalysis, SaccadeAnalysis, PursuitAnalysis
+from vision_toolkit.oculomotor.segmentation_based import (
+    fixation as fa1,
+    saccade as sa1,
+    pursuit as pu1,
+    pursuit_task as pt1,
+)
+
+
+method = "I_VT"
+ternary_method = "I_VVT"
+sampling_frequency = 1000
+
+KWARGS = {
+    "size_plan_x": 512,
+    "size_plan_y": 512,
+    "distance_type": "euclidean",
+    "sampling_frequency": sampling_frequency,
+}
+DATA_FILE_PER_EVENT = {
+    "fixation": "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv",
+    "saccade": "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv",
+    "pursuit": "../documentation/Documentaion_VT/dataset/DS_Hollywood2/gaze_s21.csv",
+    "pursuit_task": "../documentation/Documentaion_VT/dataset/example_pursuit.csv",
+}
+METHODS_PER_EVENT = {
+    "fixation": [
+        "count",
+        "frequency",
+        "frequency",
+        "durations",
+        "centroids",
+        "mean_velocities",
+        "average_velocity_means",
+        "average_velocity_deviations",
+        "drift_displacements",
+        "drift_distances",
+        "drift_velocities",
+        "BCEA",
+    ],
+    "saccade": [
+        "count",
+        "frequency",
+        "frequency_wrt_labels",
+        "durations",
+        "amplitudes",
+        "travel_distances",
+        "efficiencies",
+        "directions",
+        "horizontal_deviations",
+        "successive_deviations",
+        "initial_directions",
+        "initial_deviations",
+        "max_curvatures",
+        "area_curvatures",
+        "mean_velocities",
+        "average_velocity_means",
+        "average_velocity_deviations",
+        "peak_velocities",
+        "mean_acceleration_profiles",
+        "mean_accelerations",
+        "mean_decelerations",
+        "average_acceleration_profiles",
+        "average_acceleration_means",
+        "average_deceleration_means",
+        "peak_accelerations",
+        "peak_decelerations",
+        "skewness_exponents",
+        "gamma_skewness_exponents",
+        "amplitude_duration_ratios",
+        "peak_velocity_amplitude_ratios",
+        "peak_velocity_duration_ratios",
+        "peak_velocity_velocity_ratios",
+        "acceleration_deceleration_ratios",
+        "main_sequence",
+    ],
+    "pursuit": [
+        "count",
+        "frequency",
+        "durations",
+        "proportion",
+        "velocity",
+        "velocity_means",
+        "peak_velocity",
+        "amplitude",
+        "distance",
+        "efficiency",
+    ],
+    "pursuit_task": [
+        "count",
+        "frequency",
+        "durations",
+        "proportion",
+        "velocity",
+        "velocity_means",
+        "peak_velocity",
+        "amplitude",
+        "distance",
+        "efficiency",
+        "slope_ratios",
+        "slope_gain",
+        "crossing_time",
+        "overall_gain",
+        "overall_gain_x",
+        "overall_gain_y",
+        "sinusoidal_phase",
+        "accuracy",
+        "entropy",
+    ],
+}
+
+MODULE_PER_EVENT = {
+    "fixation": (fa1, fa2),
+    "saccade": (sa1, sa2),
+    "pursuit": (pu1, pu2),
+    "pursuit_task": (pt1, pt2),
+}
+
+SEGMENTATION_METHOD_PER_EVENT = {
+    "fixation": "I_VT",
+    "saccade": "I_VT",
+    "pursuit": "I_VVT",
+    "pursuit_task": "I_VVT",
+}
+RES = {}
+
+
+def normalize_dict(d):
+    if not isinstance(d, dict):
+        return d
+
+    return {k.replace(" ", "_"): normalize_dict(v) for k, v in d.items()}
+
+
+for event_name, methods in METHODS_PER_EVENT.items():
+    (mod1, mod2) = MODULE_PER_EVENT[event_name]
+    segmentation_method = SEGMENTATION_METHOD_PER_EVENT[event_name]
+
+    data_file = DATA_FILE_PER_EVENT[event_name]
+    if event_name == "pursuit_task":
+        args = (
+            pd.read_csv(
+                "../documentation/Documentaion_VT/dataset/example_pursuit_theo.csv"
+            ),
+        )
+    else:
+        args = ()
+
+    RES[event_name] = {}
+    for method in methods:
+        attr1 = f"{event_name}_{method}"
+        attr2 = method
+
+        fun1 = getattr(mod1, attr1)
+        fun2 = getattr(mod2, attr2)
+
+        res1 = fun1(
+            data_file,
+            *args,
+            status_threshold=0.5,
+            distance_projection=1000,
+            **KWARGS,
+            segmentation_method=segmentation_method,
+            savgol_window_length=31,
+            pursuit_start_idx=200,
+            nb_samples_pursuit=499,
+            verbose=False,
+        )
+
+        config = Config(
+            **KWARGS,
+            smoothing=Config(
+                savgol=Config(
+                    window_length=31,
+                    polyorder=3,
+                )
+            ),
+            segmentation=Config(
+                filter=Config(
+                    status_threshold=0.5,
+                ),
+                pursuit=Config(
+                    start_idx=200,
+                ),
+            ),
+            distance_projection=1000,
+            segmentation_method=segmentation_method,
+            nb_samples_pursuit=499,
+            verbose=False,
+        )
+        serie2 = Serie.read_csv(
+            data_file,
+            **KWARGS,
+            config=config,
+        )
+
+        res2 = fun2(serie2, *args, config=config)
+
+        RES[event_name][method] = (res1, res2)
+        A = str(normalize_dict(res1))
+        B = str(normalize_dict(res2))
+        if A != B:
+            print("PING", event_name, method, A, B)

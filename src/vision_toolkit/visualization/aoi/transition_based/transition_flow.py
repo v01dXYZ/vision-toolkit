@@ -2,21 +2,24 @@
 
 from itertools import groupby
 
-import holoviews as hv
+
 import imageio as iio
 import matplotlib.pyplot as plt
-import networkx as nx
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
 
 from vision_toolkit.aoi.markov_based.markov_based import AoI_transition_matrix
 
-hv.extension("bokeh")
-hv.output(size=300)
-
 
 def AoI_transition_flow(input):
+    import holoviews as hv
+    import networkx as nx
+
+    hv.extension("bokeh")
+    hv.output(size=300)
+
     t_mat = AoI_transition_matrix(input)["AoI_transition_matrix"]
     seq_ = input.sequence
 

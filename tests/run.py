@@ -1,0 +1,109 @@
+#!/bin/env python
+import sys
+import argparse
+import importlib
+import pathlib
+from vision_toolkit2.config import Config
+
+import vision_toolkit_test as vt
+
+
+def get_cli_args():
+    arg_parser = argparse.ArgumentParser()
+
+    arg_parser.add_argument("version", type=int, choices=[1, 2])
+    arg_parser.add_argument("test_name", choices=["hollywood2", "zemblys"])
+    arg_parser.add_argument("cutoff", type=int)
+    # arg_parser.add_argument("report_name", nargs="?", default="report")  # Removed CLI arg
+    arg_parser.add_argument(
+        "-c",
+        "--config",
+        help="config to add. example: distance_type=euclidean sample_frequency=1000",
+        nargs="*",
+        default=[],
+    )
+    arg_parser.add_argument(
+        "-m",
+        "--method",
+        dest="run_only_specific_methods",
+        choices=vt.METHODS_PER_TYPE["BINARY"]
+        | vt.METHODS_PER_TYPE["TERNARY"],
+        nargs="*",
+        help="run only specific methods",
+    )
+    arg_parser.add_argument(
+        "--predictions",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+    )
+
+    default_directory_root = "results"
+    arg_parser.add_argument(
+        "-d",
+        "--directory",
+        default=pathlib.Path(default_directory_root),
+        type=pathlib.Path,
+    )
+
+    args = arg_parser.parse_args()
+
+    return args
+
+
+def config_constructor(c):
+    r = c.split("=")
+
+    if len(r) != 2:
+        raise ValueError(f"{c!r} contains more than one '='")
+
+    config_key, config_value_str = r
+
+    dataclass_field = Config.__dataclass_fields__.get(config_key)
+
+    if dataclass_field is None:
+        raise ValueError(f"{c!r} referencing a non-existing config key")
+
+    dataclass_type = dataclass_field.type
+
+    if dataclass_type is None:
+        raise ValueError(f"{c!r} referencing a not-typed yet config key")
+
+    try:
+        config_value = dataclass_type(config_value_str)
+    except Exception:
+        raise ValueError(f"{c!r} caused an error when parsing the string of the value")
+
+    return (config_key, config_value)
+
+
+if __name__ == "__main__":
+    args = get_cli_args()
+
+    errors = []
+    config = {}
+    for c in args.config:
+        try:
+            k, v = config_constructor(c)
+        except ValueError as ve:
+            (msg,) = ve.args
+            errors.append(msg)
+        else:
+            config[k] = v
+
+    if errors:
+        print("Error with provided config arguments", file=sys.stderr)
+        for err in errors:
+            print(" " * 5, "-", err, file=sys.stderr)
+
+        exit(-1)
+
+    test_mod = importlib.import_module(f"{args.test_name}")
+
+    test_mod.EntryPoint.main(
+        cutoff=args.cutoff,
+        directory=args.directory / args.test_name / f"v{args.version}",
+        version=args.version,
+        config=config,
+        with_predictions=args.predictions,
+        run_only_specific_methods=args.run_only_specific_methods,
+    )
